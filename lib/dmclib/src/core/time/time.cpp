@@ -6,6 +6,7 @@
 // Time
 #include <cassert>
 #include "time.h"
+#include <thread>
 
 namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
@@ -51,6 +52,11 @@ namespace dmc {
 			return (double(currTime) / double(frequency.LowPart)) -
 				(double(mInitTime.LowPart) / double(frequency.LowPart));
 	#endif 
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void Time::sleep(unsigned _seconds) {
+		std::this_thread::sleep_for( std::chrono::seconds(_seconds));
 	}
 	
 }	// namespace dmc

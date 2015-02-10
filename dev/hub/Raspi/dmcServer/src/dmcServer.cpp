@@ -8,6 +8,7 @@
 
 #include <cassert>
 #include "dmcServer.h"
+#include <core/time/time.h>
 
 namespace dmc {
 
@@ -15,7 +16,8 @@ namespace dmc {
 	DmcServer::DmcServer(int _argc, const char** _argv)
 	{
 		processArguments(_argc, _argv); // Execution arguments can override default configuration values
-		// Prerequisites for launching the service
+		// Launch web service
+		mWebServer = new http::Server(mHttpPort);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -30,14 +32,14 @@ namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	DmcServer::~DmcServer(){
-		// Prerequisites for launching the service
-		// if(mService)
-		// 	delete mService;
+		if(mWebServer)
+			delete mWebServer;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool DmcServer::update() {
 		// assert(mService);
+		Time::get()->sleep(30);
 		// mService->update();
 		return true;
 	}

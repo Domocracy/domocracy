@@ -8,6 +8,7 @@
 #ifndef _DMCSERVER_DMCSERVER_H_
 #define _DMCSERVER_DMCSERVER_H_
 
+#include <core/comm/http/httpServer.h>
 #include <string>
 
 namespace dmc {
@@ -24,6 +25,9 @@ namespace dmc {
 
 		// Config
 		unsigned mHttpPort = 80;
+
+		// Components
+		http::Server*	mWebServer = nullptr;
 	};
 
 }
