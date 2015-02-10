@@ -2,3 +2,10 @@
 *.opensdf
 *.suo
 *.cache
+*.tlog
+*.lib
+*.exe
+*.ilk
+*.log
+/dev/hub/Raspi/dmcServer/Debug
+/lib/dmclib/Debug
