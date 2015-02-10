@@ -12,10 +12,10 @@ package app.dmc.user_interface;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import app.dmc.Hub;
+import app.dmc.devices.SwitchDevice;
 
 public class UserInterface {
     //-----------------------------------------------------------------------------------------------------------------
@@ -39,15 +39,12 @@ public class UserInterface {
         return inflater.inflate(R.layout.activity_main, null);*/
 
         LinearLayout ll = new LinearLayout(_context);
-        Button b = new Button(_context);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //mCurrentHub.send(JSONObject _json);
-            }
-        });
-        b.setText("Push me");
-        ll.addView(b);
+
+        SwitchDevice b1 = new SwitchDevice();
+        SwitchDevice b2 = new SwitchDevice();
+
+        ll.addView(b1.view(_context));
+        ll.addView(b2.view(_context));
         return ll;
 
     }

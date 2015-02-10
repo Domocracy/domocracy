@@ -10,5 +10,5 @@
 package app.dmc.devices;
 
 public interface Actuator extends Device {
-    
+    void run();
 }
