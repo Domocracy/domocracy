@@ -38,6 +38,6 @@ namespace dmc {
 	//--------------------------------------------------------------------------------------------------------------
 	File::~File() {
 		if (mBuffer)
-			delete mBuffer;
+			delete static_cast<char*>(mBuffer); // Static cast prevents undefined behavior deleting void*
 	}
 }
