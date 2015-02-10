@@ -19,3 +19,17 @@ Repository structure:
 |	\- Android:
 |	\- C++:
 \- Tools:
+
+
+
+Branch nomenclature:
+
+	Label_branchName
+	
+Examples:
+	Android_hubConnection
+	Raspi_hubConnection
+	AVR_plcServer
+	...
+	
+	
