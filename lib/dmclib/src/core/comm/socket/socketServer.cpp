@@ -6,6 +6,7 @@
 // Server to listen on a port and dispatch incomming connections as new sockets
 #include "socketServer.h"
 #include <cassert>
+#include <cstring> // memset
 #include <iostream>
 #include <sstream>
 
