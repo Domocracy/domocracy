@@ -3,9 +3,10 @@
 # Created on 2014/Nov/17
 ########################################################################################################################
 
+PRJ_NAME := dmcServer
 DMC_DIR := ../../../..
 
-DMC_LIB_DIR := $(DMC_DIR)/lib/dmcLib
+DMC_LIB_DIR := $(DMC_DIR)/lib/dmclib
 DMC_LIB := $(DMC_LIB_DIR)/bin/linux/libdmclib.a
 EXTRA_DEPEND := $(DMC_LIB)
 LIB_DIR := -L$(DMC_LIB_DIR)/bin/linux
@@ -21,7 +22,6 @@ SRC_DIR ?= ./src
 CXX_SRC := $(shell find $(SRC_DIR) -name *.cpp)
 CXX_OBJ := $(patsubst %.cpp, %.cpp.o, $(CXX_SRC))
 OBJ_FILES := $(CXX_OBJ)
-
 # Temporary files
 TEMP_FILES := $(OBJ_FILES)
 
@@ -39,7 +39,7 @@ CXX_FLAGS := $(COMMON_C_FLAGS) $(CXX_COMPILE_FLAGS)
 OUT_NAME := $(PRJ_NAME)
 
 BIN_DIR := bin/linux
-OUTPUT := $(BIN_DIR)/$(OUT_NAME).hex
+OUTPUT := $(BIN_DIR)/$(OUT_NAME)
 
 BUILD_DIR := build
 
@@ -62,7 +62,7 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 $(OUTPUT): $(OBJ_FILES) $(BUILD_DIR) $(EXTRA_DEPEND) $(BIN_DIR)
-	$(CXX) -o $@ $(OBJ_FILES) $(CXX_FLAGS) $(LIB_DIR) -lbbduino -lc -lm -lc
+	$(CXX) -o $@ $(OBJ_FILES) $(CXX_FLAGS) $(LIB_DIR) -ldmclib -pthread -lc -lm -lc
 
 %.cpp.s: %.cpp
 	$(CXX) -S -o $@ $^ $(CXX_FLAGS) $(LIB_DIR)
