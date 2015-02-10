@@ -37,6 +37,11 @@ namespace dmc {
 			void setResponder(const std::string& _url, UrlHandler _responder);
 
 		private:
+			void onNewConnection(Socket* _socket);
+			void sendError404(Socket* _connection) const;
+			bool dispatchPetition(Server*, const std::string& _url, unsigned _conId, const Request& _petition);
+
+		private:
 			SocketServer*	mSocket;
 
 			std::unordered_map<std::string, UrlHandler>	mHandlers;
