@@ -9,3 +9,4 @@
 *.log
 /dev/hub/Raspi/dmcServer/Debug
 /lib/dmclib/Debug
+*.sdf
