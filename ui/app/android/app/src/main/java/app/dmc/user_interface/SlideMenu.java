@@ -9,14 +9,14 @@
 
 package app.dmc.user_interface;
 
-import android.app.Activity;
+import android.content.Context;
 
 import app.dmc.Hub;
 
 public class SlideMenu {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public SlideMenu(Activity _activity) {
+    public SlideMenu(Context _context) {
 
     }
 

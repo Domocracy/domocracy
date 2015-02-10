@@ -10,6 +10,7 @@
 package app.dmc.user_interface;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -31,9 +32,9 @@ public class UserInterface {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public View build(Activity _activity){
+    public View build(Context _context){
         // Dummy build
-        LayoutInflater inflater = _activity.getLayoutInflater();
+        LayoutInflater inflater = LayoutInflater.from(_context);
         return inflater.inflate(R.layout.activity_main, null);
 
     }

@@ -9,14 +9,14 @@
 
 package app.dmc.user_interface;
 
-import android.app.Activity;
+import android.content.Context;
 
 import app.dmc.Hub;
 
 public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public MainScreen(Activity _activity) {
+    public MainScreen(Context _context) {
 
     }
 
