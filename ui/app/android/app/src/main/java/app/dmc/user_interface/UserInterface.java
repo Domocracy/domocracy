@@ -36,7 +36,7 @@ public class UserInterface {
     public View build(Context _context){
         // Dummy build
         /*LayoutInflater inflater = LayoutInflater.from(_context);
-        View xmlView = inflater.inflate(R.layout.activity_main, null);*/
+        return inflater.inflate(R.layout.activity_main, null);*/
 
         LinearLayout ll = new LinearLayout(_context);
         Button b = new Button(_context);
@@ -48,8 +48,7 @@ public class UserInterface {
         });
         b.setText("Push me");
         ll.addView(b);
-
-        return  ll;
+        return ll;
 
     }
 
