@@ -38,7 +38,7 @@ namespace dmc { namespace http {
 					mConnections[conId] = _connection;
 					iter->second(this, conId, petition);
 				} else {
-					std::string notFound = "HTTP/1.1 404 Not Found\r\n";
+					std::string notFound = "HTTP/1.1 404 Not Found\r\n\r\nThe Url you are requesting is not available\r\n";
 					_connection->write(notFound.size(), notFound.c_str());
 				}
 			}
