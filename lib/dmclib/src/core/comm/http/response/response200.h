@@ -5,8 +5,8 @@
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef _DMCLIB_CORE_COMM_HTTP_RESPONSE_RESPONSE404_H_
-#define _DMCLIB_CORE_COMM_HTTP_RESPONSE_RESPONSE404_H_
+#ifndef _DMCLIB_CORE_COMM_HTTP_RESPONSE_H_
+#define _DMCLIB_CORE_COMM_HTTP_RESPONSE_H_
 
 #include "../httpResponse.h"
 #include <string>
@@ -22,4 +22,4 @@ namespace dmc { namespace http {
 
 }}	// namespace dmc::http
 
-#endif // _DMCLIB_CORE_COMM_HTTP_RESPONSE_RESPONSE404_H_
+#endif // _DMCLIB_CORE_COMM_HTTP_RESPONSE_H_

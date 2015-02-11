@@ -39,6 +39,7 @@ namespace dmc { namespace http {
 
 	//------------------------------------------------------------------------------------------------------------------
 	void Server::setResponder(const std::string& _url, UrlHandler _handler) {
+		assert(_url[0] == '/');
 		mHandlers[_url] = _handler;
 	}
 

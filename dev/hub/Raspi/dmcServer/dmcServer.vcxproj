@@ -73,6 +73,7 @@
   <ItemGroup>
     <ClCompile Include="src\dmcServer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\public\publicService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h" />
