@@ -26,6 +26,10 @@ namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	DmcServer::~DmcServer(){
+		for(auto user : mUsers)
+			delete user;
+		if(mPublicService)
+			delete mPublicService;
 		if(mWebServer)
 			delete mWebServer;
 	}
