@@ -27,7 +27,7 @@ public class HubConnection {
             OutputStream outToServer = clientSocket.getOutputStream();
             if(clientSocket.isConnected()) {
                 System.out.println("Connected");
-                outToServer.write();
+                outToServer.write(1);//write something
             }
        }catch(UnknownHostException e){
             System.out.println(e.getMessage());
