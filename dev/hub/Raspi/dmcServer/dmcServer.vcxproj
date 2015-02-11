@@ -79,6 +79,8 @@
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h" />
     <ClInclude Include="src\home\device.h" />
+    <ClInclude Include="src\home\device\actuator.h" />
+    <ClInclude Include="src\home\device\hue\hueLight.h" />
     <ClInclude Include="src\home\room.h" />
     <ClInclude Include="src\public\publicService.h" />
     <ClInclude Include="src\user\user.h" />

@@ -22,6 +22,12 @@
     <Filter Include="Source Files\home">
       <UniqueIdentifier>{6e23abb6-719b-4596-816b-cecc6adf07ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\home\device">
+      <UniqueIdentifier>{e1542581-e8a1-4778-a0ab-b8c365218d07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\home\device\hue">
+      <UniqueIdentifier>{3f751167-1c72-4f02-95e1-24ee93516de9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dmcServer.cpp">
@@ -52,6 +58,12 @@
     </ClInclude>
     <ClInclude Include="src\home\device.h">
       <Filter>Source Files\home</Filter>
+    </ClInclude>
+    <ClInclude Include="src\home\device\hue\hueLight.h">
+      <Filter>Source Files\home\device\hue</Filter>
+    </ClInclude>
+    <ClInclude Include="src\home\device\actuator.h">
+      <Filter>Source Files\home\device</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

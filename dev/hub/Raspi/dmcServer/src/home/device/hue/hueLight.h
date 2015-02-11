@@ -1,0 +1,22 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Project: DMC Server
+// Date:	2015/Feb/11
+// Author:	Carmelo J. Fdez-Agüera Tortosa
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifndef _DMCSERVER_HOME_DEVICE_HUE_HUELIGHT_H_
+#define _DMCSERVER_HOME_DEVICE_HUE_HUELIGHT_H_
+
+#include <home/device.h>
+
+namespace dmc { namespace hue {
+
+	class Light {
+	public:
+		Light()
+	};
+
+}}	// namespace dmc::hue
+
+#endif // _DMCSERVER_HOME_DEVICE_HUE_HUELIGHT_H_
