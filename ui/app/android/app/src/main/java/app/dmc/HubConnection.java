@@ -23,7 +23,7 @@ public class HubConnection {
 
     private void connectClient(String _ip, int _port) {
        try {
-            clientSocket = new Socket(_ip, _port);
+            clientSocket = new Socket(_ip,_port);
             OutputStream outToServer = clientSocket.getOutputStream();
             if(clientSocket.isConnected()) {
                 System.out.println("Connected");
@@ -35,9 +35,9 @@ public class HubConnection {
        }catch(IOException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-       }finally{
-           closeClientSocket();
        }
+
+
     }
     //---------------------------------------------------------------------------------------------
     private void closeClientSocket(){

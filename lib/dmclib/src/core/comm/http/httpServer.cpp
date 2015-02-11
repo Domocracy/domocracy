@@ -52,7 +52,7 @@ namespace dmc { namespace http {
 		std::string message;
 		const unsigned buffSize = 2*1024;
 		char buffer[buffSize];
-		unsigned len = _connection->read(buffer, buffSize);
+		int len = _connection->read(buffer, buffSize);
 		if(len > 0) {
 			message.append(buffer, len);
 			Request petition = Request(message);
