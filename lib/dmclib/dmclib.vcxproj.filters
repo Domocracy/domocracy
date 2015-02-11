@@ -137,5 +137,8 @@
     <ClInclude Include="src\core\comm\socket\socketLinux.h">
       <Filter>Source Files\core\comm\socket</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\comm\http\response\response404.h">
+      <Filter>Source Files\core\comm\http\response</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
