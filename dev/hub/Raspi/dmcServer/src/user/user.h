@@ -16,7 +16,10 @@ namespace dmc {
 
 	class User {
 	public:
-		User(const Json& _name, http::Server* _serviceToListen);
+		User(const Json& _userData, http::Server* _serviceToListen);
+
+	private:
+		std::string mName;
 	};
 
 }	// namespace dmc

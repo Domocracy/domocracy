@@ -30,6 +30,9 @@
     <ClCompile Include="src\public\publicService.cpp">
       <Filter>Source Files\public</Filter>
     </ClCompile>
+    <ClCompile Include="src\user\user.cpp">
+      <Filter>Source Files\user</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h">

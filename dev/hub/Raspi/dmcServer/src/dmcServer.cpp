@@ -22,6 +22,7 @@ namespace dmc {
 		// Launch web service
 		mWebServer = new http::Server(mHttpPort);
 		mPublicService = new PublicService(mWebServer);
+		loadUsers("users.json");
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

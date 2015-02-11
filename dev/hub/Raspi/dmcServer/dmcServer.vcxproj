@@ -74,6 +74,7 @@
     <ClCompile Include="src\dmcServer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\public\publicService.cpp" />
+    <ClCompile Include="src\user\user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h" />
