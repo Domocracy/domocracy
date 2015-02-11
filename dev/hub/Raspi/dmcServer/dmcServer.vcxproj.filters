@@ -50,5 +50,8 @@
     <ClInclude Include="src\home\room.h">
       <Filter>Source Files\home</Filter>
     </ClInclude>
+    <ClInclude Include="src\home\device.h">
+      <Filter>Source Files\home</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
