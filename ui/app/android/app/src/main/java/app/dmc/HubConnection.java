@@ -1,4 +1,6 @@
 package app.dmc;
+import android.os.AsyncTask;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -7,7 +9,7 @@ import java.net.UnknownHostException;
 /**
  * Created by Joscormir on 10/02/2015.
  */
-public class HubConnection {
+public class HubConnection{
 
     private Socket clientSocket;
     //---------------------------------------------------------------------------------------------
@@ -15,14 +17,15 @@ public class HubConnection {
     HubConnection(Hub _hub){
         if (!_hub.lastIP().isEmpty()) {
             connectClient(_hub.lastIP(),80);
+            closeClientSocket();
         } else {
-           //TODO666 networkserviceDiscovery here (Avahi)
+            //TODO666 networkserviceDiscovery here (Avahi)
         }
     }
     //---------------------------------------------------------------------------------------------
 
     private void connectClient(String _ip, int _port) {
-       try {
+        try {
             clientSocket = new Socket(_ip,_port);
             OutputStream outToServer = clientSocket.getOutputStream();
             if(clientSocket.isConnected()) {
