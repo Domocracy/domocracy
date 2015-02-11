@@ -9,6 +9,7 @@
 #include <cassert>
 #include "dmcServer.h"
 #include <core/time/time.h>
+#include <public/publicService.h>
 
 namespace dmc {
 
@@ -18,6 +19,7 @@ namespace dmc {
 		processArguments(_argc, _argv); // Execution arguments can override default configuration values
 		// Launch web service
 		mWebServer = new http::Server(mHttpPort);
+		mPublicService = new PublicService(mWebServer);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

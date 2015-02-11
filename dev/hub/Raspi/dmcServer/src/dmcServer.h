@@ -12,6 +12,8 @@
 #include <string>
 
 namespace dmc {
+
+	class PublicService;
 	
 	class DmcServer {
 	public:
@@ -28,6 +30,7 @@ namespace dmc {
 
 		// Components
 		http::Server*	mWebServer = nullptr;
+		PublicService*	mPublicService = nullptr;
 	};
 
 }
