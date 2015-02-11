@@ -67,7 +67,7 @@ public class SwitchDevice implements  Actuator{
     private String mName;
     private String mId;
     private Hub mHub;
-    
+
     private View mView;
     private boolean mBtState;
 

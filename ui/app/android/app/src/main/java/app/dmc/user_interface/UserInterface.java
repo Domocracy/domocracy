@@ -40,8 +40,8 @@ public class UserInterface {
 
         LinearLayout ll = new LinearLayout(_context);
 
-        SwitchDevice b1 = new SwitchDevice();
-        SwitchDevice b2 = new SwitchDevice();
+        SwitchDevice b2 = new SwitchDevice(mCurrentHub);
+        SwitchDevice b1 = new SwitchDevice(mCurrentHub);
 
         ll.addView(b1.view(_context));
         ll.addView(b2.view(_context));
