@@ -17,8 +17,10 @@ public class Main extends ActionBarActivity {
 
         // Load Hubs
         mHubList = new ArrayList<Hub>();
-        Hub hub = new Hub();
-        mHubList.add(hub);
+        Hub hub1 = new Hub("City Home", "1");
+        Hub hub2 = new Hub("Beach Flat", "2");
+        mHubList.add(hub1);
+        mHubList.add(hub2);
 
         // Create Interface
         // Check if first connection

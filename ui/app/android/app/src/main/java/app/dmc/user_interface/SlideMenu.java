@@ -23,8 +23,12 @@ public class SlideMenu {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     public SlideMenu(Context _context, List<Hub> _hubList) {
+        // Store Hub list.
         mHubList = _hubList;
 
+        // Create a Spinner to store List of hubs.
+
+        // Get Menu Holder
         mLateralMenuHolder = (DrawerLayout) ((Activity) _context).findViewById(R.id.base_layout);
 
     }
