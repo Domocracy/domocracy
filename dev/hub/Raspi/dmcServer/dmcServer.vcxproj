@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h" />
+    <ClInclude Include="src\public\publicService.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\lib\dmclib\dmclib.vcxproj">
