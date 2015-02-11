@@ -33,8 +33,13 @@ namespace dmc {
 			void respond(unsigned _conId, const Response&);
 
 			// Configure responses
-			typedef std::function<void (Server*, unsigned, const Request&)> UrlHandler;
+			typedef std::function<void (Server*, unsigned _conId, const Request&)> UrlHandler;
 			void setResponder(const std::string& _url, UrlHandler _responder);
+
+		private:
+			void onNewConnection(Socket* _socket);
+			void sendError404(Socket* _connection) const;
+			bool dispatchPetition(Server*, const std::string& _url, unsigned _conId, const Request& _petition);
 
 		private:
 			SocketServer*	mSocket;

@@ -22,12 +22,6 @@
     <Filter Include="Source Files\core\serial">
       <UniqueIdentifier>{d84a9786-9fa0-4bdc-b3ac-b19f4b9a1c34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\service">
-      <UniqueIdentifier>{c817c524-b349-4aec-b8a0-ea0221580183}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\service\socket">
-      <UniqueIdentifier>{98ba2421-c454-4fed-86f8-12c9e36f47c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\core\comm">
       <UniqueIdentifier>{08f20c00-4b1e-4d5c-ae05-4dbfae2108d7}</UniqueIdentifier>
     </Filter>
@@ -59,12 +53,6 @@
     </ClCompile>
     <ClCompile Include="src\core\serial\serialWin32.cpp">
       <Filter>Source Files\core\serial</Filter>
-    </ClCompile>
-    <ClCompile Include="src\service\socket\serverSocket.cpp">
-      <Filter>Source Files\service\socket</Filter>
-    </ClCompile>
-    <ClCompile Include="src\service\socket\socketMgr.cpp">
-      <Filter>Source Files\service\socket</Filter>
     </ClCompile>
     <ClCompile Include="src\core\comm\socket\socketWin32.cpp">
       <Filter>Source Files\core\comm\socket</Filter>
@@ -113,12 +101,6 @@
     <ClInclude Include="src\core\serial\serialWin32.h">
       <Filter>Source Files\core\serial</Filter>
     </ClInclude>
-    <ClInclude Include="src\service\socket\serverSocket.h">
-      <Filter>Source Files\service\socket</Filter>
-    </ClInclude>
-    <ClInclude Include="src\service\socket\socketMgr.h">
-      <Filter>Source Files\service\socket</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\comm\socket\socket.h">
       <Filter>Source Files\core\comm\socket</Filter>
     </ClInclude>
@@ -154,6 +136,12 @@
     </ClInclude>
     <ClInclude Include="src\core\comm\socket\socketLinux.h">
       <Filter>Source Files\core\comm\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\comm\http\response\response404.h">
+      <Filter>Source Files\core\comm\http\response</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\comm\http\response\response200.h">
+      <Filter>Source Files\core\comm\http\response</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

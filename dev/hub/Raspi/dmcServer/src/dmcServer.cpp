@@ -8,7 +8,10 @@
 
 #include <cassert>
 #include "dmcServer.h"
+#include <core/comm/json/json.h>
 #include <core/time/time.h>
+#include <public/publicService.h>
+#include <user/user.h>
 
 namespace dmc {
 
@@ -18,6 +21,18 @@ namespace dmc {
 		processArguments(_argc, _argv); // Execution arguments can override default configuration values
 		// Launch web service
 		mWebServer = new http::Server(mHttpPort);
+		mPublicService = new PublicService(mWebServer);
+		loadUsers("users.json");
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	DmcServer::~DmcServer(){
+		for(auto user : mUsers)
+			delete user;
+		if(mPublicService)
+			delete mPublicService;
+		if(mWebServer)
+			delete mWebServer;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -31,9 +46,11 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	DmcServer::~DmcServer(){
-		if(mWebServer)
-			delete mWebServer;
+	void DmcServer::loadUsers(const std::string&) {
+		Json usersDatabase = Json(R"([{"name":"dmc64"}])"); // Hardcoded user
+		for(auto userData : usersDatabase.asList()) {
+			mUsers.push_back(new User(*userData, mWebServer));
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

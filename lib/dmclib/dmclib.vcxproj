@@ -98,8 +98,6 @@
     <ClCompile Include="src\core\serial\SerialLinux.cpp" />
     <ClCompile Include="src\core\serial\serialWin32.cpp" />
     <ClCompile Include="src\core\time\time.cpp" />
-    <ClCompile Include="src\service\socket\serverSocket.cpp" />
-    <ClCompile Include="src\service\socket\socketMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\comm\http\httpClient.h" />
@@ -108,6 +106,8 @@
     <ClInclude Include="src\core\comm\http\httpServer.h" />
     <ClInclude Include="src\core\comm\http\response\htmlResponse.h" />
     <ClInclude Include="src\core\comm\http\response\jsonResponse.h" />
+    <ClInclude Include="src\core\comm\http\response\response200.h" />
+    <ClInclude Include="src\core\comm\http\response\response404.h" />
     <ClInclude Include="src\core\comm\json\json.h" />
     <ClInclude Include="src\core\comm\socket\socket.h" />
     <ClInclude Include="src\core\comm\socket\socketLinux.h" />
@@ -118,8 +118,6 @@
     <ClInclude Include="src\core\serial\SerialLinux.h" />
     <ClInclude Include="src\core\serial\serialWin32.h" />
     <ClInclude Include="src\core\time\time.h" />
-    <ClInclude Include="src\service\socket\serverSocket.h" />
-    <ClInclude Include="src\service\socket\socketMgr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

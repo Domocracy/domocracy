@@ -73,9 +73,13 @@
   <ItemGroup>
     <ClCompile Include="src\dmcServer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\public\publicService.cpp" />
+    <ClCompile Include="src\user\user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h" />
+    <ClInclude Include="src\public\publicService.h" />
+    <ClInclude Include="src\user\user.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\lib\dmclib\dmclib.vcxproj">
