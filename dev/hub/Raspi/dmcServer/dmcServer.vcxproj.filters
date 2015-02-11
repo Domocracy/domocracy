@@ -65,5 +65,8 @@
     <ClInclude Include="src\home\device\actuator.h">
       <Filter>Source Files\home\device</Filter>
     </ClInclude>
+    <ClInclude Include="src\home\device\sensor.h">
+      <Filter>Source Files\home\device</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
