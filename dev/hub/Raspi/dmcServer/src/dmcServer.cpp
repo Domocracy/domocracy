@@ -8,8 +8,10 @@
 
 #include <cassert>
 #include "dmcServer.h"
+#include <core/comm/json/json.h>
 #include <core/time/time.h>
 #include <public/publicService.h>
+#include <user/user.h>
 
 namespace dmc {
 
@@ -23,6 +25,12 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	DmcServer::~DmcServer(){
+		if(mWebServer)
+			delete mWebServer;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	void DmcServer::processArguments(int _argc, const char** _argv) {
 		for(int i = 0; i < _argc; ++i) {
 			std::string argument(_argv[i]);
@@ -33,9 +41,11 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	DmcServer::~DmcServer(){
-		if(mWebServer)
-			delete mWebServer;
+	void DmcServer::loadUsers(const std::string&) {
+		Json usersDatabase = Json(R"([{"name":"dmc64"}])"); // Hardcoded user
+		for(auto userData : usersDatabase.asList()) {
+			mUsers.push_back(new User(*userData, mWebServer));
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

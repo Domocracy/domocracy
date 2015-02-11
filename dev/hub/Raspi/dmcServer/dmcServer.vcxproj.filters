@@ -16,6 +16,9 @@
     <Filter Include="Source Files\public">
       <UniqueIdentifier>{22dee62e-b3e3-4d36-8860-ce6a16e25447}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\user">
+      <UniqueIdentifier>{2b2b30ef-edef-4e70-b5f4-53c8f9cded0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dmcServer.cpp">
@@ -34,6 +37,9 @@
     </ClInclude>
     <ClInclude Include="src\public\publicService.h">
       <Filter>Source Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="src\user\user.h">
+      <Filter>Source Files\user</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
