@@ -1,0 +1,23 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Project: DMC Server
+// Date:	2015/Feb/11
+// Author:	Carmelo J. Fdez-Agüera Tortosa
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifndef _DMCSERVER_DEVICES_DEVICEFACTORY_H_
+#define _DMCSERVER_DEVICES_DEVICEFACTORY_H_
+
+namespace dmc {
+
+	class Device;
+	class Json;
+
+	class DeviceFactory {
+	public:
+		virtual Device* create(const Json& _constructionData) = 0;
+	};
+
+}	// namespace dmc
+
+#endif // _DMCSERVER_DEVICES_DEVICEFACTORY_H_

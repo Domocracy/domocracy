@@ -28,6 +28,9 @@
     <Filter Include="Source Files\home\device\hue">
       <UniqueIdentifier>{3f751167-1c72-4f02-95e1-24ee93516de9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\devices">
+      <UniqueIdentifier>{c2ef9dc1-d8c1-47a5-891e-634263932376}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dmcServer.cpp">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="src\home\device\sensor.h">
       <Filter>Source Files\home\device</Filter>
+    </ClInclude>
+    <ClInclude Include="src\devices\deviceFactory.h">
+      <Filter>Source Files\devices</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
