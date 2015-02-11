@@ -18,7 +18,8 @@ public class Main extends ActionBarActivity {
         //  else
         //      Init user interface
         mUI = new UserInterface(this);
-
+        Hub hubTest = new Hub();
+        HubConnection hubCon = new HubConnection(hubTest);
     }
 
 

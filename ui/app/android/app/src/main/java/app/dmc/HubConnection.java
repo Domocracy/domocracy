@@ -31,17 +31,23 @@ public class HubConnection {
             }
        }catch(UnknownHostException e){
             System.out.println(e.getMessage());
+            e.printStackTrace();
        }catch(IOException e){
             System.out.println(e.getMessage());
+            e.printStackTrace();
        }finally{
-            try {
-                clientSocket.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-
+           closeClientSocket();
        }
     }
     //---------------------------------------------------------------------------------------------
-
+    private void closeClientSocket(){
+        if (clientSocket.isConnected()){
+            try {
+                clientSocket.close();
+            }catch(IOException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
 }
