@@ -12,30 +12,35 @@ package app.dmc.user_interface;
 import android.app.Activity;
 import android.content.Context;
 
+import java.util.List;
+
 import app.dmc.Hub;
 import app.dmc.R;
 
 public class UserInterface {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public UserInterface(Context _context, Hub _hub){
+    public UserInterface(Context _context, List<Hub> _hubList, int _defaultHub){
         ((Activity)_context).setContentView(R.layout.activity_main);
 
-        mMainScreen = new MainScreen(_context,_hub);
-        mLateralMenu = new SlideMenu(_context,_hub);
+        mMainScreen = new MainScreen(_context,_hubList);
+        mLateralMenu = new SlideMenu(_context,_hubList);
+        mMainScreen.set(_defaultHub);
+        mLateralMenu.set(_defaultHub);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void setHub(Hub _hub){
-        mCurrentHub = _hub;
-        mMainScreen.set(_hub);
-        mLateralMenu.set(_hub);
+    public void setHub(int _index){
+        mMainScreen.set(_index);
+        mLateralMenu.set(_index);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private Members
+    private Hub mHubList;
+
+    //Views
     private MainScreen  mMainScreen;
     private SlideMenu   mLateralMenu;
 
-    private Hub mCurrentHub;
 }

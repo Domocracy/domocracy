@@ -12,6 +12,9 @@ package app.dmc.user_interface;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.Spinner;
+
+import java.util.List;
 
 import app.dmc.Hub;
 import app.dmc.R;
@@ -19,20 +22,23 @@ import app.dmc.R;
 public class SlideMenu {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public SlideMenu(Context _context, Hub _hub) {
-        mCurrentHub = _hub;
+    public SlideMenu(Context _context, List<Hub> _hubList) {
+        mHubList = _hubList;
 
         mLateralMenuHolder = (DrawerLayout) ((Activity) _context).findViewById(R.id.base_layout);
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void set(Hub _hub){
+    public void set(int _index){
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
-    private Hub mCurrentHub;
+    private List<Hub> mHubList;
+
+    // Views
     private DrawerLayout mLateralMenuHolder;
+    private Spinner mHubSelector;
 }
