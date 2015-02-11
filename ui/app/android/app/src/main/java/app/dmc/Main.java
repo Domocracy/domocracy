@@ -12,9 +12,12 @@ public class Main extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Create Interface
+        // Check if first connection
+        //      Launch firstConnectionInterface
+        //  else
+        //      Init user interface
         mUI = new UserInterface(this);
-        setContentView(mUI.build(this));
-
 
     }
 
