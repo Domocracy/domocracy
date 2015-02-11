@@ -13,11 +13,11 @@
 
 namespace dmc { namespace http {
 
-	class Response404 : public Response {
+	class Response200 : public Response {
 	public:
-		Response404() : Response(404, "Not Found")
-		{}
-		// 666 TODO: Implement a version of this that loads a webpage from a local html file
+		Response200() : Response(200, "Ok")
+		{
+		}
 	};
 
 }}	// namespace dmc::http

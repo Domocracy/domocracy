@@ -7,6 +7,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "publicService.h"
 
+#include <core/comm/http/response/jsonResponse.h>
+#include <core/comm/http/response/response200.h>
+#include <core/comm/http/response/response404.h>
+
 using namespace dmc::http;
 
 namespace dmc {
@@ -20,19 +24,21 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	http::Server::UrlHandler PublicService::ping() const {
 		return [](Server* _server, unsigned _conId, const Request& _request) {
-			return Response()
+			_server->respond(_conId, Response200());
 		};
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	http::Server::UrlHandler PublicService::hubInfo() const {
 		return [](Server* _server, unsigned _conId, const Request& _request) {
+			_server->respond(_conId, JsonResponse(Json("{name : \"dmcHub\"}")));
 		};
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	http::Server::UrlHandler PublicService::createUser() const {
 		return [](Server* _server, unsigned _conId, const Request& _request) {
+			_server->respond(_conId, Response404());
 		};
 	}
 }	// namespace dmc
