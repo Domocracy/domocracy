@@ -17,7 +17,8 @@ public class Main extends ActionBarActivity {
         //      Launch firstConnectionInterface
         //  else
         //      Init user interface
-        mUI = new UserInterface(this);
+        Hub hub = new Hub();
+        mUI = new UserInterface(this, hub);
 
     }
 

@@ -9,15 +9,27 @@
 
 package app.dmc.user_interface;
 
+import android.app.Activity;
 import android.content.Context;
+import android.widget.LinearLayout;
 
 import app.dmc.Hub;
+import app.dmc.R;
+import app.dmc.devices.SwitchDevice;
 
 public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public MainScreen(Context _context) {
+    public MainScreen(Context _context, Hub _hub) {
+        mCurrentHub = _hub;
 
+        LinearLayout ll = (LinearLayout) ((Activity)_context).findViewById(R.id.main_screen);
+
+        SwitchDevice b2 = new SwitchDevice(mCurrentHub);
+        SwitchDevice b1 = new SwitchDevice(mCurrentHub);
+
+        ll.addView(b1.view(_context));
+        ll.addView(b2.view(_context));
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -27,4 +39,5 @@ public class MainScreen {
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
+    private Hub mCurrentHub;
 }
