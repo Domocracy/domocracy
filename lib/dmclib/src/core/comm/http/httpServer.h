@@ -33,7 +33,7 @@ namespace dmc {
 			void respond(unsigned _conId, const Response&);
 
 			// Configure responses
-			typedef std::function<void (Server*, unsigned, const Request&)> UrlHandler;
+			typedef std::function<void (Server*, unsigned _conId, const Request&)> UrlHandler;
 			void setResponder(const std::string& _url, UrlHandler _responder);
 
 		private:
