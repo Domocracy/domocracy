@@ -15,9 +15,16 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
+import app.dmc.Hub;
+
 public class SwitchDevice implements  Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
+    public SwitchDevice(Hub _hub){
+        mHub = _hub;
+        mBtState = true;
+    }
+
     @Override
     public View view(Context _context) {
         if(mView == null){
@@ -26,6 +33,7 @@ public class SwitchDevice implements  Actuator{
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mBtState = !mBtState;
                     run();
                 }
             });
@@ -38,8 +46,9 @@ public class SwitchDevice implements  Actuator{
 
     @Override
     public void run() {
-        Log.d("DEBUG", "I'm " + (mState ? "ON" : "OFF"));
-        mState = !mState;
+        Log.d("DEBUG", "I'm " + (mBtState ? "ON" : "OFF"));
+        // JSONObject cmd;
+        // mHub.sendCommand(cmd);
     }
 
     @Override
@@ -55,9 +64,11 @@ public class SwitchDevice implements  Actuator{
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
-    private View mView;
     private String mName;
     private String mId;
-    private boolean mState = true;
+    private Hub mHub;
+    
+    private View mView;
+    private boolean mBtState;
 
 }
