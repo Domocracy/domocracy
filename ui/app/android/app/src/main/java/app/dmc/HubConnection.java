@@ -1,6 +1,6 @@
 package app.dmc;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -9,19 +9,37 @@ import java.net.UnknownHostException;
  */
 public class HubConnection {
 
-    //First method that connect with Client
+    private Socket clientSocket;
+    //---------------------------------------------------------------------------------------------
 
-    private static void connectClient(String _ip, int _port){
+    HubConnection(Hub _hub){
+        if (!_hub.lastIP().isEmpty()) {
+            connectClient(_hub.lastIP(),80);
+        } else {
+           //TODO666 networkserviceDiscovery here (Avahi)
+        }
+    }
+    //---------------------------------------------------------------------------------------------
+
+    private void connectClient(String _ip, int _port) {
        try {
-           Socket clientSocket = new Socket(_ip, _port);
-           if(clientSocket.isConnected()) {
-               InputStream inFromServer = clientSocket.getInputStream();
-           }
+            clientSocket = new Socket(_ip, _port);
+            OutputStream outToServer = clientSocket.getOutputStream();
+            if(clientSocket.isConnected()) {
+                System.out.println("Connected");
+                outToServer.write();
+            }
+       }catch(UnknownHostException e){
+            System.out.println(e.getMessage());
+       }catch(IOException e){
+            System.out.println(e.getMessage());
+       }finally{
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
 
-       }catch(UnknownHostException uhe){
-          System.out.println(uhe.getMessage());
-       }catch(IOException ioe){
-           System.out.println(ioe.getMessage());
        }
     }
     //---------------------------------------------------------------------------------------------
