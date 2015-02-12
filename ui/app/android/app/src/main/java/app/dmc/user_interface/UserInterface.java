@@ -10,8 +10,8 @@
 package app.dmc.user_interface;
 
 import android.app.Activity;
-import android.view.LayoutInflater;
-import android.view.View;
+
+import java.util.List;
 
 import app.dmc.Hub;
 import app.dmc.R;
@@ -19,27 +19,26 @@ import app.dmc.R;
 public class UserInterface {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public UserInterface(Activity _activity){
-        mMainScreen = new MainScreen(_activity);
-        mLateralMenu = new SlideMenu(_activity);
+    public UserInterface(Activity _activity, List<Hub> _hubList, int _defaultHub){
+        mHubList = _hubList;
+        _activity.setContentView(R.layout.activity_main);
+
+        mMainScreen = new MainScreen(_activity, mHubList.get(_defaultHub));
+        mLeftSideMenu = new SlideMenu(_activity, mHubList, _defaultHub);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void setHub(Hub _hub){
-        mMainScreen.set(_hub);
-        mLateralMenu.set(_hub);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public View build(Activity _activity){
-        // Dummy build
-        LayoutInflater inflater = _activity.getLayoutInflater();
-        return inflater.inflate(R.layout.activity_main, null);
-
+    public void setHub(int _index){
+        mMainScreen.set(_index);
+        mLeftSideMenu.set(_index);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private Members
+    private List<Hub> mHubList;
+
+    //Views
     private MainScreen  mMainScreen;
-    private SlideMenu   mLateralMenu;
+    private SlideMenu   mLeftSideMenu;
+
 }

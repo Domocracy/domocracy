@@ -1,0 +1,17 @@
+{
+    "name":"dummyDev",
+    "id":"123114",
+    "commands":[    {   "name":"ON",
+                        "method":"GET",
+                        "headers":{ "body-length":"asd",
+                                    "content":"asdf"},
+                        "body":""
+                    },
+                    {   "name":"OFF",
+                        "method":"GET",
+                        "headers":{ "body-length":"asd",
+                                    "content":"asdf"},
+                        "body":""
+                    }
+                ]
+}

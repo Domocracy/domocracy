@@ -9,6 +9,8 @@
 
 package app.dmc.devices;
 
+import org.json.JSONObject;
+
 public interface Actuator extends Device {
-    
+    void run(JSONObject _jsonCommand);
 }
