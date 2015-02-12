@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,9 +84,15 @@ public class SwitchDevice implements  Actuator{
     private void decodeJson(Context _context){
         try {
             InputStream is = _context.getAssets().open("SwitchDevice.json");
-            JSONObject devideInfo = new JSONObject(is.toString());
+            JSONObject deviceInfo = new JSONObject(is.toString());
 
+            mName = deviceInfo.getString("name");
+            mId = deviceInfo.getString("id");
 
+            JSONArray commands = deviceInfo.getJSONArray("commands");
+            for(int i = 0; i < commands.length(); i++){
+                mCommands.add(commands.getJSONObject(i));
+            }
 
         }catch(JSONException _jsonException){
             _jsonException.printStackTrace();
