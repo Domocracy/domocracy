@@ -29,7 +29,7 @@ import java.util.Map;
 public class JsonRequest {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
-    JsonRequest(String _url, JSONObject _json){
+    public JsonRequest(String _url, JSONObject _json){
         mHeaders = new HashMap<String, String>();
 
         decodeJson(_json);
