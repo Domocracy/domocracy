@@ -12,14 +12,6 @@ package app.dmc;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-
-import app.dmc.devices.Device;
-
 
 public class Hub {
     //-----------------------------------------------------------------------------------------------------------------

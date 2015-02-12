@@ -16,3 +16,5 @@
         }
     ]
 }
+
+{"defaultHub":"0","hubs":[{"name":"Home","id":"123","ip":"193.147.168.23","rooms":[],"devices":[]},{"name":"Beach Flat","id":"543","ip":"193.154.123.54","rooms":[],"devices":[]}]}

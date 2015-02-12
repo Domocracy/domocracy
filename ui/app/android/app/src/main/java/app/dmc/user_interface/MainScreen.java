@@ -14,6 +14,7 @@ import android.content.Context;
 import android.widget.LinearLayout;
 
 import java.util.List;
+import java.util.Map;
 
 import app.dmc.Hub;
 import app.dmc.R;
@@ -22,7 +23,7 @@ import app.dmc.devices.SwitchDevice;
 public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public MainScreen(Context _context, List<Hub> _hubList) {
+    public MainScreen(Context _context, Map<String,Hub> _hubList) {
         mHubList = _hubList;
 
         LinearLayout ll = (LinearLayout) ((Activity)_context).findViewById(R.id.main_screen);
@@ -41,7 +42,7 @@ public class MainScreen {
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
-    private List<Hub> mHubList;
+    private Map<String,Hub> mHubList;
 
     // Views
 }

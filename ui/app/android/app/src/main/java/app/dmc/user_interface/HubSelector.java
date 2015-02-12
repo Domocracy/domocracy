@@ -18,13 +18,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
 
 import app.dmc.Hub;
 
 public class HubSelector extends BaseAdapter{
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    HubSelector(Context _context, List<Hub> _hubList){
+    HubSelector(Context _context, Map<String,Hub> _hubList){
         mHubList = _hubList;
 
         mHubSpinner = new Spinner(_context);
@@ -87,6 +88,6 @@ public class HubSelector extends BaseAdapter{
     }
 
     // Members
-    private List<Hub> mHubList;
+    private Map<String,Hub> mHubList;
     private Spinner mHubSpinner;
 }

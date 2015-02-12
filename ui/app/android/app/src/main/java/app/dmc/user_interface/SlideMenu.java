@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.LinearLayout;
 
 import java.util.List;
+import java.util.Map;
 
 import app.dmc.Hub;
 import app.dmc.R;
@@ -22,7 +23,7 @@ import app.dmc.R;
 public class SlideMenu {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public SlideMenu(Context _context, List<Hub> _hubList) {
+    public SlideMenu(Context _context, Map<String,Hub> _hubList) {
         // Store Hub list.
         mHubList = _hubList;
 
@@ -44,7 +45,7 @@ public class SlideMenu {
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
-    private List<Hub>       mHubList;
+    private Map<String,Hub>       mHubList;
 
     // Views
     private DrawerLayout    mBaseHolder;

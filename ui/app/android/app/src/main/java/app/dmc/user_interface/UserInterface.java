@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import java.util.List;
+import java.util.Map;
 
 import app.dmc.Hub;
 import app.dmc.R;
@@ -20,7 +21,7 @@ import app.dmc.R;
 public class UserInterface {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public UserInterface(Context _context, List<Hub> _hubList, int _defaultHub){
+    public UserInterface(Context _context, Map<String,Hub> _hubList, int _defaultHub){
         ((Activity)_context).setContentView(R.layout.activity_main);
 
         mMainScreen = new MainScreen(_context,_hubList);
