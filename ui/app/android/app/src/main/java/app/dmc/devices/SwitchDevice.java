@@ -14,12 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.json.JSONObject;
 
 import app.dmc.Hub;
 
@@ -30,6 +25,7 @@ public class SwitchDevice implements  Actuator{
         mHub = _hub;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     @Override
     public View view(Context _context) {
         if(mView == null){
@@ -48,54 +44,20 @@ public class SwitchDevice implements  Actuator{
         return mView;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public void run() {
-        /*Send Command*/
-        Thread requestThread = new Thread( new Runnable() {
-            @Override
-            public void run() {
-                String url = "http://10.100.2.45";
-                HttpURLConnection con = null;
-                try {
-                    URL obj = new URL(url);
-
-                    con = (HttpURLConnection) obj.openConnection();
-                    if(con == null)
-                        return;
-                    con.setRequestMethod("GET");
-                    //add request header
-                    //con.setRequestProperty("User-Agent", USER_AGENT);
-                    int responseCode = con.getResponseCode();
-                    System.out.println("\nSending 'GET' request to URL : " + url);
-                    System.out.println("Response Code : " + responseCode);
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(con.getInputStream()));
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-
-                    //print result
-                    System.out.println(response.toString());
-                }catch (MalformedURLException eMalformed){
-                    eMalformed.printStackTrace();
-                }catch (IOException eIOException){
-                    eIOException.printStackTrace();
-                }
-            }
-        });
-        requestThread.start();
+    public void run(JSONObject _jsonCommand) {
+        // Create a new request with own url and using a json.
+        JsonRequest request = new JsonRequest(url(), _jsonCommand);
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     @Override
     public String name() {
         return mId;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     @Override
     public String id() {
         return mName;
@@ -104,6 +66,12 @@ public class SwitchDevice implements  Actuator{
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
+
+    private String url(){
+        return "localhost/aasd";    //666 TODO: get ip from Hub
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     private String mName;
     private String mId;
     private Hub mHub;
