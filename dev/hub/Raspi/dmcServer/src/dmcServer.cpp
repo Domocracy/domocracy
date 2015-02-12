@@ -26,7 +26,7 @@ namespace dmc {
 		mWebServer->setResponder("/public/ping", http::Response200());
 		mInfo = new HubInfo(mWebServer);
 		mPublicService = new PublicService(mWebServer);
-		mDeviceManager = new DeviceMgr();
+		mDeviceMgr = new DeviceMgr();
 		loadUsers("users.json");
 	}
 

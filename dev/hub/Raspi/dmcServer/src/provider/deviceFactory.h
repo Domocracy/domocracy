@@ -9,9 +9,12 @@
 #define _DMCSERVER_PROVIDERS_DEVICEFACTORY_H_
 
 #include <string>
+#include <unordered_map>
+#include <functional>
 
 namespace dmc {
 
+	class Factory;
 	class Device;
 	class Json;
 
@@ -20,6 +23,10 @@ namespace dmc {
 		DeviceFactory();
 
 		Device* create(const std::string& _devType, const Json& _constructionData);
+		typedef std::function<Device*(const Json&)>	Creator;
+
+	private:
+		std::unordered_map<std::string, Creator>	mFactories;
 	};
 
 }	// namespace dmc

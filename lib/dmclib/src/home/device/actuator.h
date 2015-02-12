@@ -14,7 +14,7 @@ namespace dmc {
 
 	class Json;
 
-	class Actuator : public Device {
+	class Actuator : public virtual Device {
 	public:
 		virtual bool runCommand(const Json& _cmd) = 0;
 	};

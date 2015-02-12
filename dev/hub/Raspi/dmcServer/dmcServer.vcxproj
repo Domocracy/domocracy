@@ -73,6 +73,7 @@
   <ItemGroup>
     <ClCompile Include="src\dmcServer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\provider\deviceFactory.cpp" />
     <ClCompile Include="src\provider\deviceMgr.cpp" />
     <ClCompile Include="src\public\publicService.cpp" />
     <ClCompile Include="src\service\user\user.cpp" />
