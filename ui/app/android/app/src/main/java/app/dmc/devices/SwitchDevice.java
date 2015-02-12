@@ -14,7 +14,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.InputStream;
 
 import app.dmc.Hub;
 
@@ -31,10 +34,15 @@ public class SwitchDevice implements  Actuator{
         if(mView == null){
             LinearLayout base = new LinearLayout(_context);
             Button button = new Button(_context);
+
+            //InputStream is = _context.getAssets().open("SwitchDevice.json");
+            //JSONObject command = new JSONObject(is.toString());
+
+
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    run();
+                    run(command);
                 }
             });
 

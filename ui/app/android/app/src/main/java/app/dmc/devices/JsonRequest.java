@@ -12,7 +12,6 @@ package app.dmc.devices;
 
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,42 +20,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class JsonRequest {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
     JsonRequest(String _url, JSONObject _json){
-        decodeRequest(_json);
-
+        decodeJson(_json);
         initConnection(_url);
-
-        try {
-            con.setRequestMethod("GET");
-            //add request header
-            //con.setRequestProperty("User-Agent", USER_AGENT);
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + url);
-            System.out.println("Response Code : " + responseCode);
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-
-            //print result
-            System.out.println(response.toString());
-        }catch (MalformedURLException eMalformed){
-            eMalformed.printStackTrace();
-        }catch (IOException eIOException){
-            eIOException.printStackTrace();
-        }
+        setUpRequest();
+        sendRequest();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -87,15 +64,63 @@ public class JsonRequest {
     //-----------------------------------------------------------------------------------------------------------------
     private void decodeJson(JSONObject _json){
         try {
+            // Get method type
             mMethod = _json.getString("method");
-            JSONArray headers = _json.getJSONArray("headers");
+            JSONObject headers = _json.getJSONObject("headers");
 
+            // Get headers
+            Iterator<?> keys = headers.keys();
+            while(keys.hasNext()){
+                String key = (String)keys.next();
+                mHeaders.put(key, headers.getString(key));
+            }
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
     }
     //-----------------------------------------------------------------------------------------------------------------
+    private void setUpRequest(){
+        try {
+            // Add Method
+            mConnection.setRequestMethod("GET");
 
+            //Add headers
+            Iterator<?> keys = mHeaders.keySet().iterator();
+            while(keys.hasNext()) {
+                String key = (String) keys.next();
+                mConnection.setRequestProperty(key, mHeaders.get(key));
+            }
+
+        }catch (ProtocolException _protocolException){
+            _protocolException.printStackTrace();
+        }
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private int sendRequest(){
+        try {
+            int responseCode = mConnection.getResponseCode();
+            System.out.println("\nSending 'GET' request to URL : " + mUrl);
+            System.out.println("Response Code : " + responseCode);
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(mConnection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            //print result
+            System.out.println(response.toString());
+        }catch (IOException _ioException){
+            _ioException.printStackTrace();
+        }
+    }
+    //-----------------------------------------------------------------------------------------------------------------
     // Net
     HttpURLConnection   mConnection = null;
     URL                 mUrl = null;
