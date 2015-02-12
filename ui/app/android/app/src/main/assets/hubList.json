@@ -1,0 +1,20 @@
+{
+    "defaultHub":"0",
+    "hubs":[{
+        "name":"Home",
+        "id":"123",
+        "defaultHub":"0",
+        "ip":"193.147.168.23",
+        "rooms":[],
+        "devices":[]
+        },
+        {
+        "name":"Beach Flat",
+        "id":"543",
+        "defaultHub":"1",
+        "ip":"193.154.123.54",
+        "rooms":[],
+        "devices":[]
+        }
+    ]
+}
