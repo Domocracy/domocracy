@@ -95,5 +95,8 @@
     <ClInclude Include="src\provider\deviceMgr.h">
       <Filter>Source Files\providers</Filter>
     </ClInclude>
+    <ClInclude Include="src\device\hue\hueBridge.h">
+      <Filter>Source Files\device\hue</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

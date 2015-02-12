@@ -15,7 +15,7 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	DeviceMgr::DeviceMgr() {
 		// Load devices from local database
-		Device* sampleLight = mFactory.create("HueLight", Json(R"({"name":"HueLight1", "id":42})"));
+		Device* sampleLight = mFactory.create("HueLight", Json(R"({"name":"HueLight1", "id":42, "data":{"id":"1"}})"));
 		mDevices.insert(std::make_pair(sampleLight->id(), sampleLight));
 	}
 

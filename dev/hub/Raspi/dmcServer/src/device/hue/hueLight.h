@@ -10,6 +10,7 @@
 
 #include <home/device/actuator.h>
 #include <home/device/sensor.h>
+#include "hueBridge.h"
 
 namespace dmc { namespace hue {
 
@@ -23,6 +24,8 @@ namespace dmc { namespace hue {
 
 	private:
 		std::string mHueId;
+		
+		static Bridge* sBridge;
 	};
 
 }}	// namespace dmc::hue

@@ -80,6 +80,7 @@
     <ClCompile Include="src\service\user\user.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\device\hue\hueBridge.h" />
     <ClInclude Include="src\device\hue\hueLight.h" />
     <ClInclude Include="src\dmcServer.h" />
     <ClInclude Include="src\provider\deviceFactory.h" />
