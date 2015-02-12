@@ -17,9 +17,8 @@ namespace dmc {
 
 	class DeviceFactory {
 	public:
+		DeviceFactory();
 
-
-	private:
 		Device* create(const std::string& _devType, const Json& _constructionData);
 	};
 
