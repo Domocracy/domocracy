@@ -11,8 +11,6 @@ package app.dmc.devices;
 
 import android.content.Context;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,17 +20,22 @@ import app.dmc.devices.supported_devices.HueLight;
 
 public class DeviceManager {
     //-----------------------------------------------------------------------------------------------------------------
-    //  Public Interface
-    public DeviceManager(Context _context, List<Hub> _hubList, JSONObject _devices){
-        loadFactories();
-        createDevices(_context, _hubList);
+    //  Singleton interface Interface
+    static public void init(Context _context, List<Hub> _hubList){
+        sDevMgr = new DeviceManager(_context, _hubList);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public Device getDevice(String _id){
+    static public DeviceManager get(){
+        return sDevMgr;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    //  Public Interface
+    public Device device(String _id){
         //  Check if device exist.
-        if(mRegisteredDevices.containsKey(_id)){
-            return mRegisteredDevices.get(_id);
+        if(sRegisteredDevices.containsKey(_id)){
+            return sRegisteredDevices.get(_id);
         }
         // If not, return null.
         return null;
@@ -41,13 +44,21 @@ public class DeviceManager {
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private Interface
+    private DeviceManager(Context _context, List<Hub> _hubList){
+        loadFactories();
+        createDevices(_context, _hubList);
+    }
+
     private void loadFactories(){
-        mFactories.put("HueLight", new Factory() {
+        // HueLight Factory
+        sFactories.put("HueLight", new Factory() {
             @Override
             public Device create(Hub _hub, Context _context) {
                 return new HueLight(_hub, _context);
             }
         });
+
+        // Add other Factories
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -62,8 +73,9 @@ public class DeviceManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private Map<String, Factory> mFactories =  new HashMap<>();
-    private Map<String, Device> mRegisteredDevices = new HashMap<>();
+    static private DeviceManager sDevMgr = null;
+    static private Map<String, Factory> sFactories =  new HashMap<>();
+    static private Map<String, Device> sRegisteredDevices = new HashMap<>();
 
     //-----------------------------------------------------------------------------------------------------------------
     public interface Factory{
