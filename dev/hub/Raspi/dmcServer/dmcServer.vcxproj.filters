@@ -60,6 +60,9 @@
     <ClCompile Include="src\service\user\user.cpp">
       <Filter>Source Files\service\user</Filter>
     </ClCompile>
+    <ClCompile Include="src\provider\deviceMgr.cpp">
+      <Filter>Source Files\providers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h">

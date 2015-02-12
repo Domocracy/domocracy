@@ -17,6 +17,7 @@ namespace dmc {
 
 	class PublicService;
 	class User;
+	class DeviceMgr;
 	
 	class DmcServer {
 	public:
@@ -37,6 +38,7 @@ namespace dmc {
 		PublicService*		mPublicService = nullptr;
 		std::vector<User*>	mUsers;
 		HubInfo*			mInfo = nullptr;
+		DeviceMgr*			mDeviceMgr = nullptr;
 	};
 
 }

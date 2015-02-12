@@ -10,6 +10,7 @@
 
 #include <string>
 #include <unordered_map>
+#include "deviceFactory.h"
 
 namespace dmc {
 
@@ -21,7 +22,7 @@ namespace dmc {
 		Device* get(unsigned _id) const;
 	private:
 		std::unordered_map<unsigned,Device*>	mDevices;
-
+		DeviceFactory							mFactory;
 	};
 
 }	// namespace dmc

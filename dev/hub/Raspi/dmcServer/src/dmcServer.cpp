@@ -13,6 +13,7 @@
 #include <public/publicService.h>
 #include <core/comm/http/response/response200.h>
 #include <service/user/user.h>
+#include <provider/deviceMgr.h>
 
 namespace dmc {
 
@@ -25,6 +26,7 @@ namespace dmc {
 		mWebServer->setResponder("/public/ping", http::Response200());
 		mInfo = new HubInfo(mWebServer);
 		mPublicService = new PublicService(mWebServer);
+		mDeviceManager = new DeviceMgr();
 		loadUsers("users.json");
 	}
 
