@@ -17,7 +17,7 @@ namespace dmc { namespace hue {
 	public:
 		static	Bridge*	load	();
 				Json	getData	(const std::string& _url);
-				bool	postData(const std::string& _url, const Json& _data);
+				bool	putData(const std::string& _url, const Json& _data);
 
 	private:
 	};

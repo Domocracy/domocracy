@@ -38,11 +38,11 @@ namespace dmc {
 		unsigned cursor = _code.find_first_not_of(separators);
 		assert(string::npos != cursor); // Code must be valid
 
-		if(_code.substr(0,5) == "False") {
+		if(_code.substr(0,5) == "False" || _code.substr(0,5) == "false") {
 			mType = DataType::boolean;
 			mInt = 0;
 			return 5;
-		} else if (_code.substr(0,4) == "True") {
+		} else if (_code.substr(0,4) == "True" || _code.substr(0,4) == "true") {
 			mType = DataType::boolean;
 			mInt = 1;
 			return 4;
