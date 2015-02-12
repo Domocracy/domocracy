@@ -11,7 +11,7 @@
 #include <core/comm/json/json.h>
 #include <core/time/time.h>
 #include <public/publicService.h>
-#include <user/user.h>
+#include <service/user/user.h>
 
 namespace dmc {
 
