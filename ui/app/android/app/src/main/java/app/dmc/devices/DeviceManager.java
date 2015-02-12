@@ -14,7 +14,7 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import app.dmc.Hub;
@@ -23,11 +23,12 @@ import app.dmc.devices.supported_devices.HueLight;
 public class DeviceManager {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public DeviceManager(JSONObject _devices){
+    public DeviceManager(Context _context, List<Hub> _hubList, JSONObject _devices){
         loadFactories();
-        createDevices(_devices);
+        createDevices(_context, _hubList);
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     public Device getDevice(String _id){
         //  Check if device exist.
         if(mRegisteredDevices.containsKey(_id)){
@@ -50,11 +51,14 @@ public class DeviceManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void createDevices(JSONObject _devices){
-        Iterator<?> key = _devices.keys();
-        while(key.hasNext()){
-            mFactories.get(type).create(_hub, _context);
-        }
+    private void createDevices(Context _context, List<Hub> _hubList){
+        //for(Hub hub : _hubList) {
+        //    while (key.hasNext()) {
+        //        int hub = 0;                // 666 TODO: get hub from data
+        //        String type = "HueLight";   // 666 TODO: get type from data.
+        //        mFactories.get(type).create(_hubList.get(hub), _context);
+        //    }
+        //}
     }
 
     //-----------------------------------------------------------------------------------------------------------------
