@@ -54,7 +54,7 @@ namespace dmc {
 	void DmcServer::loadUsers(const std::string&) {
 		Json usersDatabase = Json(R"([{"name":"dmc64"}])"); // Hardcoded user
 		for(auto userData : usersDatabase.asList()) {
-			mUsers.push_back(new User(*userData, mWebServer));
+			mUsers.push_back(new User(*userData, mWebServer, mDeviceMgr));
 		}
 	}
 

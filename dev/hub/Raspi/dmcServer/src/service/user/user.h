@@ -14,12 +14,15 @@ namespace dmc {
 
 	namespace http { class Server; }
 
+	class DeviceMgr;
+
 	class User {
 	public:
-		User(const Json& _userData, http::Server* _serviceToListen);
+		User(const Json& _userData, http::Server* _serviceToListen, DeviceMgr*);
 
 	private:
 		std::string mName;
+		DeviceMgr*	mDevices;
 	};
 
 }	// namespace dmc

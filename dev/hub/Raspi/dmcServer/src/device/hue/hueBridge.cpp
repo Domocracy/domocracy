@@ -28,6 +28,7 @@ namespace dmc { namespace hue {
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Bridge::putData(const std::string& _url, const Json& _data) {
+		assert(_url.size() > 1 && _url[0] == '/');
 		if(mState == State::disconnected)
 			return false;
 		Request command = JsonRequest(Request::METHOD::Put, std::string("/api/")+mUsername+_url, _data);
