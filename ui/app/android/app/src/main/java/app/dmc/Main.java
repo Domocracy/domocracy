@@ -27,8 +27,7 @@ public class Main extends ActionBarActivity {
 
 
         // Init Device manager.
-        JSONObject devData = null;
-        DeviceManager.init(this, devData);
+        loadDevices();
 
         // Create Interface
         // Check if first connection
@@ -44,6 +43,14 @@ public class Main extends ActionBarActivity {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private interface.
+    
+    private void loadDevices(){
+        JSONObject devData = null;
+        DeviceManager.init(this, devData);
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     private UserInterface mUI;
     private List<Hub> mHubList;
     private DeviceManager mDevMgr;

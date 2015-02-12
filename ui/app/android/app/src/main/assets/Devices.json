@@ -1,0 +1,19 @@
+[
+    {
+        "name":"HueLight1",
+        "id":"1",
+        "commands":[
+                    "0":"ON",
+                    "1":"OFF"
+                    ]
+    },
+    {
+        "name":"HueLight2",
+        "id":"2",
+        "commands":[
+                    "0":"ON",
+                    "1":"OFF"
+                    ]
+    }
+
+]
