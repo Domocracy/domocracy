@@ -22,8 +22,8 @@ namespace dmc {
 		Json() = default;
 		~Json();
 		explicit Json(const std::string& _code);
-		Json(const Json&) = default;
-		Json& operator=(const Json&) = default;
+		Json(const Json&);
+		Json& operator=(const Json&);
 
 		// Serialize
 		static Json	openFromFile	(const std::string& _fileName);

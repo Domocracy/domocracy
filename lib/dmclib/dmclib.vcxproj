@@ -104,6 +104,7 @@
     <ClInclude Include="src\core\comm\http\httpRequest.h" />
     <ClInclude Include="src\core\comm\http\httpResponse.h" />
     <ClInclude Include="src\core\comm\http\httpServer.h" />
+    <ClInclude Include="src\core\comm\http\request\jsonRequest.h" />
     <ClInclude Include="src\core\comm\http\response\htmlResponse.h" />
     <ClInclude Include="src\core\comm\http\response\jsonResponse.h" />
     <ClInclude Include="src\core\comm\http\response\response200.h" />

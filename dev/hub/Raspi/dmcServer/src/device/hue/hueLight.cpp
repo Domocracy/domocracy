@@ -8,6 +8,7 @@
 #include "hueLight.h"
 #include <iostream>
 #include <string>
+#include <core/comm/http/httpClient.h>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ namespace dmc { namespace hue {
 		, mHueId(_hueId)
 	{
 		if(!sBridge)
-			Bridge::load();
+			sBridge = Bridge::load();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

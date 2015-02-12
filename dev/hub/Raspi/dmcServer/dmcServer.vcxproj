@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\device\hue\hueBridge.cpp" />
     <ClCompile Include="src\device\hue\hueLight.cpp" />
     <ClCompile Include="src\dmcServer.cpp" />
     <ClCompile Include="src\main.cpp" />

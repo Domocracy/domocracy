@@ -24,6 +24,38 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	Json::Json(const Json& _src) {
+		mType = _src.mType;
+		switch (mType)
+		{
+		case dmc::Json::DataType::integer:
+			mInt = _src.mInt;
+			break;
+		case dmc::Json::DataType::real:
+			mFloat = _src.mFloat;
+			break;
+		case dmc::Json::DataType::text:
+			mString = _src.mString;
+			break;
+		case dmc::Json::DataType::dictionary:
+			mDictionary = _src.mDictionary;
+			for(auto& i : mDictionary)
+				i.second = new Json(*i.second); // Deep-copy
+			break;
+		case dmc::Json::DataType::list:
+			mList = _src.mList;
+			for(unsigned i = 0; i < mList.size(); ++i)
+				mList[i] = new Json(*mList[i]); // Deep-copy
+			break;
+		case dmc::Json::DataType::boolean:
+			mInt = _src.mInt;
+			break;
+		default:
+			break;
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	Json::~Json() {
 		if(mType == DataType::list)
 			for(auto i : mList)
