@@ -15,11 +15,19 @@ public class Main extends ActionBarActivity {
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface
-        //  else
+        //      else
         //      Init user interface
         mUI = new UserInterface(this);
-        Hub hubTest = new Hub();
-        HubConnection hubCon = new HubConnection(hubTest);
+
+        Thread t =new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Hub hubTest = new Hub();
+                HubConnection hubCon = new HubConnection(hubTest);
+            }
+        });
+        t.start();
+
     }
 
 

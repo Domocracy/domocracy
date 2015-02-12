@@ -1,5 +1,4 @@
 package app.dmc;
-import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,10 +26,8 @@ public class HubConnection{
     private void connectClient(String _ip, int _port) {
         try {
             clientSocket = new Socket(_ip,_port);
-            OutputStream outToServer = clientSocket.getOutputStream();
             if(clientSocket.isConnected()) {
                 System.out.println("Connected");
-                outToServer.write(1);//write something
             }
        }catch(UnknownHostException e){
             System.out.println(e.getMessage());
