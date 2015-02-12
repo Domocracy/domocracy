@@ -80,6 +80,7 @@
     <ClInclude Include="src\device\hue\hueLight.h" />
     <ClInclude Include="src\dmcServer.h" />
     <ClInclude Include="src\provider\deviceFactory.h" />
+    <ClInclude Include="src\provider\deviceMgr.h" />
     <ClInclude Include="src\public\publicService.h" />
     <ClInclude Include="src\service\public\hubInfo.h" />
     <ClInclude Include="src\service\user\room.h" />

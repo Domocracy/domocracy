@@ -5,24 +5,25 @@
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef _DMCSERVER_PROVIDERS_DEVICEFACTORY_H_
-#define _DMCSERVER_PROVIDERS_DEVICEFACTORY_H_
+#ifndef _DMCSERVER_PROVIDERS_DEVICEMGR_H_
+#define _DMCSERVER_PROVIDERS_DEVICEMGR_H_
 
 #include <string>
+#include <unordered_map>
 
 namespace dmc {
 
 	class Device;
-	class Json;
 
-	class DeviceFactory {
+	class DeviceMgr {
 	public:
-
-
+		DeviceMgr();
+		Device* get(unsigned _id) const;
 	private:
-		Device* create(const std::string& _devType, const Json& _constructionData);
+		std::unordered_map<unsigned,Device*>	mDevices;
+
 	};
 
 }	// namespace dmc
 
-#endif // _DMCSERVER_DEVICES_DEVICEFACTORY_H_
+#endif // _DMCSERVER_PROVIDERS_DEVICEMGR_H_

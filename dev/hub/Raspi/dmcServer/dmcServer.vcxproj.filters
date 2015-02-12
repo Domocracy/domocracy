@@ -83,5 +83,8 @@
     <ClInclude Include="src\service\public\hubInfo.h">
       <Filter>Source Files\service</Filter>
     </ClInclude>
+    <ClInclude Include="src\provider\deviceMgr.h">
+      <Filter>Source Files\providers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
