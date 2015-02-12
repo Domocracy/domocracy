@@ -17,9 +17,7 @@ namespace dmc {
 	public:
 		// 666 TODO: PublicService(Hub*);
 		HubInfo(http::Server* _server) {
-			_server->setResponder("/public/hubInfo", [](http::Server* _srv, unsigned _conId, const http::Request&) {
-				_srv->respond(_conId, http::JsonResponse(Json(R"({"name" : "dmcHub"})")));
-			});
+			_server->setResponder("/public/hubInfo", http::JsonResponse(Json(R"({"name" : "dmcHub"})")));
 		}
 		// Services
 	};
