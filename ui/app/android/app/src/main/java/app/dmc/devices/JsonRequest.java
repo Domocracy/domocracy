@@ -22,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -29,6 +30,8 @@ public class JsonRequest {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
     JsonRequest(String _url, JSONObject _json){
+        mHeaders = new HashMap<String, String>();
+
         decodeJson(_json);
         initConnection(_url);
         setUpRequest();

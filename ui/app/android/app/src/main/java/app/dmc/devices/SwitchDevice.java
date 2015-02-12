@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import app.dmc.Hub;
@@ -29,6 +30,7 @@ public class SwitchDevice implements  Actuator{
     //  Public Interface
     public SwitchDevice(Hub _hub, Context _context){
         mHub = _hub;
+        mCommands = new ArrayList<JSONObject>();
         decodeJson(_context);
 
     }
@@ -58,7 +60,14 @@ public class SwitchDevice implements  Actuator{
     @Override
     public void run(JSONObject _jsonCommand) {
         // Create a new request with own url and using a json.
-        JsonRequest request = new JsonRequest(url(), _jsonCommand);
+        final JSONObject command = _jsonCommand;
+        Thread t = new Thread( new Runnable() {
+            @Override
+            public void run() {
+                JsonRequest request = new JsonRequest(url(), command);
+            }
+        });
+        t.start();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -77,14 +86,19 @@ public class SwitchDevice implements  Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
     private String url(){
-        return "localhost/aasd";    //666 TODO: get ip from Hub
+        return "http://localhost/aasd";    //666 TODO: get ip from Hub
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private void decodeJson(Context _context){
         try {
             InputStream is = _context.getAssets().open("SwitchDevice.json");
-            JSONObject deviceInfo = new JSONObject(is.toString());
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String raw = new String(buffer, "UTF-8");
+            JSONObject deviceInfo = new JSONObject(raw);
 
             mName = deviceInfo.getString("name");
             mId = deviceInfo.getString("id");

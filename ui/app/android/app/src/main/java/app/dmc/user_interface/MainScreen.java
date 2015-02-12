@@ -27,8 +27,8 @@ public class MainScreen {
 
         LinearLayout ll = (LinearLayout) ((Activity)_context).findViewById(R.id.main_screen);
 
-        SwitchDevice b2 = new SwitchDevice(mHubList.get(0));
-        SwitchDevice b1 = new SwitchDevice(mHubList.get(0));
+        SwitchDevice b2 = new SwitchDevice(mHubList.get(0), _context);
+        SwitchDevice b1 = new SwitchDevice(mHubList.get(0), _context);
 
         ll.addView(b1.view(_context));
         ll.addView(b2.view(_context));
