@@ -28,9 +28,6 @@
     <Filter Include="Source Files\service\userAdmin">
       <UniqueIdentifier>{6843fb43-6f88-4ef4-a237-932a66a7daf2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\service\hubInfo">
-      <UniqueIdentifier>{91aaaa60-6e88-4d7e-8782-d84b7d0f59cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\providers\persistence">
       <UniqueIdentifier>{9e0d4452-5d5a-4ed7-942f-149a6c63b541}</UniqueIdentifier>
     </Filter>
@@ -82,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="src\service\user\user.h">
       <Filter>Source Files\service\user</Filter>
+    </ClInclude>
+    <ClInclude Include="src\service\public\hubInfo.h">
+      <Filter>Source Files\service</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

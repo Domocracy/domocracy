@@ -21,6 +21,7 @@ namespace dmc {
 		processArguments(_argc, _argv); // Execution arguments can override default configuration values
 		// Launch web service
 		mWebServer = new http::Server(mHttpPort);
+		mInfo = new HubInfo(mWebServer);
 		mPublicService = new PublicService(mWebServer);
 		loadUsers("users.json");
 	}

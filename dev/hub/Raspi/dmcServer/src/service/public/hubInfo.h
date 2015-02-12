@@ -5,20 +5,24 @@
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
-#define _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
+#ifndef _DMCSERVER_SERVICE_PUBLIC_HUBINFO_H_
+#define _DMCSERVER_SERVICE_PUBLIC_HUBINFO_H_
 
 #include <core/comm/http/httpServer.h>
+#include <core/comm/http/response/jsonResponse.h>
 
 namespace dmc {
-	class PublicService {
+
+	class HubInfo {
 	public:
 		// 666 TODO: PublicService(Hub*);
-		PublicService(http::Server* server);
+		HubInfo(http::Server* _server) {
+			_server->setResponder("/public/hubInfo", [](http::Server* _srv, unsigned _conId, const http::Request&) {
+				_srv->respond(_conId, http::JsonResponse(Json(R"({"name" : "dmcHub"})")));
+			});
+		}
 		// Services
-		http::Server::UrlHandler	ping		() const;
-		http::Server::UrlHandler	createUser	() const;
 	};
 }	// namespace dmc
 
-#endif // _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
+#endif // _DMCSERVER_SERVICE_PUBLIC_HUBINFO_H_
