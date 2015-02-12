@@ -3,8 +3,16 @@ package app.dmc;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import app.dmc.user_interface.UserInterface;
 
@@ -16,12 +24,7 @@ public class Main extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         // Load Hubs
-        mHubList = new ArrayList<Hub>();
-        Hub hub1 = new Hub("City Home", "1");
-        Hub hub2 = new Hub("Beach Flat", "2");
-        mHubList.add(hub1);
-        mHubList.add(hub2);
-
+        loadHubs();
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface
@@ -29,12 +32,31 @@ public class Main extends ActionBarActivity {
         //      Init user interface
         //      Init Connections
         //      so on...
-        mUI = new UserInterface(this, mHubList,0);
+        //mUI = new UserInterface(this, mHubMap,0);
 
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    public void loadHubs(){
+        mHubMap = new HashMap<String,Hub>();
+
+        try {
+            JSONArray mHubList = mHubJSON.getJSONArray("hubs");
+            mDefaultHub = mHubJSON.getString("defaultHub");
+
+            for(int i = 0;i < mHubList.length();i++) {
+               Hub hub = new Hub(mHubList.getJSONObject(i));
+               mHubMap.put(hub.id(), hub);
+           }
+        }catch(JSONException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
     //-----------------------------------------------------------------------------------------------------------------
     private UserInterface mUI;
-    private List<Hub> mHubList;
+    private Map<String,Hub> mHubMap;
+    private JSONObject mHubJSON;
+    private String mDefaultHub;
+
 }
