@@ -24,7 +24,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 public class JsonRequest {
     //-----------------------------------------------------------------------------------------------------------------
@@ -85,9 +84,7 @@ public class JsonRequest {
             mConnection.setRequestMethod("GET");
 
             //Add headers
-            Iterator<?> keys = mHeaders.keySet().iterator();
-            while(keys.hasNext()) {
-                String key = (String) keys.next();
+            for(String key: mHeaders.keySet()){
                 mConnection.setRequestProperty(key, mHeaders.get(key));
             }
 
@@ -98,7 +95,7 @@ public class JsonRequest {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private int sendRequest(){
+    private void sendRequest(){
         try {
             int responseCode = mConnection.getResponseCode();
             System.out.println("\nSending 'GET' request to URL : " + mUrl);
