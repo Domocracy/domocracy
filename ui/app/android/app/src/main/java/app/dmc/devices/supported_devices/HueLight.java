@@ -45,6 +45,8 @@ public class HueLight implements Actuator {
             LinearLayout base = new LinearLayout(_context);
             Button button = new Button(_context);
 
+            button.setText(name());
+
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

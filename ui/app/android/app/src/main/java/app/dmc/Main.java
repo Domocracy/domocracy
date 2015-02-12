@@ -3,6 +3,8 @@ package app.dmc;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,8 @@ public class Main extends ActionBarActivity {
 
 
         // Init Device manager.
-       DeviceManager.init(this, mHubList);
+        JSONObject devData = null;
+        DeviceManager.init(this, devData);
 
         // Create Interface
         // Check if first connection

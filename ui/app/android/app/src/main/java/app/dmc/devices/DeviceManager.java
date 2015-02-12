@@ -11,8 +11,9 @@ package app.dmc.devices;
 
 import android.content.Context;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import app.dmc.Hub;
@@ -21,8 +22,9 @@ import app.dmc.devices.supported_devices.HueLight;
 public class DeviceManager {
     //-----------------------------------------------------------------------------------------------------------------
     //  Singleton interface Interface
-    static public void init(Context _context, List<Hub> _hubList){
-        sDevMgr = new DeviceManager(_context, _hubList);
+    static public void init(Context _context, JSONObject _devData){
+        if(sDevMgr == null)
+            sDevMgr = new DeviceManager(_context, _devData);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -44,9 +46,9 @@ public class DeviceManager {
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private Interface
-    private DeviceManager(Context _context, List<Hub> _hubList){
+    private DeviceManager(Context _context, JSONObject _devData){
         loadFactories();
-        createDevices(_context, _hubList);
+        createDevices(_context, _devData);
     }
 
     private void loadFactories(){
@@ -62,14 +64,8 @@ public class DeviceManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void createDevices(Context _context, List<Hub> _hubList){
-        //for(Hub hub : _hubList) {
-        //    while (key.hasNext()) {
-        //        int hub = 0;                // 666 TODO: get hub from data
-        //        String type = "HueLight";   // 666 TODO: get type from data.
-        //        mFactories.get(type).create(_hubList.get(hub), _context);
-        //    }
-        //}
+    private void createDevices(Context _context, JSONObject _devData){
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
