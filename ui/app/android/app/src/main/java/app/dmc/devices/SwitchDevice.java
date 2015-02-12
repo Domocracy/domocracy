@@ -17,32 +17,33 @@ import android.widget.LinearLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import app.dmc.Hub;
 
 public class SwitchDevice implements  Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public SwitchDevice(Hub _hub){
+    public SwitchDevice(Hub _hub, Context _context){
         mHub = _hub;
+        decodeJson(_context);
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public View view(Context _context) {
         if(mView == null){
+            //   Build dummy view to test JsonRequests
             LinearLayout base = new LinearLayout(_context);
             Button button = new Button(_context);
-
-            //InputStream is = _context.getAssets().open("SwitchDevice.json");
-            //JSONObject command = new JSONObject(is.toString());
-
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    run(command);
+                    run(mCommands.get(0));
                 }
             });
 
@@ -74,16 +75,32 @@ public class SwitchDevice implements  Actuator{
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
-
     private String url(){
         return "localhost/aasd";    //666 TODO: get ip from Hub
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    private void decodeJson(Context _context){
+        try {
+            InputStream is = _context.getAssets().open("SwitchDevice.json");
+            JSONObject devideInfo = new JSONObject(is.toString());
+
+
+
+        }catch(JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }catch (IOException _ioException){
+            _ioException.printStackTrace();
+        }
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    // Identification
     private String mName;
     private String mId;
     private Hub mHub;
 
+    private List<JSONObject> mCommands;
     private View mView;
+
 
 }
