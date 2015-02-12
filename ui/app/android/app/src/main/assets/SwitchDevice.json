@@ -1,18 +1,17 @@
 {
     "name":"dummyDev",
     "id":"123114",
-    "commands":[    {   "name":"ON"
+    "commands":[    {   "name":"ON",
                         "method":"GET",
-                        "headers":[ "body-length":"asd",
-                                    "content":"asdf"],
+                        "headers":{ "body-length":"asd",
+                                    "content":"asdf"},
                         "body":""
                     },
-                    {   "name":"ON"
+                    {   "name":"OFF",
                         "method":"GET",
-                        "headers":[ "body-length":"asd",
-                                    "content":"asdf"],
+                        "headers":{ "body-length":"asd",
+                                    "content":"asdf"},
                         "body":""
                     }
-
                 ]
 }
