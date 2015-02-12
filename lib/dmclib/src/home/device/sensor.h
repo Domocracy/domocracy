@@ -17,6 +17,7 @@ namespace dmc {
 
 	class Sensor : public virtual Device {
 	public:
+		Sensor(unsigned _id, const std::string& _name) : Device(_id, _name) {}
 		virtual bool read(const std::string& _param, Json& _dst) = 0;
 	};
 }
