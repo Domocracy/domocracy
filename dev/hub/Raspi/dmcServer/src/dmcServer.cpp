@@ -11,6 +11,7 @@
 #include <core/comm/json/json.h>
 #include <core/time/time.h>
 #include <public/publicService.h>
+#include <core/comm/http/response/response200.h>
 #include <service/user/user.h>
 
 namespace dmc {
@@ -21,6 +22,9 @@ namespace dmc {
 		processArguments(_argc, _argv); // Execution arguments can override default configuration values
 		// Launch web service
 		mWebServer = new http::Server(mHttpPort);
+		mWebServer->setResponder("/public/ping", [](http::Server* _s, unsigned _conId, const http::Request& _r){
+			_s->respond(_conId, http::Response200());
+		});
 		mInfo = new HubInfo(mWebServer);
 		mPublicService = new PublicService(mWebServer);
 		loadUsers("users.json");

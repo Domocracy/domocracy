@@ -16,7 +16,6 @@ namespace dmc {
 		// 666 TODO: PublicService(Hub*);
 		PublicService(http::Server* server);
 		// Services
-		http::Server::UrlHandler	ping		() const;
 		http::Server::UrlHandler	createUser	() const;
 	};
 }	// namespace dmc

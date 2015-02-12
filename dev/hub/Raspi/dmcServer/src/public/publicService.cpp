@@ -16,15 +16,7 @@ using namespace dmc::http;
 namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	PublicService::PublicService(http::Server* _server) {
-		_server->setResponder("/public/ping", ping());
 		_server->setResponder("/public/createUser", createUser());
-	}
-
-	//------------------------------------------------------------------------------------------------------------------
-	http::Server::UrlHandler PublicService::ping() const {
-		return [](Server* _server, unsigned _conId, const Request& _request) {
-			_server->respond(_conId, Response200());
-		};
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
