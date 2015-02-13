@@ -5,7 +5,7 @@
 
 DMC_DIR := ../../../..
 
-DMC_LIB_DIR := $(DMC_DIR)/lib/dmcLib
+DMC_LIB_DIR := $(DMC_DIR)/lib/dmclib
 DMC_LIB := $(DMC_LIB_DIR)/bin/linux/libdmclib.a
 EXTRA_DEPEND := $(DMC_LIB)
 LIB_DIR := -L$(DMC_LIB_DIR)/bin/linux
