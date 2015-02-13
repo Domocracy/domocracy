@@ -1,0 +1,29 @@
+{
+    "devices":
+    [
+        {
+        "type":"HueLight",
+        "data":{
+                "name":"HueLight1",
+                "id":"1",
+                "hub":"1",
+                "commands":[
+                            {"0":"ON"},
+                            {"1":"OFF"}
+                            ]
+                }
+        },
+        {
+        "type":"HueLight",
+        "data":{
+                "name":"HueLight2",
+                "id":"2",
+                "hub":"1",
+                "commands":[
+                            {"0":"ON"},
+                            {"1":"OFF"}
+                            ]
+                }
+        }
+    ]
+}

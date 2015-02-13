@@ -14,7 +14,8 @@ import android.widget.LinearLayout;
 
 import app.dmc.Hub;
 import app.dmc.R;
-import app.dmc.devices.SwitchDevice;
+import app.dmc.devices.DeviceManager;
+import app.dmc.devices.supported_devices.HueLight;
 
 public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
@@ -24,15 +25,15 @@ public class MainScreen {
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
-        SwitchDevice b2 = new SwitchDevice(mHub, _activity);
-        SwitchDevice b1 = new SwitchDevice(mHub, _activity);
+        HueLight hue = (HueLight) DeviceManager.get().device("1");
 
-        ll.addView(b1.view(_activity));
-        ll.addView(b2.view(_activity));
+        if(hue != null)
+            ll.addView(hue.view(_activity));
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void set(int _index){
+    public void set(Hub _hub){
 
     }
 
