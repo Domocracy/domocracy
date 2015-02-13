@@ -15,32 +15,31 @@ import java.util.List;
 import java.util.Map;
 
 import app.dmc.Hub;
+import app.dmc.HubManager;
 import app.dmc.R;
 
 public class UserInterface {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public UserInterface(Activity _activity, List<Hub> _hubList, int _defaultHub){
+    public UserInterface(Activity _activity, List<String> _hubList, int _defaultHub){
         mHubList = _hubList;
         _activity.setContentView(R.layout.activity_main);
 
 
-        mMainScreen = new MainScreen(_activity, mHubList.get(_defaultHub));
+        mMainScreen = new MainScreen(_activity, mHubList);
         mLeftSideMenu = new SlideMenu(_activity, mHubList, _defaultHub);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public void setHub(int _index){
-
-        mMainScreen.set(mHubList.get(_index));
         mLeftSideMenu.set(_index);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private Members
 
-    private List<Hub> mHubList;
+    private List<String> mHubList;
 
     //Views
     private MainScreen  mMainScreen;
