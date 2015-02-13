@@ -47,7 +47,7 @@ public class HueLight implements Actuator {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    run(mCommands.get(0));
+                    //run(mCommands.get(0));    666 Design commands.
                 }
             });
 
