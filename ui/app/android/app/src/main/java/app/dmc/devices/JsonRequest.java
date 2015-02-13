@@ -48,7 +48,7 @@ public class JsonRequest {
     private void initConnection(String _url){
         try {
             // Create new URL. This class check if string is properly written, and can create a connection from it.
-            mUrl = new URL(_url);
+            mUrl = new URL(_url + mUrlExtension);
 
             // Open a connection with the given URL.
             mConnection = (HttpURLConnection) mUrl.openConnection();
@@ -69,6 +69,7 @@ public class JsonRequest {
             // Get method type
             mMethod = _json.getString("method");
             JSONObject headers = _json.getJSONObject("headers");
+            mUrlExtension = _json.getString("name");
 
             // Get headers
             Iterator<?> keys = headers.keys();
@@ -128,5 +129,6 @@ public class JsonRequest {
     // Http
     String mMethod = null;
     Map<String, String> mHeaders = null;
+    String mUrlExtension = null;
 
 }

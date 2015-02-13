@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,18 +41,28 @@ public class HueLight implements Actuator {
         if(mView == null){
             //   Build dummy view to test JsonRequests
             LinearLayout base = new LinearLayout(_context);
-            Button button = new Button(_context);
+            Button buttonON = new Button(_context);
+            Button buttonOFF = new Button(_context);
 
-            button.setText(name());
-
-            button.setOnClickListener(new View.OnClickListener() {
+            buttonON.setText("ON");
+            buttonON.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //run(mCommands.get(0));    666 Design commands.
+                    run(mCommands.get(0));
                 }
             });
 
-            base.addView(button);
+            buttonOFF.setText("OFF");
+            buttonOFF.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    run(mCommands.get(1));
+                }
+            });
+
+            base.addView(buttonON);
+            base.addView(buttonOFF);
+
             mView = base;
         }
         return mView;
@@ -87,7 +98,7 @@ public class HueLight implements Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
     private String url(){
-        return "http://10.100.5.16/sdasd";
+        return "http://10.200.8.167/dev/dmc64/";
 
         // decode url properly
         //return "http://" + mHub.name() +"/" + name() +"/";    //666 TODO: get ip from Hub
@@ -98,6 +109,11 @@ public class HueLight implements Actuator {
         try {
             mName = _data.getString("name");
             mId = _data.getString("id");
+
+            JSONArray commands = _data.getJSONArray("commands");
+            for(int i = 0; i < commands.length(); i++){
+                mCommands.add(commands.getJSONObject(i));
+            }
 
         }catch(JSONException _jsonException) {
             _jsonException.printStackTrace();
