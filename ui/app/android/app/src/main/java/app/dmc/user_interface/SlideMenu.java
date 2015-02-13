@@ -23,7 +23,7 @@ import app.dmc.R;
 public class SlideMenu {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public SlideMenu(Context _context, Map<String,Hub> _hubList) {
+    public SlideMenu(Context _context, List<String> _hubList) {
         // Store Hub list.
         mHubList = _hubList;
 
@@ -45,7 +45,7 @@ public class SlideMenu {
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
-    private Map<String,Hub>       mHubList;
+    private List<String>       mHubList;
 
     // Views
     private DrawerLayout    mBaseHolder;

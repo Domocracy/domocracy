@@ -9,6 +9,8 @@
 package app.dmc;
 
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,7 +58,7 @@ public class Hub {
             //666TODO Rooms and devices not implemented
 
         }catch(JSONException e){
-            System.out.println(e.getMessage());
+            Log.d("decodeJson", e.getMessage());
         }
 
     }

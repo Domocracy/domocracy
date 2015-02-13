@@ -21,7 +21,7 @@ import app.dmc.R;
 public class UserInterface {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public UserInterface(Context _context, Map<String,Hub> _hubList, int _defaultHub){
+    public UserInterface(Context _context, List<String> _hubList, int _defaultHub){
         ((Activity)_context).setContentView(R.layout.activity_main);
 
         mMainScreen = new MainScreen(_context,_hubList);
