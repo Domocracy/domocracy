@@ -5,24 +5,27 @@
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include "publicService.h"
-
-#include <core/comm/http/response/jsonResponse.h>
-#include <core/comm/http/response/response200.h>
-#include <core/comm/http/response/response404.h>
-
-using namespace dmc::http;
+#include "deviceFactory.h"
+#include <core/comm/json/json.h>
+#include <device/hue/hueLight.h>
 
 namespace dmc {
+
 	//------------------------------------------------------------------------------------------------------------------
-	PublicService::PublicService(http::Server* _server) {
-		_server->setResponder("/public/createUser", createUser());
+	DeviceFactory::DeviceFactory() {
+		// Dummy light
+		mFactories.insert(std::make_pair("HueLight", [](const Json& _data) -> Device* {
+			return new hue::Light(_data["id"].asInt(), _data["name"].asText(), "unknown");
+		}));
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	http::Server::UrlHandler PublicService::createUser() const {
-		return [](Server* _server, unsigned _conId, const Request& _request) {
-			_server->respond(_conId, Response404());
-		};
+	Device* DeviceFactory::create(const std::string& _devType, const Json& _data) {
+		auto factory = mFactories.find(_devType);
+		if(factory == mFactories.end())
+			return nullptr;
+		else
+			return factory->second(_data);
 	}
+
 }	// namespace dmc

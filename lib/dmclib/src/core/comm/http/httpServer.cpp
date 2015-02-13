@@ -44,6 +44,15 @@ namespace dmc { namespace http {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	void Server::setResponder(const std::string& _url, const http::Response& _handler) {
+		assert(_url[0] == '/');
+		http::Response response = _handler;
+		mHandlers[_url] = [=](Server* _srv, unsigned _conId, const http::Request&) {
+			_srv->respond(_conId, response);
+		};
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	void Server::onNewConnection(Socket* _connection) {
 		// Generate a connection identifier
 		unsigned conId = reinterpret_cast<unsigned>(_connection);

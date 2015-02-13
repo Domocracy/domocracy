@@ -5,19 +5,20 @@
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
-#define _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
+#ifndef _DMCSERVER_HOME_DEVICE_ACTUATOR_H_
+#define _DMCSERVER_HOME_DEVICE_ACTUATOR_H_
 
-#include <core/comm/http/httpServer.h>
+#include "../device.h"
 
 namespace dmc {
-	class PublicService {
-	public:
-		// 666 TODO: PublicService(Hub*);
-		PublicService(http::Server* server);
-		// Services
-		http::Server::UrlHandler	createUser	() const;
-	};
-}	// namespace dmc
 
-#endif // _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
+	class Json;
+
+	class Actuator : public virtual Device {
+	public:
+		Actuator(unsigned _id, const std::string& _name) : Device(_id, _name) {}
+		virtual bool runCommand(const Json& _cmd) = 0;
+	};
+}
+
+#endif // _DMCSERVER_HOME_DEVICE_ACTUATOR_H_

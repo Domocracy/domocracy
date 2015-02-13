@@ -35,6 +35,8 @@ namespace dmc {
 			// Configure responses
 			typedef std::function<void (Server*, unsigned _conId, const Request&)> UrlHandler;
 			void setResponder(const std::string& _url, UrlHandler _responder);
+			void setResponder(const std::string& _url, const http::Response&); // Sets static response for an url
+
 
 		private:
 			void onNewConnection(Socket* _socket);

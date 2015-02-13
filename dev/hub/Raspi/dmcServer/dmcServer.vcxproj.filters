@@ -13,14 +13,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\service">
+      <UniqueIdentifier>{0b506cd2-bd1b-49e2-9894-6b8345f84d97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\device">
+      <UniqueIdentifier>{c7c97c65-7ea6-4418-aef3-e1fac58fefc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\providers">
+      <UniqueIdentifier>{43043a34-7bbc-48fb-9df4-b00fda808f97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\service\user">
+      <UniqueIdentifier>{96d4c360-3300-417e-bf7d-49653fc5e204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\service\userAdmin">
+      <UniqueIdentifier>{6843fb43-6f88-4ef4-a237-932a66a7daf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\providers\persistence">
+      <UniqueIdentifier>{9e0d4452-5d5a-4ed7-942f-149a6c63b541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\providers\scheduler">
+      <UniqueIdentifier>{c3131bb1-2a99-46c8-9c36-4ebbd68a201a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\providers\events">
+      <UniqueIdentifier>{d503dac5-c82a-4180-9514-e35d1b949383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\providers\cloud">
+      <UniqueIdentifier>{2274fd9c-2d2b-4f2e-ade7-e461771229d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\device\hue">
+      <UniqueIdentifier>{5c96905c-35bc-4bfd-a8e7-713682494675}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\public">
-      <UniqueIdentifier>{22dee62e-b3e3-4d36-8860-ce6a16e25447}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\user">
-      <UniqueIdentifier>{2b2b30ef-edef-4e70-b5f4-53c8f9cded0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\home">
-      <UniqueIdentifier>{6e23abb6-719b-4596-816b-cecc6adf07ce}</UniqueIdentifier>
+      <UniqueIdentifier>{13bf250e-7d8a-466c-a027-2b2753cfe663}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,8 +57,17 @@
     <ClCompile Include="src\public\publicService.cpp">
       <Filter>Source Files\public</Filter>
     </ClCompile>
-    <ClCompile Include="src\user\user.cpp">
-      <Filter>Source Files\user</Filter>
+    <ClCompile Include="src\service\user\user.cpp">
+      <Filter>Source Files\service\user</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\deviceMgr.cpp">
+      <Filter>Source Files\providers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\deviceFactory.cpp">
+      <Filter>Source Files\providers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\device\hue\hueLight.cpp">
+      <Filter>Source Files\device\hue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -44,14 +77,23 @@
     <ClInclude Include="src\public\publicService.h">
       <Filter>Source Files\public</Filter>
     </ClInclude>
-    <ClInclude Include="src\user\user.h">
-      <Filter>Source Files\user</Filter>
+    <ClInclude Include="src\device\hue\hueLight.h">
+      <Filter>Source Files\device\hue</Filter>
     </ClInclude>
-    <ClInclude Include="src\home\room.h">
-      <Filter>Source Files\home</Filter>
+    <ClInclude Include="src\provider\deviceFactory.h">
+      <Filter>Source Files\providers</Filter>
     </ClInclude>
-    <ClInclude Include="src\home\device.h">
-      <Filter>Source Files\home</Filter>
+    <ClInclude Include="src\service\user\room.h">
+      <Filter>Source Files\service\user</Filter>
+    </ClInclude>
+    <ClInclude Include="src\service\user\user.h">
+      <Filter>Source Files\service\user</Filter>
+    </ClInclude>
+    <ClInclude Include="src\service\public\hubInfo.h">
+      <Filter>Source Files\service</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\deviceMgr.h">
+      <Filter>Source Files\providers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

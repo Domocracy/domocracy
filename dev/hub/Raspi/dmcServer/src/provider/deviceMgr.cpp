@@ -5,24 +5,27 @@
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include "publicService.h"
-
-#include <core/comm/http/response/jsonResponse.h>
-#include <core/comm/http/response/response200.h>
-#include <core/comm/http/response/response404.h>
-
-using namespace dmc::http;
+#include "deviceMgr.h"
+#include "deviceFactory.h"
+#include <core/comm/json/json.h>
+#include <home/device.h>
 
 namespace dmc {
+
 	//------------------------------------------------------------------------------------------------------------------
-	PublicService::PublicService(http::Server* _server) {
-		_server->setResponder("/public/createUser", createUser());
+	DeviceMgr::DeviceMgr() {
+		// Load devices from local database
+		Device* sampleLight = mFactory.create("HueLight", Json(R"({"name":"HueLight1", "id":42})"));
+		mDevices.insert(std::make_pair(sampleLight->id(), sampleLight));
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	http::Server::UrlHandler PublicService::createUser() const {
-		return [](Server* _server, unsigned _conId, const Request& _request) {
-			_server->respond(_conId, Response404());
-		};
+	Device* DeviceMgr::get(unsigned _id) const {
+		auto iter = mDevices.find(_id);
+		if(iter != mDevices.end())
+			return iter->second;
+		else
+			return nullptr;
 	}
+
 }	// namespace dmc

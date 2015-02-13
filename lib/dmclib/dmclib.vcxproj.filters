@@ -43,6 +43,12 @@
     <Filter Include="Source Files\core\comm\http\response">
       <UniqueIdentifier>{99d14d9d-1f54-467f-ae27-4db807e47289}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\home">
+      <UniqueIdentifier>{2a477feb-c255-4679-ba8b-a23e85fe1938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\home\device">
+      <UniqueIdentifier>{bcc1dc54-bd93-4c92-a676-eef5666972c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\time\time.cpp">
@@ -142,6 +148,15 @@
     </ClInclude>
     <ClInclude Include="src\core\comm\http\response\response200.h">
       <Filter>Source Files\core\comm\http\response</Filter>
+    </ClInclude>
+    <ClInclude Include="src\home\device.h">
+      <Filter>Source Files\home</Filter>
+    </ClInclude>
+    <ClInclude Include="src\home\device\actuator.h">
+      <Filter>Source Files\home\device</Filter>
+    </ClInclude>
+    <ClInclude Include="src\home\device\sensor.h">
+      <Filter>Source Files\home\device</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
