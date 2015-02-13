@@ -27,12 +27,21 @@ namespace dmc {
 		mName = _userData["name"].asText();
 		mPrefixSize = (string("/dev/") + mName + "/").size();
 		_serviceToListen->setResponder(string("/dev/") + mName, [this](Server* _s, unsigned _conId, const Request& _request){
-			string command = _request.url().substr(mPrefixSize);
+			string url = _request.url();
+			if(url.size() <= mPrefixSize) // Request state
+			{
+				Response200 r;
+				r.setBody("666 TODO: Show list of devices and rooms available to the user\n");
+				_s->respond(_conId, r);
+				return;
+			}
+			string command = url.substr(mPrefixSize);
 			Actuator* device = dynamic_cast<Actuator*>(mDevices->get(42));
 			if(!device)
 				_s->respond(_conId, Response404());
 			if(command == "on")
 			{
+
 				device->runCommand(Json(R"({"on":true})"));
 				_s->respond(_conId, Response200());
 			} else if (command == "off")
