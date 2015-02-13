@@ -21,7 +21,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.dmc.Hub;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.JsonRequest;
 
@@ -76,7 +75,7 @@ public class HueLight implements Actuator {
         Thread t = new Thread( new Runnable() {
             @Override
             public void run() {
-                JsonRequest request = new JsonRequest(url(), command);
+                JsonRequest request = new JsonRequest(url() , command);
             }
         });
         t.start();
@@ -98,7 +97,9 @@ public class HueLight implements Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
     private String url(){
-        return "http://10.200.8.167/dev/dmc64/";
+        String hubUrl = "http://10.200.8.167";
+        String userUrl = "dmc64";
+        return hubUrl + "/user/" + userUrl + "/device/" + id();
 
         // decode url properly
         //return "http://" + mHub.name() +"/" + name() +"/";    //666 TODO: get ip from Hub
@@ -123,7 +124,6 @@ public class HueLight implements Actuator {
     // Identification
     private String mName;
     private String mId;
-    private Hub mHub;
 
     private List<JSONObject> mCommands;
     private View mView;
