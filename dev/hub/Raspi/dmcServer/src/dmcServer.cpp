@@ -11,7 +11,9 @@
 #include <core/comm/json/json.h>
 #include <core/time/time.h>
 #include <public/publicService.h>
-#include <user/user.h>
+#include <core/comm/http/response/response200.h>
+#include <service/user/user.h>
+#include <provider/deviceMgr.h>
 
 namespace dmc {
 
@@ -21,7 +23,10 @@ namespace dmc {
 		processArguments(_argc, _argv); // Execution arguments can override default configuration values
 		// Launch web service
 		mWebServer = new http::Server(mHttpPort);
+		mWebServer->setResponder("/public/ping", http::Response200());
+		mInfo = new HubInfo(mWebServer);
 		mPublicService = new PublicService(mWebServer);
+		mDeviceMgr = new DeviceMgr();
 		loadUsers("users.json");
 	}
 
@@ -49,7 +54,7 @@ namespace dmc {
 	void DmcServer::loadUsers(const std::string&) {
 		Json usersDatabase = Json(R"([{"name":"dmc64"}])"); // Hardcoded user
 		for(auto userData : usersDatabase.asList()) {
-			mUsers.push_back(new User(*userData, mWebServer));
+			mUsers.push_back(new User(*userData, mWebServer, mDeviceMgr));
 		}
 	}
 

@@ -5,19 +5,26 @@
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
-#define _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
+#ifndef _DMCSERVER_PROVIDERS_DEVICEMGR_H_
+#define _DMCSERVER_PROVIDERS_DEVICEMGR_H_
 
-#include <core/comm/http/httpServer.h>
+#include <string>
+#include <unordered_map>
+#include "deviceFactory.h"
 
 namespace dmc {
-	class PublicService {
+
+	class Device;
+
+	class DeviceMgr {
 	public:
-		// 666 TODO: PublicService(Hub*);
-		PublicService(http::Server* server);
-		// Services
-		http::Server::UrlHandler	createUser	() const;
+		DeviceMgr();
+		Device* get(unsigned _id) const;
+	private:
+		std::unordered_map<unsigned,Device*>	mDevices;
+		DeviceFactory							mFactory;
 	};
+
 }	// namespace dmc
 
-#endif // _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
+#endif // _DMCSERVER_PROVIDERS_DEVICEMGR_H_

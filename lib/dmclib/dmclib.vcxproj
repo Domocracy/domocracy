@@ -104,6 +104,7 @@
     <ClInclude Include="src\core\comm\http\httpRequest.h" />
     <ClInclude Include="src\core\comm\http\httpResponse.h" />
     <ClInclude Include="src\core\comm\http\httpServer.h" />
+    <ClInclude Include="src\core\comm\http\request\jsonRequest.h" />
     <ClInclude Include="src\core\comm\http\response\htmlResponse.h" />
     <ClInclude Include="src\core\comm\http\response\jsonResponse.h" />
     <ClInclude Include="src\core\comm\http\response\response200.h" />
@@ -118,6 +119,9 @@
     <ClInclude Include="src\core\serial\SerialLinux.h" />
     <ClInclude Include="src\core\serial\serialWin32.h" />
     <ClInclude Include="src\core\time\time.h" />
+    <ClInclude Include="src\home\device.h" />
+    <ClInclude Include="src\home\device\actuator.h" />
+    <ClInclude Include="src\home\device\sensor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

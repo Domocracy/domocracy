@@ -71,17 +71,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\device\hue\hueBridge.cpp" />
+    <ClCompile Include="src\device\hue\hueLight.cpp" />
     <ClCompile Include="src\dmcServer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\provider\deviceFactory.cpp" />
+    <ClCompile Include="src\provider\deviceMgr.cpp" />
     <ClCompile Include="src\public\publicService.cpp" />
-    <ClCompile Include="src\user\user.cpp" />
+    <ClCompile Include="src\service\user\user.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\device\hue\hueBridge.h" />
+    <ClInclude Include="src\device\hue\hueLight.h" />
     <ClInclude Include="src\dmcServer.h" />
-    <ClInclude Include="src\home\device.h" />
-    <ClInclude Include="src\home\room.h" />
+    <ClInclude Include="src\provider\deviceFactory.h" />
+    <ClInclude Include="src\provider\deviceMgr.h" />
     <ClInclude Include="src\public\publicService.h" />
-    <ClInclude Include="src\user\user.h" />
+    <ClInclude Include="src\service\public\hubInfo.h" />
+    <ClInclude Include="src\service\user\room.h" />
+    <ClInclude Include="src\service\user\user.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\lib\dmclib\dmclib.vcxproj">

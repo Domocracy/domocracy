@@ -5,7 +5,7 @@
 
 DMC_DIR := ../../../..
 
-DMC_LIB_DIR := $(DMC_DIR)/lib/dmcLib
+DMC_LIB_DIR := $(DMC_DIR)/lib/dmclib
 DMC_LIB := $(DMC_LIB_DIR)/bin/linux/libdmclib.a
 EXTRA_DEPEND := $(DMC_LIB)
 LIB_DIR := -L$(DMC_LIB_DIR)/bin/linux
@@ -28,7 +28,7 @@ TEMP_FILES := $(OBJ_FILES)
 WARNING_FLAGS := -Wall -Werror
 INCLUDE_FLAGS +=  -I$(SRC_DIR)
 CXX_COMPILE_FLAGS := -std=c++11 -fno-access-control -fno-enforce-eh-specs\
- 			-fno-rtti -fno-exceptions -ffunction-sections -fdata-sections
+ 			-fno-exceptions -ffunction-sections -fdata-sections
 DEBUG_FLAGS := -g
 COMMON_C_FLAGS := $(PLATFORM_FLAGS) $(WARNING_FLAGS)\
  			 $(INCLUDE_FLAGS) $(DEBUG_FLAGS) $(OPTIMIZATION_FLAGS)
@@ -62,7 +62,7 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 $(OUTPUT): $(OBJ_FILES) $(BUILD_DIR) $(EXTRA_DEPEND) $(BIN_DIR)
-	$(CXX) -o $@ $(OBJ_FILES) $(CXX_FLAGS) $(LIB_DIR) -lbbduino -lc -lm -lc
+	$(CXX) -o $@ $(OBJ_FILES) $(CXX_FLAGS) $(LIB_DIR) -ldmclib -lc -lm -lc
 
 %.cpp.s: %.cpp
 	$(CXX) -S -o $@ $^ $(CXX_FLAGS) $(LIB_DIR)

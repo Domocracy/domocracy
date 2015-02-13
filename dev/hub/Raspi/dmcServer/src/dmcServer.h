@@ -11,11 +11,13 @@
 #include <core/comm/http/httpServer.h>
 #include <string>
 #include <vector>
+#include <service/public/hubInfo.h>
 
 namespace dmc {
 
 	class PublicService;
 	class User;
+	class DeviceMgr;
 	
 	class DmcServer {
 	public:
@@ -35,6 +37,8 @@ namespace dmc {
 		http::Server*		mWebServer = nullptr;
 		PublicService*		mPublicService = nullptr;
 		std::vector<User*>	mUsers;
+		HubInfo*			mInfo = nullptr;
+		DeviceMgr*			mDeviceMgr = nullptr;
 	};
 
 }

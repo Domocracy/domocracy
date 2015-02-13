@@ -10,7 +10,6 @@
 package app.dmc.user_interface;
 
 import android.app.Activity;
-import android.content.Context;
 import android.widget.LinearLayout;
 
 import java.util.List;
@@ -19,31 +18,35 @@ import java.util.Map;
 import app.dmc.Hub;
 import app.dmc.HubManager;
 import app.dmc.R;
-import app.dmc.devices.SwitchDevice;
+import app.dmc.devices.DeviceManager;
+import app.dmc.devices.supported_devices.HueLight;
 
 public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public MainScreen(Context _context, List<String> _hubList) {
+
+    public MainScreen(Activity _activity, List<String> _hubList) {
         mHubList = _hubList;
 
-        LinearLayout ll = (LinearLayout) ((Activity)_context).findViewById(R.id.main_screen);
 
-        SwitchDevice b2 = new SwitchDevice(HubManager.getInstance().getHub(_hubList.get(0)), _context);
+        LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
-        SwitchDevice b1 = new SwitchDevice(HubManager.getInstance().getHub(_hubList.get(0)), _context);
 
-        ll.addView(b1.view(_context));
-        ll.addView(b2.view(_context));
+        HueLight hue = (HueLight) DeviceManager.get().device("1");
+
+        if(hue != null)
+            ll.addView(hue.view(_activity));
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void set(int _index){
+
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
+
     private List<String> mHubList;
 
     // Views

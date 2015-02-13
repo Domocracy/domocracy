@@ -5,19 +5,27 @@
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
-#define _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
+#ifndef _DMCSERVER_USER_USER_H_
+#define _DMCSERVER_USER_USER_H_
 
-#include <core/comm/http/httpServer.h>
+#include <core/comm/json/json.h>
 
 namespace dmc {
-	class PublicService {
+
+	namespace http { class Server; }
+
+	class DeviceMgr;
+
+	class User {
 	public:
-		// 666 TODO: PublicService(Hub*);
-		PublicService(http::Server* server);
-		// Services
-		http::Server::UrlHandler	createUser	() const;
+		User(const Json& _userData, http::Server* _serviceToListen, DeviceMgr*);
+
+	private:
+		std::string mName;
+		unsigned	mPrefixSize;
+		DeviceMgr*	mDevices;
 	};
+
 }	// namespace dmc
 
-#endif // _DMCSERVER_PUBLIC_PUBLICSERVICE_H_
+#endif // _DMCSERVER_USER_USER_H_

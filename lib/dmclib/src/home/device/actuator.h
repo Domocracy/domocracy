@@ -5,23 +5,20 @@
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef _DMCSERVER_USER_USER_H_
-#define _DMCSERVER_USER_USER_H_
+#ifndef _DMCSERVER_HOME_DEVICE_ACTUATOR_H_
+#define _DMCSERVER_HOME_DEVICE_ACTUATOR_H_
 
-#include <core/comm/json/json.h>
+#include "../device.h"
 
 namespace dmc {
 
-	namespace http { class Server; }
+	class Json;
 
-	class User {
+	class Actuator : public virtual Device {
 	public:
-		User(const Json& _userData, http::Server* _serviceToListen);
-
-	private:
-		std::string mName;
+		Actuator(unsigned _id, const std::string& _name) : Device(_id, _name) {}
+		virtual bool runCommand(const Json& _cmd) = 0;
 	};
+}
 
-}	// namespace dmc
-
-#endif // _DMCSERVER_USER_USER_H_
+#endif // _DMCSERVER_HOME_DEVICE_ACTUATOR_H_
