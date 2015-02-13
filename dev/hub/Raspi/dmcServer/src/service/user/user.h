@@ -22,6 +22,7 @@ namespace dmc {
 
 	private:
 		std::string mName;
+		unsigned	mPrefixSize;
 		DeviceMgr*	mDevices;
 	};
 
