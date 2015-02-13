@@ -30,8 +30,8 @@ import app.dmc.devices.JsonRequest;
 public class HueLight implements Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public HueLight(Hub _hub, Context _context){
-        mHub = _hub;
+    public HueLight(JSONObject _data, Context _context){
+        //mHub = HubManager.get(); get hub from manager
         mCommands = new ArrayList<>();
         decodeJson(_context);
 
@@ -90,7 +90,10 @@ public class HueLight implements Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
     private String url(){
-        return "http://" + mHub.name() +"/" + name() +"/";    //666 TODO: get ip from Hub
+        return "http://10.100.5.16/sdasd";
+
+        // decode url properly
+        //return "http://" + mHub.name() +"/" + name() +"/";    //666 TODO: get ip from Hub
     }
 
     //-----------------------------------------------------------------------------------------------------------------

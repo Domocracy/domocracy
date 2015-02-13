@@ -29,7 +29,7 @@ public class UserInterface {
 
     //-----------------------------------------------------------------------------------------------------------------
     public void setHub(int _index){
-        mMainScreen.set(_index);
+        mMainScreen.set(mHubList.get(_index));
         mLeftSideMenu.set(_index);
     }
 

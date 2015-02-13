@@ -11,12 +11,13 @@ package app.dmc.devices;
 
 import android.content.Context;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import app.dmc.Hub;
 import app.dmc.devices.supported_devices.HueLight;
 
 public class DeviceManager {
@@ -55,8 +56,8 @@ public class DeviceManager {
         // HueLight Factory
         sFactories.put("HueLight", new Factory() {
             @Override
-            public Device create(Hub _hub, Context _context) {
-                return new HueLight(_hub, _context);
+            public Device create(JSONObject _data, Context _context) {
+                return new HueLight(_data, _context);
             }
         });
 
@@ -65,6 +66,22 @@ public class DeviceManager {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void createDevices(Context _context, JSONObject _devData){
+        try{
+            JSONArray devices = _devData.getJSONArray("devices");
+
+            for(int i = 0; i < devices.length(); i++){
+                // Extract device type and data
+                JSONObject deviceData = devices.getJSONObject(i);
+                String type = deviceData.getString("type");
+                JSONObject data = deviceData.getJSONObject("data");
+
+                // Look for factory and create device
+                sFactories.get(type).create(data, _context);
+            }
+
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
 
     }
 
@@ -75,6 +92,6 @@ public class DeviceManager {
 
     //-----------------------------------------------------------------------------------------------------------------
     public interface Factory{
-        Device create(Hub _hub, Context _context);
+        Device create(JSONObject _data, Context _context);
     }
 }
