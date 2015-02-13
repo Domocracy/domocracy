@@ -11,12 +11,12 @@
                             {
                             "name":"on",
                             "method":"PUT",
-                            "headers":{},
+                            "headers":{"Content-Type":"PUT"}
                             },
                             {
                              "name":"off",
                              "method":"PUT",
-                             "headers":{},
+                             "headers":{"Content-Type":"PUT"}
                              }
                             ]
                 }

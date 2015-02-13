@@ -94,7 +94,6 @@ public class JsonRequest {
             }
 
 
-            mConnection.addRequestProperty("Content-Type", mMethod);
             if (mBody != null) {
                 mConnection.setRequestProperty("Content-Length", Integer.toString(mBody.length()));
                 try {

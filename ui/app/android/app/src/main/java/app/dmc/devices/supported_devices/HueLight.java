@@ -49,13 +49,18 @@ public class HueLight implements Actuator {
                 @Override
                 public void onClick(View v) {
                     JSONObject command = mCommands.get(0);
-                    JSONObject state = new JSONObject();
 
                     try {
+                        // Create State.
+                        JSONObject state = new JSONObject();
                         state.put("on", true);
                         Random r = new Random();
                         state.put("hue", r.nextInt(65535));
-                        command.put("body", state.toString());
+                        //Create body and fill it with JSON.
+                        JSONObject body = new JSONObject();
+                        body.put("State", state);
+                        // Add body to command.
+                        command.put("body", body.toString());
                     }catch(JSONException _jsonException){
                         _jsonException.printStackTrace();
                     }
@@ -68,12 +73,19 @@ public class HueLight implements Actuator {
             buttonOFF.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    JSONObject command = mCommands.get(2);
-                    JSONObject state = new JSONObject();
+                    JSONObject command = mCommands.get(1);
 
                     try {
-                        state.put("on", false);
-                        command.put("body", state.toString());
+                        // Create State.
+                        JSONObject state = new JSONObject();
+                        state.put("on", true);
+                        Random r = new Random();
+                        state.put("hue", r.nextInt(65535));
+                        //Create body and fill it with JSON.
+                        JSONObject body = new JSONObject();
+                        body.put("State", state);
+                        // Add body to command.
+                        command.put("body", body.toString());
                     }catch(JSONException _jsonException){
                         _jsonException.printStackTrace();
                     }
@@ -120,7 +132,7 @@ public class HueLight implements Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
     private String url(){
-        String hubUrl = "http://10.200.8.167";
+        String hubUrl = "http://10.200.8.169";
         String userUrl = "dmc64";
         return hubUrl + "/user/" + userUrl + "/device/" + id();
 
