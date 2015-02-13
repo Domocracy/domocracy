@@ -37,6 +37,7 @@ namespace dmc { namespace http {
 		const std::unordered_map<std::string,std::string>&	headers	() const { return mHeaders; }
 		std::unordered_map<std::string,std::string>&		headers	()		 { return mHeaders; }
 		const std::string&									body	() const { return mBody; }
+		std::string&										body	()		 { return mBody; }
 
 		bool												addHeader	(const std::string&);
 

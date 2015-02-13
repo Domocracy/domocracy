@@ -69,6 +69,9 @@
     <ClCompile Include="src\device\hue\hueLight.cpp">
       <Filter>Source Files\device\hue</Filter>
     </ClCompile>
+    <ClCompile Include="src\device\hue\hueBridge.cpp">
+      <Filter>Source Files\device\hue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="src\provider\deviceMgr.h">
       <Filter>Source Files\providers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\device\hue\hueBridge.h">
+      <Filter>Source Files\device\hue</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

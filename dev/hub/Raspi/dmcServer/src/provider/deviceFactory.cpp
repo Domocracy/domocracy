@@ -15,7 +15,7 @@ namespace dmc {
 	DeviceFactory::DeviceFactory() {
 		// Dummy light
 		mFactories.insert(std::make_pair("HueLight", [](const Json& _data) -> Device* {
-			return new hue::Light(_data["id"].asInt(), _data["name"].asText(), "unknown");
+			return new hue::Light(_data["id"].asInt(), _data["name"].asText(), _data["data"]["id"].asText());
 		}));
 	}
 
