@@ -76,6 +76,8 @@ public class JsonRequest {
                 String key = (String)keys.next();
                 mHeaders.put(key, headers.getString(key));
             }
+
+            mBody = _json.getString("body");
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
@@ -91,6 +93,17 @@ public class JsonRequest {
                 mConnection.setRequestProperty(key, mHeaders.get(key));
             }
 
+
+            mConnection.addRequestProperty("Content-Type", mMethod);
+            if (mBody != null) {
+                mConnection.setRequestProperty("Content-Length", Integer.toString(mBody.length()));
+                try {
+                    mConnection.getOutputStream().write(mBody.getBytes("UTF8"));
+                }catch (IOException _ioException){
+                    Log.d("DOMOCRACY", "Could not send Command");
+                    _ioException.printStackTrace();
+                }
+            }
         }catch (ProtocolException _protocolException){
             _protocolException.printStackTrace();
         }
@@ -101,11 +114,10 @@ public class JsonRequest {
     private void sendRequest(){
         try {
             int responseCode = mConnection.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + mUrl);
+            System.out.println("\nSending 'PUT' request to URL : " + mUrl);
             System.out.println("Response Code : " + responseCode);
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(mConnection.getInputStream()));
+            BufferedReader in = new BufferedReader( new InputStreamReader(mConnection.getInputStream()));
             String inputLine;
             StringBuffer response = new StringBuffer();
 
@@ -128,5 +140,6 @@ public class JsonRequest {
     // Http
     String mMethod = null;
     Map<String, String> mHeaders = null;
+    String mBody = null;
 
 }

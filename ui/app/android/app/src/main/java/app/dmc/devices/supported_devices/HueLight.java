@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import app.dmc.devices.Actuator;
 import app.dmc.devices.JsonRequest;
@@ -47,7 +48,19 @@ public class HueLight implements Actuator {
             buttonON.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    run(mCommands.get(0));
+                    JSONObject command = mCommands.get(0);
+                    JSONObject state = new JSONObject();
+
+                    try {
+                        state.put("on", true);
+                        Random r = new Random();
+                        state.put("hue", r.nextInt(65535));
+                        command.put("body", state.toString());
+                    }catch(JSONException _jsonException){
+                        _jsonException.printStackTrace();
+                    }
+
+                    run(command);
                 }
             });
 
@@ -55,7 +68,17 @@ public class HueLight implements Actuator {
             buttonOFF.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    run(mCommands.get(1));
+                    JSONObject command = mCommands.get(2);
+                    JSONObject state = new JSONObject();
+
+                    try {
+                        state.put("on", false);
+                        command.put("body", state.toString());
+                    }catch(JSONException _jsonException){
+                        _jsonException.printStackTrace();
+                    }
+
+                    run(command);
                 }
             });
 
