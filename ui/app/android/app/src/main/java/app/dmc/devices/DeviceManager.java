@@ -76,7 +76,8 @@ public class DeviceManager {
                 JSONObject data = deviceData.getJSONObject("data");
 
                 // Look for factory and create device
-                sFactories.get(type).create(data, _context);
+                Device dev = sFactories.get(type).create(data, _context);
+                sRegisteredDevices.put(dev.id(), dev);
             }
 
         }catch (JSONException _jsonException){

@@ -14,12 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +30,7 @@ public class HueLight implements Actuator {
     public HueLight(JSONObject _data, Context _context){
         //mHub = HubManager.get(); get hub from manager
         mCommands = new ArrayList<>();
-        decodeJson(_context);
+        decodeJson(_data);
 
     }
 
@@ -77,13 +74,13 @@ public class HueLight implements Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public String name() {
-        return mId;
+        return mName;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public String id() {
-        return mName;
+        return  mId;
     }
 
 
@@ -97,28 +94,13 @@ public class HueLight implements Actuator {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void decodeJson(Context _context){
+    private void decodeJson(JSONObject _data){
         try {
-            InputStream is = _context.getAssets().open("SwitchDevice.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            String raw = new String(buffer, "UTF-8");
-            JSONObject deviceInfo = new JSONObject(raw);
+            mName = _data.getString("name");
+            mId = _data.getString("id");
 
-            mName = deviceInfo.getString("name");
-            mId = deviceInfo.getString("id");
-
-            JSONArray commands = deviceInfo.getJSONArray("commands");
-            for(int i = 0; i < commands.length(); i++){
-                mCommands.add(commands.getJSONObject(i));
-            }
-
-        }catch(JSONException _jsonException){
+        }catch(JSONException _jsonException) {
             _jsonException.printStackTrace();
-        }catch (IOException _ioException){
-            _ioException.printStackTrace();
         }
     }
     //-----------------------------------------------------------------------------------------------------------------
