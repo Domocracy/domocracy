@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Random;
 
 import app.dmc.devices.Actuator;
-import app.dmc.devices.JsonRequest;
 
 public class HueLight implements Actuator {
     //-----------------------------------------------------------------------------------------------------------------
@@ -106,14 +105,7 @@ public class HueLight implements Actuator {
     @Override
     public void run(JSONObject _jsonCommand) {
         // Create a new request with own url and using a json.
-        final JSONObject command = _jsonCommand;
-        Thread t = new Thread( new Runnable() {
-            @Override
-            public void run() {
-                JsonRequest request = new JsonRequest(url() , command);
-            }
-        });
-        t.start();
+        // 666 TODO : get hub and send command
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -131,16 +123,7 @@ public class HueLight implements Actuator {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
-    private String url(){
-        String hubUrl = "http://10.200.8.169";
-        String userUrl = "dmc64";
-        return hubUrl + "/user/" + userUrl + "/device/" + id();
 
-        // decode url properly
-        //return "http://" + mHub.name() +"/" + name() +"/";    //666 TODO: get ip from Hub
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
     private void decodeJson(JSONObject _data){
         try {
             mName = _data.getString("name");
