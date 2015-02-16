@@ -52,7 +52,7 @@ public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
 
-    public void initJson(Context _context){
+    /*public void initJson(Context _context){
         try{
             InputStream jsonPath = _context.getAssets().open("hubList.json");
             byte[] jsonBuffer = new byte[jsonPath.available()];
@@ -67,13 +67,13 @@ public class HubManager {
             Log.d("initJsonJSONException", e.getMessage());
         }
 
-    }
+    }*/
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface.
     private HubManager(Context _context){
         //here goes the loadHub
-        initJson(_context);
+        //initJson(_context);
         mHubMap  = new HashMap<String,Hub>();
         mHubsIds = new ArrayList<String>();
         try {

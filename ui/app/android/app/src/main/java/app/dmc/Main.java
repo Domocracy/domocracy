@@ -3,6 +3,8 @@ package app.dmc;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
+import org.json.JSONObject;
+
 import app.dmc.user_interface.UserInterface;
 
 public class Main extends ActionBarActivity {
@@ -14,7 +16,7 @@ public class Main extends ActionBarActivity {
 
         // Init HubManager
         HubManager.init(this);
-
+        HubManager.get().hub("123").modifyIp("666");
 
         // Create Interface
         // Check if first connection

@@ -64,7 +64,7 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------------------------------------------
-    public boolean modifyIp(String _ip, JSONObject _jsonHub){
+   /* public boolean modifyIp(String _ip, JSONObject _jsonHub){
 
             if(!_ip.equals(mIp)){
                 mIp = _ip;
@@ -81,7 +81,7 @@ public class Hub {
                 }
                 return true;
             }else return false;
-    }
+    }*/
 
     //-----------------------------------------------------------------------------------------------------------------
 
@@ -89,9 +89,6 @@ public class Hub {
     private String          mName;
     private String          mId;
     private String          mIp;
-
-
-
 
     // Content
     DeviceManager mDevMgr = null;
