@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import app.dmc.Hub;
 import app.dmc.HubManager;
 import app.dmc.R;
+import app.dmc.devices.supported_devices.HueLight;
 
 public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
@@ -26,10 +27,10 @@ public class MainScreen {
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
-        /*HueLight hue = (HueLight) mCurrentHub.device("1");
+        HueLight hue = (HueLight) mCurrentHub.device("1");
 
         if(hue != null)
-            ll.addView(hue.view(_activity));*/
+            ll.addView(hue.view(_activity));
 
     }
 

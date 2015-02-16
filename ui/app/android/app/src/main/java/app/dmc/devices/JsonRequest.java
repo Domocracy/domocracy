@@ -23,6 +23,24 @@ import java.net.URL;
 public class JsonRequest {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
+    public JsonRequest(String _url){
+        try {
+            // Create new URL. This class check if string is properly written, and can create a connection from it.
+            mUrl = new URL(_url);
+
+            // Open a connection with the given URL.
+            mConnection = (HttpURLConnection) mUrl.openConnection();
+            if (mConnection == null) {
+                Log.d("DOMOCRACY", "Fail opening URL: " + _url);
+                return;
+            }
+        }catch (MalformedURLException eMalformed){
+            eMalformed.printStackTrace();
+        }catch (IOException eIOException){
+            eIOException.printStackTrace();
+        }
+    }
+
     //-----------------------------------------------------------------------------------------------------------------
     public void setMethod(String _method){
         try {
@@ -49,8 +67,7 @@ public class JsonRequest {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void sendRequest(String _url){
-        initConnection(_url);
+    public void sendRequest(){
         try {
             int responseCode = mConnection.getResponseCode();
             System.out.println("\nSending 'PUT' request to URL : " + mUrl);
@@ -74,25 +91,6 @@ public class JsonRequest {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
-    private void initConnection(String _url){
-        try {
-            // Create new URL. This class check if string is properly written, and can create a connection from it.
-            mUrl = new URL(_url);
-
-            // Open a connection with the given URL.
-            mConnection = (HttpURLConnection) mUrl.openConnection();
-            if (mConnection == null) {
-                Log.d("DOMOCRACY", "Fail opening URL: " + _url);
-                return;
-            }
-        }catch (MalformedURLException eMalformed){
-            eMalformed.printStackTrace();
-        }catch (IOException eIOException){
-            eIOException.printStackTrace();
-        }
-    }
-
-
 
     //-----------------------------------------------------------------------------------------------------------------
     // Net
