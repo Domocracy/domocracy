@@ -14,24 +14,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
+import app.dmc.Hub;
+import app.dmc.HubManager;
 import app.dmc.devices.Actuator;
 
 public class HueLight implements Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     public HueLight(JSONObject _data, Context _context){
-        //mHub = HubManager.get(); get hub from manager
-        mCommands = new ArrayList<>();
-        decodeJson(_data);
+        try {
+            mName = _data.getString("name");
+            mId = _data.getString("id");
+            mHubId = _data.getString("hub");
 
+        }catch(JSONException _jsonException) {
+            _jsonException.printStackTrace();
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -47,8 +50,7 @@ public class HueLight implements Actuator {
             buttonON.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    JSONObject command = mCommands.get(0);
-
+                    JSONObject body = new JSONObject();
                     try {
                         // Create State.
                         JSONObject state = new JSONObject();
@@ -56,15 +58,12 @@ public class HueLight implements Actuator {
                         Random r = new Random();
                         state.put("hue", r.nextInt(65535));
                         //Create body and fill it with JSON.
-                        JSONObject body = new JSONObject();
                         body.put("State", state);
-                        // Add body to command.
-                        command.put("body", body.toString());
                     }catch(JSONException _jsonException){
                         _jsonException.printStackTrace();
                     }
 
-                    run(command);
+                    run(body);
                 }
             });
 
@@ -72,24 +71,20 @@ public class HueLight implements Actuator {
             buttonOFF.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    JSONObject command = mCommands.get(1);
-
+                    JSONObject body = new JSONObject();
                     try {
                         // Create State.
                         JSONObject state = new JSONObject();
-                        state.put("on", true);
+                        state.put("on", false);
                         Random r = new Random();
                         state.put("hue", r.nextInt(65535));
                         //Create body and fill it with JSON.
-                        JSONObject body = new JSONObject();
                         body.put("State", state);
-                        // Add body to command.
-                        command.put("body", body.toString());
                     }catch(JSONException _jsonException){
                         _jsonException.printStackTrace();
                     }
 
-                    run(command);
+                    run(body);
                 }
             });
 
@@ -105,7 +100,8 @@ public class HueLight implements Actuator {
     @Override
     public void run(JSONObject _jsonCommand) {
         // Create a new request with own url and using a json.
-        // 666 TODO : get hub and send command
+        Hub hub = HubManager.get().hub(mHubId);
+        hub.send("/device/" + id(), _jsonCommand);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -124,25 +120,11 @@ public class HueLight implements Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
 
-    private void decodeJson(JSONObject _data){
-        try {
-            mName = _data.getString("name");
-            mId = _data.getString("id");
-
-            JSONArray commands = _data.getJSONArray("commands");
-            for(int i = 0; i < commands.length(); i++){
-                mCommands.add(commands.getJSONObject(i));
-            }
-
-        }catch(JSONException _jsonException) {
-            _jsonException.printStackTrace();
-        }
-    }
     //-----------------------------------------------------------------------------------------------------------------
     // Identification
     private String mName;
     private String mId;
 
-    private List<JSONObject> mCommands;
+    private String mHubId;
     private View mView;
 }

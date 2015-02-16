@@ -64,7 +64,7 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject send(final String _url, final String _body){
+    public JSONObject send(final String _url, final JSONObject _body){
         return mConnection.send(_url, _body);
     }
 

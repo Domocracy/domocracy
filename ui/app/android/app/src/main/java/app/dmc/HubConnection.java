@@ -16,10 +16,10 @@ import app.dmc.devices.JsonRequest;
 public class HubConnection {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
-    public JSONObject send(final String _url, final String _body){
+    public JSONObject send(final String _url, final JSONObject _body){
         final JsonRequest request = new JsonRequest();
         request.setMethod("PUT");
-        request.setBody(_body);
+        request.setBody(_body.toString());
 
         request.sendRequest(_url);
 
