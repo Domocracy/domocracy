@@ -12,25 +12,22 @@ package app.dmc.user_interface;
 import android.app.Activity;
 import android.widget.LinearLayout;
 
-import java.util.List;
-import java.util.Map;
-
-import app.dmc.Hub;
+import app.dmc.HubManager;
 import app.dmc.R;
 
 public class SlideMenu {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public SlideMenu(Activity _activity, List<String> _hubList, String _defaultHub) {
+
+    public SlideMenu(Activity _activity) {
         // Store Hub list.
-        mHubList = _hubList;
-        mCurrentHub = _defaultHub;
 
         // Get Base Layout
         mLayout = (LinearLayout) _activity.findViewById(R.id.left_menu);
 
         // Create a Spinner to store List of hubs.
-        mHubSelector = new HubSelector(_activity, _hubList);
+
+        mHubSelector = new HubSelector(_activity);
         mLayout.addView(mHubSelector.view());
     }
 
@@ -42,8 +39,7 @@ public class SlideMenu {
     //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
 
-    private List<String>       mHubList;
-    private String             mCurrentHub;
+
     // Views
 
     private LinearLayout    mLayout;

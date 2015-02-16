@@ -12,9 +12,6 @@ package app.dmc.user_interface;
 import android.app.Activity;
 import android.widget.LinearLayout;
 
-import java.util.List;
-import java.util.Map;
-
 import app.dmc.Hub;
 import app.dmc.HubManager;
 import app.dmc.R;
@@ -25,24 +22,21 @@ public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public MainScreen(Activity _activity, List<String> _hubList) {
-        mHubList = _hubList;
-
+    public MainScreen(Activity _activity) {
+        HubManager hubMgr = HubManager.get();
+        mCurrentHub = hubMgr.hub(hubMgr.defaultHub());
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
-
-        HueLight hue = (HueLight) DeviceManager.get().device("1");
+        /*HueLight hue = (HueLight) DeviceManager.get().device("1");
 
         if(hue != null)
-            ll.addView(hue.view(_activity));
+            ll.addView(hue.view(_activity));*/
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
-
-    private List<String> mHubList;
-
+    private Hub mCurrentHub = null;
     // Views
 }

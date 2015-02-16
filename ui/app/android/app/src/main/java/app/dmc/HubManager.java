@@ -1,5 +1,6 @@
 package app.dmc;
 
+import android.content.Context;
 import android.util.Log;
 
 
@@ -20,32 +21,15 @@ import java.util.Map;
  */
 public class HubManager {
 
-    private static final HubManager instance = new HubManager();
     //-----------------------------------------------------------------------------------------------------------------
-    private HubManager(){
-        //here goes the loadHub
-        initJson();
-        mHubMap  = new HashMap<String,Hub>();
-        mHubsIds = new ArrayList<String>();
-        try {
-            JSONArray mHubList = mHubJSON.getJSONArray("hubs");
-            mDefaultHub = mHubJSON.getString("defaultHub");
 
-            for(int i = 0;i < mHubList.length();i++) {
-                Hub hub = new Hub(mHubList.getJSONObject(i));
-                mHubMap.put(hub.id(), hub);
-                mHubsIds.add(hub.id());
-            }
-        }catch(JSONException e){
-            Log.d("loadHub", e.getMessage());
-        }
-
+    static public void init(Context _context){
+        instance =  new HubManager(_context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
 
     public static HubManager get(){
-
         return instance;
     }
 
@@ -78,11 +62,36 @@ public class HubManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    // Private Interface.
+    private HubManager(Context _context){
+        //here goes the loadHub
+        initJson();
+        mHubMap  = new HashMap<String,Hub>();
+        mHubsIds = new ArrayList<String>();
+        try {
+            JSONArray mHubList = mHubJSON.getJSONArray("hubs");
+            mDefaultHub = mHubJSON.getString("defaultHub");
+
+            for(int i = 0;i < mHubList.length();i++) {
+                Hub hub = new Hub(_context, mHubList.getJSONObject(i));
+                mHubMap.put(hub.id(), hub);
+                mHubsIds.add(hub.id());
+            }
+        }catch(JSONException e){
+            Log.d("loadHub", e.getMessage());
+        }
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     private Map<String,Hub> mHubMap;
     private List<String>    mHubsIds;
+
     private String          mDefaultHub;
 
     private JSONObject      mHubJSON;
 
+    //-----------------------------------------------------------------------------------------------------------------
+    private static HubManager instance = null;
 
 }
