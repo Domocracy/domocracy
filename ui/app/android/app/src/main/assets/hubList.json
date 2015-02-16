@@ -4,7 +4,7 @@
         {
             "name":"Home",
             "id":"123",
-            "ip":"10.200.9.148",
+            "ip":"10.200.9.152",
             "rooms":[],
             "devices":
                 [
@@ -12,7 +12,7 @@
                         "type":"HueLight",
                         "data":{
                                 "name":"HueLight1",
-                                "id":"1",
+                                "id":"2A",
                                 "hub":"123"
                                 }
                     },

@@ -15,6 +15,7 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -57,9 +58,12 @@ public class JsonRequest {
 
     //-----------------------------------------------------------------------------------------------------------------
     public void setBody(String _body){
+        mConnection.setDoOutput(true);
         mConnection.setRequestProperty("Content-Length", Integer.toString(_body.length()));
         try {
-            mConnection.getOutputStream().write(_body.getBytes("UTF8"));
+            OutputStream os = mConnection.getOutputStream();
+            os.write(_body.getBytes("UTF8"));
+            os.close();
         }catch (IOException _ioException){
             Log.d("DOMOCRACY", "Could not send Command");
             _ioException.printStackTrace();
