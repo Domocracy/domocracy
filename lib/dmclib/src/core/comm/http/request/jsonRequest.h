@@ -21,6 +21,7 @@ namespace dmc { namespace http {
 		JsonRequest(METHOD _method, const std::string& _url, const Json& _data)
 			:Request(_method, _url, std::vector<std::string>(), "")
 		{
+			headers()["Content-Type"] = "application/json; charset=UTF-8";
 			std::string newBody;
 			_data >> newBody;
 			setBody(newBody);

@@ -22,10 +22,7 @@ namespace dmc { namespace http {
 		readBuff << htmlFile.rdbuf();
 		setBody(readBuff.str());
 		// Config response headers
-		headers()["Content-type"] = "text/html; charset=UTF-8";//"application/json";
-		stringstream size;
-		size << body().size();
-		headers()["Content-Length"] = size.str();
+		headers()["Content-type"] = "text/html; charset=UTF-8";
 	}
 
 }}	// namespace dmc::http
