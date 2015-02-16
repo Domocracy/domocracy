@@ -17,10 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import app.dmc.Hub;
 import app.dmc.HubManager;
@@ -28,8 +25,8 @@ import app.dmc.HubManager;
 public class HubSelector extends BaseAdapter{
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    HubSelector(Context _context, List<String> _hubList){
-        mHubList = _hubList;
+    HubSelector(Context _context){
+        mHubList = HubManager.getInstance().hubsIds();
 
         mHubSpinner = new Spinner(_context);
         mHubSpinner.setAdapter(this);
