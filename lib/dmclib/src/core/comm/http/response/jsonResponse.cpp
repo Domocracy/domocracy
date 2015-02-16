@@ -19,9 +19,6 @@ namespace dmc { namespace http {
 		_rawResponse >> body;
 		setBody(body);
 		headers()["Content-type"] = "application/json";
-		stringstream size;
-		size << body.size();
-		headers()["Content-Length"] = size.str();
 	}
 
 }}	// namespace dmc::http

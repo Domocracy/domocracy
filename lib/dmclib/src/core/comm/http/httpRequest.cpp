@@ -39,6 +39,14 @@ namespace dmc { namespace http {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
+	void Request::setBody(const std::string& _body) {
+		mBody = _body;
+		stringstream ss;
+		ss << body().size();
+		mHeaders["Content-Length"]=ss.str();
+	}
+
+	//----------------------------------------------------------------------------------------------------------------------
 	bool Request::addHeader(const string& _headerLine) {
 		unsigned colonPos = _headerLine.find(": ");
 		if(colonPos == string::npos)

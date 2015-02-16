@@ -21,7 +21,7 @@ namespace dmc { namespace http {
 			  std::unordered_map<std::string,std::string>&	headers	()		 { return mHeaders;	}
 		const std::string&									body	() const { return mBody; }
 
-		void												setBody	(const std::string& _b) { mBody = _b; }
+		void												setBody	(const std::string& _b);
 
 		std::string											serialize() const;
 		

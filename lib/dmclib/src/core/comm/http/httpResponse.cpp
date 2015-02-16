@@ -35,6 +35,14 @@ namespace dmc { namespace http {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	void Response::setBody(const std::string& _body) {
+		mBody = _body;
+		stringstream ss;
+		ss << body().size();
+		mHeaders["Content-Length"]=ss.str();
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	std::string Response::serialize() const {
 		std::stringstream serial;
 		// Status line

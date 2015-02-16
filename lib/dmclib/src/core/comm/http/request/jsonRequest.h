@@ -21,11 +21,10 @@ namespace dmc { namespace http {
 		JsonRequest(METHOD _method, const std::string& _url, const Json& _data)
 			:Request(_method, _url, std::vector<std::string>(), "")
 		{
-			_data >> body();
 			headers()["Content-Type"] = "application/json; charset=UTF-8";
-			stringstream ss;
-			ss << body().size();
-			headers()["Content-Length"]=ss.str();
+			std::string newBody;
+			_data >> newBody;
+			setBody(newBody);
 		}
 	};
 
