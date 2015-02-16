@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,12 +52,19 @@ public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
 
-    public void initJson(){
+    public void initJson(Context _context){
         try{
+            InputStream jsonPath = _context.getAssets().open("hubList.json");
+            byte[] jsonBuffer = new byte[jsonPath.available()];
+            jsonPath.read(jsonBuffer);
+            jsonPath.close();
+            String json = new String(jsonBuffer,"UTF-8");
+            mHubJSON = new JSONObject(json);
 
-            mHubJSON = new JSONObject("{\"defaultHub\":\"0\",\"hubs\":[{\"name\":\"Home\",\"id\":\"123\",\"ip\":\"193.147.168.23\",\"rooms\":[],\"devices\":[]},{\"name\":\"Beach Flat\",\"id\":\"543\",\"ip\":\"193.154.123.54\",\"rooms\":[],\"devices\":[]}]}");
-        }catch(JSONException e){
+        }catch(IOException e){
             Log.d("initJson", e.getMessage());
+        }catch(JSONException e){
+            Log.d("initJsonJSONException", e.getMessage());
         }
 
     }
@@ -65,7 +73,7 @@ public class HubManager {
     // Private Interface.
     private HubManager(Context _context){
         //here goes the loadHub
-        initJson();
+        initJson(_context);
         mHubMap  = new HashMap<String,Hub>();
         mHubsIds = new ArrayList<String>();
         try {
