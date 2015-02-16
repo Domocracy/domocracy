@@ -27,7 +27,7 @@ public class Main extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         // Load Hubs
-        HubManager hubManager = HubManager.getInstance();
+        HubManager hubManager = HubManager.get();
 
         // Init Device manager.
         loadDevices();
