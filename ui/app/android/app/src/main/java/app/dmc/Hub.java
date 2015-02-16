@@ -10,7 +10,6 @@ package app.dmc;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,12 +28,12 @@ public class Hub {
             mIp         = _jsonHub.getString("ip");
 
 
-            mDevMgr = new DeviceManager(_context, _jsonHub.getJSONObject("devices"));
+            mDevMgr = new DeviceManager(_context, _jsonHub.getJSONArray("devices"));
 
             //666TODO Rooms not implemented
 
         }catch(JSONException e){
-            Log.d("decodeJson", e.getMessage());
+            e.printStackTrace();
         }
 
         mConnection = new HubConnection();
