@@ -51,15 +51,33 @@ namespace dmc {
 			else {
 				// Extract device id
 				assert(command.substr(0,5) == "/dev/");
-				unsigned devId = unsigned(atoi(command.substr(5).c_str()));
+				string devIdStr = command.substr(5);
+				unsigned devId = unsigned(atoi(devIdStr.c_str()));
 				Device* dev = mDevices->get(devId);
+				if(!dev){
+					_s->respond(_conId, Response404(string("Error 404: Device ")+devIdStr+" not found\n"));
+				}
 				// Execute request
 				switch (_request.method())
 				{
 				case Request::METHOD::Get:
-					_s->respond(_conId, Response404());
+					_s->respond(_conId, Response404("Error 404: GET Methods not implemented"));
+					return;
+				case Request::METHOD::Put:
+					// Use device as an actuator
+					Actuator* act = dynamic_cast<Actuator*>(dev);
+					if(!act) {
+						_s->respond(_conId, Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n"));
+						return;
+					} else {
+						Json body(_request.body()); // Extract body from request
+						bool success = act->runCommand(body);
+						if(success)
+							_s->respond(_conId, Response200(R"({"result":"ok"})"));
+					}
 					break;
 				default:
+					_s->respond(_conId, Response404("Error 404: Unsupported http method"));
 					break;
 				}
 			}
