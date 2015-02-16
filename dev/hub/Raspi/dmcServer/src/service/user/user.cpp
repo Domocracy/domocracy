@@ -21,6 +21,8 @@ namespace dmc {
 
 	using namespace http;
 
+	const string User::cDeviceLabel = "/device";
+
 	//------------------------------------------------------------------------------------------------------------------
 	User::User(const Json& _userData, Server* _serviceToListen, DeviceMgr* _devMgr)
 		:mDevices(_devMgr)
@@ -52,12 +54,13 @@ namespace dmc {
 		if(_cmd.empty()) { // Request state
 			return new Response200("666 TODO: Show list of devices and rooms available to the user\n");
 		} else {
+			unsigned devLabelSize = cDeviceLabel.size();
 			// Extract device id
-			if(_cmd == "/dev") {
+			if(_cmd == cDeviceLabel) {
 				return new Response404("404: Device list not available");
 			}
-			else if(_cmd.substr(0,4) == "/dev") {
-				return deviceCommand(_cmd.substr(4), _request);
+			else if(_cmd.substr(0,devLabelSize) == cDeviceLabel) {
+				return deviceCommand(_cmd.substr(devLabelSize), _request);
 			}
 			else
 				return new Response404(string("User unable to run command ") + _cmd);
