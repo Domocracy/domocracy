@@ -9,6 +9,7 @@
 #define _DMCSERVER_USER_USER_H_
 
 #include <core/comm/json/json.h>
+#include <core/comm/http/httpResponse.h>
 
 namespace dmc {
 
@@ -26,6 +27,7 @@ namespace dmc {
 	private:
 		void		processRequest	(http::Server* _s, unsigned _conId, const http::Request& _request);
 		std::string extractCommand	(const std::string& _url) const;
+		Response*	runCommand		(const std::string& _command, http::Request& _request) const; // Runs a command and returns the proper http response
 
 		std::string mName;
 		std::string mId;

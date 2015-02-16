@@ -41,48 +41,46 @@ namespace dmc {
 		// Extract command
 		string command = extractCommand(_request.url());
 		// Dispatch command
-		if(command.empty()) // Request state
-		{
-			Response200 r;
-			r.setBody("666 TODO: Show list of devices and rooms available to the user\n");
-			_s->respond(_conId, r);
-			return;
-		}
-		else {
+		Response* response = runCommand(command);
+		assert(response);
+		_s->respond(_conId, *response);
+		delete response;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Response* User::runCommand(const std::string& _cmd, http::Request& _request) const {
+		if(_cmd.empty()) { // Request state
+			return new Response200("666 TODO: Show list of devices and rooms available to the user\n");
+		} else {
 			// Extract device id
-			assert(command.substr(0,5) == "/dev/");
-			string devIdStr = command.substr(5);
+			assert(_cmd.substr(0,5) == "/dev/");
+			string devIdStr = _cmd.substr(5);
 			unsigned devId = unsigned(atoi(devIdStr.c_str()));
 			Device* dev = mDevices->get(devId);
 			if(!dev){
-				_s->respond(_conId, Response404(string("Error 404: Device ")+devIdStr+" not found\n"));
+				return new Response404(string("Error 404: Device ")+devIdStr+" not found\n"));
 			}
 			// Execute request
 			switch (_request.method())
 			{
 			case Request::METHOD::Get:
-				_s->respond(_conId, Response404("Error 404: GET Methods not implemented"));
-				return;
+				return new Response404("Error 404: GET Methods not implemented");
 			case Request::METHOD::Put: {
 				// Use device as an actuator
 				Actuator* act = dynamic_cast<Actuator*>(dev);
 				if(!act) {
-					_s->respond(_conId, Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n"));
-					return;
+					return new Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n");
 				} else {
 					Json body(_request.body()); // Extract body from request
 					bool success = act->runCommand(body);
 					if(success)
-						_s->respond(_conId, JsonResponse(Json(R"({"result":"ok"})")));
+						return new JsonResponse(Json(R"({"result":"ok"})"));
 					else
-						_s->respond(_conId, JsonResponse(Json(R"({"result":"fail"})")));
-					return;
+						return new JsonResponse(Json(R"({"result":"fail"})"));
 				}
-				break;
 			}
 			default:
-				_s->respond(_conId, Response404("Error 404: Unsupported http method"));
-				break;
+				return new Response404("Error 404: Unsupported http method");
 			}
 		}
 	}
