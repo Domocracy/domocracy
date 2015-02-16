@@ -41,24 +41,24 @@ namespace dmc {
 		// Extract command
 		string command = extractCommand(_request.url());
 		// Dispatch command
-		Response* response = runCommand(command);
+		Response* response = runCommand(command, _request);
 		assert(response);
 		_s->respond(_conId, *response);
 		delete response;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Response* User::runCommand(const std::string& _cmd, http::Request& _request) const {
+	Response* User::runCommand(const std::string& _cmd, const http::Request& _request) const {
 		if(_cmd.empty()) { // Request state
 			return new Response200("666 TODO: Show list of devices and rooms available to the user\n");
 		} else {
 			// Extract device id
 			assert(_cmd.substr(0,5) == "/dev/");
 			string devIdStr = _cmd.substr(5);
-			unsigned devId = unsigned(atoi(devIdStr.c_str()));
+			unsigned devId = strtol(devIdStr.c_str(), nullptr, 16);
 			Device* dev = mDevices->get(devId);
 			if(!dev){
-				return new Response404(string("Error 404: Device ")+devIdStr+" not found\n"));
+				return new Response404(string("Error 404: Device ")+devIdStr+" not found\n");
 			}
 			// Execute request
 			switch (_request.method())

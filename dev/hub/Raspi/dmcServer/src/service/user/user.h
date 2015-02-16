@@ -25,9 +25,9 @@ namespace dmc {
 		User(const Json& _userData, http::Server* _serviceToListen, DeviceMgr*);
 
 	private:
-		void		processRequest	(http::Server* _s, unsigned _conId, const http::Request& _request);
-		std::string extractCommand	(const std::string& _url) const;
-		Response*	runCommand		(const std::string& _command, http::Request& _request) const; // Runs a command and returns the proper http response
+		void			processRequest	(http::Server* _s, unsigned _conId, const http::Request& _request);
+		std::string		extractCommand	(const std::string& _url) const;
+		http::Response*	runCommand		(const std::string& _command, const http::Request& _request) const; // Runs a command and returns the proper http response
 
 		std::string mName;
 		std::string mId;
