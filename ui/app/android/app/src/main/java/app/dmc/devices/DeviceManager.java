@@ -31,7 +31,7 @@ public class DeviceManager {
 
     }
 
-    public DeviceManager(Context _context, JSONObject _devData) {
+    public DeviceManager(Context _context, JSONArray _devData) {
         createDevices(_context, _devData);
     }
 
@@ -40,13 +40,11 @@ public class DeviceManager {
     //  Private Interface
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void createDevices(Context _context, JSONObject _devData) {
+    private void createDevices(Context _context, JSONArray _devData) {
         try {
-            JSONArray devices = _devData.getJSONArray("devices");
-
-            for (int i = 0; i < devices.length(); i++) {
+            for (int i = 0; i < _devData.length(); i++) {
                 // Extract device type and data
-                JSONObject deviceData = devices.getJSONObject(i);
+                JSONObject deviceData = _devData.getJSONObject(i);
                 String type = deviceData.getString("type");
                 JSONObject data = deviceData.getJSONObject("data");
 

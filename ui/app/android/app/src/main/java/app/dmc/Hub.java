@@ -10,11 +10,11 @@ package app.dmc;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import app.dmc.devices.Device;
 import app.dmc.devices.DeviceManager;
 
 
@@ -28,14 +28,20 @@ public class Hub {
             mIp         = _jsonHub.getString("ip");
 
 
-            mDevMgr = new DeviceManager(_context, _jsonHub.getJSONObject("devices"));
+            mDevMgr = new DeviceManager(_context, _jsonHub.getJSONArray("devices"));
 
             //666TODO Rooms not implemented
 
         }catch(JSONException e){
-            Log.d("decodeJson", e.getMessage());
+            e.printStackTrace();
         }
 
+        mConnection = new HubConnection();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public Device device(String _id){
+        return mDevMgr.device(_id);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -57,15 +63,25 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject send(final String _url, final JSONObject _body){
+        String url = "http://" + ip() + "/user/dmc64" + _url;
+        return mConnection.send(url, _body);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject get(final String _url){
+        return mConnection.get(_url);
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     public boolean modifyIp(String _ip, JSONObject _jsonHub){
-        try{
+        /*try{
             //
 
         }catch(JSONException e){
             Log.d("decodeJson", e.getMessage());
-        }
+        }*/
+        return false;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -75,9 +91,7 @@ public class Hub {
     private String          mId;
     private String          mIp;
 
-
-
-
     // Content
     DeviceManager mDevMgr = null;
+    HubConnection mConnection = null;
 }

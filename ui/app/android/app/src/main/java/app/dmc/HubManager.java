@@ -3,12 +3,11 @@ package app.dmc;
 import android.content.Context;
 import android.util.Log;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,10 +50,16 @@ public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
 
-    public void initJson(){
+    public void initJson(Context _context){
         try{
+            InputStream is = _context.getAssets().open("hubList.json");
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+            is.close();
+            mHubJSON = new JSONObject(new String(buffer, "UTF-8"));
 
-            mHubJSON = new JSONObject("{\"defaultHub\":\"0\",\"hubs\":[{\"name\":\"Home\",\"id\":\"123\",\"ip\":\"193.147.168.23\",\"rooms\":[],\"devices\":[]},{\"name\":\"Beach Flat\",\"id\":\"543\",\"ip\":\"193.154.123.54\",\"rooms\":[],\"devices\":[]}]}");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }catch(JSONException e){
             Log.d("initJson", e.getMessage());
         }
@@ -65,7 +70,7 @@ public class HubManager {
     // Private Interface.
     private HubManager(Context _context){
         //here goes the loadHub
-        initJson();
+        initJson(_context);
         mHubMap  = new HashMap<String,Hub>();
         mHubsIds = new ArrayList<String>();
         try {
