@@ -15,6 +15,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import app.dmc.devices.Device;
 import app.dmc.devices.DeviceManager;
 
 
@@ -39,6 +40,11 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public Device device(String _id){
+        return mDevMgr.device(_id);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     public String name(){
         return mName;
 
@@ -60,12 +66,13 @@ public class Hub {
 
     //-----------------------------------------------------------------------------------------------------------------
     public boolean modifyIp(String _ip, JSONObject _jsonHub){
-        try{
+        /*try{
             //
 
         }catch(JSONException e){
             Log.d("decodeJson", e.getMessage());
-        }
+        }*/
+        return false;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -74,9 +81,6 @@ public class Hub {
     private String          mName;
     private String          mId;
     private String          mIp;
-
-
-
 
     // Content
     DeviceManager mDevMgr = null;
