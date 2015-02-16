@@ -62,8 +62,14 @@ public class HueLight implements Actuator {
                     }catch(JSONException _jsonException){
                         _jsonException.printStackTrace();
                     }
-
-                    run(body);
+                    final JSONObject fBody = body;
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            runCommand(fBody);
+                        }
+                    });
+                    t.start();
                 }
             });
 
@@ -83,8 +89,14 @@ public class HueLight implements Actuator {
                     }catch(JSONException _jsonException){
                         _jsonException.printStackTrace();
                     }
-
-                    run(body);
+                    final JSONObject fBody = body;
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            runCommand(fBody);
+                        }
+                    });
+                    t.start();
                 }
             });
 
@@ -98,7 +110,7 @@ public class HueLight implements Actuator {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public void run(JSONObject _jsonCommand) {
+    public void runCommand(final JSONObject _jsonCommand) {
         // Create a new request with own url and using a json.
         Hub hub = HubManager.get().hub(mHubId);
         hub.send("/device/" + id(), _jsonCommand);

@@ -17,20 +17,20 @@ public class HubConnection {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
     public JSONObject send(final String _url, final JSONObject _body){
-        final JsonRequest request = new JsonRequest();
+        final JsonRequest request = new JsonRequest(_url);
         request.setMethod("PUT");
-        request.setBody(_body.toString());
+        //request.setBody(_body.toString());
 
-        request.sendRequest(_url);
+        request.sendRequest();
 
         return null;    // 666 Implement response
     }
     //-----------------------------------------------------------------------------------------------------------------
     public JSONObject get(final String _url){
-        final JsonRequest request = new JsonRequest();
+        final JsonRequest request = new JsonRequest(_url);
         request.setMethod("GET");
 
-        request.sendRequest(_url);
+        request.sendRequest();
 
         return null;    // 666 Implement response
     }
