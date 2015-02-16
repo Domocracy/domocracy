@@ -37,6 +37,7 @@ public class Hub {
             Log.d("decodeJson", e.getMessage());
         }
 
+        mConnection = new HubConnection();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -63,6 +64,14 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject send(final String _url, final String _body){
+        return mConnection.send(_url, _body);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject get(final String _url){
+        return mConnection.get(_url);
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     public boolean modifyIp(String _ip, JSONObject _jsonHub){
@@ -84,4 +93,5 @@ public class Hub {
 
     // Content
     DeviceManager mDevMgr = null;
+    HubConnection mConnection = null;
 }
