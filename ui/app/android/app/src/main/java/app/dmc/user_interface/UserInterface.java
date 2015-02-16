@@ -22,7 +22,7 @@ public class UserInterface {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public UserInterface(Activity _activity, List<String> _hubList, int _defaultHub){
+    public UserInterface(Activity _activity, List<String> _hubList, String _defaultHub){
         mHubList = _hubList;
         _activity.setContentView(R.layout.activity_main);
 

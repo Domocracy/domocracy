@@ -21,7 +21,7 @@ import app.dmc.R;
 public class SlideMenu {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public SlideMenu(Activity _activity, List<String> _hubList, int _defaultHub) {
+    public SlideMenu(Activity _activity, List<String> _hubList, String _defaultHub) {
         // Store Hub list.
         mHubList = _hubList;
         mCurrentHub = _defaultHub;
@@ -43,7 +43,7 @@ public class SlideMenu {
     //  Private interface
 
     private List<String>       mHubList;
-    private int             mCurrentHub;
+    private String             mCurrentHub;
     // Views
 
     private LinearLayout    mLayout;

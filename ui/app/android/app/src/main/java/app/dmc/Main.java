@@ -4,18 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.util.HashMap;
-import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import app.dmc.devices.DeviceManager;
 import app.dmc.user_interface.UserInterface;
@@ -75,6 +69,7 @@ public class Main extends ActionBarActivity {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+
     private UserInterface mUI;
 
    }
