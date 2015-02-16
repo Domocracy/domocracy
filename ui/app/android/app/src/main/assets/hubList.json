@@ -5,7 +5,23 @@
         "id":"123",
         "ip":"193.147.168.23",
         "rooms":[],
-        "devices":[]
+        "devices":[{
+                           "type":"HueLight",
+                           "data":{
+                                   "name":"HueLight1",
+                                   "id":"1",
+                                   "hub":"1",
+                                   }
+                           },
+                           {
+                           "type":"HueLight",
+                           "data":{
+                                   "name":"HueLight2",
+                                   "id":"2",
+                                   "hub":"1",
+                                   }
+                           }
+                       ]
         },
         {
         "name":"Beach Flat",
@@ -17,4 +33,3 @@
     ]
 }
 
-{"defaultHub":"0","hubs":[{"name":"Home","id":"123","ip":"193.147.168.23","rooms":[],"devices":[]},{"name":"Beach Flat","id":"543","ip":"193.154.123.54","rooms":[],"devices":[]}]}

@@ -15,6 +15,11 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import app.dmc.devices.DeviceManager;
 
 
@@ -59,14 +64,24 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------------------------------------------
- /*   public boolean modifyIp(String _ip, JSONObject _jsonHub){
-        try{
-            //
+    public boolean modifyIp(String _ip, JSONObject _jsonHub){
 
-        }catch(JSONException e){
-            Log.d("decodeJson", e.getMessage());
-        }
-    }*/
+            if(!_ip.equals(mIp)){
+                mIp = _ip;
+                try{
+                    _jsonHub.put("ip",_ip);
+                    FileWriter jsonFile = new FileWriter("hubList.json");
+                    jsonFile.write(_jsonHub.toString());
+                    jsonFile.flush();
+                    jsonFile.close();
+                }catch(JSONException e){
+                    Log.d("modifyJson", e.getMessage());
+                }catch(IOException e){
+                    Log.d("modifyJsonIO", e.getMessage());
+                }
+                return true;
+            }else return false;
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
 
