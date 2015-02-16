@@ -41,61 +41,50 @@ namespace dmc {
 		// Extract command
 		string command = extractCommand(_request.url());
 		// Dispatch command
-			if(command.empty()) // Request state
+		if(command.empty()) // Request state
+		{
+			Response200 r;
+			r.setBody("666 TODO: Show list of devices and rooms available to the user\n");
+			_s->respond(_conId, r);
+			return;
+		}
+		else {
+			// Extract device id
+			assert(command.substr(0,5) == "/dev/");
+			string devIdStr = command.substr(5);
+			unsigned devId = unsigned(atoi(devIdStr.c_str()));
+			Device* dev = mDevices->get(devId);
+			if(!dev){
+				_s->respond(_conId, Response404(string("Error 404: Device ")+devIdStr+" not found\n"));
+			}
+			// Execute request
+			switch (_request.method())
 			{
-				Response200 r;
-				r.setBody("666 TODO: Show list of devices and rooms available to the user\n");
-				_s->respond(_conId, r);
+			case Request::METHOD::Get:
+				_s->respond(_conId, Response404("Error 404: GET Methods not implemented"));
 				return;
-			}
-			else {
-				// Extract device id
-				assert(command.substr(0,5) == "/dev/");
-				string devIdStr = command.substr(5);
-				unsigned devId = unsigned(atoi(devIdStr.c_str()));
-				Device* dev = mDevices->get(devId);
-				if(!dev){
-					_s->respond(_conId, Response404(string("Error 404: Device ")+devIdStr+" not found\n"));
-				}
-				// Execute request
-				switch (_request.method())
-				{
-				case Request::METHOD::Get:
-					_s->respond(_conId, Response404("Error 404: GET Methods not implemented"));
+			case Request::METHOD::Put: {
+				// Use device as an actuator
+				Actuator* act = dynamic_cast<Actuator*>(dev);
+				if(!act) {
+					_s->respond(_conId, Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n"));
 					return;
-				case Request::METHOD::Put:
-					// Use device as an actuator
-					Actuator* act = dynamic_cast<Actuator*>(dev);
-					if(!act) {
-						_s->respond(_conId, Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n"));
-						return;
-					} else {
-						Json body(_request.body()); // Extract body from request
-						bool success = act->runCommand(body);
-						if(success)
-							_s->respond(_conId, Response200(R"({"result":"ok"})"));
-					}
-					break;
-				default:
-					_s->respond(_conId, Response404("Error 404: Unsupported http method"));
-					break;
+				} else {
+					Json body(_request.body()); // Extract body from request
+					bool success = act->runCommand(body);
+					if(success)
+						_s->respond(_conId, JsonResponse(Json(R"({"result":"ok"})")));
+					else
+						_s->respond(_conId, JsonResponse(Json(R"({"result":"fail"})")));
+					return;
 				}
+				break;
 			}
-			string command = url.substr(mPrefixSize);
-			Actuator* device = dynamic_cast<Actuator*>(mDevices->get(42));
-			if(!device)
-				_s->respond(_conId, Response404());
-			if(command == "on")
-			{
-
-				device->runCommand(Json(R"({"on":true})"));
-				_s->respond(_conId, Response200());
-			} else if (command == "off")
-			{
-				device->runCommand(Json(R"({"on":false})"));
-				_s->respond(_conId, Response200());
-			} else
-				_s->respond(_conId, Response404());
+			default:
+				_s->respond(_conId, Response404("Error 404: Unsupported http method"));
+				break;
+			}
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
