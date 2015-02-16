@@ -9,22 +9,27 @@
 package app.dmc;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import app.dmc.devices.DeviceManager;
+
 
 public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public Hub(JSONObject _jsonHub){
+    public Hub(Context _context, JSONObject _jsonHub){
         try{
             mId         = _jsonHub.getString("id");
             mName       = _jsonHub.getString("name");
             mIp         = _jsonHub.getString("ip");
-            mDefaultHub = _jsonHub.getString("defaultHub");
-            //666TODO Rooms and devices not implemented
+
+            mDevMgr = new DeviceManager(_context, _jsonHub.getJSONObject("devices"));
+
+            //666TODO Rooms not implemented
 
         }catch(JSONException e){
             Log.d("decodeJson", e.getMessage());
@@ -51,16 +56,11 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public String defaultHub(){
-        return mDefaultHub;
-
-    }
-    //-----------------------------------------------------------------------------------------------------------------
     // Identification
     private String          mName;
     private String          mId;
     private String          mIp;
-    private String          mDefaultHub;
 
     // Content
+    DeviceManager mDevMgr = null;
 }

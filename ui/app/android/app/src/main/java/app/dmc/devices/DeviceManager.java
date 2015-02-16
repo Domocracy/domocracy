@@ -31,12 +31,13 @@ public class DeviceManager {
 
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
-    //  Private Interface
-    private DeviceManager(Context _context, JSONObject _devData) {
+    public DeviceManager(Context _context, JSONObject _devData) {
         createDevices(_context, _devData);
     }
 
+
+    //-----------------------------------------------------------------------------------------------------------------
+    //  Private Interface
 
     //-----------------------------------------------------------------------------------------------------------------
     private void createDevices(Context _context, JSONObject _devData) {

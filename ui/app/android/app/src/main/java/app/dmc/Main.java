@@ -11,8 +11,8 @@ public class Main extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Load Hubs
-        HubManager hubManager = HubManager.get();
+        // Init HubManager
+        HubManager.init(this);
 
         // Create Interface
         // Check if first connection
