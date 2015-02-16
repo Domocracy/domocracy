@@ -28,9 +28,9 @@ namespace dmc {
 		// Init internal data
 		mName = _userData["name"].asText();
 		mId = _userData["id"].asText();
-		mPrefix = (string("/user/") + mId + "/").size();
+		mPrefix = string("/user/") + mId;
 		// Register to service
-		_serviceToListen->setResponder(string("/dev/") + mName, [this](Server* _s, unsigned _conId, const Request& _request){
+		_serviceToListen->setResponder(mPrefix, [this](Server* _s, unsigned _conId, const Request& _request){
 			this->processRequest(_s, _conId, _request);
 		});
 	}
@@ -53,35 +53,46 @@ namespace dmc {
 			return new Response200("666 TODO: Show list of devices and rooms available to the user\n");
 		} else {
 			// Extract device id
-			assert(_cmd.substr(0,5) == "/dev/");
-			string devIdStr = _cmd.substr(5);
-			unsigned devId = strtol(devIdStr.c_str(), nullptr, 16);
-			Device* dev = mDevices->get(devId);
-			if(!dev){
-				return new Response404(string("Error 404: Device ")+devIdStr+" not found\n");
+			if(_cmd == "/dev") {
+				return new Response404("404: Device list not available");
 			}
-			// Execute request
-			switch (_request.method())
-			{
-			case Request::METHOD::Get:
-				return new Response404("Error 404: GET Methods not implemented");
-			case Request::METHOD::Put: {
-				// Use device as an actuator
-				Actuator* act = dynamic_cast<Actuator*>(dev);
-				if(!act) {
-					return new Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n");
-				} else {
-					Json body(_request.body()); // Extract body from request
-					bool success = act->runCommand(body);
-					if(success)
-						return new JsonResponse(Json(R"({"result":"ok"})"));
-					else
-						return new JsonResponse(Json(R"({"result":"fail"})"));
-				}
+			else if(_cmd.substr(0,4) == "/dev") {
+				return deviceCommand(_cmd.substr(4), _request);
 			}
-			default:
-				return new Response404("Error 404: Unsupported http method");
+			else
+				return new Response404(string("User unable to run command ") + _cmd);
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Response* User::deviceCommand(const std::string& _cmd, const http::Request& _request) const {
+		string devIdStr = _cmd.substr(1); // Discard initial '/'
+		unsigned devId = strtol(devIdStr.c_str(), nullptr, 16);
+		Device* dev = mDevices->get(devId);
+		if(!dev){
+			return new Response404(string("Error 404: Device ")+devIdStr+" not found\n");
+		}
+		// Execute request
+		switch (_request.method())
+		{
+		case Request::METHOD::Get:
+			return new Response404("Error 404: GET Methods not implemented");
+		case Request::METHOD::Put: {
+			// Use device as an actuator
+			Actuator* act = dynamic_cast<Actuator*>(dev);
+			if(!act) {
+				return new Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n");
+			} else {
+				Json body(_request.body()); // Extract body from request
+				bool success = act->runCommand(body);
+				if(success)
+					return new JsonResponse(Json(R"({"result":"ok"})"));
+				else
+					return new JsonResponse(Json(R"({"result":"fail"})"));
 			}
+		}
+		default:
+			return new Response404("Error 404: Unsupported http method");
 		}
 	}
 
