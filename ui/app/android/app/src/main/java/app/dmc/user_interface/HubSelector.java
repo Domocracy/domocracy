@@ -45,7 +45,7 @@ public class HubSelector extends BaseAdapter{
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public Object getItem(int _position) {
-        return HubManager.getInstance().getHub(mHubList.get(_position));
+        return HubManager.get().hub(mHubList.get(_position));
     }
 
     //-----------------------------------------------------------------------------------------------------------------

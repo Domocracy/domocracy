@@ -19,7 +19,16 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     public Hub(JSONObject _jsonHub){
-        decodeJson(_jsonHub);
+        try{
+            mId         = _jsonHub.getString("id");
+            mName       = _jsonHub.getString("name");
+            mIp         = _jsonHub.getString("ip");
+            mDefaultHub = _jsonHub.getString("defaultHub");
+            //666TODO Rooms and devices not implemented
+
+        }catch(JSONException e){
+            Log.d("decodeJson", e.getMessage());
+        }
 
     }
 
@@ -46,23 +55,6 @@ public class Hub {
         return mDefaultHub;
 
     }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    //  Private Interface
-    private void decodeJson(JSONObject _jsonHub){
-        try{
-            mId         = _jsonHub.getString("id");
-            mName       = _jsonHub.getString("name");
-            mIp         = _jsonHub.getString("ip");
-            mDefaultHub = _jsonHub.getString("defaultHub");
-            //666TODO Rooms and devices not implemented
-
-        }catch(JSONException e){
-            Log.d("decodeJson", e.getMessage());
-        }
-
-    }
-
     //-----------------------------------------------------------------------------------------------------------------
     // Identification
     private String          mName;
