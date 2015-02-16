@@ -20,7 +20,7 @@ public class SlideMenu {
     //  Public Interface
     public SlideMenu(Activity _activity) {
         // Store Hub list.
-        HubManager hubManager = HubManager.getInstance();
+        HubManager hubManager = HubManager.get();
 
         // Get Base Layout
         mLayout = (LinearLayout) _activity.findViewById(R.id.left_menu);

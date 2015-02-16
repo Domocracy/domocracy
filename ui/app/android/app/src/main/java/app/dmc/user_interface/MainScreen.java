@@ -23,8 +23,8 @@ public class MainScreen {
     //  Public Interface
 
     public MainScreen(Activity _activity) {
-        HubManager hubMgr = HubManager.getInstance();
-        mCurrentHub = hubMgr.getHub(hubMgr.defaultHub());
+        HubManager hubMgr = HubManager.get();
+        mCurrentHub = hubMgr.hub(hubMgr.defaultHub());
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 

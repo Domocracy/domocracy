@@ -26,7 +26,7 @@ public class HubManager {
         mHubsIds = new ArrayList<String>();
         try {
             JSONArray mHubList = mHubJSON.getJSONArray("hubs");
-            mDefaultHub = mHubJSON.getInt("defaultHub");
+            mDefaultHub = mHubJSON.getString("defaultHub");
 
             for(int i = 0;i < mHubList.length();i++) {
                 Hub hub = new Hub(mHubList.getJSONObject(i));
@@ -52,7 +52,7 @@ public class HubManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public int defaultHub(){
+    public String defaultHub(){
         return mDefaultHub;
     }
 
@@ -76,7 +76,7 @@ public class HubManager {
     //-----------------------------------------------------------------------------------------------------------------
     private Map<String,Hub> mHubMap;
     private List<String>    mHubsIds;
-    private int             mDefaultHub;
+    private String             mDefaultHub;
 
     private JSONObject      mHubJSON;
 

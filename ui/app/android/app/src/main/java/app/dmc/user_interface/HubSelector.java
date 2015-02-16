@@ -26,7 +26,7 @@ public class HubSelector extends BaseAdapter{
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     HubSelector(Context _context){
-        mHubList = HubManager.getInstance().hubsIds();
+        mHubList = HubManager.get().hubsIds();
 
         mHubSpinner = new Spinner(_context);
         mHubSpinner.setAdapter(this);
