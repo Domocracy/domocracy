@@ -41,7 +41,7 @@ public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
 
-    public static HubManager getInstance(){
+    public static HubManager get(){
 
         return instance;
     }
@@ -57,7 +57,7 @@ public class HubManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public Hub getHub(String _id){
+    public Hub hub(String _id){
         Hub hub = mHubMap.get(_id);
         return hub;
     }
