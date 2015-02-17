@@ -1,30 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/base">
-
-    <ToggleButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New ToggleButton"
-        android:id="@+id/toggleButton" />
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/baseLayout">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/secondLayout">
+        android:layout_height="wrap_content"
+        android:id="@+id/shortLayout"
+        android:layout_margin="5dp">
 
-        <TextView
-            android:layout_width="match_parent"
+        <ToggleButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/devName" />
+            android:id="@+id/toggleButton"
+            android:background="@drawable/hue_light_icon_selector"
+            android:textOff=" "
+            android:textOn=" " />
 
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/intensityBar" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/secondLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/devName" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/intensityBar" />
+        </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/extendedLayout">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/hueSelector"
+            android:src="@drawable/hue_channel"
+            android:adjustViewBounds="true"
+            android:contentDescription="HueSelector" />
+    </LinearLayout>
+
 </LinearLayout>

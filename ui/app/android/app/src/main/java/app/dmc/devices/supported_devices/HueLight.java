@@ -80,6 +80,7 @@ public class HueLight implements Actuator {
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
                     mState.brightness(seekBar.getProgress()*255/seekBar.getMax());
+                    mState.on(true);
                     Thread t = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -157,15 +158,12 @@ public class HueLight implements Actuator {
         public void on(boolean _on){
             mIsOn = _on;
         }
-
         public void brightness(int _bri){
             mBrightness = _bri;
         }
-
         public void saturation(int _sat){
             mSaturation = _sat;
         }
-
         public void hue(int _hue){
             mHue = _hue;
         }
