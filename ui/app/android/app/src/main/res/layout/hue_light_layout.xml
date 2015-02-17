@@ -51,7 +51,8 @@
             android:id="@+id/hueSelector"
             android:src="@drawable/hue_channel"
             android:adjustViewBounds="true"
-            android:contentDescription="HueSelector" />
+            android:contentDescription="HueSelector"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

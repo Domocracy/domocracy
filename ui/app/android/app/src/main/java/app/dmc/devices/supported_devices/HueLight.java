@@ -12,6 +12,7 @@ package app.dmc.devices.supported_devices;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -43,9 +44,11 @@ public class HueLight implements Actuator {
     @Override
     public View view(Context _context) {
         if(mView == null){
+            // Get base layout
             LayoutInflater inflater = LayoutInflater.from(_context);
             mView = inflater.inflate(R.layout.hue_light_layout, null);
 
+            // Implement Toggle button
             ToggleButton button = (ToggleButton) mView.findViewById(R.id.toggleButton);
             button.setChecked(mState.on());
             button.setOnClickListener(new View.OnClickListener() {
@@ -62,9 +65,11 @@ public class HueLight implements Actuator {
                 }
             });
 
+            // Implement Name
             TextView nameTv = (TextView) mView.findViewById(R.id.devName);
             nameTv.setText(name());
 
+            // Implement intensity bar
             SeekBar intensityBar = (SeekBar) mView.findViewById(R.id.intensityBar);
             intensityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -79,8 +84,12 @@ public class HueLight implements Actuator {
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-                    mState.brightness(seekBar.getProgress()*255/seekBar.getMax());
-                    mState.on(true);
+                    int bri = seekBar.getProgress()*255/seekBar.getMax();
+                    mState.brightness(bri);
+
+                    mState.on(bri != 0 ? true : false);
+                    ((ToggleButton) mView.findViewById(R.id.toggleButton)).setChecked(bri != 0 ? true : false);
+                    
                     Thread t = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -88,6 +97,23 @@ public class HueLight implements Actuator {
                         }
                     });
                     t.start();
+                }
+            });
+
+            // Implement Expandable View
+            View shortView = mView.findViewById(R.id.shortLayout);
+            shortView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ImageView hueSelector = (ImageView) mView.findViewById(R.id.hueSelector);
+                    switch (hueSelector.getVisibility()){
+                        case View.VISIBLE:
+                            hueSelector.setVisibility(View.GONE);
+                            break;
+                        case View.GONE:
+                            hueSelector.setVisibility(View.VISIBLE);
+                            break;
+                    }
                 }
             });
 
