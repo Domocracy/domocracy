@@ -68,8 +68,8 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	unsigned Json::initWithCode(const string& _code) {
 		if(_code.empty()) {
-			mType == DataType::nill;
-			return;
+			mType = DataType::nill;
+			return 0;
 		}
 		unsigned cursor = _code.find_first_not_of(separators);
 		assert(string::npos != cursor); // Code must be valid
