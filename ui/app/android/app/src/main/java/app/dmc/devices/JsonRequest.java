@@ -35,6 +35,7 @@ public class JsonRequest {
                 Log.d("DOMOCRACY", "Fail opening URL: " + _url);
                 return;
             }
+
         }catch (MalformedURLException eMalformed){
             eMalformed.printStackTrace();
         }catch (IOException eIOException){
