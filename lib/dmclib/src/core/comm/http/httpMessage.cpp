@@ -79,7 +79,7 @@ namespace dmc { namespace http {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
-	void Request::setBody(const std::string& _body) {
+	void Message::setBody(const std::string& _body) {
 		mBody = _body;
 		stringstream ss;
 		ss << body().size();
@@ -87,7 +87,17 @@ namespace dmc { namespace http {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
-	bool Request::addHeader(const string& _headerLine) {
+	string Message::serialize() const {
+		string serial;
+		serializeMessageLine(serial);
+		serializeHeaders	(serial);
+		if(mBody.size())
+			serial.append(mBody + "\r\n");
+		return serial;
+	}
+
+	//----------------------------------------------------------------------------------------------------------------------
+	bool Message::addHeader(const string& _headerLine) {
 		unsigned colonPos = _headerLine.find(": ");
 		if(colonPos == string::npos)
 			return false;
@@ -98,16 +108,6 @@ namespace dmc { namespace http {
 			content
 			));
 		return true;
-	}
-
-	//----------------------------------------------------------------------------------------------------------------------
-	string Request::serialize() const {
-		string serial;
-		serializeRequestLine(serial);
-		serializeHeaders	(serial);
-		if(mBody.size())
-			serial.append(mBody + "\r\n");
-		return serial;
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
