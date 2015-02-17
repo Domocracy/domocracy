@@ -5,13 +5,12 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * Created by Joscormir on 16/02/2015.
@@ -24,51 +23,47 @@ public class Persistence {
     public static Persistence get(){ return instance; }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public static JSONObject getData(){
-        File file = new File(mExternalDirPath + "hubList.json");
-        if(file.exists()){
+    public static JSONObject getData(Context _context, String _fileName){
+       JSONObject json = null;
             try {
-                BufferedReader is = new BufferedReader(new FileReader(file));
-                String jsonString = is.readLine();
-                mJson = new JSONObject(jsonString);
-
+                FileInputStream fileToRead = _context.openFileInput(_fileName + ".json");
+                //here code throws an IOException, can't open Hub because it can't find it
+                ObjectInputStream in = new ObjectInputStream(fileToRead);
+                json = new JSONObject(in.readUTF());
             } catch (IOException e) {
                 Log.d("Can't open HubList", e.getMessage());
             }catch (JSONException e){
                 Log.d("Can't open JSONObject", e.getMessage());
             }
-            return mJson;
-        }else return mJson = null;
+       return json;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public static boolean putData() throws IOException{
-        File file = new File(mExternalDirPath +"hubList.json");
-        try {
-            FileWriter fileToWrite = new FileWriter(file);
-            BufferedWriter out = new BufferedWriter(fileToWrite);
-            String changesToWrite = mJson.toString();
-            out.write(changesToWrite);
-            out.flush();
+    public static boolean putData(Context _context,String _fileName, JSONObject _json){
+        boolean success = false;
+        try{
+            FileOutputStream fileToWrite = _context.openFileOutput(_fileName + ".json",Context.MODE_PRIVATE);
+            ObjectOutputStream out = new ObjectOutputStream(fileToWrite);
+            out.writeObject(_json.toString());
             out.close();
-            return true;
-        } catch (IOException e) {
-            Log.d("Can't open HubList", e.getMessage());
-            return false;
+            success = true;
+        }catch(FileNotFoundException e){
+            Log.d("Can't find file", e.getMessage());
+
+        }catch(IOException e){
+            Log.d("Can't send", e.getMessage());
+
         }
+        return success;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
 
     //Private interface
     private Persistence(Context _context){
-        File externalDir = _context.getFilesDir();
-        mExternalDirPath = externalDir.getPath();
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private static Persistence  instance = null;
-    private static String       mExternalDirPath;
-    private static JSONObject   mJson;
 }
