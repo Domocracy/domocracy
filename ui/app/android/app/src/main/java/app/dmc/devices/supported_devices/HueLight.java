@@ -85,7 +85,7 @@ public class HueLight implements Actuator {
                         Random r = new Random();
                         state.put("hue", r.nextInt(65535));
                         //Create body and fill it with JSON.
-                        body.put("State", state);
+                        body = state;
                     }catch(JSONException _jsonException){
                         _jsonException.printStackTrace();
                     }
