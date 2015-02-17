@@ -5,6 +5,8 @@
 
 DMC_DIR := ../../../..
 
+PRJ_NAME = dmcServer
+
 DMC_LIB_DIR := $(DMC_DIR)/lib/dmclib
 DMC_LIB := $(DMC_LIB_DIR)/bin/linux/libdmclib.a
 EXTRA_DEPEND := $(DMC_LIB)
@@ -29,7 +31,7 @@ WARNING_FLAGS := -Wall -Werror
 INCLUDE_FLAGS +=  -I$(SRC_DIR)
 CXX_COMPILE_FLAGS := -std=c++11 -fno-access-control -fno-enforce-eh-specs\
  			-fno-exceptions -ffunction-sections -fdata-sections
-DEBUG_FLAGS := -g
+DEBUG_FLAGS := -g -gdwarf-3
 COMMON_C_FLAGS := $(PLATFORM_FLAGS) $(WARNING_FLAGS)\
  			 $(INCLUDE_FLAGS) $(DEBUG_FLAGS) $(OPTIMIZATION_FLAGS)
 CC_FLAGS := $(COMMON_C_FLAGS)
@@ -39,7 +41,7 @@ CXX_FLAGS := $(COMMON_C_FLAGS) $(CXX_COMPILE_FLAGS)
 OUT_NAME := $(PRJ_NAME)
 
 BIN_DIR := bin/linux
-OUTPUT := $(BIN_DIR)/$(OUT_NAME).hex
+OUTPUT := $(BIN_DIR)/$(OUT_NAME)
 
 BUILD_DIR := build
 
@@ -62,7 +64,7 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 $(OUTPUT): $(OBJ_FILES) $(BUILD_DIR) $(EXTRA_DEPEND) $(BIN_DIR)
-	$(CXX) -o $@ $(OBJ_FILES) $(CXX_FLAGS) $(LIB_DIR) -ldmclib -lc -lm -lc
+	$(CXX) -o $@ $(OBJ_FILES) $(CXX_FLAGS) $(LIB_DIR) -ldmclib -lpthread -lc -lm -lc
 
 %.cpp.s: %.cpp
 	$(CXX) -S -o $@ $^ $(CXX_FLAGS) $(LIB_DIR)

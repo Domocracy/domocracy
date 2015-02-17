@@ -40,6 +40,7 @@ namespace dmc { namespace http {
 		int nBytes = 0;
 		std::string dst;
 		nBytes = mSocket.read(buffer, bufferSize);
+		std::cout << "nBytes: " << nBytes << "\n";
 		if(nBytes <= 0) {
 			if(nBytes < 0)
 				std::cout << errno << "\n";
@@ -47,7 +48,6 @@ namespace dmc { namespace http {
 		}
 		buffer[nBytes] = '\0';
 		dst += buffer;
-		
 		Response * resp = new Response(dst);
 
 		// House keeping (close socket on non-persistent connections)
