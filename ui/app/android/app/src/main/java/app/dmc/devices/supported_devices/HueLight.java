@@ -11,13 +11,11 @@ package app.dmc.devices.supported_devices;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ToggleButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Random;
 
 import app.dmc.Hub;
 import app.dmc.HubManager;
@@ -31,6 +29,7 @@ public class HueLight implements Actuator {
             mName = _data.getString("name");
             mId = _data.getString("id");
             mHubId = _data.getString("hub");
+            mState = new State(true, 255, 255, 0);
 
         }catch(JSONException _jsonException) {
             _jsonException.printStackTrace();
@@ -43,66 +42,26 @@ public class HueLight implements Actuator {
         if(mView == null){
             //   Build dummy view to test JsonRequests
             LinearLayout base = new LinearLayout(_context);
-            Button buttonON = new Button(_context);
-            Button buttonOFF = new Button(_context);
 
-            buttonON.setText("ON");
-            buttonON.setOnClickListener(new View.OnClickListener() {
+            ToggleButton button = new ToggleButton(_context);
+
+            button.setChecked(mState.on());
+
+            button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    JSONObject body = new JSONObject();
-                    try {
-                        // Create State.
-                        JSONObject state = new JSONObject();
-                        state.put("on", true);
-                        Random r = new Random();
-                        state.put("hue", r.nextInt(65535));
-                        //Create body and fill it with JSON.
-                        body.put("State", state);
-                    }catch(JSONException _jsonException){
-                        _jsonException.printStackTrace();
-                    }
-                    final JSONObject fBody = body;
+                    mState.on(((ToggleButton) v).isChecked());
                     Thread t = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            runCommand(fBody);
+                            runCommand(mState.json());
                         }
                     });
                     t.start();
                 }
             });
 
-            buttonOFF.setText("OFF");
-            buttonOFF.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    JSONObject body = new JSONObject();
-                    try {
-                        // Create State.
-                        JSONObject state = new JSONObject();
-                        state.put("on", false);
-                        Random r = new Random();
-                        state.put("hue", r.nextInt(65535));
-                        //Create body and fill it with JSON.
-                        body = state;
-                    }catch(JSONException _jsonException){
-                        _jsonException.printStackTrace();
-                    }
-                    final JSONObject fBody = body;
-                    Thread t = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            runCommand(fBody);
-                        }
-                    });
-                    t.start();
-                }
-            });
-
-            base.addView(buttonON);
-            base.addView(buttonOFF);
-
+            base.addView(button);
             mView = base;
         }
         return mView;
@@ -137,6 +96,87 @@ public class HueLight implements Actuator {
     private String mName;
     private String mId;
 
+    private State mState;
+
     private String mHubId;
     private View mView;
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // State inner class
+    private class State{
+        public State(JSONObject _data){
+            try {
+                mIsOn =                 _data.getBoolean("on");
+                mBrightness =           _data.getInt("bri");
+                mSaturation =           _data.getInt("sat");
+                mHue =                  _data.getInt("hue");
+            }catch (JSONException _jsonException){
+                _jsonException.printStackTrace();
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------
+        public State(boolean _on, int _brightness, int _saturation, int _hue){
+            mIsOn       = _on;
+            mBrightness = _brightness;
+            mSaturation = _saturation;
+            mHue        = _hue;
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------
+        // Setters
+        public void on(boolean _on){
+            mIsOn = _on;
+        }
+
+        public void brightness(int _bri){
+            mBrightness = _bri;
+        }
+
+        public void saturation(int _sat){
+            mSaturation = _sat;
+        }
+
+        public void hue(int _hue){
+            mHue = _hue;
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------
+        // getters
+        public boolean on(){
+            return mIsOn;
+        }
+        public int brightness(){
+            return mBrightness;
+        }
+        public int saturation(){
+            return mSaturation;
+        }
+        public int hue(){
+            return mHue;
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------
+        public JSONObject json(){
+            JSONObject state = new JSONObject();
+            try {
+                state.put("on",     mIsOn);
+                state.put("bri",    mBrightness);
+                state.put("sat",    mSaturation);
+                state.put("hue",    mHue);
+            }catch(JSONException _jsonException){
+                _jsonException.printStackTrace();
+            }
+            return state;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        private boolean mIsOn;
+        private int    mBrightness;
+        private int    mSaturation;
+        private int     mHue;
+
+    }
 }
