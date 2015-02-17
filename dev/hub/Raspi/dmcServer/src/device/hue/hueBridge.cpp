@@ -9,6 +9,7 @@
 #include <core/comm/http/httpClient.h>
 #include <core/comm/http/request/jsonRequest.h>
 #include <cassert>
+#include <iostream>
 
 using namespace dmc::http;
 
@@ -62,6 +63,8 @@ namespace dmc { namespace hue {
 				mState = State::disconnected;
 				return;
 			}
+			std::cout << "body: " << result->body() << "\n";
+			std::cout << "serialize: " << result->serialize() << "\n";
 			Json data(result->body());
 			assert(data.isDictionary());
 			// Get device list out of the bridge.
