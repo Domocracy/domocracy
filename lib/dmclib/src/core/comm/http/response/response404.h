@@ -17,7 +17,10 @@ namespace dmc { namespace http {
 	public:
 		Response404() : Response(404, "Not Found")
 		{}
-		// 666 TODO: Implement a version of this that loads a webpage from a local html file
+
+		Response404(const std::string& _customBody): Response(404, "Not Found") {
+			setBody(_customBody);
+		}
 	};
 
 }}	// namespace dmc::http

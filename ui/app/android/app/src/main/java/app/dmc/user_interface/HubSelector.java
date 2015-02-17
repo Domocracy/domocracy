@@ -20,12 +20,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import app.dmc.Hub;
+import app.dmc.HubManager;
 
 public class HubSelector extends BaseAdapter{
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    HubSelector(Context _context, List<Hub> _hubList){
-        mHubList = _hubList;
+    HubSelector(Context _context){
+        mHubList = HubManager.get().hubsIds();
 
         mHubSpinner = new Spinner(_context);
         mHubSpinner.setAdapter(this);
@@ -44,7 +45,7 @@ public class HubSelector extends BaseAdapter{
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public Object getItem(int _position) {
-        return mHubList.get(_position);
+        return HubManager.get().hub(mHubList.get(_position));
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -87,6 +88,6 @@ public class HubSelector extends BaseAdapter{
     }
 
     // Members
-    private List<Hub> mHubList;
+    private List<String> mHubList;
     private Spinner mHubSpinner;
 }

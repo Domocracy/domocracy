@@ -48,8 +48,6 @@ namespace dmc { namespace http {
 		}
 		buffer[nBytes] = '\0';
 		dst += buffer;
-		std::cout << "Buffer content: " << buffer << "\n";
-		std::cout << "Dst: " << dst << "\n";
 		Response * resp = new Response(dst);
 
 		// House keeping (close socket on non-persistent connections)

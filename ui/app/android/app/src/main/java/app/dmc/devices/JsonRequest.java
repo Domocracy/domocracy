@@ -12,43 +12,22 @@ package app.dmc.devices;
 
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class JsonRequest {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
-    public JsonRequest(String _url, JSONObject _json){
-        mHeaders = new HashMap<String, String>();
-
-        decodeJson(_json);
-        initConnection(_url);
-        setUpRequest();
-        sendRequest();
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------------------------------------------------
-
-
-    //-----------------------------------------------------------------------------------------------------------------
-    // Private Interface
-    private void initConnection(String _url){
+    public JsonRequest(String _url){
         try {
             // Create new URL. This class check if string is properly written, and can create a connection from it.
-            mUrl = new URL(_url + mUrlExtension);
+            mUrl = new URL(_url);
 
             // Open a connection with the given URL.
             mConnection = (HttpURLConnection) mUrl.openConnection();
@@ -64,49 +43,41 @@ public class JsonRequest {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void decodeJson(JSONObject _json){
+    public void setMethod(String _method){
         try {
-            // Get method type
-            mMethod = _json.getString("method");
-            JSONObject headers = _json.getJSONObject("headers");
-            mUrlExtension = _json.getString("name");
-
-            // Get headers
-            Iterator<?> keys = headers.keys();
-            while(keys.hasNext()){
-                String key = (String)keys.next();
-                mHeaders.put(key, headers.getString(key));
-            }
-        }catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-        }
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    private void setUpRequest(){
-        try {
-            // Add Method
-            mConnection.setRequestMethod("GET");
-
-            //Add headers
-            for(String key: mHeaders.keySet()){
-                mConnection.setRequestProperty(key, mHeaders.get(key));
-            }
-
-        }catch (ProtocolException _protocolException){
+            mConnection.setRequestMethod(_method);
+        }catch(ProtocolException _protocolException){
             _protocolException.printStackTrace();
         }
-
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void sendRequest(){
+    public void setHeader(String _key, String _value){
+        mConnection.setRequestProperty(_key, _value);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void setBody(String _body){
+        mConnection.setDoOutput(true);
+        mConnection.setRequestProperty("Content-Length", Integer.toString(_body.length()));
+        try {
+            OutputStream os = mConnection.getOutputStream();
+            os.write(_body.getBytes("UTF8"));
+            os.close();
+        }catch (IOException _ioException){
+            Log.d("DOMOCRACY", "Could not send Command");
+            _ioException.printStackTrace();
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void sendRequest(){
         try {
             int responseCode = mConnection.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + mUrl);
+            System.out.println("\nSending 'PUT' request to URL : " + mUrl);
             System.out.println("Response Code : " + responseCode);
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(mConnection.getInputStream()));
+            BufferedReader in = new BufferedReader( new InputStreamReader(mConnection.getInputStream()));
             String inputLine;
             StringBuffer response = new StringBuffer();
 
@@ -121,14 +92,12 @@ public class JsonRequest {
             _ioException.printStackTrace();
         }
     }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private Interface
+
     //-----------------------------------------------------------------------------------------------------------------
     // Net
     HttpURLConnection   mConnection = null;
     URL                 mUrl = null;
-
-    // Http
-    String mMethod = null;
-    Map<String, String> mHeaders = null;
-    String mUrlExtension = null;
-
 }

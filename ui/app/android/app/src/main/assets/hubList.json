@@ -1,0 +1,37 @@
+{
+    "defaultHub":"123",
+    "hubs":[
+        {
+            "name":"Home",
+            "id":"123",
+            "ip":"10.200.9.152",
+            "rooms":[],
+            "devices":
+                [
+                    {
+                        "type":"HueLight",
+                        "data":{
+                                "name":"HueLight1",
+                                "id":"2A",
+                                "hub":"123"
+                                }
+                    },
+                    {
+                        "type":"HueLight",
+                        "data":{
+                                "name":"HueLight2",
+                                "id":"2",
+                                "hub":"123"
+                                }
+                    }
+                ]
+        },
+        {
+            "name":"Beach Flat",
+            "id":"543",
+            "ip":"193.154.123.54",
+            "rooms":[],
+            "devices":[]
+        }
+    ]
+}

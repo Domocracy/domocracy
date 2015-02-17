@@ -13,19 +13,21 @@ import android.app.Activity;
 import android.widget.LinearLayout;
 
 import app.dmc.Hub;
+import app.dmc.HubManager;
 import app.dmc.R;
-import app.dmc.devices.DeviceManager;
 import app.dmc.devices.supported_devices.HueLight;
 
 public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public MainScreen(Activity _activity, Hub _hub) {
-        mHub = _hub;
+
+    public MainScreen(Activity _activity) {
+        HubManager hubMgr = HubManager.get();
+        mCurrentHub = hubMgr.hub(hubMgr.defaultHub());
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
-        HueLight hue = (HueLight) DeviceManager.get().device("1");
+        HueLight hue = (HueLight) mCurrentHub.device("2A");
 
         if(hue != null)
             ll.addView(hue.view(_activity));
@@ -33,13 +35,7 @@ public class MainScreen {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void set(Hub _hub){
-
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
-    private Hub mHub;
-
+    private Hub mCurrentHub = null;
     // Views
 }
