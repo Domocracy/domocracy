@@ -10,8 +10,10 @@
 package app.dmc.devices.supported_devices;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import org.json.JSONException;
@@ -19,6 +21,7 @@ import org.json.JSONObject;
 
 import app.dmc.Hub;
 import app.dmc.HubManager;
+import app.dmc.R;
 import app.dmc.devices.Actuator;
 
 public class HueLight implements Actuator {
@@ -29,7 +32,7 @@ public class HueLight implements Actuator {
             mName = _data.getString("name");
             mId = _data.getString("id");
             mHubId = _data.getString("hub");
-            mState = new State(true, 255, 255, 0);
+            mState = new State(true, 255, 0, 0);
 
         }catch(JSONException _jsonException) {
             _jsonException.printStackTrace();
@@ -40,13 +43,11 @@ public class HueLight implements Actuator {
     @Override
     public View view(Context _context) {
         if(mView == null){
-            //   Build dummy view to test JsonRequests
-            LinearLayout base = new LinearLayout(_context);
+            LayoutInflater inflater = LayoutInflater.from(_context);
+            mView = inflater.inflate(R.layout.hue_light_layout, null);
 
-            ToggleButton button = new ToggleButton(_context);
-
+            ToggleButton button = (ToggleButton) mView.findViewById(R.id.toggleButton);
             button.setChecked(mState.on());
-
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -61,8 +62,34 @@ public class HueLight implements Actuator {
                 }
             });
 
-            base.addView(button);
-            mView = base;
+            TextView nameTv = (TextView) mView.findViewById(R.id.devName);
+            nameTv.setText(name());
+
+            SeekBar intensityBar = (SeekBar) mView.findViewById(R.id.intensityBar);
+            intensityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    mState.brightness(seekBar.getProgress()*255/seekBar.getMax());
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            runCommand(mState.json());
+                        }
+                    });
+                    t.start();
+                }
+            });
+
         }
         return mView;
     }

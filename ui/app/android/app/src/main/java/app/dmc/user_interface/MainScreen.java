@@ -28,7 +28,11 @@ public class MainScreen {
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
         HueLight hue = (HueLight) mCurrentHub.device("2A");
+        if(hue != null)
+            ll.addView(hue.view(_activity));
 
+
+        hue = (HueLight) mCurrentHub.device("2");
         if(hue != null)
             ll.addView(hue.view(_activity));
 
