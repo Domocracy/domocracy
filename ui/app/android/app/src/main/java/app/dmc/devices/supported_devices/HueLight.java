@@ -10,7 +10,9 @@
 package app.dmc.devices.supported_devices;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -33,7 +35,7 @@ public class HueLight implements Actuator {
             mName = _data.getString("name");
             mId = _data.getString("id");
             mHubId = _data.getString("hub");
-            mState = new State(true, 255, 0, 0);
+            mState = new State(true, 255, 255, 0);
 
         }catch(JSONException _jsonException) {
             _jsonException.printStackTrace();
@@ -48,7 +50,7 @@ public class HueLight implements Actuator {
             LayoutInflater inflater = LayoutInflater.from(_context);
             mView = inflater.inflate(R.layout.hue_light_layout, null);
 
-            // Implement Toggle button
+            // Implementation Toggle button
             ToggleButton button = (ToggleButton) mView.findViewById(R.id.toggleButton);
             button.setChecked(mState.on());
             button.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +67,11 @@ public class HueLight implements Actuator {
                 }
             });
 
-            // Implement Name
+            // Implementation Name
             TextView nameTv = (TextView) mView.findViewById(R.id.devName);
             nameTv.setText(name());
 
-            // Implement intensity bar
+            // Implementation intensity bar
             SeekBar intensityBar = (SeekBar) mView.findViewById(R.id.intensityBar);
             intensityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -89,7 +91,7 @@ public class HueLight implements Actuator {
 
                     mState.on(bri != 0 ? true : false);
                     ((ToggleButton) mView.findViewById(R.id.toggleButton)).setChecked(bri != 0 ? true : false);
-                    
+
                     Thread t = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -100,7 +102,7 @@ public class HueLight implements Actuator {
                 }
             });
 
-            // Implement Expandable View
+            // Implementation Expandable View
             View shortView = mView.findViewById(R.id.shortLayout);
             shortView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,6 +116,30 @@ public class HueLight implements Actuator {
                             hueSelector.setVisibility(View.VISIBLE);
                             break;
                     }
+                }
+            });
+
+            // Implementation Hue Selector
+            ImageView hueSelector = (ImageView) mView.findViewById(R.id.hueSelector);
+            hueSelector.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    Log.d("DOMOCRACY", "Action: " + event.getAction());
+                    if(event.getAction() == MotionEvent.ACTION_UP) {
+                        int hue = (int) (event.getX() / v.getWidth() * 65535);
+
+                        mState.hue(hue);
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                runCommand(mState.json());
+                            }
+                        });
+                        t.start();
+                    }
+
+                    return true;
                 }
             });
 
