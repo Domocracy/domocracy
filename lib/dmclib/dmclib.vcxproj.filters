@@ -96,6 +96,9 @@
     <ClCompile Include="src\core\comm\http\response\htmlResponse.cpp">
       <Filter>Source Files\core\comm\http\response</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\comm\http\httpMessage.cpp">
+      <Filter>Source Files\core\comm\http</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\time\time.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="src\core\comm\http\request\jsonRequest.h">
       <Filter>Source Files\core\comm\http\request</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\comm\http\httpMessage.h">
+      <Filter>Source Files\core\comm\http</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,30 +9,24 @@
 
 #include <string>
 #include <unordered_map>
+#include "httpMessage.h"
 
 namespace dmc { namespace http {
 
-	class Response {
+	class Response : public Message {
 	public:
 		Response(const std::string& _rawResponse);
 		Response(unsigned _statusCode, const std::string& _desc);
 		
-		const std::unordered_map<std::string,std::string>&	headers	() const { return mHeaders; }
-			  std::unordered_map<std::string,std::string>&	headers	()		 { return mHeaders;	}
-		const std::string&									body	() const { return mBody; }
+		unsigned			statusCode	() const { return mStatusCode; }
+		const std::string&	statusDesc	() const { return mStatusDesc; }
 
-		void												setBody	(const std::string& _b);
-
-		std::string											serialize() const;
-		
 	private:
-		void processStatus(const std::string&);
-		void processHeaders(const std::string&);
+		int		processMessageLine	(const std::string& _raw) override;
+		void	serializeMessageLine(std::string& dst) const override;
 
 		unsigned mStatusCode;
 		std::string mStatusDesc;
-		std::unordered_map<std::string,std::string>	mHeaders;
-		std::string mBody;
 	};
 
 }}	// namespace dmc::http

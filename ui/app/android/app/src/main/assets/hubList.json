@@ -4,8 +4,35 @@
         {
             "name":"Home",
             "id":"123",
-            "ip":"10.200.9.152",
-            "rooms":[],
+            "ip":"10.200.9.148",
+            "rooms":
+                [
+                    {
+                        "name":"Timmy's Room",
+                        "id":1,
+                        "devices":
+                            [
+                                "2A",
+                                "2B"
+                            ]
+                    },
+                    {
+                        "name":"Living Room",
+                        "id":2,
+                        "devices":
+                            [
+                                "2A"
+                            ]
+                    },
+                    {
+                        "name":"Kitchen",
+                        "id":3,
+                        "devices":
+                            [
+                                "2B"
+                            ]
+                    }
+                ],
             "devices":
                 [
                     {
@@ -20,7 +47,7 @@
                         "type":"HueLight",
                         "data":{
                                 "name":"HueLight2",
-                                "id":"2",
+                                "id":"2B",
                                 "hub":"123"
                                 }
                     }
@@ -30,7 +57,7 @@
             "name":"Beach Flat",
             "id":"543",
             "ip":"193.154.123.54",
-            "rooms":[],
+            "rooms":{},
             "devices":[]
         }
     ]

@@ -37,26 +37,23 @@ namespace dmc { namespace http {
 		// Wait for response from the server
 		const unsigned bufferSize = 64*1024;
 		char buffer[bufferSize+1];
-		int nBytes = 0;
-		std::string dst;
-		nBytes = mSocket.read(buffer, bufferSize);
-		std::cout << "nBytes: " << nBytes << "\n";
-		if(nBytes <= 0) {
-			if(nBytes < 0)
-				std::cout << errno << "\n";
+		int nBytes = mSocket.read(buffer, bufferSize);
+		buffer[nBytes] = '\0';
+		std::string dst(buffer);
+		if(nBytes < 0) {
+				std::cout << "Error reading from socket: " << errno << "\n";
 			return nullptr;
 		}
-		buffer[nBytes] = '\0';
-		dst += buffer;
-		Response * resp = new Response(dst);
+		Response * resp = new Response(dst); // Keep reading
+		while(nBytes > 0 && resp && !resp->isComplete()) {
+			nBytes = mSocket.read(buffer, bufferSize);
+			buffer[nBytes] = '\0';
+			dst = std::string(buffer);
+			*resp << dst;
+		}
 
 		// House keeping (close socket on non-persistent connections)
-		auto servConnHeader = resp->headers().find("Connection");
-		bool servClose = (servConnHeader != resp->headers().end()) && (servConnHeader->second == "close");
-		auto clientConnHeader = _req.headers().find("Connection");
-		bool clientClose = (clientConnHeader != _req.headers().end())
-			&& (clientConnHeader->second == "close");
-		if(servClose || clientClose) // Non persistent connection
+		if(resp->requiresClose() || _req.requiresClose()) // Non persistent connection
 			mSocket.close();
 
 		// Return server response

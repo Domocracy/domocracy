@@ -11,8 +11,12 @@ package app.dmc;
 
 import android.content.Context;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import app.dmc.devices.Device;
 import app.dmc.devices.DeviceManager;
@@ -27,6 +31,12 @@ public class Hub {
             mName       = _jsonHub.getString("name");
             mIp         = _jsonHub.getString("ip");
 
+
+            mRoomList = new ArrayList<>();
+            JSONArray rooms = _jsonHub.getJSONArray("rooms");
+            for(int i = 0; i < rooms.length() ; i++){
+                mRoomList.add( new Room(rooms.getJSONObject(i)));
+            }
 
             mDevMgr = new DeviceManager(_context, _jsonHub.getJSONArray("devices"));
 
@@ -43,6 +53,16 @@ public class Hub {
     public Device device(String _id){
         return mDevMgr.device(_id);
     }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public Room room(String _id){
+        for(int i = 0 ; i < mRoomList.size() ; i++) {
+            if(mRoomList.get(i).id().equals(_id))
+                return mRoomList.get(i);
+        }
+        return null;
+    }
+
 
     //-----------------------------------------------------------------------------------------------------------------
     public String name(){
@@ -87,11 +107,12 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
 
     // Identification
-    private String          mName;
-    private String          mId;
-    private String          mIp;
+    private String  mName;
+    private String  mId;
+    private String  mIp;
 
     // Content
-    DeviceManager mDevMgr = null;
-    HubConnection mConnection = null;
+    List<Room> mRoomList;
+    DeviceManager   mDevMgr = null;
+    HubConnection   mConnection = null;
 }
