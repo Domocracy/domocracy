@@ -12,12 +12,14 @@ package app.dmc.user_interface;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
 import java.util.List;
 
+import app.dmc.R;
 import app.dmc.Room;
 
 public class RoomSelector {
@@ -29,15 +31,40 @@ public class RoomSelector {
 
         // Init Selector
         mSelector = new ViewFlipper(_context);
+        mSelector.setInAnimation(_context, R.anim.slide_in_right);
+        mSelector.setOutAnimation(_context, R.anim.slide_out_left);
 
         // Testing Room images
         View roomView1 = mRooms.get(0).view(_context);
+
         mSelector.addView(roomView1);
-        Bitmap snapshot = Bitmap.createBitmap(roomView1.getWidth(), roomView1.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(snapshot);
-        roomView1.draw(c);
-        ImageView iv = new ImageView(_context);
-        iv.setImageBitmap(snapshot);
+
+        mSelector.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View _view, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        int width = _view.getWidth();
+                        int height = _view.getHeight();
+                        Bitmap snapshot = Bitmap.createBitmap(width, height , Bitmap.Config.ARGB_8888);
+                        Canvas c = new Canvas(snapshot);
+                        _view.draw(c);
+
+                        ImageView iv = new ImageView(_context);
+                        iv.setImageBitmap(snapshot);
+                        mSelector.addView(iv);
+
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        mSelector.showNext();
+                        break;
+                }
+
+                return true;
+            }
+        });
 
         /*mSelector.addView(iv);
         mSelector.addView(mRooms.get(1).view(_context));*/
