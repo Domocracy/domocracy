@@ -14,7 +14,7 @@
 
 namespace dmc { namespace http {
 
-	class Request : Message {
+	class Request : public Message {
 	public:
 		enum METHOD {
 			Get,

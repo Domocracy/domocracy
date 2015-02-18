@@ -13,7 +13,7 @@
 
 namespace dmc { namespace http {
 
-	class Response : Message {
+	class Response : public Message {
 	public:
 		Response(const std::string& _rawResponse);
 		Response(unsigned _statusCode, const std::string& _desc);

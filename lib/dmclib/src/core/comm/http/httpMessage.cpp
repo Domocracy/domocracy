@@ -131,6 +131,7 @@ namespace dmc { namespace http {
 			{
 				mBody = mBody.substr(consumed);
 				mState = ParseState::Headers;
+				return consumed;
 			}
 			else { // Parsing error
 				mState = ParseState::Error;
@@ -158,7 +159,7 @@ namespace dmc { namespace http {
 			}
 			mBody = mBody.substr(consumed);
 			// Should we expect a body?
-			mState = needBody()?ParseState::Body:ParseState::Complete;
+			mState = mRequiredBodyLength?ParseState::Body : ParseState::Complete;
 			return consumed;
 		}
 		return 0; // End of headers not yet found
