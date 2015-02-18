@@ -13,6 +13,9 @@ using namespace std;
 namespace dmc { namespace http {
 
 	//----------------------------------------------------------------------------------------------------------------------
+	const string Message::cContentLengthLabel = "Content-Length";
+
+	//----------------------------------------------------------------------------------------------------------------------
 	Message::Message(const string& _raw) {
 		operator<<(_raw);
 	}
@@ -21,26 +24,26 @@ namespace dmc { namespace http {
 	int Message::operator<<(const string& _raw) {
 		// use mBody as a temporal buffer
 		mBody.append(_raw);
+		int totalConsumed = 0;
 		while(!mBody.empty()) {
 			switch(mState) {
-			case ParseState::MessageLine:
-				if(mBody.find("\r\n") != string::npos) // Line end found
-				{
-					unsigned consumed = processMessageLine(mBody);
-					if(consumed < 0) // error
-					{
-						mState = ParseState::Error;
-						return -1;
-					}
-					mBody = mBody.substr(consumed);
-					mState = ParseState::Headers;
-				}
+			case ParseState::MessageLine: {
+				int consumed = parseMessageLine();
+				if(consumed > 0)
+					totalConsumed += consumed;
+				else return consumed; // Error( ==0 ) or need more to parse ( < 0 )
 				break;
-			case ParseState::Headers:
-				if(mBody.find("\r\n\r\n") != string::npos)
+			}
+			case ParseState::Headers: {
+				bool skipHeaders = mBody.find("\r\n") == 0; // if we find a blank line right at the begining, then there are no headers
+				if(skipHeaders) {
+
+				}
+				unsigned consumed = mBody.find("\r\n\r\n");
+				if(consumed != string::npos)
 				{
-					unsigned consumed = processHeaders(mBody);
-					if(consumed < 0) { // Parsing error
+					bool success = processHeaders(mBody.substr(0,consumed));
+					if(!success) { // Parsing error
 						mState = ParseState::Error;
 						return -1;
 					}
@@ -50,6 +53,7 @@ namespace dmc { namespace http {
 					return isComplete()?consumed:0;
 				}
 				break;
+			}
 			case ParseState::Body:
 				if(needBody()) // When body is necessary, body length must be known
 				{
@@ -83,7 +87,7 @@ namespace dmc { namespace http {
 		mBody = _body;
 		stringstream ss;
 		ss << body().size();
-		mHeaders["Content-Length"]=ss.str();
+		mHeaders[cContentLengthLabel]=ss.str();
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
@@ -111,36 +115,52 @@ namespace dmc { namespace http {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
-	bool Request::processRequestLine(const string& _requestLine) {
-		unsigned methodLen = _requestLine.find(" ");
-		string method = _requestLine.substr(0,methodLen);
-		if(method == "GET")
-			mMethod = Get;
-		else if (method == "POST")
-			mMethod = Post;
-		else if(method == "PUT")
-			mMethod = Put;
-		else
-			return false;
+	bool Message::needBody() const {
+		auto iter = mHeaders.find(cContentLengthLabel);
+		if(iter != mHeaders.end()) {
+			return atoi(iter->second.c_str()) != 0;
+		}
+		return false;
+	}
 
-		unsigned urlEnd = _requestLine.find(" ", methodLen+1);
-		if(urlEnd == string::npos)
-			return false;
-		mUrl = _requestLine.substr(methodLen+1, urlEnd - methodLen -1);
-		if(mUrl.empty())
-			return false;
+	//----------------------------------------------------------------------------------------------------------------------
+	bool Message::processHeaders(const string& _headers) {
+		string left = _headers;
+		while(!left.empty())
+		{
+			unsigned split = left.find("\r\n");
+			string header;
+			if(split == string::npos) {
+				header = left;
+				left.clear();
+			} else {
+				 header = left.substr(0,split);
+				 left = left.substr(split+2);
+			}
+			if(!addHeader(header))
+				return false;
+		}
 		return true;
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
-	bool Request::processHeaders(const string& _headers) {
-		string left = _headers;
-		unsigned split = 0;
-		while((split = left.find("\r\n")) != string::npos) {
-			string header = left.substr(0,split);
-			left = left.substr(split+2);
+	int Message::parseMessageLine() {
+		unsigned cursor = mBody.find("\r\n");
+		if(cursor != string::npos) // Line end found
+		{
+			int consumed = processMessageLine(mBody.substr(0,cursor));
+			if(consumed > 0) // success
+			{
+				mBody = mBody.substr(consumed);
+				mState = ParseState::Headers;
+			}
+			else { // Parsing error
+				mState = ParseState::Error;
+				return -1;
+			}
 		}
-		return true;
+		else // No line end found, need more text
+			return 0;
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------

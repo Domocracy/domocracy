@@ -32,8 +32,11 @@ namespace dmc { namespace http {
 
 		std::string											serialize	() const;
 
+		// Known header labels
+		static const std::string cContentLengthLabel;
+
 	protected:
-		bool			addHeader			(const std::string&);
+		bool												addHeader	(const std::string&);
 
 	private:
 		enum class ParseState {
@@ -46,10 +49,13 @@ namespace dmc { namespace http {
 
 		bool needBody() const;
 
-		// Returns the number of bytes consumed in the string if the line is finished, 0 if still processing, -1 if an error occurred.
+		// Returns the number of bytes consumed in the string if the line is properly processed, 0 or negative if an error occurred.
 		virtual int		processMessageLine	(const std::string& _raw) = 0;
 		// Returns the number of bytes consumed in the string if the line is finished, 0 if still processing, -1 if an error occurred.
-		int				processHeaders		(const std::string&);
+		bool			processHeaders		(const std::string&);
+		int				parseMessageLine	();
+
+
 		virtual void	serializeMessageLine(std::string& dst) const = 0;
 		void			serializeHeaders	(std::string& dst) const;
 
@@ -60,6 +66,7 @@ namespace dmc { namespace http {
 
 		unsigned	mMissingBodyLength = 0;
 		ParseState	mState = ParseState::MessageLine;
+
 	};
 
 }}	// namespace dmc::http
