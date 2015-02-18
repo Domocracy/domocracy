@@ -52,8 +52,8 @@ namespace dmc { namespace http {
 		virtual int		processMessageLine	(const std::string& _raw) = 0;
 		// Returns the number of bytes consumed in the string if the line is finished, 0 if still processing, -1 if an error occurred.
 		bool			processHeaders		(const std::string&);
-		int				parseMessageLine	();
-		int				parseHeaders		();
+		bool			parseMessageLine	();
+		bool			parseHeaders		();
 
 		virtual void	serializeMessageLine(std::string& dst) const = 0;
 		void			serializeHeaders	(std::string& dst) const;

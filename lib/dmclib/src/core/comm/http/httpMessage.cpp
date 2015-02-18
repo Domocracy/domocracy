@@ -22,18 +22,17 @@ namespace dmc { namespace http {
 		while(!mBody.empty()) {
 			switch(mState) {
 			case ParseState::MessageLine: {
-				int consumed = parseMessageLine();
-				if(consumed <= 0)
-					return consumed; // Error( ==0 ) or need more to parse ( < 0 )
+				if(!parseMessageLine())
+					return -1;
 				break;
 			}
 			case ParseState::Headers: {
-				int consumed = parseHeaders();
-				if(consumed <= 0)
-					return consumed; // Error( ==0 ) or need more to parse ( < 0 )
+				if(!parseHeaders())
+					return -1;
 				break;
 			}
 			case ParseState::Body:
+			case ParseState::Complete:
 				if(!mRequiredBodyLength || (mBody.size() < mRequiredBodyLength))
 					return 0; // Keep reading
 				else {
@@ -43,10 +42,10 @@ namespace dmc { namespace http {
 				}
 				break;
 			default:
-				return -1; // Nothing left to parse
+				return -1; // Wrong state
 			}
 		}
-		return -1;
+		return 0; // Keep reading
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
@@ -111,7 +110,7 @@ namespace dmc { namespace http {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
-	int Message::parseMessageLine() {
+	bool Message::parseMessageLine() {
 		unsigned cursor = mBody.find("\r\n");
 		if(cursor != string::npos) // Line end found
 		{
@@ -120,23 +119,23 @@ namespace dmc { namespace http {
 			{
 				mBody = mBody.substr(consumed+2);
 				mState = ParseState::Headers;
-				return consumed;
+				return true;
 			}
 			else { // Parsing error
 				mState = ParseState::Error;
-				return -1;
+				return false;
 			}
 		}
 		else // No line end found, need more text
-			return 0;
+			return true;
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
-	int Message::parseHeaders() {
+	bool Message::parseHeaders() {
 		bool skipHeaders = mBody.find("\r\n") == 0; // if we find a blank line right at the begining, then there are no headers
 		if(skipHeaders) {
 			ParseState::Body; // Waiting for the body
-			return 2;
+			return true;
 		}
 		unsigned consumed = mBody.find("\r\n\r\n");
 		if(consumed != string::npos)
@@ -144,14 +143,14 @@ namespace dmc { namespace http {
 			bool success = processHeaders(mBody.substr(0,consumed));
 			if(!success) { // Parsing error
 				mState = ParseState::Error;
-				return -1;
+				return false;
 			}
-			mBody = mBody.substr(consumed);
+			mBody = mBody.substr(consumed+4);
 			// Should we expect a body?
 			mState = mRequiredBodyLength?ParseState::Body : ParseState::Complete;
-			return consumed;
+			return true;
 		}
-		return 0; // End of headers not yet found
+		return true; // End of headers not yet found
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
