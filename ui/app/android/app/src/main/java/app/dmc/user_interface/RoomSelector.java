@@ -12,6 +12,7 @@ package app.dmc.user_interface;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,18 +30,33 @@ public class RoomSelector {
 
         layout.addView(mRooms.get(0).view(_context));
 
-        layout.setOnClickListener(new View.OnClickListener() {
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            Bitmap mSnapshot;
             @Override
-            public void onClick(View _view) {
-                Bitmap snapshot = Bitmap.createBitmap(_view.getWidth(), _view.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas c = new Canvas(snapshot);
-                _view.draw(c);
-                layout.removeAllViews();
-                ImageView iv = new ImageView(_view.getContext());
-                iv.setImageBitmap(snapshot);
-                layout.addView(iv);
-                View room = mRooms.get(0).view(_context);
-                layout.addView(room);
+            public boolean onTouch(View _view, MotionEvent _event) {
+                switch (_event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    // Get a snapshot of the current room
+                    mSnapshot = Bitmap.createBitmap(_view.getWidth(), _view.getHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas c = new Canvas(mSnapshot);
+                    _view.draw(c);
+
+                    // Clean layout
+                    layout.removeAllViews();
+
+                    ImageView iv = new ImageView(_view.getContext());
+                    iv.setImageBitmap(mSnapshot);
+                    layout.addView(iv);
+                    View room = mRooms.get(0).view(_context);
+                    layout.addView(room);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    break;
+                case MotionEvent.ACTION_UP:
+                    break;
+                }
+
+
 
                 /*TranslateAnimation roomOutLeft = new TranslateAnimation(    Animation.RELATIVE_TO_SELF, 0,
                         Animation.RELATIVE_TO_SELF, -1,
@@ -58,6 +74,7 @@ public class RoomSelector {
 
                 layout.removeView(iv);
 
+                return false;
             }
         });
 
