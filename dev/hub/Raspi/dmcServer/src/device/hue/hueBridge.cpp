@@ -63,8 +63,7 @@ namespace dmc { namespace hue {
 				mState = State::disconnected;
 				return;
 			}
-			std::cout << "body: " << result->body() << "\n";
-			std::cout << "serialize: " << result->serialize() << "\n";
+			std::cout << "----------------serialize: --------------\n" << result->serialize() << "\n";
 			Json data(result->body());
 			assert(data.isDictionary());
 			// Get device list out of the bridge.
