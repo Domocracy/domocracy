@@ -21,18 +21,13 @@ public class Main extends ActionBarActivity {
 
         // Init HubManager
         HubManager.init(this);
-
-        //Persistence.init(this);
-        //Persistence.getData("hubList");
         try {
             mPrueba = new JSONObject("{\"defaultHub\":\"0\",\"hubs\":[{\"name\":\"Home\",\"id\":\"123\",\"ip\":\"193.147.168.23\",\"rooms\":[],\"devices\":[]},{\"name\":\"Beach Flat\",\"id\":\"543\",\"ip\":\"193.154.123.54\",\"rooms\":[],\"devices\":[]}]}");
         }catch(JSONException e){
-            Log.d("Can't initialize Json", e.getMessage());
+           e.printStackTrace();
         }
-        Persistence.init(this);
-        Persistence.putData(this,"pruebaRara",mPrueba);
-
-        //mPruebaRecieved = Persistence.getData(this,"pruebaRara");
+        Persistence.get(this).putData(this,"pruebaRara",mPrueba);
+        mPruebaRecieved = Persistence.get(this).getData(this,"pruebaRara");
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface

@@ -5,64 +5,70 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Joscormir on 16/02/2015.
  */
+
 public class Persistence {
-    //-----------------------------------------------------------------------------------------------------------------
-    static public void init(Context _context) { instance = new Persistence(_context); }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public static Persistence get(){ return instance; }
+    public static Persistence get(Context _context){
+        instance = new Persistence(_context);
+        return instance;
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public static JSONObject getData(Context _context, String _fileName){
+    public JSONObject getData(Context _context, String _fileName){
        JSONObject json = null;
+        File file = new File(_context.getExternalFilesDir(null), _fileName + ".json");
             try {
-                FileInputStream fileToRead = _context.openFileInput(_fileName + ".json");
-                //here code throws an IOException, can't open Hub because it can't find it
-                ObjectInputStream in = new ObjectInputStream(fileToRead);
-                json = new JSONObject(in.readUTF());
+                InputStream in = new FileInputStream(file);
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                byte[] data = new byte[in.available()];
+                in.read(data);
+                out.write(data);
+                String outToString = new String(out.toByteArray());
+                json = new JSONObject(outToString);
             } catch (IOException e) {
-                Log.d("Can't open HubList", e.getMessage());
-
+                e.printStackTrace();
             }catch (JSONException e){
-                Log.d("Can't open JSONObject", e.getMessage());
+                e.printStackTrace();
             }
        return json;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public static boolean putData(Context _context,String _fileName, JSONObject _json){
+    public boolean putData(Context _context,String _fileName, JSONObject _json){
         boolean success = false;
+        File file = new File(_context.getExternalFilesDir(null), _fileName + ".json");
         try{
-            String foo = _context.getFilesDir().getPath();
-            FileOutputStream fileToWrite = _context.openFileOutput(_fileName + ".json",Context.MODE_WORLD_READABLE);
-            fileToWrite.write(_json.toString().getBytes());
-            fileToWrite.close();
-            //ObjectOutputStream out = new ObjectOutputStream(fileToWrite);
-            //out.writeObject(_json.toString());
-            //out.close();
+            InputStream in = new ByteArrayInputStream(_json.toString().getBytes());
+            OutputStream out = new FileOutputStream(file);
+            byte[] data = new byte[in.available()];
+            in.read(data);
+            out.write(data);
+            in.close();
+            out.close();
             success = true;
         }catch(FileNotFoundException e){
             e.printStackTrace();
-
         }catch(IOException e){
             e.printStackTrace();
-
         }
         return success;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
     //Private interface
     private Persistence(Context _context){
 
