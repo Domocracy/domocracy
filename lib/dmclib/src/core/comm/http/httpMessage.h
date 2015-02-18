@@ -37,6 +37,8 @@ namespace dmc { namespace http {
 
 	protected:
 		bool												addHeader	(const std::string&);
+		// Force completion when derived class constructs base message without using the parse mechanism
+		void												setReady	() { mState = ParseState::Complete; }
 
 	private:
 		enum class ParseState {

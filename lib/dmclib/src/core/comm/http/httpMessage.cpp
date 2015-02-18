@@ -30,7 +30,7 @@ namespace dmc { namespace http {
 			case ParseState::MessageLine: {
 				int consumed = parseMessageLine();
 				if(consumed > 0)
-					totalConsumed += consumed;
+					totalConsumed = consumed;
 				else
 					return consumed; // Error( ==0 ) or need more to parse ( < 0 )
 				break;
@@ -38,7 +38,7 @@ namespace dmc { namespace http {
 			case ParseState::Headers: {
 				int consumed = parseMessageLine();
 				if(consumed > 0)
-					totalConsumed += consumed;
+					totalConsumed = consumed;
 				else
 					return consumed; // Error( ==0 ) or need more to parse ( < 0 )
 				break;
@@ -55,6 +55,7 @@ namespace dmc { namespace http {
 			default:
 				return -1; // Nothing left to parse
 			}
+			mBody = mBody.substr(0,totalConsumed);
 		}
 		return -1;
 	}

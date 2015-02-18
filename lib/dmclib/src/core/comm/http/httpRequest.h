@@ -28,12 +28,12 @@ namespace dmc { namespace http {
 		Request(const std::string& _rawRequest);
 
 		// Accessors
-		METHOD												method		() const { return mMethod; }
-		const std::string&									url			() const { return mUrl; }
+		METHOD				method		() const { return mMethod; }
+		const std::string&	url			() const { return mUrl; }
 
 	private:
-		int		processMessageLine	(const std::string& _raw) override;
-		void	serializeMessageLine(std::string& dst) const override;
+		int		processMessageLine		(const std::string& _raw) override;
+		void	serializeMessageLine	(std::string& dst) const override;
 
 	private:
 		METHOD mMethod;
