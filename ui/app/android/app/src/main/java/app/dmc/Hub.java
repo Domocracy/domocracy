@@ -14,6 +14,10 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import app.dmc.devices.Device;
 import app.dmc.devices.DeviceManager;
 
@@ -27,6 +31,14 @@ public class Hub {
             mName       = _jsonHub.getString("name");
             mIp         = _jsonHub.getString("ip");
 
+
+            mRoomList = new HashMap<>();
+            JSONObject roomsJson = _jsonHub.getJSONObject("rooms");
+            Iterator<String> keys = roomsJson.keys();
+            while(keys.hasNext()){
+                String key = keys.next();
+                mRoomList.put(  key, new Room(roomsJson.getJSONObject(key)));
+            }
 
             mDevMgr = new DeviceManager(_context, _jsonHub.getJSONArray("devices"));
 
@@ -43,6 +55,12 @@ public class Hub {
     public Device device(String _id){
         return mDevMgr.device(_id);
     }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public Room room(String _id){
+        return mRoomList.get(_id);
+    }
+
 
     //-----------------------------------------------------------------------------------------------------------------
     public String name(){
@@ -87,11 +105,12 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
 
     // Identification
-    private String          mName;
-    private String          mId;
-    private String          mIp;
+    private String  mName;
+    private String  mId;
+    private String  mIp;
 
     // Content
-    DeviceManager mDevMgr = null;
-    HubConnection mConnection = null;
+    Map<String, Room> mRoomList;
+    DeviceManager   mDevMgr = null;
+    HubConnection   mConnection = null;
 }
