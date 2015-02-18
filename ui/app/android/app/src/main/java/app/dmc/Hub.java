@@ -35,7 +35,7 @@ public class Hub {
             mRoomList = new ArrayList<>();
             JSONArray rooms = _jsonHub.getJSONArray("rooms");
             for(int i = 0; i < rooms.length() ; i++){
-                mRoomList.add( new Room(rooms.getJSONObject(i)));
+                mRoomList.add( new Room(rooms.getJSONObject(i), this));
             }
 
             mDevMgr = new DeviceManager(_context, _jsonHub.getJSONArray("devices"));
@@ -52,6 +52,11 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
     public Device device(String _id){
         return mDevMgr.device(_id);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public List<Room> rooms(){
+        return mRoomList;
     }
 
     //-----------------------------------------------------------------------------------------------------------------

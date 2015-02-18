@@ -28,7 +28,12 @@ public class MainScreen {
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
-        ll.addView(mCurrentRoom.view(_activity, mCurrentHub));
+        mRoomSelector = new RoomSelector(_activity, mCurrentHub.rooms());
+
+        ll.addView(mRoomSelector.view());
+
+
+        //.addView(mCurrentRoom.view(_activity));
 /*
         HueLight hue = (HueLight) mCurrentHub.device("2A");
         if(hue != null)
@@ -47,4 +52,5 @@ public class MainScreen {
     private Room mCurrentRoom = null;
 
     // Views
+    private RoomSelector mRoomSelector = null;
 }

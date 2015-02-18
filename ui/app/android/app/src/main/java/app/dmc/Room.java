@@ -12,6 +12,7 @@ package app.dmc;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,7 +28,8 @@ import app.dmc.devices.Device;
 public class Room {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
-    public Room(JSONObject _data){
+    public Room(JSONObject _data, Hub _hub){
+        mHub = _hub;
         try{
             mId         = _data.getString("id");
             mName       = _data.getString("name");
@@ -44,29 +46,34 @@ public class Room {
         }
     }
 
+
     //-----------------------------------------------------------------------------------------------------------------
-    public View view(Context _context, Hub _hub){
-        if(mView == null){
+    public View view(Context _context){
+        LinearLayout base = new LinearLayout(_context);
+        base.setOrientation(LinearLayout.VERTICAL);
 
-            LinearLayout base = new LinearLayout(_context);
-            base.setOrientation(LinearLayout.VERTICAL);
+        TextView roomName = new TextView(_context);
+        roomName.setText(name());
+        roomName.setGravity(Gravity.CENTER_HORIZONTAL);
+        roomName.setTextSize(50);
+        base.addView(roomName);
 
-            TextView roomName = new TextView(_context);
-            roomName.setText(name());
-            roomName.setGravity(Gravity.CENTER_HORIZONTAL);
-            roomName.setTextSize(50);
-            base.addView(roomName);
+        for(String deviceId:devices()){
+            Device device = mHub.device(deviceId);
+            if(device != null) {
+                View v = device.view(_context);
 
-            for(String deviceId:devices()){
-                Device device = _hub.device(deviceId);
-                if(device != null)
-                    base.addView(device.view(_context));
+                // If device was added to another room, detach from parent
+                ViewGroup parent = (ViewGroup) v.getParent();
+                if(parent != null)
+                    parent.removeView(v);
+
+                // Add view to new parent
+                base.addView(v);
             }
-
-            mView = base;
         }
 
-        return mView;
+        return base;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -90,7 +97,7 @@ public class Room {
     // Identification
     private String mName;
     private String mId;
+    private Hub mHub;
 
     List<String> mDeviceList;
-    View mView;
 }
