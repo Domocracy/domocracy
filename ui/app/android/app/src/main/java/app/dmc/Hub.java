@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import app.dmc.core.Persistence;
 import app.dmc.devices.DeviceManager;
 
 
@@ -28,17 +29,18 @@ public class Hub {
     //  Public Interface
     public Hub(Context _context, JSONObject _jsonHub){
         try{
-            mId         = _jsonHub.getString("id");
-            mName       = _jsonHub.getString("name");
-            mIp         = _jsonHub.getString("ip");
-
-
-            mDevMgr = new DeviceManager(_context, _jsonHub.getJSONObject("devices"));
+            mId             = _jsonHub.getString("id");
+            mName           = _jsonHub.getString("name");
+            mIp             = _jsonHub.getString("ip");
+            mHubFileName    = "hub_" + mId;
+            mJSONdefault    =  new JSONObject("{\"name\": \"Home\",\"id\": \"123\",\"ip\": \"193.147.168.23\"}");
+            Persistence.get().putData(mHubFileName,mJSONdefault);
+           // mDevMgr = new DeviceManager(_context, _jsonHub.getJSONObject("devices"));
 
             //666TODO Rooms not implemented
 
         }catch(JSONException e){
-            Log.d("decodeJson", e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -64,25 +66,19 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------------------------------------------
-   /* public boolean modifyIp(String _ip, JSONObject _jsonHub){
-
-
-            if(!_ip.equals(mIp)){
-                mIp = _ip;
-                try{
-                    _jsonHub.put("ip",_ip);
-                    FileWriter jsonFile = new FileWriter("hubList.json");
-                    jsonFile.write(_jsonHub.toString());
-                    jsonFile.flush();
-                    jsonFile.close();
+    public boolean modifyIp(String _ip){
+        if(!_ip.equals(mIp)){
+            mIp = _ip;
+            JSONObject json = Persistence.get().getData(mHubFileName);
+            try{
+                json.put("ip",_ip);
+                Persistence.get().putData(mHubFileName,json);
                 }catch(JSONException e){
                     Log.d("modifyJson", e.getMessage());
-                }catch(IOException e){
-                    Log.d("modifyJsonIO", e.getMessage());
                 }
                 return true;
             }else return false;
-    }*/
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
 
@@ -90,7 +86,8 @@ public class Hub {
     private String          mName;
     private String          mId;
     private String          mIp;
-
-    // Content
-    DeviceManager mDevMgr = null;
-}
+    private String          mHubFileName;
+    private JSONObject      mJSONdefault;
+        // Content
+        DeviceManager mDevMgr = null;
+        }

@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -16,10 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import app.dmc.core.Persistence;
+
 
 /**
  * Created by Joscormir on 13/02/2015.
  */
+
 public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -51,29 +55,10 @@ public class HubManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
-    /*public void initJson(Context _context){
-        try{
-            InputStream jsonPath = _context.getAssets().open("hubList.json");
-            byte[] jsonBuffer = new byte[jsonPath.available()];
-            jsonPath.read(jsonBuffer);
-            jsonPath.close();
-            String json = new String(jsonBuffer,"UTF-8");
-            mHubJSON = new JSONObject(json);
-
-        }catch(IOException e){
-            Log.d("initJson", e.getMessage());
-        }catch(JSONException e){
-            Log.d("initJsonJSONException", e.getMessage());
-        }
-
-    }*/
-
-    //-----------------------------------------------------------------------------------------------------------------
     // Private Interface.
     private HubManager(Context _context){
         //here goes the loadHub
-        //initJson(_context);
+        initJson();
         mHubMap  = new HashMap<String,Hub>();
         mHubsIds = new ArrayList<String>();
         try {
@@ -90,13 +75,15 @@ public class HubManager {
         }
 
     }
+    //-----------------------------------------------------------------------------------------------------------------
+    public void initJson(){
+        mHubJSON = Persistence.get().getData("hubList");
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     private Map<String,Hub> mHubMap;
     private List<String>    mHubsIds;
-
     private String          mDefaultHub;
-
     private JSONObject      mHubJSON;
 
     //-----------------------------------------------------------------------------------------------------------------
