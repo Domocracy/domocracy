@@ -31,27 +31,16 @@ namespace dmc { namespace http {
 				int consumed = parseMessageLine();
 				if(consumed > 0)
 					totalConsumed += consumed;
-				else return consumed; // Error( ==0 ) or need more to parse ( < 0 )
+				else
+					return consumed; // Error( ==0 ) or need more to parse ( < 0 )
 				break;
 			}
 			case ParseState::Headers: {
-				bool skipHeaders = mBody.find("\r\n") == 0; // if we find a blank line right at the begining, then there are no headers
-				if(skipHeaders) {
-
-				}
-				unsigned consumed = mBody.find("\r\n\r\n");
-				if(consumed != string::npos)
-				{
-					bool success = processHeaders(mBody.substr(0,consumed));
-					if(!success) { // Parsing error
-						mState = ParseState::Error;
-						return -1;
-					}
-					mBody = mBody.substr(consumed);
-					// Should we expect a body?
-					mState = needBody()?ParseState::Body:ParseState::Complete;
-					return isComplete()?consumed:0;
-				}
+				int consumed = parseMessageLine();
+				if(consumed > 0)
+					totalConsumed += consumed;
+				else
+					return consumed; // Error( ==0 ) or need more to parse ( < 0 )
 				break;
 			}
 			case ParseState::Body:
@@ -161,6 +150,29 @@ namespace dmc { namespace http {
 		}
 		else // No line end found, need more text
 			return 0;
+	}
+
+	//----------------------------------------------------------------------------------------------------------------------
+	int Message::parseHeaders() {
+		bool skipHeaders = mBody.find("\r\n") == 0; // if we find a blank line right at the begining, then there are no headers
+		if(skipHeaders) {
+			ParseState::Body; // Waiting for the body
+			return 2;
+		}
+		unsigned consumed = mBody.find("\r\n\r\n");
+		if(consumed != string::npos)
+		{
+			bool success = processHeaders(mBody.substr(0,consumed));
+			if(!success) { // Parsing error
+				mState = ParseState::Error;
+				return -1;
+			}
+			mBody = mBody.substr(consumed);
+			// Should we expect a body?
+			mState = needBody()?ParseState::Body:ParseState::Complete;
+			return consumed;
+		}
+		return 0; // End of headers not yet found
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
