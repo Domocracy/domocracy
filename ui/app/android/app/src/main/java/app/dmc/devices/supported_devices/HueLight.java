@@ -136,11 +136,16 @@ public class HueLight implements Actuator {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
 
-                    Log.d("DOMOCRACY", "Action: " + event.getAction());
                     if(event.getAction() == MotionEvent.ACTION_UP) {
-                        int hue = (int) (event.getX() / v.getWidth() * 65535);
-
+                        float x = event.getX();
+                        float y = event.getY();
+                        float x0 = v.getX();
+                        float y0 = v.getY();
+                        int hue = (int) ((x - x0)/ v.getWidth() * 65535);
+                        int sat = (int) ((1 - (y - y0) / v.getHeight()) * 255);
+                        Log.d("DOMOCRACY", "Hue: " + hue + ", Sat: " + sat);
                         mState.hue(hue);
+                        mState.saturation(sat);
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
