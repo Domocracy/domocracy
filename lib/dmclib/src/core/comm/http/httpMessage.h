@@ -19,7 +19,7 @@ namespace dmc { namespace http {
 		Message() = default;
 		// Returns the number of bytes consumed in the string if the line is finished, 0 if still processing, -1 if an error occurred.
 		int operator<<(const std::string& _raw);
-		// Internal check
+		// Returns true when this message won't process any more text
 		bool isComplete() const;
 
 		// Accessors
@@ -29,6 +29,7 @@ namespace dmc { namespace http {
 		void												setBody			(const std::string&);
 		std::string											serialize		() const;
 
+		// Wether this message specifies that the connection must be closed.
 		bool												requiresClose	() const;
 
 		// Known header labels
