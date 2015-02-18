@@ -32,7 +32,7 @@ public class Main extends ActionBarActivity {
         Persistence.init(this);
         Persistence.putData(this,"pruebaRara",mPrueba);
 
-        mPruebaRecieved = Persistence.getData(this,"pruebaRara");
+        //mPruebaRecieved = Persistence.getData(this,"pruebaRara");
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface

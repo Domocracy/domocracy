@@ -32,6 +32,7 @@ public class Persistence {
                 json = new JSONObject(in.readUTF());
             } catch (IOException e) {
                 Log.d("Can't open HubList", e.getMessage());
+
             }catch (JSONException e){
                 Log.d("Can't open JSONObject", e.getMessage());
             }
@@ -42,16 +43,19 @@ public class Persistence {
     public static boolean putData(Context _context,String _fileName, JSONObject _json){
         boolean success = false;
         try{
-            FileOutputStream fileToWrite = _context.openFileOutput(_fileName + ".json",Context.MODE_PRIVATE);
-            ObjectOutputStream out = new ObjectOutputStream(fileToWrite);
-            out.writeObject(_json.toString());
-            out.close();
+            String foo = _context.getFilesDir().getPath();
+            FileOutputStream fileToWrite = _context.openFileOutput(_fileName + ".json",Context.MODE_WORLD_READABLE);
+            fileToWrite.write(_json.toString().getBytes());
+            fileToWrite.close();
+            //ObjectOutputStream out = new ObjectOutputStream(fileToWrite);
+            //out.writeObject(_json.toString());
+            //out.close();
             success = true;
         }catch(FileNotFoundException e){
-            Log.d("Can't find file", e.getMessage());
+            e.printStackTrace();
 
         }catch(IOException e){
-            Log.d("Can't send", e.getMessage());
+            e.printStackTrace();
 
         }
         return success;
