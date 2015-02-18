@@ -67,23 +67,7 @@ namespace dmc { namespace http {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
-	bool Request::processRequestLine(const string& _requestLine) {
-		
-	}
-
-	//----------------------------------------------------------------------------------------------------------------------
-	bool Request::processHeaders(const string& _headers) {
-		string left = _headers;
-		unsigned split = 0;
-		while((split = left.find("\r\n")) != string::npos) {
-			string header = left.substr(0,split);
-			left = left.substr(split+2);
-		}
-		return true;
-	}
-
-	//----------------------------------------------------------------------------------------------------------------------
-	void Request::serializeRequestLine(string& _dst) const {
+	void Request::serializeMessageLine(string& _dst) const {
 		stringstream statusLine;
 		switch (mMethod)
 		{

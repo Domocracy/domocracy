@@ -33,7 +33,7 @@ namespace dmc { namespace http {
 
 	private:
 		int		processMessageLine		(const std::string& _raw) override;
-		void	serializeMessageLine	(std::string& dst) const override;
+		void	serializeMessageLine	(std::string& _dst) const override;
 
 	private:
 		METHOD mMethod;
