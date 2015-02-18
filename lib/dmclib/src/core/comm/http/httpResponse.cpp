@@ -31,7 +31,7 @@ namespace dmc { namespace http {
 		unsigned codeStart = _status.find_first_not_of(separators, versionEnd+1);
 		mStatusCode = (unsigned)atoi(_status.substr(codeStart).c_str());
 		unsigned codeEnd = _status.find_first_of(separators, codeStart+1);
-		mStatusDesc = _status.substr(codeEnd);
+		mStatusDesc = _status.substr(codeEnd+1);
 		return _status.size();
 	}
 
