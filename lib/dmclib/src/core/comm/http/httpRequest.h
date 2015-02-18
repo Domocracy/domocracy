@@ -32,18 +32,12 @@ namespace dmc { namespace http {
 		const std::string&									url			() const { return mUrl; }
 
 	private:
-		bool			processRequestLine	(const std::string&);
-		bool			processHeaders		(const std::string&);
-
-		void			serializeRequestLine(std::string& dst) const;
-		void			serializeHeaders	(std::string& dst) const;
+		int		processMessageLine	(const std::string& _raw) override;
+		void	serializeMessageLine(std::string& dst) const override;
 
 	private:
 		METHOD mMethod;
 		std::string mUrl;
-		std::unordered_map<std::string,std::string>	mHeaders;
-		std::string mBody;
-		bool mIsOk = false;
 	};
 
 }}	// namespace dmc::http

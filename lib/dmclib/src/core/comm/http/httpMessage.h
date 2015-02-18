@@ -54,12 +54,10 @@ namespace dmc { namespace http {
 		int				parseMessageLine	();
 		int				parseHeaders		();
 
-
 		virtual void	serializeMessageLine(std::string& dst) const = 0;
 		void			serializeHeaders	(std::string& dst) const;
 
 	private:
-		std::string mUrl;
 		std::unordered_map<std::string,std::string>	mHeaders;
 		std::string mBody;
 
