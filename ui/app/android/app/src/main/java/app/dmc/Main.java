@@ -26,8 +26,9 @@ public class Main extends ActionBarActivity {
         }catch(JSONException e){
            e.printStackTrace();
         }
-        Persistence.get(this).putData(this,"pruebaRara",mPrueba);
-        mPruebaRecieved = Persistence.get(this).getData(this,"pruebaRara");
+        Persistence.init(this);
+        Persistence.get().putData("nuevaPrueba", mPrueba);
+        mPruebaRecieved = Persistence.get().getData("nuevaPrueba");
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface
