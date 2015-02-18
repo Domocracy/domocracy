@@ -19,22 +19,17 @@ namespace dmc { namespace http {
 	int Message::operator<<(const string& _raw) {
 		// use mBody as a temporal buffer
 		mBody.append(_raw);
-		int totalConsumed = 0;
 		while(!mBody.empty()) {
 			switch(mState) {
 			case ParseState::MessageLine: {
 				int consumed = parseMessageLine();
-				if(consumed > 0)
-					totalConsumed = consumed;
-				else
+				if(consumed <= 0)
 					return consumed; // Error( ==0 ) or need more to parse ( < 0 )
 				break;
 			}
 			case ParseState::Headers: {
-				int consumed = parseMessageLine();
-				if(consumed > 0)
-					totalConsumed = consumed;
-				else
+				int consumed = parseHeaders();
+				if(consumed <= 0)
 					return consumed; // Error( ==0 ) or need more to parse ( < 0 )
 				break;
 			}
@@ -50,7 +45,6 @@ namespace dmc { namespace http {
 			default:
 				return -1; // Nothing left to parse
 			}
-			mBody = mBody.substr(0,totalConsumed);
 		}
 		return -1;
 	}
@@ -124,7 +118,7 @@ namespace dmc { namespace http {
 			int consumed = processMessageLine(mBody.substr(0,cursor));
 			if(consumed > 0) // success
 			{
-				mBody = mBody.substr(consumed);
+				mBody = mBody.substr(consumed+2);
 				mState = ParseState::Headers;
 				return consumed;
 			}
