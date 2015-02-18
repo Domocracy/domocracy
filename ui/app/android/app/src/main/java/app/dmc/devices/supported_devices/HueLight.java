@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -44,7 +46,7 @@ public class HueLight implements Actuator {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public View view(Context _context) {
+    public View view(final Context _context) {
         if(mView == null){
             // Get base layout
             LayoutInflater inflater = LayoutInflater.from(_context);
@@ -108,11 +110,20 @@ public class HueLight implements Actuator {
                 @Override
                 public void onClick(View v) {
                     ImageView hueSelector = (ImageView) mView.findViewById(R.id.hueSelector);
+
+                    float iniY = -1;
+                    Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
+                                                                    Animation.RELATIVE_TO_SELF, 0,
+                                                                    Animation.RELATIVE_TO_SELF, iniY,
+                                                                    Animation.RELATIVE_TO_SELF, 0);
+                    slideDown.setDuration(400);
+
                     switch (hueSelector.getVisibility()){
                         case View.VISIBLE:
                             hueSelector.setVisibility(View.GONE);
                             break;
                         case View.GONE:
+                            hueSelector.setAnimation(slideDown);
                             hueSelector.setVisibility(View.VISIBLE);
                             break;
                     }
