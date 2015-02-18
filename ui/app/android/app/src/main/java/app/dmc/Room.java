@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
@@ -25,6 +26,7 @@ public class Room {
 
             JSONArray devices = _data.getJSONArray("devices");
 
+            mDeviceList = new ArrayList<>();
             for(int i = 0; i < devices.length(); i++){
                 mDeviceList.add(devices.getString(i));
             }
