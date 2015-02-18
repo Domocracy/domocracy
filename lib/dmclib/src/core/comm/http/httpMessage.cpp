@@ -76,6 +76,12 @@ namespace dmc { namespace http {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
+	bool Message::requiresClose() const {
+		auto connHeader = mHeaders.find("Connection");
+		return (connHeader != mHeaders.end()) && (connHeader->second == "close");
+	}
+
+	//----------------------------------------------------------------------------------------------------------------------
 	bool Message::addHeader(const string& _headerLine) {
 		unsigned colonPos = _headerLine.find(": ");
 		if(colonPos == string::npos)

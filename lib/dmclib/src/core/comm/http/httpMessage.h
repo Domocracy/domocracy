@@ -23,13 +23,13 @@ namespace dmc { namespace http {
 		bool isComplete() const;
 
 		// Accessors
-		const std::unordered_map<std::string,std::string>&	headers		() const { return mHeaders; }
-		std::unordered_map<std::string,std::string>&		headers		()		 { return mHeaders; }
-		const std::string&									body		() const { return mBody; }
+		const std::unordered_map<std::string,std::string>&	headers			() const { return mHeaders; }
+		std::unordered_map<std::string,std::string>&		headers			()		 { return mHeaders; }
+		const std::string&									body			() const { return mBody; }
+		void												setBody			(const std::string&);
+		std::string											serialize		() const;
 
-		void												setBody		(const std::string&);
-
-		std::string											serialize	() const;
+		bool												requiresClose	() const;
 
 		// Known header labels
 		static const std::string cContentLengthLabel;
