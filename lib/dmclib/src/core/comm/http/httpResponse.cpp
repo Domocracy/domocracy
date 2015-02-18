@@ -13,17 +13,7 @@ namespace dmc { namespace http {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Response::Response(const std::string& _rawResponse) {
-		// Split response in status, headers and body
-		unsigned statusLen = _rawResponse.find("\r\n");
-		string statusLine = _rawResponse.substr(0,statusLen);
-		unsigned headerEnd = _rawResponse.find("\r\n\r\n", statusLen+2);
-		unsigned headerLen = headerEnd - statusLen - 2;
-		string headers = _rawResponse.substr(statusLen+2, headerLen);
-		mBody = _rawResponse.substr(headerEnd+4);
-
-		// Process each part
-		processStatus(statusLine);
-		processHeaders(headers);
+		this->operator<<(_rawResponse);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -31,35 +21,11 @@ namespace dmc { namespace http {
 		: mStatusCode(_statusCode)
 		, mStatusDesc(_desc)
 	{
-		// Intentionally blank
+		setReady();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void Response::setBody(const std::string& _body) {
-		mBody = _body;
-		stringstream ss;
-		ss << body().size();
-		mHeaders["Content-Length"]=ss.str();
-	}
-
-	//------------------------------------------------------------------------------------------------------------------
-	std::string Response::serialize() const {
-		std::stringstream serial;
-		// Status line
-		serial << "HTTP/1.1 " << mStatusCode << " " << mStatusDesc << "\r\n";
-		// Headers
-		for(auto h : mHeaders)
-			serial << h.first << ": " << h.second << "\r\n";
-		// Blank line
-		serial << "\r\n";
-		if(mBody.size())
-			serial << mBody << "\r\n";
-
-		return serial.str();
-	}
-
-	//------------------------------------------------------------------------------------------------------------------
-	void Response::processStatus(const std::string& _status) {
+	int Response::processMessageLine(const std::string& _status) {
 		const string separators = " \t\n\r";
 		unsigned versionEnd = _status.find_first_of(separators);
 		unsigned codeStart = _status.find_first_not_of(separators, versionEnd+1);
@@ -69,19 +35,11 @@ namespace dmc { namespace http {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void Response::processHeaders(const std::string& _headers) {
-		unsigned lastSplit = 0;
-		unsigned lineSplit = _headers.find("\r\n");
-		while(lineSplit != string::npos) {
-			string line = _headers.substr(lastSplit, lineSplit-lastSplit);
-			unsigned split = line.find(": ");
-			string label = line.substr(0,split);
-			string value = line.substr(split+2);
-			mHeaders.insert(make_pair(label,value));
-
-			lastSplit = lineSplit+2;
-			lineSplit = _headers.find("\r\n", lastSplit);
-		}
+	void Response::serializeMessageLine(std::string& _serial) const {
+		std::stringstream serial;
+		// Status line
+		serial << "HTTP/1.1 " << mStatusCode << " " << mStatusDesc << "\r\n";
+		_serial.append(serial.str());
 	}
 
 }}	// namespace dmc::http
