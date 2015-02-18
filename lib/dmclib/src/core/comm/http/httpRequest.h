@@ -10,38 +10,27 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "httpMessage.h"
 
 namespace dmc { namespace http {
 
-	class Request {
+	class Request : Message {
 	public:
-
 		enum METHOD {
 			Get,
 			Post,
 			Put
 		};
 		// Construction
-		//Request() = default;
 		Request(METHOD, const std::string& _url, // Status line
 				const std::vector<std::string>& _headers, // Headers
 				const std::string& _body); // Body
 		Request(const std::string& _rawRequest);
 
-		// Internal check
-		bool isOk() const { return mIsOk; }
-
 		// Accessors
 		METHOD												method		() const { return mMethod; }
 		const std::string&									url			() const { return mUrl; }
-		const std::unordered_map<std::string,std::string>&	headers		() const { return mHeaders; }
-		const std::string&									body		() const { return mBody; }
-		std::unordered_map<std::string,std::string>&		headers		()		 { return mHeaders; }
 
-		void												setBody		(const std::string&);
-		bool												addHeader	(const std::string&);
-
-		std::string											serialize	() const;
 	private:
 		bool			processRequestLine	(const std::string&);
 		bool			processHeaders		(const std::string&);

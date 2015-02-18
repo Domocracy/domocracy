@@ -97,15 +97,6 @@ namespace dmc { namespace http {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
-	bool Message::needBody() const {
-		auto iter = mHeaders.find(cContentLengthLabel);
-		if(iter != mHeaders.end()) {
-			return atoi(iter->second.c_str()) != 0;
-		}
-		return false;
-	}
-
-	//----------------------------------------------------------------------------------------------------------------------
 	bool Message::processHeaders(const string& _headers) {
 		string left = _headers;
 		while(!left.empty())
@@ -121,6 +112,10 @@ namespace dmc { namespace http {
 			}
 			if(!addHeader(header))
 				return false;
+		}
+		auto iter = mHeaders.find(cContentLengthLabel);
+		if(iter != mHeaders.end()) {
+			mRequiredBodyLength = atoi(iter->second.c_str());
 		}
 		return true;
 	}

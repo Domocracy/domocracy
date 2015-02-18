@@ -47,8 +47,6 @@ namespace dmc { namespace http {
 			Error
 		};
 
-		bool needBody() const;
-
 		// Returns the number of bytes consumed in the string if the line is properly processed, 0 or negative if an error occurred.
 		virtual int		processMessageLine	(const std::string& _raw) = 0;
 		// Returns the number of bytes consumed in the string if the line is finished, 0 if still processing, -1 if an error occurred.
