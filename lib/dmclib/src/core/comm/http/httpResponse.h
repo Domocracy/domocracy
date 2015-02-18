@@ -27,8 +27,6 @@ namespace dmc { namespace http {
 
 		unsigned mStatusCode;
 		std::string mStatusDesc;
-		std::unordered_map<std::string,std::string>	mHeaders;
-		std::string mBody;
 	};
 
 }}	// namespace dmc::http

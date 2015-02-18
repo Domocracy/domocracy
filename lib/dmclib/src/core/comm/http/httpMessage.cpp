@@ -36,9 +36,13 @@ namespace dmc { namespace http {
 				if(!mRequiredBodyLength || (mBody.size() < mRequiredBodyLength))
 					return 0; // Keep reading
 				else {
-					unsigned notParsed = mBody.size() - mRequiredBodyLength;
-					mBody = mBody.substr(0, mRequiredBodyLength);
-					return _raw.size() - notParsed;
+					if(mRequiredBodyLength) {
+						unsigned notParsed = mBody.size() - mRequiredBodyLength;
+						mBody = mBody.substr(0, mRequiredBodyLength);
+						return _raw.size() - notParsed;
+					} else { // Accept everything
+						return _raw.size();
+					}
 				}
 				break;
 			default:
