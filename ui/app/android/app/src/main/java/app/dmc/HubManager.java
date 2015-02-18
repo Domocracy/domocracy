@@ -86,7 +86,7 @@ public class HubManager {
                 mHubsIds.add(hub.id());
             }
         }catch(JSONException e){
-            Log.d("loadHub", e.getMessage());
+            e.printStackTrace();
         }
 
     }

@@ -66,6 +66,7 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
    /* public boolean modifyIp(String _ip, JSONObject _jsonHub){
 
+
             if(!_ip.equals(mIp)){
                 mIp = _ip;
                 try{

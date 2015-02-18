@@ -32,13 +32,13 @@ namespace dmc { namespace http {
 		bool isOk() const { return mIsOk; }
 
 		// Accessors
-		METHOD												method	() const { return mMethod; }
-		const std::string&									url		() const { return mUrl; }
-		const std::unordered_map<std::string,std::string>&	headers	() const { return mHeaders; }
-		std::unordered_map<std::string,std::string>&		headers	()		 { return mHeaders; }
-		const std::string&									body	() const { return mBody; }
-		std::string&										body	()		 { return mBody; }
+		METHOD												method		() const { return mMethod; }
+		const std::string&									url			() const { return mUrl; }
+		const std::unordered_map<std::string,std::string>&	headers		() const { return mHeaders; }
+		const std::string&									body		() const { return mBody; }
+		std::unordered_map<std::string,std::string>&		headers		()		 { return mHeaders; }
 
+		void												setBody		(const std::string&);
 		bool												addHeader	(const std::string&);
 
 		std::string											serialize	() const;

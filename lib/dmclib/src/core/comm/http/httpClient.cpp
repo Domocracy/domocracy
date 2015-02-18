@@ -47,6 +47,7 @@ namespace dmc { namespace http {
 		}
 		buffer[nBytes] = '\0';
 		dst += buffer;
+		
 		Response * resp = new Response(dst);
 
 		// House keeping (close socket on non-persistent connections)

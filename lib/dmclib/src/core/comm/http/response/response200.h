@@ -18,6 +18,11 @@ namespace dmc { namespace http {
 		Response200() : Response(200, "Ok")
 		{
 		}
+
+		Response200(const std::string& _customBody) : Response(200, "Ok")
+		{
+			setBody(_customBody);
+		}
 	};
 
 }}	// namespace dmc::http
