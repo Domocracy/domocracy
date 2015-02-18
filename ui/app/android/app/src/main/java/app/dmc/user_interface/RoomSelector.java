@@ -12,10 +12,9 @@ package app.dmc.user_interface;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ViewFlipper;
 
 import java.util.List;
 
@@ -25,12 +24,26 @@ public class RoomSelector {
     //-----------------------------------------------------------------------------------------------------------------
     // Public interface
     public RoomSelector(final Context _context, final List<Room>_rooms){
+        // Store Rooms
         mRooms = _rooms;
-        layout = new LinearLayout(_context);
 
-        layout.addView(mRooms.get(0).view(_context));
+        // Init Selector
+        mSelector = new ViewFlipper(_context);
 
-        layout.setOnTouchListener(new View.OnTouchListener() {
+        // Testing Room images
+        View roomView1 = mRooms.get(0).view(_context);
+        mSelector.addView(roomView1);
+        Bitmap snapshot = Bitmap.createBitmap(roomView1.getWidth(), roomView1.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(snapshot);
+        roomView1.draw(c);
+        ImageView iv = new ImageView(_context);
+        iv.setImageBitmap(snapshot);
+
+        /*mSelector.addView(iv);
+        mSelector.addView(mRooms.get(1).view(_context));*/
+
+
+        /*layout.setOnTouchListener(new View.OnTouchListener() {
             Bitmap mSnapshot;
             @Override
             public boolean onTouch(View _view, MotionEvent _event) {
@@ -56,55 +69,20 @@ public class RoomSelector {
                     break;
                 }
 
-
-
-                /*TranslateAnimation roomOutLeft = new TranslateAnimation(    Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, -1,
-                        Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, 0);
-                roomOutLeft.setDuration(5000);
-                iv.setAnimation(roomOutLeft);
-
-                TranslateAnimation roomInRight = new TranslateAnimation(    Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, 1,
-                        Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, 0);
-                roomInRight.setDuration(5000);
-                room.setAnimation(roomInRight);*/
-
                 layout.removeView(iv);
 
                 return false;
             }
-        });
-
-        /*Bitmap b = Bitmap.createBitmap(mView.getWidth() , mView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas c = new Canvas(b);
-                mView.draw(c);
-
-                mView = mRooms.get(1).view(_context);
-
-                TranslateAnimation roomOutLeft = new TranslateAnimation(    Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, 0);
-
-                TranslateAnimation roomInRight = new TranslateAnimation(    Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, 0,
-                        Animation.RELATIVE_TO_SELF, 0);
-            }
-            */
-
+        });*/
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public View view(){
-        return layout;
+        return mSelector;
     }
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
-    List<Room>              mRooms = null;
-    private LinearLayout    layout = null;
+    private List<Room>      mRooms = null;
+    private ViewFlipper     mSelector = null;
 
 }
