@@ -32,7 +32,6 @@ namespace dmc { namespace http {
 				break;
 			}
 			case ParseState::Body:
-			case ParseState::Complete:
 				if(!mRequiredBodyLength || (mBody.size() < mRequiredBodyLength))
 					return 0; // Keep reading
 				else {
@@ -156,8 +155,7 @@ namespace dmc { namespace http {
 				return false;
 			}
 			mBody = mBody.substr(consumed+4);
-			// Should we expect a body?
-			mState = mRequiredBodyLength?ParseState::Body : ParseState::Complete;
+			mState = ParseState::Body;
 			return true;
 		}
 		return true; // End of headers not yet found
