@@ -44,19 +44,12 @@ namespace dmc { namespace http {
 				break;
 			}
 			case ParseState::Body:
-				if(needBody()) // When body is necessary, body length must be known
-				{
-					if(_raw.size() < mMissingBodyLength)
-						return 0; // Keep processing
-					int leftResources = _raw.size() - mMissingBodyLength;
-					int bodySize = mBody.size() - leftResources;
-					mBody = mBody.substr(0, bodySize);
-					int consumed = mMissingBodyLength;
-					mMissingBodyLength = 0;
-					mState = ParseState::Complete;
-					return consumed;
-				} else { // Otherwise, body will be as long as available
-					return 0;
+				if(!mRequiredBodyLength || (mBody.size() < mRequiredBodyLength))
+					return 0; // Keep reading
+				else {
+					unsigned notParsed = mBody.size() - mRequiredBodyLength;
+					mBody = mBody.substr(0, mRequiredBodyLength);
+					return _raw.size() - notParsed;
 				}
 				break;
 			default:

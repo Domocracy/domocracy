@@ -65,7 +65,7 @@ namespace dmc { namespace http {
 		std::unordered_map<std::string,std::string>	mHeaders;
 		std::string mBody;
 
-		unsigned	mMissingBodyLength = 0;
+		unsigned	mRequiredBodyLength = 0;
 		ParseState	mState = ParseState::MessageLine;
 
 	};
