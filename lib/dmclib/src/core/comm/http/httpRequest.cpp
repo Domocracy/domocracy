@@ -88,12 +88,4 @@ namespace dmc { namespace http {
 		_dst.append(statusLine.str());
 	}
 
-	//----------------------------------------------------------------------------------------------------------------------
-	void Request::serializeHeaders(string& _dst) const {
-		for(auto i : mHeaders) {
-			_dst.append(i.first + ": " + i.second + "\r\n");
-		}
-		_dst.append("\r\n");
-	}
-
 }}	// namespace dmc::http
