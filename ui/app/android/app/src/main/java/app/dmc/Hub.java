@@ -57,7 +57,7 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
     public Room room(String _id){
         for(int i = 0 ; i < mRoomList.size() ; i++) {
-            if(mRoomList.get(i).name() == _id)
+            if(mRoomList.get(i).id().equals(_id))
                 return mRoomList.get(i);
         }
         return null;
