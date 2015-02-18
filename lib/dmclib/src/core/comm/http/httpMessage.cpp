@@ -6,6 +6,7 @@
 // Base class underlying http requests and responses
 #include <cassert>
 #include "httpMessage.h"
+#include <iostream>
 #include <sstream>
 
 using namespace std;
@@ -18,28 +19,39 @@ namespace dmc { namespace http {
 	//----------------------------------------------------------------------------------------------------------------------
 	int Message::operator<<(const string& _raw) {
 		// use mBody as a temporal buffer
+		std::cout << "\n-------- Operator << ---------\nreceives\n" << 
+		_raw << "\n----with body---\n---\n" << 
+		mBody << "<---\n----------------\n";
 		mBody.append(_raw);
 		while(!mBody.empty()) {
 			switch(mState) {
 			case ParseState::MessageLine: {
+				std::cout << "*** Parse message ***\n";
 				if(!parseMessageLine())
 					return -1;
 				break;
 			}
 			case ParseState::Headers: {
+				std::cout << "*** Parse headers ***\n";
 				if(!parseHeaders())
 					return -1;
+				if(mState == ParseState::Headers) // Not enough text yet
+					return 0; // Keep reading
 				break;
 			}
 			case ParseState::Body:
+				std::cout << "*** Parse body ***\n";
+				std::cout << "*** With body ***\n---\n" << mBody << "<---\n";
 				if(!mRequiredBodyLength || (mBody.size() < mRequiredBodyLength))
 					return 0; // Keep reading
 				else {
 					if(mRequiredBodyLength) {
+						std::cout << "--> Pizza is ready!\n";
 						unsigned notParsed = mBody.size() - mRequiredBodyLength;
 						mBody = mBody.substr(0, mRequiredBodyLength);
 						return _raw.size() - notParsed;
 					} else { // Accept everything
+						std::cout << "**--**Whaaat???\n";
 						return _raw.size();
 					}
 				}
@@ -120,7 +132,7 @@ namespace dmc { namespace http {
 
 	//----------------------------------------------------------------------------------------------------------------------
 	bool Message::parseMessageLine() {
-		unsigned cursor = mBody.find("\r\n");
+		size_t cursor = mBody.find("\r\n");
 		if(cursor != string::npos) // Line end found
 		{
 			int consumed = processMessageLine(mBody.substr(0,cursor));
@@ -143,12 +155,14 @@ namespace dmc { namespace http {
 	bool Message::parseHeaders() {
 		bool skipHeaders = mBody.find("\r\n") == 0; // if we find a blank line right at the begining, then there are no headers
 		if(skipHeaders) {
-			ParseState::Body; // Waiting for the body
+			std::cout << "->Skip headers\n";
+			mState = ParseState::Body; // Waiting for the body
 			return true;
 		}
-		unsigned consumed = mBody.find("\r\n\r\n");
+		size_t consumed = mBody.find("\r\n\r\n");
 		if(consumed != string::npos)
 		{
+			std::cout << "->Found blank line (consumed = " << consumed << ")\n";
 			bool success = processHeaders(mBody.substr(0,consumed));
 			if(!success) { // Parsing error
 				mState = ParseState::Error;
@@ -158,6 +172,7 @@ namespace dmc { namespace http {
 			mState = ParseState::Body;
 			return true;
 		}
+		std::cout << "-> No blank line\n";
 		return true; // End of headers not yet found
 	}
 

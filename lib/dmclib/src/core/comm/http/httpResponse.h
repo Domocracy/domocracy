@@ -17,6 +17,7 @@ namespace dmc { namespace http {
 	public:
 		Response(const std::string& _rawResponse);
 		Response(unsigned _statusCode, const std::string& _desc);
+		virtual ~Response() = default;
 		
 		unsigned			statusCode	() const { return mStatusCode; }
 		const std::string&	statusDesc	() const { return mStatusDesc; }

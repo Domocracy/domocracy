@@ -44,11 +44,13 @@ namespace dmc { namespace http {
 				std::cout << "Error reading from socket: " << errno << "\n";
 			return nullptr;
 		}
+		// std::cout << "Recv: " << dst;
 		Response * resp = new Response(dst); // Keep reading
 		while(nBytes > 0 && resp && !resp->isComplete()) {
 			nBytes = mSocket.read(buffer, bufferSize);
 			buffer[nBytes] = '\0';
 			dst = std::string(buffer);
+			// std::cout << "Recv: " << dst;
 			*resp << dst;
 		}
 

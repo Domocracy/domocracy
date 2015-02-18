@@ -26,6 +26,7 @@ namespace dmc { namespace http {
 				const std::vector<std::string>& _headers, // Headers
 				const std::string& _body); // Body
 		Request(const std::string& _rawRequest);
+		virtual ~Request() = default;
 
 		// Accessors
 		METHOD				method		() const { return mMethod; }
