@@ -17,7 +17,6 @@ namespace dmc { namespace http {
 	public:
 
 		Message() = default;
-		Message(const std::string& _raw);
 		// Returns the number of bytes consumed in the string if the line is finished, 0 if still processing, -1 if an error occurred.
 		int operator<<(const std::string& _raw);
 		// Internal check

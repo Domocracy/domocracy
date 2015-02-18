@@ -16,11 +16,6 @@ namespace dmc { namespace http {
 	const string Message::cContentLengthLabel = "Content-Length";
 
 	//----------------------------------------------------------------------------------------------------------------------
-	Message::Message(const string& _raw) {
-		operator<<(_raw);
-	}
-
-	//----------------------------------------------------------------------------------------------------------------------
 	int Message::operator<<(const string& _raw) {
 		// use mBody as a temporal buffer
 		mBody.append(_raw);

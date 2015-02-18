@@ -30,15 +30,6 @@ namespace dmc { namespace http {
 	Request::Request(const string& _raw) {
 		// Break the string into parts
 		this->operator<<(_raw);
-		// unsigned requestEnd = _raw.find("\r\n");
-		// unsigned headersEnd = _raw.find("\r\n\r\n", requestEnd+2);
-		// string request = _raw.substr(0,requestEnd);
-		// string headers = _raw.substr(requestEnd+2, headersEnd-requestEnd-2);
-		// mBody = _raw.substr(headersEnd+4);
-		// // Process request line
-		// bool rOk = processRequestLine(request);
-		// bool hOk = processHeaders(headers);
-		// mIsOk = rOk && hOk;
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------
