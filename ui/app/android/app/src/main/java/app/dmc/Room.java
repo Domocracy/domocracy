@@ -9,12 +9,12 @@
 
 package app.dmc;
 
-import android.content.Context;
-import android.view.Gravity;
+import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,20 +48,23 @@ public class Room {
 
 
     //-----------------------------------------------------------------------------------------------------------------
-    public View view(Context _context){
-        LinearLayout base = new LinearLayout(_context);
+    public View view(Activity _activity){
+        LinearLayout base = new LinearLayout(_activity);
         base.setOrientation(LinearLayout.VERTICAL);
 
-        TextView roomName = new TextView(_context);
-        roomName.setText(name());
-        roomName.setGravity(Gravity.CENTER_HORIZONTAL);
-        roomName.setTextSize(50);
-        base.addView(roomName);
+        ImageView header = new ImageView(_activity);
+        header.setImageResource(R.drawable.room_header);
+        header.setAdjustViewBounds(true);
+        base.addView(header);
+
+        // 666 TODO: Class to admin actionbar
+        android.support.v7.app.ActionBar topBar = ((ActionBarActivity) _activity).getSupportActionBar();
+        topBar.setTitle(name());
 
         for(String deviceId:devices()){
             Device device = mHub.device(deviceId);
             if(device != null) {
-                View v = device.view(_context);
+                View v = device.view(_activity);
 
                 // If device was added to another room, detach from parent
                 ViewGroup parent = (ViewGroup) v.getParent();

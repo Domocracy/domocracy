@@ -9,7 +9,7 @@
 
 package app.dmc.user_interface;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
@@ -25,15 +25,15 @@ import app.dmc.Room;
 public class RoomSelector {
     //-----------------------------------------------------------------------------------------------------------------
     // Public interface
-    public RoomSelector(final Context _context, final List<Room>_rooms){
+    public RoomSelector(final Activity _activity, final List<Room>_rooms){
         // Store Rooms
         mRooms = _rooms;
 
         // Init Selector
-        mSelector = new ViewFlipper(_context);
+        mSelector = new ViewFlipper(_activity);
 
         // Testing Room images
-        View roomView1 = mRooms.get(mCurrentRoom).view(_context);
+        View roomView1 = mRooms.get(mCurrentRoom).view(_activity);
 
         mSelector.addView(roomView1);
 
@@ -54,7 +54,7 @@ public class RoomSelector {
                         Canvas c = new Canvas(snapshot);
                         _view.draw(c);
 
-                        snapShotView = new ImageView(_context);
+                        snapShotView = new ImageView(_activity);
                         snapShotView.setImageBitmap(snapshot);
 
                         break;
@@ -68,10 +68,10 @@ public class RoomSelector {
 
                                 mSelector.removeAllViews();
                                 mSelector.addView(snapShotView);
-                                mSelector.addView(mRooms.get(mCurrentRoom).view(_context));
+                                mSelector.addView(mRooms.get(mCurrentRoom).view(_activity));
 
-                                mSelector.setInAnimation(_context, R.anim.slide_in_left);
-                                mSelector.setOutAnimation(_context, R.anim.slide_out_right);
+                                mSelector.setInAnimation(_activity, R.anim.slide_in_left);
+                                mSelector.setOutAnimation(_activity, R.anim.slide_out_right);
                                 mSelector.showPrevious();
 
                             }
@@ -82,10 +82,10 @@ public class RoomSelector {
 
                                 mSelector.removeAllViews();
                                 mSelector.addView(snapShotView);
-                                mSelector.addView(mRooms.get(mCurrentRoom).view(_context));
+                                mSelector.addView(mRooms.get(mCurrentRoom).view(_activity));
 
-                                mSelector.setInAnimation(_context, R.anim.slide_in_right);
-                                mSelector.setOutAnimation(_context, R.anim.slide_out_left);
+                                mSelector.setInAnimation(_activity, R.anim.slide_in_right);
+                                mSelector.setOutAnimation(_activity, R.anim.slide_out_left);
                                 mSelector.showNext();
 
                             }
