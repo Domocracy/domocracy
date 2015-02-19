@@ -35,4 +35,13 @@
 			]
 		}
 	}
+	{
+		"type" : "kodi",
+		"data" : {
+			"name": "Media Player"
+			"id": 74,
+			"ip": "localhost",
+			"port": 5080
+		}
+	}
 ]
