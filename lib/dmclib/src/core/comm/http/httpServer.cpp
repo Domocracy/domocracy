@@ -55,7 +55,7 @@ namespace dmc { namespace http {
 	//------------------------------------------------------------------------------------------------------------------
 	void Server::onNewConnection(Socket* _connection) {
 		// Generate a connection identifier
-		unsigned conId = reinterpret_cast<unsigned>(_connection);
+		unsigned conId = unsigned(long(_connection));
 		mConnections[conId] = _connection;
 		// Retrieve request
 		std::string message;

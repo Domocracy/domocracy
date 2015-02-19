@@ -56,13 +56,13 @@ namespace dmc {
 	void SocketServer::startListening(addrinfo* _addr) {// Setup the TCP listening socket
 		int res = ::bind( mListener, _addr->ai_addr, (int)_addr->ai_addrlen);
 		if(res == SOCKET_ERROR){
-			close();
 			std::cout << "Error: Unable to bind socket server\n";
+			close();
 		}
 		res = listen(mListener, SOMAXCONN);
 		if(res == SOCKET_ERROR){
-			close();
 			std::cout << "Error: Unable to set socket server listening\n";
+			close();
 		}
 
 		// Start listening thread
