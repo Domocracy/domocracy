@@ -17,12 +17,14 @@ namespace dmc {
 	public:
 		static Persistence* get		() { return sInstance; }
 		static void			init	();
+		static void			end		() { delete sInstance; sInstance = nullptr; }
 
 		void				saveData(const std::string& _dataId, const Json& _data);
 		Json				getData	(const std::string& _dataId);
 
 	private:
 		Persistence() = default;
+		~Persistence() = default;
 		static Persistence* sInstance;
 	};
 
