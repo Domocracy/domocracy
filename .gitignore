@@ -7,6 +7,10 @@
 *.exe
 *.ilk
 *.log
+*.o
+*.cpp.p
+/dev/hub/Raspi/bin
 /dev/hub/Raspi/dmcServer/Debug
+/lib/dmclib/bin
 /lib/dmclib/Debug
 *.sdf

@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\comm\http\httpClient.cpp" />
+    <ClCompile Include="src\core\comm\http\httpMessage.cpp" />
     <ClCompile Include="src\core\comm\http\httpRequest.cpp" />
     <ClCompile Include="src\core\comm\http\httpResponse.cpp" />
     <ClCompile Include="src\core\comm\http\httpServer.cpp" />
@@ -101,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\comm\http\httpClient.h" />
+    <ClInclude Include="src\core\comm\http\httpMessage.h" />
     <ClInclude Include="src\core\comm\http\httpRequest.h" />
     <ClInclude Include="src\core\comm\http\httpResponse.h" />
     <ClInclude Include="src\core\comm\http\httpServer.h" />
