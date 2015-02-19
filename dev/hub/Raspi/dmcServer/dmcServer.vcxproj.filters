@@ -75,6 +75,9 @@
     <ClCompile Include="src\provider\persistence.cpp">
       <Filter>Source Files\providers</Filter>
     </ClCompile>
+    <ClCompile Include="src\service\user\device\scene.cpp">
+      <Filter>Source Files\service\user\device</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h">

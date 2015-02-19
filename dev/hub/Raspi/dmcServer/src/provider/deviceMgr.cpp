@@ -10,8 +10,31 @@
 #include <core/comm/json/json.h>
 #include <home/device.h>
 #include "persistence.h"
+#include <cassert>
 
 namespace dmc {
+
+	//------------------------------------------------------------------------------------------------------------------
+	DeviceMgr* DeviceMgr::sInstance = nullptr;
+
+	//------------------------------------------------------------------------------------------------------------------
+	void DeviceMgr::init() {
+		assert(!sInstance);
+		sInstance = new DeviceMgr;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void DeviceMgr::end() {
+		if(sInstance) {
+			delete sInstance;
+			sInstance = nullptr;
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	DeviceMgr* DeviceMgr::get() {
+		return sInstance;
+	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	DeviceMgr::DeviceMgr() {
@@ -28,7 +51,7 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Device* DeviceMgr::get(unsigned _id) const {
+	Device* DeviceMgr::device(unsigned _id) const {
 		auto iter = mDevices.find(_id);
 		if(iter != mDevices.end())
 			return iter->second;

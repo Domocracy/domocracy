@@ -79,6 +79,7 @@
     <ClCompile Include="src\provider\deviceMgr.cpp" />
     <ClCompile Include="src\provider\persistence.cpp" />
     <ClCompile Include="src\public\publicService.cpp" />
+    <ClCompile Include="src\service\user\device\scene.cpp" />
     <ClCompile Include="src\service\user\user.cpp" />
   </ItemGroup>
   <ItemGroup>
