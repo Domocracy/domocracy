@@ -75,6 +75,9 @@
     <ClCompile Include="src\service\user\device\scene.cpp">
       <Filter>Source Files\service\user\device</Filter>
     </ClCompile>
+    <ClCompile Include="src\service\user\device\kodi\kodi.cpp">
+      <Filter>Source Files\service\user\device\kodi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h">

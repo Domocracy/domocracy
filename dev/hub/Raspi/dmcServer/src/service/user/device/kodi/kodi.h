@@ -17,6 +17,12 @@ namespace dmc { namespace kodi {
 	class Kodi final : public Actuator{
 	public:
 		Kodi(const Json&);
+
+		bool runCommand(const Json& _cmd) override;
+
+	private:
+		std::string mIp;
+		unsigned	mPort;
 	};
 
 }}	// namespace dmc::kodi
