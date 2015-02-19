@@ -28,7 +28,7 @@ namespace dmc {
 
 	private:
 		void processArguments	(int _argc, const char** _argv);
-		void loadUsers			(const std::string& _fileName);
+		void loadUsers			();
 
 		// Config
 		unsigned mHttpPort = 80;

@@ -9,6 +9,7 @@
 #include "json.h"
 #include <utility>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -134,6 +135,15 @@ namespace dmc {
 	Json Json::openFromFile(const std::string& _fileName) {
 		File jsonFile(_fileName);
 		return Json(jsonFile.bufferAsText());
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void Json::saveToFile(const std::string& _fileName) const {
+		ofstream file(_fileName.c_str());
+		string data;
+		this->operator>>(data);
+		file << data;
+		file.close();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
