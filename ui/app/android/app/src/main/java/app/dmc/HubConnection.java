@@ -17,9 +17,10 @@ public class HubConnection {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
     public JSONObject send(final String _url, final JSONObject _body){
-        final JsonRequest request = new JsonRequest(_url);
+        JsonRequest request = new JsonRequest(_url);
         request.setMethod("PUT");
-        //request.setBody(_body.toString());
+        request.setHeader("connection", "close");
+        request.setBody(_body.toString());
 
         request.sendRequest();
 
