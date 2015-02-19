@@ -29,7 +29,7 @@ namespace dmc {
 		mInfo = new HubInfo(mWebServer);
 		mPublicService = new PublicService(mWebServer);
 		mDeviceMgr = new DeviceMgr();
-		loadUsers("users.json");
+		loadUsers();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void DmcServer::loadUsers(const std::string&) {
+	void DmcServer::loadUsers() {
 		Json usersDatabase = Persistence::get()->getData("users");
 		for(auto userData : usersDatabase.asList()) {
 			mUsers.push_back(new User(*userData, mWebServer, mDeviceMgr));
