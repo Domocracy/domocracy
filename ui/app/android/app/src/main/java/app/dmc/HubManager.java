@@ -3,12 +3,11 @@ package app.dmc;
 import android.content.Context;
 import android.util.Log;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+import java.io.IOException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,7 +57,7 @@ public class HubManager {
     // Private Interface.
     private HubManager(Context _context){
         //here goes the loadHub
-        initJson();
+
         mHubMap  = new HashMap<String,Hub>();
         mHubsIds = new ArrayList<String>();
         try {
@@ -71,6 +70,7 @@ public class HubManager {
                 mHubsIds.add(hub.id());
             }
         }catch(JSONException e){
+
             e.printStackTrace();
         }
 

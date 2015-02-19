@@ -12,9 +12,6 @@ package app.dmc.devices;
 
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,30 +19,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class JsonRequest {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
-    public JsonRequest(String _url, JSONObject _json){
-        mHeaders = new HashMap<String, String>();
-
-        decodeJson(_json);
-        initConnection(_url);
-        setUpRequest();
-        sendRequest();
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------------------------------------------------
-
-
-    //-----------------------------------------------------------------------------------------------------------------
-    // Private Interface
-    private void initConnection(String _url){
+    public JsonRequest(String _url){
         try {
             // Create new URL. This class check if string is properly written, and can create a connection from it.
             mUrl = new URL(_url);
@@ -64,53 +42,32 @@ public class JsonRequest {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void decodeJson(JSONObject _json){
+    public void setMethod(String _method){
         try {
-            // Get method type
-            mMethod = _json.getString("method");
-            JSONObject headers = _json.getJSONObject("headers");
-
-            // Get headers
-            Iterator<?> keys = headers.keys();
-            while(keys.hasNext()){
-                String key = (String)keys.next();
-                mHeaders.put(key, headers.getString(key));
-            }
-
-            mBody = _json.getString("body");
-        }catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-        }
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    private void setUpRequest(){
-        try {
-            // Add Method
-            mConnection.setRequestMethod("GET");
-
-            //Add headers
-            for(String key: mHeaders.keySet()){
-                mConnection.setRequestProperty(key, mHeaders.get(key));
-            }
-
-
-            if (mBody != null) {
-                mConnection.setRequestProperty("Content-Length", Integer.toString(mBody.length()));
-                try {
-                    mConnection.getOutputStream().write(mBody.getBytes("UTF8"));
-                }catch (IOException _ioException){
-                    Log.d("DOMOCRACY", "Could not send Command");
-                    _ioException.printStackTrace();
-                }
-            }
-        }catch (ProtocolException _protocolException){
+            mConnection.setRequestMethod(_method);
+        }catch(ProtocolException _protocolException){
             _protocolException.printStackTrace();
         }
-
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void sendRequest(){
+    public void setHeader(String _key, String _value){
+        mConnection.setRequestProperty(_key, _value);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void setBody(String _body){
+        mConnection.setRequestProperty("Content-Length", Integer.toString(_body.length()));
+        try {
+            mConnection.getOutputStream().write(_body.getBytes("UTF8"));
+        }catch (IOException _ioException){
+            Log.d("DOMOCRACY", "Could not send Command");
+            _ioException.printStackTrace();
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void sendRequest(){
         try {
             int responseCode = mConnection.getResponseCode();
             System.out.println("\nSending 'PUT' request to URL : " + mUrl);
@@ -131,14 +88,12 @@ public class JsonRequest {
             _ioException.printStackTrace();
         }
     }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private Interface
+
     //-----------------------------------------------------------------------------------------------------------------
     // Net
     HttpURLConnection   mConnection = null;
     URL                 mUrl = null;
-
-    // Http
-    String mMethod = null;
-    Map<String, String> mHeaders = null;
-    String mBody = null;
-
 }

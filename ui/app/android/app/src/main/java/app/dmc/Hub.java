@@ -10,7 +10,6 @@ package app.dmc;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import app.dmc.core.Persistence;
+import app.dmc.devices.Device;
 import app.dmc.devices.DeviceManager;
 
 
@@ -43,6 +43,12 @@ public class Hub {
             e.printStackTrace();
         }
 
+        mConnection = new HubConnection();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public Device device(String _id){
+        return mDevMgr.device(_id);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -64,8 +70,13 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject send(final String _url, final JSONObject _body){
+        String url = "http://" + ip() + "/user/dmc64" + _url;
+        return mConnection.send(url, _body);
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
+
     public boolean modifyIp(String _ip){
         if(!_ip.equals(mIp)){
             mIp = _ip;
@@ -88,6 +99,4 @@ public class Hub {
     private String          mIp;
     private String          mHubFileName;
     private JSONObject      mJSONdefault;
-        // Content
-        DeviceManager mDevMgr = null;
-        }
+    HubConnection mConnection = null;
