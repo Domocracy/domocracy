@@ -1,12 +1,15 @@
 package app.dmc;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import app.dmc.core.Persistence;
 import app.dmc.user_interface.UserInterface;
@@ -22,7 +25,7 @@ public class Main extends ActionBarActivity {
         Persistence.init(this);
         HubManager.init(this);
 
-        HubManager.get().hub("123").modifyIp("10.100.5.7");
+
 
         // Create Interface
         // Check if first connection
@@ -52,7 +55,18 @@ public class Main extends ActionBarActivity {
             case R.id.set_ip:
                 AlertDialog.Builder builderDialogSetIp = new AlertDialog.Builder(this);
                 LayoutInflater inflaterSetIp = this.getLayoutInflater();
-                builderDialogSetIp.setView();
+                final View dialogLayout = inflaterSetIp.inflate(R.layout.alert_dialog_set_ip,null);
+                builderDialogSetIp.setView(dialogLayout);
+                builderDialogSetIp.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText ip = (EditText)dialogLayout.findViewById(R.id.ipEditor);
+                        String ipToString = ip.getText().toString();
+                        HubManager.get().hub("123").modifyIp(ipToString);
+                    }
+                });
+                builderDialogSetIp.setNegativeButton("Cancel",null);
+                builderDialogSetIp.create().show();
                 return true;
 
             default:
