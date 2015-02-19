@@ -9,16 +9,22 @@
 #include "deviceFactory.h"
 #include <core/comm/json/json.h>
 #include <home/device.h>
+#include "persistence.h"
 
 namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	DeviceMgr::DeviceMgr() {
 		// Load devices from local database
-		Device* sampleLight = mFactory.create("HueLight", Json(R"({"name":"HueLight1", "id":42, "data":{"id":"2"}})"));
-		mDevices.insert(std::make_pair(sampleLight->id(), sampleLight));
-		sampleLight = mFactory.create("HueLight", Json(R"({"name":"HueLight1", "id":43, "data":{"id":"3"}})"));
-		mDevices.insert(std::make_pair(sampleLight->id(), sampleLight));
+		Json factoriesData = Persistence::get()->getData("devices");
+		if(factoriesData.isNill())
+			return;
+		for(size_t i = 0; i < factoriesData.asList().size(); ++i)
+		{
+			const Json& data = *factoriesData.asList()[i];
+			Device* dev = mFactory.create(data["type"].asText(), data["data"]);
+			mDevices.insert(std::make_pair(dev->id(), dev));
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
