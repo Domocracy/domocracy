@@ -31,37 +31,67 @@ public class RoomSelector {
 
         // Init Selector
         mSelector = new ViewFlipper(_context);
-        mSelector.setInAnimation(_context, R.anim.slide_in_right);
-        mSelector.setOutAnimation(_context, R.anim.slide_out_left);
 
         // Testing Room images
-        View roomView1 = mRooms.get(0).view(_context);
+        View roomView1 = mRooms.get(mCurrentRoom).view(_context);
 
         mSelector.addView(roomView1);
 
         mSelector.setOnTouchListener(new View.OnTouchListener() {
+            final double OFFSET = 30;
+            double iniX;
+            ImageView snapShotView;
+
             @Override
             public boolean onTouch(View _view, MotionEvent event) {
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
+                        iniX = event.getX();
                         int width = _view.getWidth();
                         int height = _view.getHeight();
+
                         Bitmap snapshot = Bitmap.createBitmap(width, height , Bitmap.Config.ARGB_8888);
                         Canvas c = new Canvas(snapshot);
                         _view.draw(c);
 
-                        ImageView iv = new ImageView(_context);
-                        iv.setImageBitmap(snapshot);
-                        mSelector.addView(iv);
+                        snapShotView = new ImageView(_context);
+                        snapShotView.setImageBitmap(snapshot);
 
                         break;
                     case MotionEvent.ACTION_MOVE:
                         break;
                     case MotionEvent.ACTION_UP:
-                        mSelector.showNext();
+                        double x = event.getX();
+                        if((iniX - x) < - OFFSET){  // previous room
+                            if(mCurrentRoom - 1 >= 0 ) {
+                                mCurrentRoom--;
+
+                                mSelector.removeAllViews();
+                                mSelector.addView(snapShotView);
+                                mSelector.addView(mRooms.get(mCurrentRoom).view(_context));
+
+                                mSelector.setInAnimation(_context, R.anim.slide_in_left);
+                                mSelector.setOutAnimation(_context, R.anim.slide_out_right);
+                                mSelector.showPrevious();
+
+                            }
+
+                        }else if((iniX - x) > OFFSET){  // next room
+                            if(mCurrentRoom + 1 < mRooms.size()) {
+                                mCurrentRoom++;
+
+                                mSelector.removeAllViews();
+                                mSelector.addView(snapShotView);
+                                mSelector.addView(mRooms.get(mCurrentRoom).view(_context));
+
+                                mSelector.setInAnimation(_context, R.anim.slide_in_right);
+                                mSelector.setOutAnimation(_context, R.anim.slide_out_left);
+                                mSelector.showNext();
+
+                            }
+                        }
                         break;
                 }
-
                 return true;
             }
         });
@@ -111,5 +141,6 @@ public class RoomSelector {
     // Private members
     private List<Room>      mRooms = null;
     private ViewFlipper     mSelector = null;
+    private int             mCurrentRoom = 0;
 
 }
