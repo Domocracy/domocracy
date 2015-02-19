@@ -10,8 +10,32 @@
 #include <core/comm/json/json.h>
 #include <home/device.h>
 #include "persistence.h"
+#include <cassert>
+#include <iostream>
 
 namespace dmc {
+
+	//------------------------------------------------------------------------------------------------------------------
+	DeviceMgr* DeviceMgr::sInstance = nullptr;
+
+	//------------------------------------------------------------------------------------------------------------------
+	void DeviceMgr::init() {
+		assert(!sInstance);
+		sInstance = new DeviceMgr;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void DeviceMgr::end() {
+		if(sInstance) {
+			delete sInstance;
+			sInstance = nullptr;
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	DeviceMgr* DeviceMgr::get() {
+		return sInstance;
+	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	DeviceMgr::DeviceMgr() {
@@ -23,12 +47,15 @@ namespace dmc {
 		{
 			const Json& data = *factoriesData.asList()[i];
 			Device* dev = mFactory.create(data["type"].asText(), data["data"]);
+			if(mDevices.find(dev->id()) != mDevices.end()) {
+				std::cout << "Warning: Duplicate device id (" << dev->id() << ").\nOld device will be overwriten\n";
+			}
 			mDevices.insert(std::make_pair(dev->id(), dev));
 		}
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Device* DeviceMgr::get(unsigned _id) const {
+	Device* DeviceMgr::device(unsigned _id) const {
 		auto iter = mDevices.find(_id);
 		if(iter != mDevices.end())
 			return iter->second;

@@ -28,7 +28,8 @@ namespace dmc {
 		mWebServer->setResponder("/public/ping", http::Response200());
 		mInfo = new HubInfo(mWebServer);
 		mPublicService = new PublicService(mWebServer);
-		mDeviceMgr = new DeviceMgr();
+		DeviceMgr::init();
+		mDeviceMgr = DeviceMgr::get(); // Cache manager
 		loadUsers();
 	}
 
@@ -36,6 +37,7 @@ namespace dmc {
 	DmcServer::~DmcServer(){
 		for(auto user : mUsers)
 			delete user;
+		DeviceMgr::end();
 		if(mPublicService)
 			delete mPublicService;
 		if(mWebServer)
