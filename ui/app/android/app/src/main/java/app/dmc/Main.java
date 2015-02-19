@@ -57,10 +57,13 @@ public class Main extends ActionBarActivity {
                 LayoutInflater inflaterSetIp = this.getLayoutInflater();
                 final View dialogLayout = inflaterSetIp.inflate(R.layout.alert_dialog_set_ip,null);
                 builderDialogSetIp.setView(dialogLayout);
+                EditText lastIp = (EditText)dialogLayout.findViewById(R.id.ipEditor);
+                lastIp.setText(HubManager.get().hub("123").ip());
                 builderDialogSetIp.setPositiveButton("Set", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         EditText ip = (EditText)dialogLayout.findViewById(R.id.ipEditor);
+
                         String ipToString = ip.getText().toString();
                         HubManager.get().hub("123").modifyIp(ipToString);
                     }
