@@ -96,8 +96,8 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	void SocketServer::close() {
 		assert(mListenThread.get_id() != std::this_thread::get_id()); // Ensure it's not this thread trying to delete itself
-		assert(mListenThread.joinable());
 		if(mListener != INVALID_SOCKET) {
+			assert(mListenThread.joinable());
 			mMustClose = true;
 			closesocket(mListener);
 			mListenThread.join();
