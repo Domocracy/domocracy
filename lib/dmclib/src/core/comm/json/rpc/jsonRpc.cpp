@@ -11,10 +11,13 @@
 namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
-	JsonRpcNotification::JsonRpcNotification(const std::string& _method, const Json& _params){
+	JsonRpcNotification::JsonRpcNotification(const std::string& _method, const Json& _params)
+		:Json("{}") // Empty dictionary
+	{
 		Json method;
 		method.setText(_method);
-		(*this)["method"] = method;
+		(*this)["jsonrpc"] = Json(R"("2.0")");
+		(*this)["params"] = _params;
 		(*this)["params"] = _params;
 	}
 

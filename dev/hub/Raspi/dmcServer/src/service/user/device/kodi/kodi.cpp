@@ -6,6 +6,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "kodi.h"
+#include <core/comm/json/rpc/jsonRpc.h>
 
 namespace dmc { namespace kodi {
 
@@ -16,6 +17,9 @@ namespace dmc { namespace kodi {
 	{
 		mPort = (unsigned)_data["port"].asInt();
 		mIp = _data["ip"].asText();
+
+		// Try to ping Kodi
+		
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
