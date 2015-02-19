@@ -1,7 +1,9 @@
 package app.dmc;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,7 +50,9 @@ public class Main extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.set_ip:
-                
+                AlertDialog.Builder builderDialogSetIp = new AlertDialog.Builder(this);
+                LayoutInflater inflaterSetIp = this.getLayoutInflater();
+                builderDialogSetIp.setView();
                 return true;
 
             default:
