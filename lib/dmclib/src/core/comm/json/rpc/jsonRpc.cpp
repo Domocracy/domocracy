@@ -15,7 +15,6 @@ namespace dmc {
 		Json method;
 		method.setText(_method);
 		(*this)["method"] = method;
-		
 		(*this)["params"] = _params;
 	}
 

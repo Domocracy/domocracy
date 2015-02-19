@@ -1,5 +1,14 @@
 [
 	{
+		"type" : "kodi",
+		"data" : {
+			"name": "Media Player"
+			"id": 74,
+			"ip": "localhost",
+			"port": 5080
+		}
+	},
+	{
 		"type" : "HueLight",
 		"data" : {
 			"name":"HueLight0",
@@ -33,15 +42,6 @@
 				{ "id":42, "cmd": { "on":false } },
 				{ "id":43, "cmd": { "on":false } }
 			]
-		}
-	}
-	{
-		"type" : "kodi",
-		"data" : {
-			"name": "Media Player"
-			"id": 74,
-			"ip": "localhost",
-			"port": 5080
 		}
 	}
 ]
