@@ -14,6 +14,7 @@
 #include <core/comm/http/response/response200.h>
 #include <service/user/user.h>
 #include <provider/deviceMgr.h>
+#include <provider/persistence.h>
 
 namespace dmc {
 
@@ -22,12 +23,13 @@ namespace dmc {
 	{
 		processArguments(_argc, _argv); // Execution arguments can override default configuration values
 		// Launch web service
+		Persistence::init();
 		mWebServer = new http::Server(mHttpPort);
 		mWebServer->setResponder("/public/ping", http::Response200());
 		mInfo = new HubInfo(mWebServer);
 		mPublicService = new PublicService(mWebServer);
 		mDeviceMgr = new DeviceMgr();
-		loadUsers("users.json");
+		loadUsers();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -38,6 +40,7 @@ namespace dmc {
 			delete mPublicService;
 		if(mWebServer)
 			delete mWebServer;
+		Persistence::end();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -51,8 +54,8 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void DmcServer::loadUsers(const std::string&) {
-		Json usersDatabase = Json(R"([{"name":"dmc64", "id":"dmc64"}])"); // Hardcoded user
+	void DmcServer::loadUsers() {
+		Json usersDatabase = Persistence::get()->getData("users");
 		for(auto userData : usersDatabase.asList()) {
 			mUsers.push_back(new User(*userData, mWebServer, mDeviceMgr));
 		}

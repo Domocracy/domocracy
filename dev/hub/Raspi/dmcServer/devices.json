@@ -1,0 +1,14 @@
+[
+	{
+		"type" : "HueLight",
+		"data" : {"name":"HueLight0", "id":42, "data":{"id":"1"}}
+	},
+	{
+		"type" : "HueLight",
+		"data" : {"name":"HueLight1", "id":42, "data":{"id":"2"}}
+	},
+	{
+		"type" : "HueLight",
+		"data" : {"name":"HueLight2", "id":43, "data":{"id":"3"}}
+	}
+]

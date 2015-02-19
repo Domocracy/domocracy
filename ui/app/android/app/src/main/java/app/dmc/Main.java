@@ -3,6 +3,7 @@ package app.dmc;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
+import app.dmc.core.Persistence;
 import app.dmc.user_interface.UserInterface;
 
 public class Main extends ActionBarActivity {
@@ -13,8 +14,10 @@ public class Main extends ActionBarActivity {
 
 
         // Init HubManager
+        Persistence.init(this);
         HubManager.init(this);
 
+        HubManager.get().hub("123").modifyIp("10.100.5.7");
 
         // Create Interface
         // Check if first connection
@@ -32,8 +35,6 @@ public class Main extends ActionBarActivity {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private interface.
-
-
     private UserInterface mUI;
 
    }
