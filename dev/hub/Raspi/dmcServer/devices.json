@@ -1,14 +1,38 @@
 [
 	{
 		"type" : "HueLight",
-		"data" : {"name":"HueLight0", "id":42, "data":{"id":"1"}}
+		"data" : {
+			"name":"HueLight0",
+			"id":41,
+			"data":{"id":"1"}
+		}
 	},
 	{
 		"type" : "HueLight",
-		"data" : {"name":"HueLight1", "id":42, "data":{"id":"2"}}
+		"data" : {
+			"name":"HueLight1",
+			"id":42,
+			"data":{"id":"2"}
+		}
 	},
 	{
 		"type" : "HueLight",
-		"data" : {"name":"HueLight2", "id":43, "data":{"id":"3"}}
+		"data" : {
+			"name":"HueLight2",
+			"id":43,
+			"data":{"id":"3"}
+		}
+	},
+	{
+		"type" : "Scene",
+		"data" : {
+			"name": "All off",
+			"id":58,
+			"children" : [
+				{ "id":41, "cmd": { "on":false } },
+				{ "id":42, "cmd": { "on":false } },
+				{ "id":43, "cmd": { "on":false } }
+			]
+		}
 	}
 ]

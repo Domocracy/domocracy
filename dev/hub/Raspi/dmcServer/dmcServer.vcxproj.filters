@@ -43,6 +43,9 @@
     <Filter Include="Source Files\public">
       <UniqueIdentifier>{13bf250e-7d8a-466c-a027-2b2753cfe663}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\service\user\device">
+      <UniqueIdentifier>{d455dbd2-97d7-47c7-a3e8-2bbe084b9dfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dmcServer.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="src\provider\persistence.cpp">
       <Filter>Source Files\providers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\user\device\scene.cpp">
+      <Filter>Source Files\service\user\device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="src\provider\persistence.h">
       <Filter>Source Files\providers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\service\user\device\scene.h">
+      <Filter>Source Files\service\user\device</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

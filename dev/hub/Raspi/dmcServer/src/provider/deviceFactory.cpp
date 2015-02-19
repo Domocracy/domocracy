@@ -8,14 +8,19 @@
 #include "deviceFactory.h"
 #include <core/comm/json/json.h>
 #include <device/hue/hueLight.h>
+#include <service/user/device/scene.h>
 
 namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	DeviceFactory::DeviceFactory() {
-		// Dummy light
+		// Hue lights
 		mFactories.insert(std::make_pair("HueLight", [](const Json& _data) -> Device* {
 			return new hue::Light(_data["id"].asInt(), _data["name"].asText(), _data["data"]["id"].asText());
+		}));
+		// Scenes
+		mFactories.insert(std::make_pair("Scene", [](const Json& _data) -> Device* {
+			return new Scene(_data);
 		}));
 	}
 
