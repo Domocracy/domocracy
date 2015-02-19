@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -29,10 +30,14 @@ public class Scene implements Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     // Public interface
     public Scene(JSONObject _data, Context _context){
-        // 666 Load from JSON
-        mName = "All off";// _data.getString("name");
-        mId = "3A";//_data.getString("id");
-        mHubId = "123";//_data.getString("hub");
+        try {
+            mName = _data.getString("name");
+            mId = _data.getString("id");
+            mHubId = _data.getString("hub");
+
+        }catch(JSONException _jsonException) {
+            _jsonException.printStackTrace();
+        }
 
     }
 
