@@ -90,6 +90,7 @@
     <ClInclude Include="src\provider\persistence.h" />
     <ClInclude Include="src\public\publicService.h" />
     <ClInclude Include="src\service\public\hubInfo.h" />
+    <ClInclude Include="src\service\user\device\scene.h" />
     <ClInclude Include="src\service\user\room.h" />
     <ClInclude Include="src\service\user\user.h" />
   </ItemGroup>
