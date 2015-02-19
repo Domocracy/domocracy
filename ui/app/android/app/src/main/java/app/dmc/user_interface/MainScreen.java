@@ -36,7 +36,7 @@ public class MainScreen {
 
         ll.addView(mRoomSelector.view());
 
-        Device sceneDev = new Scene(new JSONObject());
+        Device sceneDev = new Scene(new JSONObject(), _activity);
         ll.addView(sceneDev.view(_activity));
 
         //.addView(mCurrentRoom.view(_activity));

@@ -28,7 +28,7 @@ import app.dmc.R;
 public class Scene implements Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     // Public interface
-    public Scene(JSONObject _data){
+    public Scene(JSONObject _data, Context _context){
         // 666 Load from JSON
         mName = "All off";// _data.getString("name");
         mId = "3A";//_data.getString("id");
