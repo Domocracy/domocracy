@@ -14,12 +14,6 @@ import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import app.dmc.core.Persistence;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +122,8 @@ public class Hub {
 
     // Identification
     private String          mIp;
-
+    private String          mId;
+    private String          mName;
     private String          mHubFileName;
     private JSONObject      mJSONdefault;
     List<Room> mRoomList;
