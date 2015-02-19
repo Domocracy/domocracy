@@ -13,7 +13,8 @@
                         "devices":
                             [
                                 "2A",
-                                "2B"
+                                "2B",
+                                "3A"
                             ]
                     },
                     {
@@ -21,7 +22,8 @@
                         "id":2,
                         "devices":
                             [
-                                "2A"
+                                "2A",
+                                "3A"
                             ]
                     },
                     {
@@ -48,6 +50,14 @@
                         "data":{
                                 "name":"HueLight2",
                                 "id":"2B",
+                                "hub":"123"
+                                }
+                    },
+                    {
+                        "type":"Scene",
+                        "data":{
+                                "name":"All lights",
+                                "id":"3A",
                                 "hub":"123"
                                 }
                     }
