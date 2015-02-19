@@ -38,18 +38,27 @@ public class Main extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
     //-----------------------------------------------------------------------------------------------------------------
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-                return super.onOptionsItemSelected(item);
+        switch(item.getItemId()){
+            case R.id.set_ip:
+                
+                return true;
+
+            default:
+                return false;
+
+        }
     }
+
     //-----------------------------------------------------------------------------------------------------------------
-    
+
     // Private interface.
     private UserInterface mUI;
 
