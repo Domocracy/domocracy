@@ -71,7 +71,7 @@ namespace dmc {
 	Response* User::deviceCommand(const std::string& _cmd, const http::Request& _request) const {
 		string devIdStr = _cmd.substr(1); // Discard initial '/'
 		unsigned devId = strtol(devIdStr.c_str(), nullptr, 16);
-		Device* dev = mDevices->get(devId);
+		Device* dev = mDevices->device(devId);
 		if(!dev){
 			return new Response404(string("Error 404: Device ")+devIdStr+" not found\n");
 		}

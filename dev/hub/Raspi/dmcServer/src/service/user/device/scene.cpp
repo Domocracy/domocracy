@@ -17,7 +17,7 @@ namespace dmc {
 	{
 		Json childrenData = _data["children"];
 		const auto& list = childrenData.asList();
-		for(int i = 0; i < list.size(); ++i) {
+		for(size_t i = 0; i < list.size(); ++i) {
 			unsigned childId = unsigned((*list[i])["id"].asInt());
 			Json childCmd = (*list[i])["cmd"];
 			mChildren.insert(std::make_pair(childId, childCmd));
@@ -37,5 +37,6 @@ namespace dmc {
 			}
 			ok &= act->runCommand(i.second);
 		}
+		return ok;
 	}
 }
