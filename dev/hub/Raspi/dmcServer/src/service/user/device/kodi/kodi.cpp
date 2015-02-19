@@ -6,10 +6,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "kodi.h"
-#include <core/comm/json/rpc/jsonRpc.h>
-#include <core/comm/http/httpClient.h>
-#include <core/comm/http/request/jsonRequest.h>
+#include <core/comm/socket/socket.h>
 #include <iostream>
+
+using namespace std;
 
 namespace dmc { namespace kodi {
 
@@ -22,23 +22,19 @@ namespace dmc { namespace kodi {
 		mIp = _data["ip"].asText();
 
 		// Try to ping Kodi
-		http::Client client;
-		if(!client.connect(mIp, mPort)) {
-			std::cout << "Can't connect to Kodi\n";
-		}
-		else { // Connected
-			std::cout << "Connected to Kodi\n";
+		Socket socket;
+		socket.connectTo("localhost", 9090);
+		Json request(R"({"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1})");
+		string msg;
+		request >> msg;
+		socket.write(msg);
 
-			Json notifParams(R"({"title":"DMC", "message": "Domocratizate!"})");
-			JsonRpcRequest request("GUI.ShowNotification", notifParams, 352);
-
-			http::Response* r = client.makeRequest(http::JsonRequest(http::Request::METHOD::Post, "/jsonrpc", Json("{}")));
-			/*http::Response* r = client.makeRequest(http::JsonRequest(http::Request::METHOD::Post, "/jsonrpc", Json(
-				R"({ "jsonrpc": "2.0", "method": "JSONRPC.Introspect", "params": { "filter": { "id": "AudioLibrary.GetAlbums", "type": "method" } }, "id": 1 })"
-				)));*/
-			std::string msg = r->serialize();
-			std::cout << msg << "\n";
-		}
+		// Wait for response from the server
+		const unsigned bufferSize = 64*1024;
+		char buffer[bufferSize+1];
+		int nBytes = socket.read(buffer, bufferSize);
+		buffer[nBytes] = '\0';
+		std::string dst(buffer);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
