@@ -17,7 +17,7 @@ public class Main extends ActionBarActivity {
         Persistence.init(this);
         HubManager.init(this);
 
-        HubManager.get().hub("123").modifyIp("565655757");
+        HubManager.get().hub("123").modifyIp("homiehomiehomie");
 
         // Create Interface
         // Check if first connection

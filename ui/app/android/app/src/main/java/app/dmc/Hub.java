@@ -27,19 +27,19 @@ import app.dmc.devices.DeviceManager;
 public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public Hub(Context _context, JSONObject _jsonHub){
-        try{
-            mId             = _jsonHub.getString("id");
-            mName           = _jsonHub.getString("name");
-            mIp             = _jsonHub.getString("ip");
-            mHubFileName    = "hub_" + mId;
-            mJSONdefault    =  new JSONObject("{\"name\": \"Home\",\"id\": \"123\",\"ip\": \"193.147.168.23\"}");
-            Persistence.get().putData(mHubFileName,mJSONdefault);
-           // mDevMgr = new DeviceManager(_context, _jsonHub.getJSONObject("devices"));
+    public Hub(Context _context, JSONObject _jsonHub) {
+        try {
+            mId = _jsonHub.getString("id");
+            mName = _jsonHub.getString("name");
+            mIp = _jsonHub.getString("ip");
+            mHubFileName = "hub_" + mId;
+            mJSONdefault = new JSONObject("{\"name\": \"Home\",\"id\": \"123\",\"ip\": \"193.147.168.23\"}");
+            Persistence.get().putData(mHubFileName, mJSONdefault);
+            mDevMgr = new DeviceManager(_context, _jsonHub.getJSONArray("devices"));
 
             //666TODO Rooms not implemented
 
-        }catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -47,48 +47,48 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public Device device(String _id){
+    public Device device(String _id) {
         return mDevMgr.device(_id);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public String name(){
+    public String name() {
         return mName;
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public String id(){
+    public String id() {
         return mId;
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public String ip(){
+    public String ip() {
         return mIp;
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject send(final String _url, final JSONObject _body){
+    public JSONObject send(final String _url, final JSONObject _body) {
         String url = "http://" + ip() + "/user/dmc64" + _url;
         return mConnection.send(url, _body);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
 
-    public boolean modifyIp(String _ip){
-        if(!_ip.equals(mIp)){
+    public boolean modifyIp(String _ip) {
+        if (!_ip.equals(mIp)) {
             mIp = _ip;
             JSONObject json = Persistence.get().getData(mHubFileName);
-            try{
-                json.put("ip",_ip);
-                Persistence.get().putData(mHubFileName,json);
-                }catch(JSONException e){
-                    Log.d("modifyJson", e.getMessage());
-                }
-                return true;
-            }else return false;
+            try {
+                json.put("ip", _ip);
+                Persistence.get().putData(mHubFileName, json);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return true;
+        } else return false;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -99,4 +99,6 @@ public class Hub {
     private String          mIp;
     private String          mHubFileName;
     private JSONObject      mJSONdefault;
-    HubConnection mConnection = null;
+    private DeviceManager   mDevMgr;
+    HubConnection           mConnection = null;
+}

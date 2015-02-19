@@ -57,7 +57,7 @@ public class HubManager {
     // Private Interface.
     private HubManager(Context _context){
         //here goes the loadHub
-
+        initJson();
         mHubMap  = new HashMap<String,Hub>();
         mHubsIds = new ArrayList<String>();
         try {
