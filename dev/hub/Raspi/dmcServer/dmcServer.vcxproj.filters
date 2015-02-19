@@ -101,5 +101,8 @@
     <ClInclude Include="src\device\hue\hueBridge.h">
       <Filter>Source Files\device\hue</Filter>
     </ClInclude>
+    <ClInclude Include="src\provider\persistence.h">
+      <Filter>Source Files\providers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
