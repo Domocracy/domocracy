@@ -15,7 +15,6 @@
 
 namespace dmc {
 
-	class PublicService;
 	class User;
 	class DeviceMgr;
 	
@@ -35,7 +34,6 @@ namespace dmc {
 
 		// Components
 		http::Server*		mWebServer = nullptr;
-		PublicService*		mPublicService = nullptr;
 		std::vector<User*>	mUsers;
 		HubInfo*			mInfo = nullptr;
 		DeviceMgr*			mDeviceMgr = nullptr;
