@@ -17,7 +17,7 @@ namespace dmc {
 		Json method;
 		method.setText(_method);
 		(*this)["jsonrpc"] = Json(R"("2.0")");
-		(*this)["params"] = _params;
+		(*this)["method"] = method;
 		(*this)["params"] = _params;
 	}
 

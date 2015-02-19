@@ -248,6 +248,9 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	Json& Json::operator[](const std::string& _key) {
 		assert(isDictionary());
+		const auto& it = mDictionary.find(_key);
+		if(it == mDictionary.end())
+			mDictionary[_key] = new Json("");
 		return *mDictionary[_key];
 	}
 

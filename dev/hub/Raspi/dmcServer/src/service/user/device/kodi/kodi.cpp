@@ -29,11 +29,15 @@ namespace dmc { namespace kodi {
 		else { // Connected
 			std::cout << "Connected to Kodi\n";
 
-			Json notifParams(R"({"title":"DMC", "message": "Domocratizate!"}")");
+			Json notifParams(R"({"title":"DMC", "message": "Domocratizate!"})");
 			JsonRpcRequest request("GUI.ShowNotification", notifParams, 352);
 
-			http::Response* r = client.makeRequest(http::JsonRequest(http::Request::METHOD::Post, "/jsonrpc", request));
-			std::cout << r->serialize() << "\n";
+			http::Response* r = client.makeRequest(http::JsonRequest(http::Request::METHOD::Post, "/jsonrpc", Json("{}")));
+			/*http::Response* r = client.makeRequest(http::JsonRequest(http::Request::METHOD::Post, "/jsonrpc", Json(
+				R"({ "jsonrpc": "2.0", "method": "JSONRPC.Introspect", "params": { "filter": { "id": "AudioLibrary.GetAlbums", "type": "method" } }, "id": 1 })"
+				)));*/
+			std::string msg = r->serialize();
+			std::cout << msg << "\n";
 		}
 	}
 
