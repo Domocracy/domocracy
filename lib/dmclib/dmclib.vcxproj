@@ -112,6 +112,7 @@
     <ClInclude Include="src\core\comm\http\response\response200.h" />
     <ClInclude Include="src\core\comm\http\response\response404.h" />
     <ClInclude Include="src\core\comm\json\json.h" />
+    <ClInclude Include="src\core\comm\json\rpc\jsonRpc.h" />
     <ClInclude Include="src\core\comm\socket\socket.h" />
     <ClInclude Include="src\core\comm\socket\socketLinux.h" />
     <ClInclude Include="src\core\comm\socket\socketServer.h" />
