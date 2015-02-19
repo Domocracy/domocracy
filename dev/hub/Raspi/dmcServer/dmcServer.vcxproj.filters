@@ -43,6 +43,9 @@
     <Filter Include="Source Files\service\user\device">
       <UniqueIdentifier>{d455dbd2-97d7-47c7-a3e8-2bbe084b9dfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\service\user\device\kodi">
+      <UniqueIdentifier>{a27aee57-f70b-4d29-a37c-79ed1c849917}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dmcServer.cpp">
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="src\service\user\device\scene.h">
       <Filter>Source Files\service\user\device</Filter>
+    </ClInclude>
+    <ClInclude Include="src\service\user\device\kodi\kodi.h">
+      <Filter>Source Files\service\user\device\kodi</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
