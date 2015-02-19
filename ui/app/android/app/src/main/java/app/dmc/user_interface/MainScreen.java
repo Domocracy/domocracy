@@ -12,10 +12,14 @@ package app.dmc.user_interface;
 import android.app.Activity;
 import android.widget.LinearLayout;
 
+import org.json.JSONObject;
+
 import app.dmc.Hub;
 import app.dmc.HubManager;
 import app.dmc.R;
 import app.dmc.Room;
+import app.dmc.devices.Scene;
+import app.dmc.devices.*;
 
 public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
@@ -32,6 +36,8 @@ public class MainScreen {
 
         ll.addView(mRoomSelector.view());
 
+        Device sceneDev = new Scene(new JSONObject());
+        ll.addView(sceneDev.view(_activity));
 
         //.addView(mCurrentRoom.view(_activity));
 /*

@@ -14,8 +14,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ToggleButton;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -27,15 +27,12 @@ import app.dmc.R;
 public class Scene implements Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     // Public interface
-    Scene(JSONObject _data){
-        try {
-            mName = _data.getString("name");
-            mId = _data.getString("id");
-            mHubId = _data.getString("hub");
+    public Scene(JSONObject _data){
+        // 666 Load from JSON
+        mName = "All off";// _data.getString("name");
+        mId = "3A";//_data.getString("id");
+        mHubId = "123";//_data.getString("hub");
 
-        }catch(JSONException _jsonException) {
-            _jsonException.printStackTrace();
-        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -45,7 +42,21 @@ public class Scene implements Actuator{
             LayoutInflater inflater = LayoutInflater.from(_context);
             LinearLayout base = (LinearLayout) inflater.inflate(R.layout.scene_layout, null);
 
-            
+            ToggleButton button = (ToggleButton) base.findViewById(R.id.toggleButton);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            runCommand(new JSONObject());
+                        }
+                    });
+                    t.start();
+                }
+            });
+
+            mView = base;
 
         }
 
@@ -55,13 +66,13 @@ public class Scene implements Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public String name() {
-        return null;
+        return mName;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public String id() {
-        return null;
+        return mId;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
