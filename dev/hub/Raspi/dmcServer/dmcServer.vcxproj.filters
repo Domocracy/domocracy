@@ -28,9 +28,6 @@
     <Filter Include="Source Files\service\userAdmin">
       <UniqueIdentifier>{6843fb43-6f88-4ef4-a237-932a66a7daf2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\providers\persistence">
-      <UniqueIdentifier>{9e0d4452-5d5a-4ed7-942f-149a6c63b541}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\providers\scheduler">
       <UniqueIdentifier>{c3131bb1-2a99-46c8-9c36-4ebbd68a201a}</UniqueIdentifier>
     </Filter>
@@ -71,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="src\device\hue\hueBridge.cpp">
       <Filter>Source Files\device\hue</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\persistence.cpp">
+      <Filter>Source Files\providers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

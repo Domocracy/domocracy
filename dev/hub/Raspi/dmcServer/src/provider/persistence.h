@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // Project: DMC Server
-// Date:	2015/Feb/11
+// Date:	2015/Feb/19
 // Author:	Carmelo J. Fdez-Agüera Tortosa
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,14 +15,15 @@ namespace dmc {
 
 	class Persistence {
 	public:
-		static Persistence* get		();
+		static Persistence* get		() { return sInstance; }
 		static void			init	();
 
 		void				saveData(const std::string& _dataId, const Json& _data);
 		Json				getData	(const std::string& _dataId);
 
 	private:
-		Persistence();
+		Persistence() = default;
+		static Persistence* sInstance;
 	};
 
 }	// namespace dmc
