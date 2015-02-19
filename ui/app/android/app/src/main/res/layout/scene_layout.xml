@@ -6,7 +6,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/toggleButton"
-        android:background="@drawable/hue_light_icon_selector"
+        android:background="@drawable/scene_icon_selector"
         android:textOff=" "
         android:textOn=" "
         android:layout_margin="5dp" />

@@ -14,6 +14,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import org.json.JSONObject;
@@ -42,6 +43,10 @@ public class Scene implements Actuator{
             LayoutInflater inflater = LayoutInflater.from(_context);
             LinearLayout base = (LinearLayout) inflater.inflate(R.layout.scene_layout, null);
 
+            // Set name
+            ((TextView) base.findViewById(R.id.devName)).setText(name());
+
+            // Execute Scene
             ToggleButton button = (ToggleButton) base.findViewById(R.id.toggleButton);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -53,6 +58,14 @@ public class Scene implements Actuator{
                         }
                     });
                     t.start();
+                }
+            });
+
+            // Reconfigure scene
+            base.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return false;
                 }
             });
 
