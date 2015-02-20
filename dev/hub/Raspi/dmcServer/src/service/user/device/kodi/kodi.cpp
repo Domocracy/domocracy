@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "kodi.h"
 #include <iostream>
+#include <core/comm/json/rpc/jsonRpc.h>
 
 using namespace std;
 
@@ -40,12 +41,25 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void Kodi::sendCommand(const Json& _cmd) {
+	void Kodi::sendRequest(const Json& _cmd) {
+		mTcpConnection.write(_cmd.serialize());
+	}
 
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::readResponse() {
+		/// 666 TODO: Support concatenated json responses.
+		const unsigned bufferSize = 64*1024;
+		char buffer[bufferSize+1];
+		int nBytes = mTcpConnection.read(buffer, bufferSize);
+		buffer[nBytes] = '\0';
+		return Json(string(buffer));
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::getPlayers() {
+		JsonRpcRequest request("Player.GetActivePlayers", Json("{}"), mLastReqId);
+		sendRequest(request);
+		Json response = readResponse();
 		return Json();
 	}
 

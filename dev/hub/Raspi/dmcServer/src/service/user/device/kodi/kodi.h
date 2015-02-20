@@ -22,8 +22,8 @@ namespace dmc { namespace kodi {
 		bool runCommand(const Json& _cmd) override;
 
 	private:
-		void sendCommand(const Json&);
-		Json readComand();
+		void sendRequest(const Json&);
+		Json readResponse();
 
 		Json getPlayers();
 		Json getMovies();
@@ -32,6 +32,8 @@ namespace dmc { namespace kodi {
 		std::string mIp;
 		unsigned	mPort = 9090;
 		Socket		mTcpConnection;
+
+		unsigned	mLastReqId = 0;
 	};
 
 }}	// namespace dmc::kodi
