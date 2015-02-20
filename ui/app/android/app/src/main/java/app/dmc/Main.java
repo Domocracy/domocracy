@@ -2,12 +2,8 @@ package app.dmc;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 import app.dmc.core.Persistence;
 import app.dmc.user_interface.UserInterface;

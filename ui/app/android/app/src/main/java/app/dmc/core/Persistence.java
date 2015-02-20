@@ -16,15 +16,14 @@ import java.io.OutputStream;
 
 public class Persistence {
     //-----------------------------------------------------------------------------------------------------------------
-    static public void init(Context _context){
-        mContext = _context;
+    public static void init(Context _context){
+        assert sInstance == null;
+        sInstance = new Persistence(_context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public static Persistence get(){
-        assert mContext != null;
-        if(instance == null) instance = new Persistence(mContext);
-        return instance;
+        return sInstance;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -67,11 +66,12 @@ public class Persistence {
     //-----------------------------------------------------------------------------------------------------------------
     //Private interface
     private Persistence(Context _context){
-
+            assert _context != null;
+            mContext = _context;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private static Persistence  instance = null;
-    private static Context      mContext = null;
+    private static Persistence  sInstance = null;
+    private         Context      mContext;
 
 }
