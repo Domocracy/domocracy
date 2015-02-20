@@ -163,7 +163,7 @@ namespace dmc {
 			return mInt?"true":"false";
 		case DataType::dictionary:
 		{
-			string dst = "{";
+			string dst = "{ "; // Empty space prevents smashing opening brace for empty dictionaries
 			for(const auto& entry : mDictionary) {
 				dst.append(string("\"")+entry.first+"\":"+entry.second->serialize()+",");
 			}
@@ -172,7 +172,7 @@ namespace dmc {
 		}
 		case DataType::list:
 		{
-			string dst = "[";
+			string dst = "[ "; // Empty space prevents smashing opening brace for empty lists
 			for(const auto& entry : mList) {
 				dst.append(entry->serialize()+",");
 			}
