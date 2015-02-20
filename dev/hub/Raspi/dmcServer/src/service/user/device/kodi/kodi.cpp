@@ -6,7 +6,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "kodi.h"
-#include <core/comm/socket/socket.h>
 #include <iostream>
 
 using namespace std;
@@ -20,9 +19,8 @@ namespace dmc { namespace kodi {
 	{
 		mIp = _data["ip"].asText();
 
+		mTcpConnection.connectTo(mIp, mPort);
 		// Try to ping Kodi
-		/*Socket socket;
-		socket.connectTo(mIp, 9090);
 		Json request(R"({"jsonrpc": "2.0", "method": "GUI.ShowNotification", 
 						"params":{"title":"DMC", "message":"Domocratizate"},"id": 1})");
 		string msg;
@@ -34,12 +32,22 @@ namespace dmc { namespace kodi {
 		char buffer[bufferSize+1];
 		int nBytes = socket.read(buffer, bufferSize);
 		buffer[nBytes] = '\0';
-		std::string dst(buffer);*/
+		std::string dst(buffer);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Kodi::runCommand(const Json&) {
 		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void Kodi::sendCommand(const Json& _cmd) {
+
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::getPlayers() {
+
 	}
 
 }}	// namespace dmc::kodi

@@ -10,6 +10,7 @@
 
 #include <string>
 #include <core/comm/json/json.h>
+#include <core/comm/socket/socket.h>
 #include <home/device/actuator.h>
 
 namespace dmc { namespace kodi {
@@ -21,8 +22,16 @@ namespace dmc { namespace kodi {
 		bool runCommand(const Json& _cmd) override;
 
 	private:
+		void sendCommand(const Json&);
+		Json readComand();
+
+		Json getPlayers();
+		Json getMovies();
+		void PlayMovie(const Json& _movie);
+
 		std::string mIp;
-		unsigned	mPort;
+		unsigned	mPort = 9090;
+		Socket		mTcpConnection;
 	};
 
 }}	// namespace dmc::kodi
