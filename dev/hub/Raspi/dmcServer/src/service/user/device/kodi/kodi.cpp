@@ -21,18 +21,17 @@ namespace dmc { namespace kodi {
 
 		mTcpConnection.connectTo(mIp, mPort);
 		// Try to ping Kodi
-		Json request(R"({"jsonrpc": "2.0", "method": "GUI.ShowNotification", 
+		/*Json request(R"({"jsonrpc": "2.0", "method": "GUI.ShowNotification", 
 						"params":{"title":"DMC", "message":"Domocratizate"},"id": 1})");
-		string msg;
-		request >> msg;
-		socket.write(msg);
+	
+		socket.write(request.serialize());
 
 		// Wait for response from the server
 		const unsigned bufferSize = 64*1024;
 		char buffer[bufferSize+1];
 		int nBytes = socket.read(buffer, bufferSize);
 		buffer[nBytes] = '\0';
-		std::string dst(buffer);
+		std::string dst(buffer);*/
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -47,7 +46,7 @@ namespace dmc { namespace kodi {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::getPlayers() {
-
+		return Json();
 	}
 
 }}	// namespace dmc::kodi

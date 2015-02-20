@@ -147,57 +147,47 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	void Json::saveToFile(const std::string& _fileName) const {
 		ofstream file(_fileName.c_str());
-		string data;
-		this->operator>>(data);
-		file << data;
+		file << serialize();
 		file.close();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void Json::operator>>(std::string& _dst) const {
+	std::string Json::serialize() const {
 		switch (mType)
 		{
 		case DataType::boolean:
-			_dst = mInt?"true":"false";
-			break;
+			return mInt?"true":"false";
 		case DataType::dictionary:
 		{
-			_dst = "{";
+			string dst = "{";
 			for(const auto& entry : mDictionary) {
-				std::string value;
-				*entry.second >> value;
-				_dst.append(string("\"")+entry.first+"\":"+value+",");
+				dst.append(string("\"")+entry.first+"\":"+entry.second->serialize()+",");
 			}
-			_dst.back() = '}';
-			break;
+			dst.back() = '}';
+			return dst;
 		}
 		case DataType::list:
 		{
-			_dst = "[";
+			string dst = "[";
 			for(const auto& entry : mList) {
-				std::string value;
-				*entry >> value;
-				_dst.append(value+",");
+				dst.append(entry->serialize()+",");
 			}
-			_dst.back() = ']';
-			break;
+			dst.back() = ']';
+			return dst;
 		}
 		case DataType::text:
 		{
-			_dst = "\"";
-			_dst.append(mString+"\"");
-			break;
+			return string("\"")+mString+"\"";
 		}
 		case DataType::integer:
 		{
 			std::stringstream s;
 			s << mInt;
-			_dst.append(s.str());
-			break;
+			return s.str();
 		}
 		default:
 			assert(false); // Unimplemented data type
-			break;
+			return "";
 		}
 	}
 

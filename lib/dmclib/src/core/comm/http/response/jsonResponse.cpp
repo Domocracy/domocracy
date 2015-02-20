@@ -15,9 +15,7 @@ namespace dmc { namespace http {
 	JsonResponse::JsonResponse(const Json& _rawResponse) 
 		: Response(200, "OK")
 	{
-		string body;
-		_rawResponse >> body;
-		setBody(body);
+		setBody(_rawResponse.serialize());
 		headers()["Content-type"] = "application/json";
 	}
 
