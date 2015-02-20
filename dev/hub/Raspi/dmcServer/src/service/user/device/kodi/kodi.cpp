@@ -18,13 +18,13 @@ namespace dmc { namespace kodi {
 		:Actuator(_data["id"].asInt(), _data["name"].asText())
 		,Device(_data["id"].asInt(), _data["name"].asText())
 	{
-		mPort = (unsigned)_data["port"].asInt();
 		mIp = _data["ip"].asText();
 
 		// Try to ping Kodi
-		Socket socket;
-		socket.connectTo("localhost", 9090);
-		Json request(R"({"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1})");
+		/*Socket socket;
+		socket.connectTo(mIp, 9090);
+		Json request(R"({"jsonrpc": "2.0", "method": "GUI.ShowNotification", 
+						"params":{"title":"DMC", "message":"Domocratizate"},"id": 1})");
 		string msg;
 		request >> msg;
 		socket.write(msg);
@@ -34,7 +34,7 @@ namespace dmc { namespace kodi {
 		char buffer[bufferSize+1];
 		int nBytes = socket.read(buffer, bufferSize);
 		buffer[nBytes] = '\0';
-		std::string dst(buffer);
+		std::string dst(buffer);*/
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
