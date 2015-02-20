@@ -90,6 +90,10 @@ namespace dmc {
 			mType = DataType::boolean;
 			mInt = 1;
 			return 4;
+		}else if (_code.substr(0,4) == "Null" || _code.substr(0,4) == "null") {
+			mType = DataType::nill;
+			mInt = 0;
+			return 4;
 		} else if('\"' == _code[cursor]) { // Text literal
 			unsigned terminator = _code.find('\"', cursor+1);
 			unsigned len = terminator - cursor - 1;

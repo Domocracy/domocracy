@@ -21,6 +21,8 @@ namespace dmc { namespace kodi {
 		mIp = _data["ip"].asText();
 
 		mTcpConnection.connectTo(mIp, mPort);
+
+		getPlayers();
 		// Try to ping Kodi
 		/*Json request(R"({"jsonrpc": "2.0", "method": "GUI.ShowNotification", 
 						"params":{"title":"DMC", "message":"Domocratizate"},"id": 1})");
