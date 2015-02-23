@@ -20,6 +20,11 @@ import app.dmc.devices.DevicePanel;
 public class HueLight extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
+    public HueLight(JSONObject _devData){
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
         ActuatorPanel huePanel = new ActuatorPanel(this, _panelData, _context) {

@@ -30,8 +30,8 @@ public class DeviceFactory {
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public Device create(String _type, JSONObject _data, Context _context){
-        return sFactories.get(_type).create(_data, _context);
+    public Device create(String _type, JSONObject _data){
+        return sFactories.get(_type).create(_data);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -44,16 +44,16 @@ public class DeviceFactory {
         // HueLight Factory
         sFactories.put("HueLight", new Factory() {
             @Override
-            public Device create(JSONObject _data, Context _context) {
-                return new HueLight(_data, _context);
+            public Device create(JSONObject _data) {
+                return new HueLight(_data);
             }
         });
 
         // Scene Factory
         sFactories.put("Scene", new Factory() {
             @Override
-            public Device create(JSONObject _data, Context _context) {
-                return new Scene(_data, _context);
+            public Device create(JSONObject _data) {
+                return new Scene(_data);
             }
         });
 
@@ -68,6 +68,6 @@ public class DeviceFactory {
 
     //-----------------------------------------------------------------------------------------------------------------
     public interface Factory{
-        Device create(JSONObject _data, Context _context);
+        Device create(JSONObject _data);
     }
 }

@@ -17,6 +17,11 @@ import org.json.JSONObject;
 public class Scene extends Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
+    public Scene(JSONObject _sceneData){
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
         ActuatorPanel huePanel = new ActuatorPanel(this, _panelData, _context) {

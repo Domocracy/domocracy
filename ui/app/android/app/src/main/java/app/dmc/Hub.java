@@ -14,10 +14,11 @@ import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import app.dmc.core.Persistence;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import app.dmc.core.Persistence;
 import app.dmc.devices.Device;
 import app.dmc.devices.DeviceManager;
 
@@ -37,10 +38,10 @@ public class Hub {
             mRoomList = new ArrayList<>();
             JSONArray rooms = _jsonHub.getJSONArray("rooms");
             for(int i = 0; i < rooms.length() ; i++){
-                mRoomList.add( new Room(rooms.getJSONObject(i), this));
+                mRoomList.add( new Room(rooms.getJSONObject(i), this, _context));
             }
 
-            mDevMgr = new DeviceManager(_context, _jsonHub.getJSONArray("devices"));
+            mDevMgr = new DeviceManager(_jsonHub.getJSONArray("devices"));
 
             //666TODO Rooms not implemented
 
