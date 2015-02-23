@@ -13,4 +13,5 @@ import org.json.JSONObject;
 
 public interface Actuator extends Device {
     void runCommand(final JSONObject _jsonCommand);
+    JSONObject action(JSONObject _stateInfo);
 }

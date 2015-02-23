@@ -8,13 +8,14 @@
 //
 package app.dmc.devices;
 
+import android.content.Context;
 import android.view.View;
 
 import org.json.JSONObject;
 
 public abstract class DevicePanel {
     //-----------------------------------------------------------------------------------------------------------------
-    public DevicePanel(Device _dev){
+    public DevicePanel(Device _dev, Context _context){
         mParentDevice = _dev;
     }
 

@@ -10,12 +10,14 @@
 package app.dmc.devices;
 
 
+import android.content.Context;
+
 import org.json.JSONObject;
 
 public abstract class ActuatorPanel extends DevicePanel{
     //-----------------------------------------------------------------------------------------------------------------
-    ActuatorPanel(Actuator _parentActuator){
-        super(_parentActuator);
+    ActuatorPanel(Actuator _parentActuator, Context _context){
+        super(_parentActuator, _context);
         mParentActuator = _parentActuator;
     }
 
