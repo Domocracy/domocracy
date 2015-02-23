@@ -21,7 +21,14 @@ public abstract class Device {
     public String id(){ return mId; };
 
     //-----------------------------------------------------------------------------------------------------------------
-    public abstract DevicePanel newPanel(String _type, JSONObject _panelData, Context _context);
+    public abstract DevicePanel createPanel(String _type, JSONObject _panelData, Context _context);
+
+    //-----------------------------------------------------------------------------------------------------------------
+    final public DevicePanel newPanel(String _type, JSONObject _panelData, Context _context){
+        DevicePanel panel = createPanel(_type, _panelData, _context);
+        mRegisteredPanels.add(panel);
+        return panel;
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     public void unregisterPanel(DevicePanel _panel){
