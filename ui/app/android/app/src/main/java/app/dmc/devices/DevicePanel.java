@@ -13,14 +13,14 @@ import android.view.View;
 
 import org.json.JSONObject;
 
-public abstract class DevicePanel {
+public abstract class DevicePanel extends View {
     //-----------------------------------------------------------------------------------------------------------------
     public DevicePanel(Device _dev, Context _context){
+        super(_context);
         mParentDevice = _dev;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public abstract View view();
     public abstract void stateChanged(JSONObject _state);
 
     //-----------------------------------------------------------------------------------------------------------------
