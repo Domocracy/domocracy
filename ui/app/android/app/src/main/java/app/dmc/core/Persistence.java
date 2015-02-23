@@ -1,7 +1,9 @@
 package app.dmc.core;
 
 import android.content.Context;
+
 import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -9,6 +11,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Joscormir on 16/02/2015.
@@ -22,12 +28,38 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public static Persistence get(){
-        return sInstance;
+    public JSONObject get(String _path){
+        JSONObject json = null;
+        List<String> fileLevels = decodePath(_path);
+
+        for(int i = 0; i< mFiles.size();i++){
+            if(mFiles.containsKey(fileLevels.get(0))){
+                json = mFiles.get(fileLevels.get(0));
+                return json;
+            }else
+                updateFilesMap(fileLevels.get(0));
+        }
+    return json; 
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject getData(String _fileName){
+    private List decodePath (String _path){
+        List<String> fileLevels = new ArrayList<String>();
+        int i = 0;
+        String level = "";
+        if(i != _path.length()) {
+            while (_path.charAt(i) != '/') {
+                level = level + _path.charAt(i);
+                i++;
+            }
+            fileLevels.add(level);
+        }
+    return fileLevels;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private JSONObject loadFile(String _fileName){
        JSONObject json = null;
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
             try {
@@ -45,7 +77,7 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public boolean putData(String _fileName, JSONObject _json){
+    private boolean saveFile(String _fileName, JSONObject _json){
         boolean success = false;
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
         try{
@@ -64,6 +96,12 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    private void updateFilesMap (String _fileName){
+        mFiles = new HashMap<String,JSONObject>();
+        mFiles.put(_fileName,loadFile(_fileName));
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     //Private interface
     private Persistence(Context _context){
             assert _context != null;
@@ -71,7 +109,8 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private static Persistence  sInstance = null;
-    private         Context      mContext;
+    private static  Persistence             sInstance = null;
+    private         Context                 mContext;
+    private         Map<String, JSONObject> mFiles;
 
 }
