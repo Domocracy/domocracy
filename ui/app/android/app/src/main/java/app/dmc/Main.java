@@ -23,7 +23,9 @@ public class Main extends ActionBarActivity {
            e.printStackTrace();
         }
         Persistence.init(this);
-        mPruebaRecieved = Persistence.get().getJSON("hub_123/ip");
+        //mPruebaRecieved = Persistence.get().getJSON("/hubList/hubs/rooms");
+
+        mPruebaRecieved = Persistence.get().getJSON("/hubList/hubs");
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface
@@ -40,7 +42,7 @@ public class Main extends ActionBarActivity {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private interface.
-    private JSONObject mPruebaRecieved = null;
+    private Object mPruebaRecieved = null;
     private JSONObject mPrueba;
     private UserInterface mUI;
 

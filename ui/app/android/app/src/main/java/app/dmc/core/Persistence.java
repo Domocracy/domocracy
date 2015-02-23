@@ -34,23 +34,26 @@ public class Persistence {
 
     //-----------------------------------------------------------------------------------------------------------------
 
-    public JSONObject getJSON(String _path){
-        JSONObject json = null;
+    public Object getJSON(String _path){
+        JSONObject json = new JSONObject();
+        Object foo = new Object();
+
         List<String> fileLevels = decodePath(_path);
 
-        for(int i = 0; i< mFiles.size();i++) {
-            json = mFiles.get(fileLevels.get(0) + ".json");//the first position in the list is the name of the file
+        for(int i = 0; i<= mFiles.size();i++) {
+            json = mFiles.get(fileLevels.get(0));//the first position in the list is the name of the file
             if (!mFiles.containsKey(fileLevels.get(0))) updateFilesMap(fileLevels.get(0));
         }
         for(int i = 1; i < fileLevels.size(); i++){
             try {
-                if ( fileLevels.get(i).equals(json.getString(fileLevels.get(i))) ) json = (JSONObject)json.get(fileLevels.get(i));
+                foo = json.get(fileLevels.get(i));
+
+
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
-        return json;
-
+        return foo;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -58,7 +61,7 @@ public class Persistence {
         List<String> fileLevels = new ArrayList<String>();
 
         String level = "";
-        for(int i = 0 ; i < _path.length()+1 ; i++){
+        for(int i = 1 ; i < _path.length()+1 ; i++){
             if (i < _path.length() && _path.charAt(i) != '/') {
                 level = level + _path.charAt(i);
             }else {
@@ -108,7 +111,6 @@ public class Persistence {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void updateFilesMap (String _fileName){
-        mFiles = new HashMap<String,JSONObject>();
         mFiles.put(_fileName,loadFile(_fileName));
     }
 
@@ -117,6 +119,7 @@ public class Persistence {
     private Persistence(Context _context){
             assert _context != null;
             mContext = _context;
+            mFiles = new HashMap<String,JSONObject>();//nor need to be initialized here.
     }
 
     //-----------------------------------------------------------------------------------------------------------------
