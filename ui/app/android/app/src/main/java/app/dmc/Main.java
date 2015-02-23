@@ -23,8 +23,7 @@ public class Main extends ActionBarActivity {
            e.printStackTrace();
         }
         Persistence.init(this);
-        Persistence.get().putData("nuevaPrueba", mPrueba);
-        mPruebaRecieved = Persistence.get().getData("nuevaPrueba");
+        mPruebaRecieved = Persistence.get().getJSON("hub_123/ip");
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface

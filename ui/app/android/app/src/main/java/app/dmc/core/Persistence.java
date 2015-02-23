@@ -28,7 +28,13 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject get(String _path){
+    public static Persistence get(){
+        return sInstance;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+
+    public JSONObject getJSON(String _path){
         JSONObject json = null;
         List<String> fileLevels = decodePath(_path);
 
@@ -50,14 +56,15 @@ public class Persistence {
     //-----------------------------------------------------------------------------------------------------------------
     private List decodePath (String _path){
         List<String> fileLevels = new ArrayList<String>();
-        int i = 0;
+
         String level = "";
-        if(i != _path.length()) {
-            while (_path.charAt(i) != '/') {
+        for(int i = 0 ; i < _path.length()+1 ; i++){
+            if (i < _path.length() && _path.charAt(i) != '/') {
                 level = level + _path.charAt(i);
-                i++;
+            }else {
+                fileLevels.add(level);
+                level = "";
             }
-            fileLevels.add(level);
         }
     return fileLevels;
     }
