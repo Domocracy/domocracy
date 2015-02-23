@@ -32,14 +32,18 @@ public class Persistence {
         JSONObject json = null;
         List<String> fileLevels = decodePath(_path);
 
-        for(int i = 0; i< mFiles.size();i++){
-            if(mFiles.containsKey(fileLevels.get(0))){
-                json = mFiles.get(fileLevels.get(0));
-                return json;
-            }else
-                updateFilesMap(fileLevels.get(0));
+        for(int i = 0; i< mFiles.size();i++) {
+            json = mFiles.get(fileLevels.get(0) + ".json");//the first position in the list is the name of the file
+            if (!mFiles.containsKey(fileLevels.get(0))) updateFilesMap(fileLevels.get(0));
         }
-    return json; 
+        for(int i = 1; i < fileLevels.size(); i++){
+            try {
+                if ( fileLevels.get(i).equals(json.getString(fileLevels.get(i))) ) json = (JSONObject)json.get(fileLevels.get(i));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return json;
 
     }
 
