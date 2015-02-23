@@ -11,12 +11,23 @@ package app.dmc.devices;
 
 import android.content.Context;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Set;
 
 public abstract class Device {
     //-----------------------------------------------------------------------------------------------------------------
+    Device(JSONObject _devData){
+        try{
+            mId     = _devData.getString("id");
+            mName   = _devData.getString("name");
+
+        }catch (JSONException _exception){
+            _exception.printStackTrace();
+        }
+    }
+
     public String name(){ return mName; };
     public String id(){ return mId; };
 

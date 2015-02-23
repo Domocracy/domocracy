@@ -29,19 +29,21 @@ public class Hub {
 
     public Hub(Context _context, JSONObject _jsonHub) {
         try {
-            mId = _jsonHub.getString("id");
+            mId = _jsonHub.getString("hubId");
             mName = _jsonHub.getString("name");
             mIp = _jsonHub.getString("ip");
             mHubFileName = "hub_" + mId;
+            // 666 TODO: no default hub data
             mJSONdefault = new JSONObject("{\"name\": \"Home\",\"id\": \"123\",\"ip\": \"193.147.168.23\"}");
             Persistence.get().putData(mHubFileName, mJSONdefault);
             mRoomList = new ArrayList<>();
             JSONArray rooms = _jsonHub.getJSONArray("rooms");
+
+            mDevMgr = new DeviceManager(_jsonHub.getJSONArray("devices"));
+
             for(int i = 0; i < rooms.length() ; i++){
                 mRoomList.add( new Room(rooms.getJSONObject(i), this, _context));
             }
-
-            mDevMgr = new DeviceManager(_jsonHub.getJSONArray("devices"));
 
             //666TODO Rooms not implemented
 

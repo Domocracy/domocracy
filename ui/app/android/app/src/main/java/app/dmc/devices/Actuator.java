@@ -12,6 +12,10 @@ package app.dmc.devices;
 import org.json.JSONObject;
 
 public abstract class Actuator extends Device {
+    protected Actuator(JSONObject _devData){
+        super(_devData);
+    }
+
     public abstract void runCommand(final JSONObject _jsonCommand);
     public abstract JSONObject action(JSONObject _stateInfo);
 }

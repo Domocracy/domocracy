@@ -33,7 +33,7 @@ public class PanelList extends LinearLayout {
             try {
                 JSONObject panelData = _contentData.getJSONObject(i);
                 String type     = panelData.getString("type");
-                String devID    = panelData.getString("id");
+                String devID    = panelData.getString("devId");
 
                 addPanel(_defaultHub.device(devID).newPanel(type, panelData, _context));
 

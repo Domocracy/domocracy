@@ -31,7 +31,7 @@ public class Room extends BaseAdapter {
         mDefaultHub = _hub;
 
         try{
-            mId         = _data.getString("id");
+            mId         = _data.getString("roomId");
             mName       = _data.getString("name");
             mPanels     = new PanelList(_data.getJSONArray("panels"), _hub, _context);
             mHeader     = new RoomHeader(_context);
