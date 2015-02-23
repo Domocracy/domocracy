@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 public abstract class ActuatorPanel extends DevicePanel{
     //-----------------------------------------------------------------------------------------------------------------
-    public ActuatorPanel(Actuator _parentActuator, Context _context){
+    public ActuatorPanel(Actuator _parentActuator, JSONObject _panelData, Context _context){
         super(_parentActuator, _context);
         mParentActuator = _parentActuator;
     }
