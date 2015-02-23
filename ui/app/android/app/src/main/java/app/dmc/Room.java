@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.user_interface.PanelList;
+import app.dmc.user_interface.RoomHeader;
 
 public class Room extends BaseAdapter {
     //-----------------------------------------------------------------------------------------------------------------
@@ -32,8 +33,8 @@ public class Room extends BaseAdapter {
         try{
             mId         = _data.getString("id");
             mName       = _data.getString("name");
-            mPanels = new PanelList(_data.getJSONArray("panels"), _hub, _context);
-
+            mPanels     = new PanelList(_data.getJSONArray("panels"), _hub, _context);
+            mHeader     = new RoomHeader(_context);
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -53,7 +54,7 @@ public class Room extends BaseAdapter {
     @Override
     public Object getItem(int _position) {
         if(_position == 0)
-            return null;    // Header
+            return mHeader;    // Header
         if(_position == 1)
             return mPanels;    // PanelList
 
@@ -69,7 +70,7 @@ public class Room extends BaseAdapter {
     @Override
     public View getView(int _position, View _convertView, ViewGroup _parent) {
         if(_position == 0)
-            return null;    // Header
+            return mHeader;    // Header
         if(_position == 1)
             return mPanels;    // PanelList
 
@@ -94,5 +95,5 @@ public class Room extends BaseAdapter {
 
     private ListView    mLayout;
     private PanelList   mPanels;
-
+    private RoomHeader  mHeader;
 }
