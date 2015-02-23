@@ -12,8 +12,17 @@ import android.view.View;
 
 import org.json.JSONObject;
 
-public interface DevicePanel {
-    View view();
-    void stateChanged(JSONObject _state);
+public abstract class DevicePanel {
+    //-----------------------------------------------------------------------------------------------------------------
+    public DevicePanel(Device _dev){
+        mParentDevice = _dev;
+    }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    public abstract View view();
+    public abstract void stateChanged(JSONObject _state);
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private members
+    Device mParentDevice;
 }
