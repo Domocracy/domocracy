@@ -9,11 +9,11 @@
 package app.dmc.devices;
 
 import android.content.Context;
-import android.view.View;
+import android.view.ViewGroup;
 
 import org.json.JSONObject;
 
-public abstract class DevicePanel extends View {
+public abstract class DevicePanel extends ViewGroup {
     //-----------------------------------------------------------------------------------------------------------------
     public DevicePanel(Device _dev, Context _context){
         super(_context);

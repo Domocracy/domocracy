@@ -11,22 +11,34 @@ package app.dmc.devices;
 
 
 import android.content.Context;
+import android.view.MotionEvent;
 
 import org.json.JSONObject;
 
 public abstract class ActuatorPanel extends DevicePanel{
     //-----------------------------------------------------------------------------------------------------------------
-    ActuatorPanel(Actuator _parentActuator, Context _context){
+    public ActuatorPanel(Actuator _parentActuator, Context _context){
         super(_parentActuator, _context);
         mParentActuator = _parentActuator;
     }
+    //-----------------------------------------------------------------------------------------------------------------
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        mIsPaused = false;
+        return false;
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
-    JSONObject action(){
+    public void pause(){
+        mIsPaused = true;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject action(){
         return mParentActuator.action(null);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     Actuator mParentActuator;
-
+    boolean mIsPaused = false;
 }
