@@ -27,13 +27,14 @@ namespace dmc { namespace kodi {
 
 		Json getPlayers();
 		Json getMovies();
+		Json scanLibrary();
 		void PlayMovie(const Json& _movie);
 
 		std::string mIp;
 		unsigned	mPort = 9090;
 		Socket		mTcpConnection;
 
-		unsigned	mLastReqId = 0;
+		unsigned	mLastReqId = 1;
 	};
 
 }}	// namespace dmc::kodi

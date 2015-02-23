@@ -22,7 +22,9 @@ namespace dmc { namespace kodi {
 
 		mTcpConnection.connectTo(mIp, mPort);
 
-		getPlayers();
+		Json movies = getMovies();
+		PlayMovie(movies[6]);
+
 		// Try to ping Kodi
 		/*Json request(R"({"jsonrpc": "2.0", "method": "GUI.ShowNotification", 
 						"params":{"title":"DMC", "message":"Domocratizate"},"id": 1})");
@@ -59,10 +61,36 @@ namespace dmc { namespace kodi {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::getPlayers() {
-		JsonRpcRequest request("Player.GetActivePlayers", Json("{}"), mLastReqId);
+		JsonRpcRequest request("Player.GetActivePlayers", Json("{}"), mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
 		return Json();
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::getMovies() {
+		JsonRpcRequest request("VideoLibrary.GetMovies", 
+			Json(R"({"properties": ["file"]})"), mLastReqId++);
+		sendRequest(request);
+		Json response = readResponse();
+		return response["result"]["movies"];
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::scanLibrary() {
+		JsonRpcRequest request("VideoLibrary.Scan", Json("{}"), mLastReqId++);
+		sendRequest(request);
+		Json response = readResponse();
+		return Json();
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void Kodi::PlayMovie(const Json& _movie) {
+		Json params(R"({"item":{}})");
+		params["item"]["movieid"] = _movie["movieid"];
+		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
+		sendRequest(request);
+		readResponse();
 	}
 
 }}	// namespace dmc::kodi
