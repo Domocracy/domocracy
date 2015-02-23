@@ -9,98 +9,84 @@
 
 package app.dmc;
 
-import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import app.dmc.devices.Device;
-
-public class Room {
+public class Room extends BaseAdapter {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
-    public Room(JSONObject _data, Hub _hub){
-        mHub = _hub;
+    public Room(JSONObject _data, Hub _hub, Context _context){
+        mLayout = new ListView(_context);
+        mLayout.setAdapter(this);
+
+        mDefaultHub = _hub;
         try{
             mId         = _data.getString("id");
             mName       = _data.getString("name");
-
-            JSONArray devices = _data.getJSONArray("devices");
-
-            mDeviceList = new ArrayList<>();
-            for(int i = 0; i < devices.length(); i++){
-                mDeviceList.add(devices.getString(i));
-            }
-
         }catch(JSONException e){
             e.printStackTrace();
         }
     }
 
-
     //-----------------------------------------------------------------------------------------------------------------
-    public View view(Activity _activity){
-        LinearLayout base = new LinearLayout(_activity);
-        base.setOrientation(LinearLayout.VERTICAL);
+    public View view(){
+        return mLayout;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    // Adapter methods
+    @Override
+    public int getCount() {
+        return 2;
+    }
 
-        ImageView header = new ImageView(_activity);
-        header.setImageResource(R.drawable.room_header);
-        header.setAdjustViewBounds(true);
-        base.addView(header);
+    @Override
+    public Object getItem(int _position) {
+        if(_position == 0)
+            return null;    // Header
+        if(_position == 1)
+            return null;    // PanelList
 
-        // 666 TODO: Class to admin actionbar
-        android.support.v7.app.ActionBar topBar = ((ActionBarActivity) _activity).getSupportActionBar();
-        topBar.setTitle(name());
+        assert false;
+        return null;
+    }
 
-        for(String deviceId:devices()){
-            Device device = mHub.device(deviceId);
-            if(device != null) {
-                View v = device.view(_activity);
+    @Override
+    public long getItemId(int _position) {
+        return 0;   // Unused.
+    }
 
-                // If device was added to another room, detach from parent
-                ViewGroup parent = (ViewGroup) v.getParent();
-                if(parent != null)
-                    parent.removeView(v);
+    @Override
+    public View getView(int _position, View _convertView, ViewGroup _parent) {
+        if(_position == 0)
+            return null;    // Header
+        if(_position == 1)
+            return null;    // PanelList
 
-                // Add view to new parent
-                base.addView(v);
-            }
-        }
-
-        return base;
+        assert false;
+        return null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    // Getters
     public String name(){
         return mName;
     }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public String id(){
-        return mId;
-
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public List<String> devices(){
-        return mDeviceList;
-    }
+    public String id(){ return mId; }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
     // Identification
     private String mName;
     private String mId;
-    private Hub mHub;
 
-    List<String> mDeviceList;
+    private Hub mDefaultHub;
+
+    private ListView mLayout;
+
 }

@@ -33,7 +33,7 @@ public class RoomSelector {
         mSelector = new ViewFlipper(_activity);
 
         // Testing Room images
-        View roomView1 = mRooms.get(mCurrentRoom).view(_activity);
+        View roomView1 = mRooms.get(mCurrentRoom).view();
 
         mSelector.addView(roomView1);
 
@@ -68,7 +68,7 @@ public class RoomSelector {
 
                                 mSelector.removeAllViews();
                                 mSelector.addView(snapShotView);
-                                mSelector.addView(mRooms.get(mCurrentRoom).view(_activity));
+                                mSelector.addView(mRooms.get(mCurrentRoom).view());
 
                                 mSelector.setInAnimation(_activity, R.anim.slide_in_left);
                                 mSelector.setOutAnimation(_activity, R.anim.slide_out_right);
@@ -82,7 +82,7 @@ public class RoomSelector {
 
                                 mSelector.removeAllViews();
                                 mSelector.addView(snapShotView);
-                                mSelector.addView(mRooms.get(mCurrentRoom).view(_activity));
+                                mSelector.addView(mRooms.get(mCurrentRoom).view());
 
                                 mSelector.setInAnimation(_activity, R.anim.slide_in_right);
                                 mSelector.setOutAnimation(_activity, R.anim.slide_out_left);
@@ -95,42 +95,6 @@ public class RoomSelector {
                 return true;
             }
         });
-
-        /*mSelector.addView(iv);
-        mSelector.addView(mRooms.get(1).view(_context));*/
-
-
-        /*layout.setOnTouchListener(new View.OnTouchListener() {
-            Bitmap mSnapshot;
-            @Override
-            public boolean onTouch(View _view, MotionEvent _event) {
-                switch (_event.getAction()){
-                case MotionEvent.ACTION_DOWN:
-                    // Get a snapshot of the current room
-                    mSnapshot = Bitmap.createBitmap(_view.getWidth(), _view.getHeight(), Bitmap.Config.ARGB_8888);
-                    Canvas c = new Canvas(mSnapshot);
-                    _view.draw(c);
-
-                    // Clean layout
-                    layout.removeAllViews();
-
-                    ImageView iv = new ImageView(_view.getContext());
-                    iv.setImageBitmap(mSnapshot);
-                    layout.addView(iv);
-                    View room = mRooms.get(0).view(_context);
-                    layout.addView(room);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-                }
-
-                layout.removeView(iv);
-
-                return false;
-            }
-        });*/
     }
 
     //-----------------------------------------------------------------------------------------------------------------
