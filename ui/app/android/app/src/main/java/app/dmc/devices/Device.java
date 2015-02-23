@@ -9,7 +9,11 @@
 
 package app.dmc.devices;
 
+import android.content.Context;
+
 import org.json.JSONObject;
+
+import java.util.Set;
 
 public abstract class Device {
     //-----------------------------------------------------------------------------------------------------------------
@@ -17,10 +21,32 @@ public abstract class Device {
     public String id(){ return mId; };
 
     //-----------------------------------------------------------------------------------------------------------------
-    public abstract DevicePanel newPanel(String _type, JSONObject _);
+    public abstract DevicePanel newPanel(String _type, JSONObject _panelData, Context _context);
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void unregisterPanel(DevicePanel _panel){
+        if(mRegisteredPanels.contains(_panel))
+            mRegisteredPanels.remove(_panel);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void onUpdateState(JSONObject _state){
+        // Intentionally blank.
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    final public void updateState(JSONObject _state) {
+        onUpdateState(_state);
+
+        for(DevicePanel panel : mRegisteredPanels){
+            panel.stateChanged(_state);
+        }
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     private String mName;
     private String mId;
+
+    private Set<DevicePanel> mRegisteredPanels;
 
 }
