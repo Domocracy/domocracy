@@ -9,12 +9,18 @@
 
 package app.dmc.devices;
 
-import android.content.Context;
-import android.view.View;
+import org.json.JSONObject;
 
-public interface Device {
-    public View view(Context _context);
-    public String name();
-    public String id();
+public abstract class Device {
+    //-----------------------------------------------------------------------------------------------------------------
+    public String name(){ return mName; };
+    public String id(){ return mId; };
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public abstract DevicePanel newPanel(String _type, JSONObject _);
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private String mName;
+    private String mId;
 
 }
