@@ -18,6 +18,8 @@ import android.widget.ListView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import app.dmc.user_interface.PanelList;
+
 public class Room extends BaseAdapter {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
@@ -26,9 +28,12 @@ public class Room extends BaseAdapter {
         mLayout.setAdapter(this);
 
         mDefaultHub = _hub;
+
         try{
             mId         = _data.getString("id");
             mName       = _data.getString("name");
+            mPanels = new PanelList(_data.getJSONArray("panels"), _hub, _context);
+
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -50,7 +55,7 @@ public class Room extends BaseAdapter {
         if(_position == 0)
             return null;    // Header
         if(_position == 1)
-            return null;    // PanelList
+            return mPanels;    // PanelList
 
         assert false;
         return null;
@@ -66,7 +71,7 @@ public class Room extends BaseAdapter {
         if(_position == 0)
             return null;    // Header
         if(_position == 1)
-            return null;    // PanelList
+            return mPanels;    // PanelList
 
         assert false;
         return null;
@@ -87,6 +92,7 @@ public class Room extends BaseAdapter {
 
     private Hub mDefaultHub;
 
-    private ListView mLayout;
+    private ListView    mLayout;
+    private PanelList   mPanels;
 
 }
