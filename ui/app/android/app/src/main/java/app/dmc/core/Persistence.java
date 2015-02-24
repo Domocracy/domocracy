@@ -33,27 +33,45 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
-    public Object getJSON(String _path){
+    public JSONObject getJSON(String _path){
         JSONObject json = new JSONObject();
-        Object foo = new Object();
-
         List<String> fileLevels = decodePath(_path);
 
-        for(int i = 0; i<= mFiles.size();i++) {
-            json = mFiles.get(fileLevels.get(0));//the first position in the list is the name of the file
-            if (!mFiles.containsKey(fileLevels.get(0))) updateFilesMap(fileLevels.get(0));
+        if (!mFiles.containsKey(fileLevels.get(0))){
+            updateFilesMap(fileLevels.get(0));
+            json = mFiles.get(fileLevels.get(0));
+        }else{
+            json = mFiles.get(fileLevels.get(0));
         }
+
         for(int i = 1; i < fileLevels.size(); i++){
             try {
-                foo = json.get(fileLevels.get(i));
+                return json.getJSONObject(fileLevels.get(i));
 
 
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
-        return foo;
+        return null;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    public boolean putJSON(String _path, JSONObject _jsonToInsert){
+        JSONObject jsonToChange = getJSON(_path);
+        List<String> fileLevels = decodePath(_path);
+
+        for(int i = 0; i < fileLevels.size(); i++){
+            try {
+
+                if (jsonToChange.getString(fileLevels.get(i)) != _jsonToInsert.getString(fileLevels.get(i))) {
+                    jsonToChange.put(fileLevels.get(i), _jsonToInsert.getJSONObject(fileLevels.get(i)));
+                    return true;
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
