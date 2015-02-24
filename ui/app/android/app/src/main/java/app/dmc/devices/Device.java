@@ -14,11 +14,14 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Device {
     //-----------------------------------------------------------------------------------------------------------------
     Device(JSONObject _devData){
+        mRegisteredPanels = new HashSet<>();
+
         try{
             mId     = _devData.getString("id");
             mName   = _devData.getString("name");
