@@ -31,7 +31,6 @@ public class PanelList extends LinearLayout {
         super(_context);
         mPanels =  new ArrayList<>();
         setOrientation(VERTICAL);
-
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

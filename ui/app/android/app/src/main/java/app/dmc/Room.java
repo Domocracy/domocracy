@@ -12,9 +12,8 @@ package app.dmc;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,13 +21,11 @@ import org.json.JSONObject;
 import app.dmc.user_interface.PanelList;
 import app.dmc.user_interface.RoomHeader;
 
-public class Room extends BaseAdapter {
+public class Room {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
     public Room(JSONObject _data, Hub _hub, Context _context){
-        mLayout = new ListView(_context);
-        mLayout.setAdapter(this);
-
+        mLayout = new ScrollView(_context);
         mLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -46,44 +43,19 @@ public class Room extends BaseAdapter {
         }catch(JSONException e){
             e.printStackTrace();
         }
+
+        // ScrollView can host only one child
+        LinearLayout baseLayout = new LinearLayout(_context);
+        baseLayout.setOrientation(LinearLayout.VERTICAL);
+        baseLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        baseLayout.addView(mHeader);
+        baseLayout.addView(mPanels);
+        mLayout.addView(baseLayout);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public View view(){
         return mLayout;
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    // Adapter methods
-    @Override
-    public int getCount() {
-        return 2;
-    }
-
-    @Override
-    public Object getItem(int _position) {
-        if(_position == 0)
-            return mHeader;    // Header
-        if(_position == 1)
-            return mPanels;    // PanelList
-
-        assert false;
-        return null;
-    }
-
-    @Override
-    public long getItemId(int _position) {
-        return 0;   // Unused.
-    }
-
-    @Override
-    public View getView(int _position, View _convertView, ViewGroup _parent) {
-        if(_position == 0)
-            return mHeader;    // Header
-        if(_position == 1)
-            return mPanels;    // PanelList
-
-        assert false;
-        return null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -101,7 +73,7 @@ public class Room extends BaseAdapter {
 
     private Hub mDefaultHub;
 
-    private ListView    mLayout;
+    private ScrollView  mLayout;
     private PanelList   mPanels;
     private RoomHeader  mHeader;
 }
