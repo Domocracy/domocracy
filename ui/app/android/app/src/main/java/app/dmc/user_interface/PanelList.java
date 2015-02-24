@@ -28,7 +28,8 @@ public class PanelList extends LinearLayout {
     public PanelList(JSONArray _contentData, Hub _defaultHub, Context _context){
         super(_context);
         mPanels =  new ArrayList<>();
-
+        setOrientation(VERTICAL);
+        
         for(int i = 0; i < _contentData.length(); i++){
             try {
                 JSONObject panelData = _contentData.getJSONObject(i);

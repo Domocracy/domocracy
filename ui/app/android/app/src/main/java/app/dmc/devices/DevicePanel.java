@@ -9,15 +9,19 @@
 package app.dmc.devices;
 
 import android.content.Context;
-import android.view.ViewGroup;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import org.json.JSONObject;
 
-public abstract class DevicePanel extends ViewGroup {
+public abstract class DevicePanel extends LinearLayout {
     //-----------------------------------------------------------------------------------------------------------------
-    public DevicePanel(Device _dev, Context _context){
+    public DevicePanel(Device _dev, int _layoutResId, Context _context){
         super(_context);
         mParentDevice = _dev;
+
+
+        View.inflate(_context, _layoutResId, this);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

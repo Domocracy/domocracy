@@ -13,6 +13,7 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
+import app.dmc.R;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.ActuatorPanel;
 import app.dmc.devices.DevicePanel;
@@ -27,14 +28,9 @@ public class HueLight extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
-        ActuatorPanel huePanel = new ActuatorPanel(this, _panelData, _context) {
+        ActuatorPanel huePanel = new ActuatorPanel(this, _panelData, R.layout.hue_light_layout, _context) {
             @Override
             public void stateChanged(JSONObject _state) {
-
-            }
-
-            @Override
-            protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
             }
         };

@@ -14,6 +14,8 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
+import app.dmc.R;
+
 public class Scene extends Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
@@ -24,7 +26,7 @@ public class Scene extends Actuator{
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
-        ActuatorPanel huePanel = new ActuatorPanel(this, _panelData, _context) {
+        ActuatorPanel huePanel = new ActuatorPanel(this, _panelData, R.layout.scene_layout, _context) {
             @Override
             public void stateChanged(JSONObject _state) {
 
