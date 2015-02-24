@@ -10,6 +10,7 @@
 package app.dmc;
 
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -27,6 +28,13 @@ public class Room extends BaseAdapter {
     public Room(JSONObject _data, Hub _hub, Context _context){
         mLayout = new ListView(_context);
         mLayout.setAdapter(this);
+
+        mLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
 
         mDefaultHub = _hub;
 

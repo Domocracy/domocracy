@@ -9,6 +9,7 @@
 package app.dmc.devices;
 
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -20,6 +21,13 @@ public abstract class DevicePanel extends LinearLayout {
         super(_context);
         mParentDevice = _dev;
 
+
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
 
         View.inflate(_context, _layoutResId, this);
     }

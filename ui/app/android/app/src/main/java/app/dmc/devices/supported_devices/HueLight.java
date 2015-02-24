@@ -10,6 +10,9 @@
 package app.dmc.devices.supported_devices;
 
 import android.content.Context;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ToggleButton;
 
 import org.json.JSONObject;
 
@@ -28,14 +31,7 @@ public class HueLight extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
-        ActuatorPanel huePanel = new ActuatorPanel(this, _panelData, R.layout.hue_light_layout, _context) {
-            @Override
-            public void stateChanged(JSONObject _state) {
-
-            }
-        };
-
-        return huePanel;
+        return new HuePanel(this, _panelData, R.layout.hue_light_layout, _context);
     }
 
     @Override
@@ -49,4 +45,27 @@ public class HueLight extends Actuator {
     }
 
 
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Panels
+    class HuePanel extends ActuatorPanel{
+        HuePanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context){
+            super(_parentActuator, _panelData, _layoutResId, _context);
+
+            ToggleButton button = (ToggleButton) findViewById(R.id.toggleButton);
+
+            button.setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    //Log.d("DOMOCRACY", "Touch event on toggle button. X: " + event.getX() + "; Y: " + event.getY());
+                    return false;
+                }
+            });
+        }
+
+        @Override
+        public void stateChanged(JSONObject _state) {
+
+        }
+    }
 }

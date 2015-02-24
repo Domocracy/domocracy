@@ -11,7 +11,6 @@ package app.dmc.devices;
 
 
 import android.content.Context;
-import android.view.MotionEvent;
 
 import org.json.JSONObject;
 
@@ -22,11 +21,12 @@ public abstract class ActuatorPanel extends DevicePanel{
         mParentActuator = _parentActuator;
     }
     //-----------------------------------------------------------------------------------------------------------------
-    @Override
+    /*@Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         mIsPaused = false;
+        Log.d("DOMOCRACY", "Intercepted Touch event. X: " + ev.getX() + "; Y: " + ev.getY());
         return false;
-    }
+    }*/
 
     //-----------------------------------------------------------------------------------------------------------------
     public void pause(){

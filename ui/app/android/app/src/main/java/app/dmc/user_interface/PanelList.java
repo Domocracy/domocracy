@@ -11,6 +11,8 @@ package app.dmc.user_interface;
 
 
 import android.content.Context;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import org.json.JSONArray;
@@ -29,7 +31,14 @@ public class PanelList extends LinearLayout {
         super(_context);
         mPanels =  new ArrayList<>();
         setOrientation(VERTICAL);
-        
+
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
         for(int i = 0; i < _contentData.length(); i++){
             try {
                 JSONObject panelData = _contentData.getJSONObject(i);
