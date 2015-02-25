@@ -11,11 +11,22 @@ package app.dmc.devices;
 
 import org.json.JSONObject;
 
+import app.dmc.Hub;
+import app.dmc.HubManager;
+
 public abstract class Actuator extends Device {
+    //-----------------------------------------------------------------------------------------------------------------
     protected Actuator(JSONObject _devData){
         super(_devData);
     }
 
-    public abstract void runCommand(final JSONObject _jsonCommand);
+    //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject runCommand(final JSONObject _jsonCommand) {
+        Hub hub = HubManager.get().hub(hub());
+        return hub.send("/device/" + id(), _jsonCommand);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     public abstract JSONObject action(JSONObject _stateInfo);
+
 }

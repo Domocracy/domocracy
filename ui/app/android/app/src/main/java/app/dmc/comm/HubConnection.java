@@ -20,9 +20,7 @@ public class HubConnection {
         request.setHeader("connection", "close");
         request.setBody(_body.toString());
 
-        request.sendRequest();
-
-        return null;    // 666 Implement response
+        return request.sendRequest();
     }
     //-----------------------------------------------------------------------------------------------------------------
     public JSONObject get(final String _url){

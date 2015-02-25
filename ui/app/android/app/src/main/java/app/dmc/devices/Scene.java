@@ -42,8 +42,8 @@ public class Scene extends Actuator{
     }
 
     @Override
-    public void runCommand(JSONObject _jsonCommand) {
-
+    public JSONObject runCommand(JSONObject _jsonCommand) {
+        return new JSONObject();
     }
 
     @Override

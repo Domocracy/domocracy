@@ -12,6 +12,8 @@ package app.dmc.comm;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -72,7 +74,7 @@ public class JsonRequest {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void sendRequest(){
+    public JSONObject sendRequest(){
         try {
             int responseCode = mConnection.getResponseCode();
             System.out.println("\nSending 'PUT' request to URL : " + mUrl);
@@ -92,6 +94,8 @@ public class JsonRequest {
         }catch (IOException _ioException){
             _ioException.printStackTrace();
         }
+
+        return null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------

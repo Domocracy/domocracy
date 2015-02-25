@@ -14,8 +14,6 @@ import android.view.View;
 
 import org.json.JSONObject;
 
-import app.dmc.Hub;
-import app.dmc.HubManager;
 import app.dmc.R;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.ActuatorPanel;
@@ -26,19 +24,6 @@ public class Kodi extends Actuator {
     //  Public Interface
     public Kodi(JSONObject _devData){
         super(_devData);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public void runCommand(final JSONObject _jsonCommand) {
-        final Hub hub = HubManager.get().hub(hub());
-        Thread commThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                hub.send("/device/" + id(), _jsonCommand);
-            }
-        });
-        commThread.start();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -64,8 +49,20 @@ public class Kodi extends Actuator {
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    JSONObject playInfo = new JSONObject();
-                    runCommand(playInfo);
+                    Thread commThread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Put dev in "Sending mode"
+                            // Send Response
+                            JSONObject response = runCommand(new JSONObject());
+
+                            // if(response OK){
+                            //      Dev in mode OK
+                            //else
+                            //      Dev back to last state
+
+                        }
+                    });
                 }
             });
 
