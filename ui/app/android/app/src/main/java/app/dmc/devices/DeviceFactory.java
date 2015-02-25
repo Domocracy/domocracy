@@ -9,14 +9,13 @@ package app.dmc.devices;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-import android.content.Context;
-
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import app.dmc.devices.supported_devices.HueLight;
+import app.dmc.devices.supported_devices.Kodi;
 
 public class DeviceFactory {
     //-----------------------------------------------------------------------------------------------------------------
@@ -54,6 +53,14 @@ public class DeviceFactory {
             @Override
             public Device create(JSONObject _data) {
                 return new Scene(_data);
+            }
+        });
+
+        // Kodi Factory
+        sFactories.put("Kodi", new Factory() {
+            @Override
+            public Device create(JSONObject _data) {
+                return new Kodi(_data);
             }
         });
 

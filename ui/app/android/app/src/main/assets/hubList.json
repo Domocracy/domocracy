@@ -13,11 +13,11 @@
                         "panels":
                             [
                                 {
-                                    "devId":"2A"
+                                    "devId":"2A",
                                     "type":"hueLight"
                                 },
                                 {
-                                    "devId":"2B"
+                                    "devId":"2B",
                                     "type":"hueLight"
                                 }
                             ]
