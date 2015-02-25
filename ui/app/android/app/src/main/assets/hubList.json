@@ -3,35 +3,23 @@
     "hubs":[
         {
             "name":"Home",
-            "id":"123",
+            "hubId":"123",
             "ip":"10.100.5.7",
             "rooms":
                 [
                     {
                         "name":"Timmy's Room",
-                        "id":1,
-                        "devices":
+                        "roomId":"1",
+                        "panels":
                             [
-                                "2A",
-                                "2B",
-                                "3A"
-                            ]
-                    },
-                    {
-                        "name":"Living Room",
-                        "id":2,
-                        "devices":
-                            [
-                                "2A",
-                                "3A"
-                            ]
-                    },
-                    {
-                        "name":"Kitchen",
-                        "id":3,
-                        "devices":
-                            [
-                                "2B"
+                                {
+                                    "devId":"2A",
+                                    "type":"hueLight"
+                                },
+                                {
+                                    "devId":"2B",
+                                    "type":"hueLight"
+                                }
                             ]
                     }
                 ],
@@ -62,13 +50,6 @@
                                 }
                     }
                 ]
-        },
-        {
-            "name":"Beach Flat",
-            "id":"543",
-            "ip":"193.154.123.54",
-            "rooms":{},
-            "devices":[]
         }
     ]
 }

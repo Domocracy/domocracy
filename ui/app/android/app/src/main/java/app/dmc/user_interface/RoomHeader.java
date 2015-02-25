@@ -1,32 +1,28 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //      Domocracy Android App
-//         Author: Pablo R.S.
-//         Date:    2015-FEB-10
+//         Author: Carmelo J. Fdez-Agüera & Pablo R.S.
+//         Date:    2015-FEB-23
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-package app.dmc.devices;
+package app.dmc.user_interface;
 
-import org.json.JSONObject;
+import android.content.Context;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import app.dmc.Hub;
-import app.dmc.HubManager;
-
-public abstract class Actuator extends Device {
+public class RoomHeader extends LinearLayout{
     //-----------------------------------------------------------------------------------------------------------------
-    protected Actuator(JSONObject _devData){
-        super(_devData);
+    public RoomHeader(Context _context){
+        super(_context);
+
+        TextView titleView = new TextView(_context);
+        titleView.setText("HEADER");
+        addView(titleView);
     }
+    //-----------------------------------------------------------------------------------------------------------------
 
     //-----------------------------------------------------------------------------------------------------------------
-    final public JSONObject runCommand(final JSONObject _jsonCommand) {
-        Hub hub = HubManager.get().hub(hub());
-        return hub.send("/device/" + id(), _jsonCommand);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public abstract JSONObject action(JSONObject _stateInfo);
-
 }

@@ -9,8 +9,6 @@
 
 package app.dmc.devices;
 
-import android.content.Context;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +29,8 @@ public class DeviceManager {
 
     }
 
-    public DeviceManager(Context _context, JSONArray _devData) {
-        createDevices(_context, _devData);
+    public DeviceManager(JSONArray _devData) {
+        createDevices(_devData);
     }
 
 
@@ -40,7 +38,7 @@ public class DeviceManager {
     //  Private Interface
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void createDevices(Context _context, JSONArray _devData) {
+    private void createDevices(JSONArray _devData) {
         try {
             for (int i = 0; i < _devData.length(); i++) {
                 // Extract device type and data
@@ -50,7 +48,7 @@ public class DeviceManager {
 
                 // Look for factory and create device
                 DeviceFactory factory = DeviceFactory.get();
-                Device dev = factory.create(type, data, _context);
+                Device dev = factory.create(type, data);
                 mRegisteredDevices.put(dev.id(), dev);
             }
 

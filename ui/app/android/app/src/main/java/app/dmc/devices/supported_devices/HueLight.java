@@ -10,8 +10,6 @@
 package app.dmc.devices.supported_devices;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -24,98 +22,124 @@ import android.widget.ToggleButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import app.dmc.Hub;
-import app.dmc.HubManager;
 import app.dmc.R;
 import app.dmc.devices.Actuator;
+import app.dmc.devices.ActuatorPanel;
+import app.dmc.devices.DevicePanel;
 
-public class HueLight implements Actuator {
+public class HueLight extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public HueLight(JSONObject _data, Context _context){
-        try {
-            mName = _data.getString("name");
-            mId = _data.getString("id");
-            mHubId = _data.getString("hub");
-            mState = new State(true, 255, 255, 0);
-
-        }catch(JSONException _jsonException) {
-            _jsonException.printStackTrace();
-        }
+    public HueLight(JSONObject _devData){
+        super(_devData);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public View view(final Context _context) {
-        if(mView == null){
-            // Get base layout
-            LayoutInflater inflater = LayoutInflater.from(_context);
-            mView = inflater.inflate(R.layout.hue_light_layout, null);
+    public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
+        return new HuePanel(this, _panelData, R.layout.hue_light_layout, _context);
+    }
 
-            // Implementation Toggle button
-            ToggleButton button = (ToggleButton) mView.findViewById(R.id.toggleButton);
-            button.setChecked(mState.on());
-            button.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public JSONObject action(JSONObject _stateInfo) {
+        return null;
+    }
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Panels
+    class HuePanel extends ActuatorPanel{
+        HuePanel(final Actuator _parentActuator, JSONObject _panelData, int _layoutResId, final Context _context){
+            super(_parentActuator, _panelData, _layoutResId, _context);
+
+            final ToggleButton      button          = (ToggleButton)    findViewById(R.id.toggleButton);
+            TextView                nameView        = (TextView)        findViewById(R.id.devName);
+            SeekBar                 intensityBar   = (SeekBar)         findViewById(R.id.intensityBar);
+
+            // Set dev name
+            nameView.setText(_parentActuator.name());
+
+            // ToggleButton action
+            button.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mState.on(((ToggleButton) v).isChecked());
-                    Thread t = new Thread(new Runnable() {
+                    final JSONObject command = new JSONObject();
+                    try {
+                        command.put("on", button.isChecked());
+                    }catch (JSONException _jsonException){
+                        _jsonException.printStackTrace();
+                    }
+                    Thread commThread = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            runCommand(mState.json());
+                            // Put dev in "Sending mode"
+                            // Send Response
+                            JSONObject response = runCommand(command);
+                            // if(response OK){
+                            //      Dev in mode OK
+                            //else
+                            //      Dev back to last state
                         }
                     });
-                    t.start();
+                    commThread.start();
+
                 }
             });
 
-            // Implementation Name
-            TextView nameTv = (TextView) mView.findViewById(R.id.devName);
-            nameTv.setText(name());
-
-            // Implementation intensity bar
-            SeekBar intensityBar = (SeekBar) mView.findViewById(R.id.intensityBar);
+            // Intensity Bar actuator.
             intensityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 }
-
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
 
                 }
-
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-                    int bri = seekBar.getProgress()*255/seekBar.getMax();
-                    mState.brightness(bri);
+                    final JSONObject command = new JSONObject();
+                    try {
+                        if(seekBar.getProgress()== 0) {
+                            command.put("on", false);
+                        }else {
+                            int intensity = seekBar.getProgress() * 255 / seekBar.getMax();
+                            command.put("on", true);
+                            command.put("bri", intensity);
+                        }
+                    }catch (JSONException _jsonException){
+                        _jsonException.printStackTrace();
+                    }
 
-                    mState.on(bri != 0 ? true : false);
-                    ((ToggleButton) mView.findViewById(R.id.toggleButton)).setChecked(bri != 0 ? true : false);
-
-                    Thread t = new Thread(new Runnable() {
+                    Thread commThread = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            runCommand(mState.json());
+                            // Put dev in "Sending mode"
+                            // Send Response
+                            JSONObject response = runCommand(command);
+                            // if(response OK){
+                            //      Dev in mode OK
+                            //else
+                            //      Dev back to last state
                         }
                     });
-                    t.start();
+                    commThread.start();
                 }
             });
 
             // Implementation Expandable View
-            View shortView = mView.findViewById(R.id.shortLayout);
+            View shortView = findViewById(R.id.shortLayout);
             shortView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ImageView hueSelector = (ImageView) mView.findViewById(R.id.hueSelector);
+                    ImageView hueSelector = (ImageView) findViewById(R.id.hueSelector);
 
                     float iniY = -1;
                     Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
-                                                                    Animation.RELATIVE_TO_SELF, 0,
-                                                                    Animation.RELATIVE_TO_SELF, iniY,
-                                                                    Animation.RELATIVE_TO_SELF, 0);
+                            Animation.RELATIVE_TO_SELF, 0,
+                            Animation.RELATIVE_TO_SELF, iniY,
+                            Animation.RELATIVE_TO_SELF, 0);
                     slideDown.setDuration(400);
 
                     switch (hueSelector.getVisibility()){
@@ -131,7 +155,7 @@ public class HueLight implements Actuator {
             });
 
             // Implementation Hue Selector
-            ImageView hueSelector = (ImageView) mView.findViewById(R.id.hueSelector);
+            ImageView hueSelector = (ImageView) findViewById(R.id.hueSelector);
             hueSelector.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -143,133 +167,37 @@ public class HueLight implements Actuator {
                         float y0 = v.getY();
                         int hue = (int) ((x - x0)/ v.getWidth() * 65535);
                         int sat = (int) ((1 - (y - y0) / v.getHeight()) * 255);
-                        Log.d("DOMOCRACY", "Hue: " + hue + ", Sat: " + sat);
-                        mState.hue(hue);
-                        mState.saturation(sat);
-                        Thread t = new Thread(new Runnable() {
+                        final JSONObject command = new JSONObject();
+                        try {
+                            command.put("on", true);
+                            command.put("hue", hue);
+                            command.put("sat", sat);
+                        }catch (JSONException _jsonException){
+                            _jsonException.printStackTrace();
+                        }
+                        Thread commThread = new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                runCommand(mState.json());
+                                // Put dev in "Sending mode"
+                                // Send Response
+                                JSONObject response = runCommand(command);
+                                // if(response OK){
+                                //      Dev in mode OK
+                                //else
+                                //      Dev back to last state
                             }
                         });
-                        t.start();
+                        commThread.start();
                     }
 
                     return true;
                 }
             });
-
-        }
-        return mView;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public void runCommand(final JSONObject _jsonCommand) {
-        // Create a new request with own url and using a json.
-        Hub hub = HubManager.get().hub(mHubId);
-        hub.send("/device/" + id(), _jsonCommand);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public String name() {
-        return mName;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public String id() {
-        return  mId;
-    }
-
-
-    //-----------------------------------------------------------------------------------------------------------------
-    // Private Interface
-
-    //-----------------------------------------------------------------------------------------------------------------
-    // Identification
-    private String mName;
-    private String mId;
-
-    private State mState;
-
-    private String mHubId;
-    private View mView;
-
-
-
-    //-----------------------------------------------------------------------------------------------------------------
-    // State inner class
-    private class State{
-        public State(JSONObject _data){
-            try {
-                mIsOn =                 _data.getBoolean("on");
-                mBrightness =           _data.getInt("bri");
-                mSaturation =           _data.getInt("sat");
-                mHue =                  _data.getInt("hue");
-            }catch (JSONException _jsonException){
-                _jsonException.printStackTrace();
-            }
         }
 
-        //-----------------------------------------------------------------------------------------------------------------
-        public State(boolean _on, int _brightness, int _saturation, int _hue){
-            mIsOn       = _on;
-            mBrightness = _brightness;
-            mSaturation = _saturation;
-            mHue        = _hue;
-        }
+        @Override
+        public void stateChanged(JSONObject _state) {
 
-        //-----------------------------------------------------------------------------------------------------------------
-        // Setters
-        public void on(boolean _on){
-            mIsOn = _on;
         }
-        public void brightness(int _bri){
-            mBrightness = _bri;
-        }
-        public void saturation(int _sat){
-            mSaturation = _sat;
-        }
-        public void hue(int _hue){
-            mHue = _hue;
-        }
-
-        //-----------------------------------------------------------------------------------------------------------------
-        // getters
-        public boolean on(){
-            return mIsOn;
-        }
-        public int brightness(){
-            return mBrightness;
-        }
-        public int saturation(){
-            return mSaturation;
-        }
-        public int hue(){
-            return mHue;
-        }
-
-        //-----------------------------------------------------------------------------------------------------------------
-        public JSONObject json(){
-            JSONObject state = new JSONObject();
-            try {
-                state.put("on",     mIsOn);
-                state.put("bri",    mBrightness);
-                state.put("sat",    mSaturation);
-                state.put("hue",    mHue);
-            }catch(JSONException _jsonException){
-                _jsonException.printStackTrace();
-            }
-            return state;
-        }
-
-        //-------------------------------------------------------------------------------------------------------------
-        private boolean mIsOn;
-        private int    mBrightness;
-        private int    mSaturation;
-        private int     mHue;
-
     }
 }

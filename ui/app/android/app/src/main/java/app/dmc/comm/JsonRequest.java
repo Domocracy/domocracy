@@ -8,9 +8,11 @@
 //
 
 
-package app.dmc.devices;
+package app.dmc.comm;
 
 import android.util.Log;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,13 +68,13 @@ public class JsonRequest {
             os.write(_body.getBytes("UTF8"));
             os.close();
         }catch (IOException _ioException){
-            Log.d("DOMOCRACY", "Could not send Command");
+            Log.d("DOMOCRACY", "Couldn't add body to request");
             _ioException.printStackTrace();
         }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void sendRequest(){
+    public JSONObject sendRequest(){
         try {
             int responseCode = mConnection.getResponseCode();
             System.out.println("\nSending 'PUT' request to URL : " + mUrl);
@@ -92,6 +94,8 @@ public class JsonRequest {
         }catch (IOException _ioException){
             _ioException.printStackTrace();
         }
+
+        return null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
