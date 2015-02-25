@@ -30,9 +30,15 @@ public class Kodi extends Actuator {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public void runCommand(JSONObject _jsonCommand) {
-        Hub hub = HubManager.get().hub(hub());
-        hub.send("/device/" + id(), _jsonCommand);
+    public void runCommand(final JSONObject _jsonCommand) {
+        final Hub hub = HubManager.get().hub(hub());
+        Thread commThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                hub.send("/device/" + id(), _jsonCommand);
+            }
+        });
+        commThread.start();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
