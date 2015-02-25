@@ -1,5 +1,13 @@
 [
 	{
+		"type" : "Kodi",
+		"data" : {
+			"name": "Media Player"
+			"id": 74,
+			"ip": "localhost"
+		}
+	},
+	{
 		"type" : "HueLight",
 		"data" : {
 			"name":"HueLight0",

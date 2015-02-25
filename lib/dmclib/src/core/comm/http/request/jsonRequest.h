@@ -22,9 +22,7 @@ namespace dmc { namespace http {
 			:Request(_method, _url, std::vector<std::string>(), "")
 		{
 			headers()["Content-Type"] = "application/json; charset=UTF-8";
-			std::string newBody;
-			_data >> newBody;
-			setBody(newBody);
+			setBody(_data.serialize());
 		}
 	};
 

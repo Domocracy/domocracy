@@ -10,7 +10,6 @@
 #include "dmcServer.h"
 #include <core/comm/json/json.h>
 #include <core/time/time.h>
-#include <public/publicService.h>
 #include <core/comm/http/response/response200.h>
 #include <service/user/user.h>
 #include <provider/deviceMgr.h>
@@ -27,7 +26,6 @@ namespace dmc {
 		mWebServer = new http::Server(mHttpPort);
 		mWebServer->setResponder("/public/ping", http::Response200());
 		mInfo = new HubInfo(mWebServer);
-		mPublicService = new PublicService(mWebServer);
 		DeviceMgr::init();
 		mDeviceMgr = DeviceMgr::get(); // Cache manager
 		loadUsers();
@@ -38,8 +36,6 @@ namespace dmc {
 		for(auto user : mUsers)
 			delete user;
 		DeviceMgr::end();
-		if(mPublicService)
-			delete mPublicService;
 		if(mWebServer)
 			delete mWebServer;
 		Persistence::end();

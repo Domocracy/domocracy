@@ -52,6 +52,9 @@
     <Filter Include="Source Files\core\comm\http\request">
       <UniqueIdentifier>{2c27a9e7-6578-4fcc-bdb2-8095f7d5171b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\core\comm\json\rpc">
+      <UniqueIdentifier>{e32e7cdd-be97-4078-9753-9f1cf96ba992}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\time\time.cpp">
@@ -98,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="src\core\comm\http\httpMessage.cpp">
       <Filter>Source Files\core\comm\http</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\comm\json\rpc\jsonRpc.cpp">
+      <Filter>Source Files\core\comm\json\rpc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="src\core\comm\http\httpMessage.h">
       <Filter>Source Files\core\comm\http</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\comm\json\rpc\jsonRpc.h">
+      <Filter>Source Files\core\comm\json\rpc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

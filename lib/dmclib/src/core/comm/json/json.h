@@ -28,8 +28,7 @@ namespace dmc {
 		// Serialize
 		static Json	openFromFile	(const std::string& _fileName);
 		void		saveToFile		(const std::string& _fileName) const;
-		void		operator<<		(const std::string& _code);
-		void		operator>>		(std::string& _code) const;
+		std::string serialize		() const;
 
 
 		// Type deduction

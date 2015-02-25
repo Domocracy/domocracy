@@ -57,6 +57,13 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	Json& Json::operator=(const Json& _src) {
+		this->~Json();
+		new(this)Json(_src);
+		return *this;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	Json::~Json() {
 		if(mType == DataType::list)
 			for(auto i : mList)
@@ -82,6 +89,10 @@ namespace dmc {
 		} else if (_code.substr(0,4) == "True" || _code.substr(0,4) == "true") {
 			mType = DataType::boolean;
 			mInt = 1;
+			return 4;
+		}else if (_code.substr(0,4) == "Null" || _code.substr(0,4) == "null") {
+			mType = DataType::nill;
+			mInt = 0;
 			return 4;
 		} else if('\"' == _code[cursor]) { // Text literal
 			unsigned terminator = _code.find('\"', cursor+1);
@@ -140,57 +151,47 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	void Json::saveToFile(const std::string& _fileName) const {
 		ofstream file(_fileName.c_str());
-		string data;
-		this->operator>>(data);
-		file << data;
+		file << serialize();
 		file.close();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void Json::operator>>(std::string& _dst) const {
+	std::string Json::serialize() const {
 		switch (mType)
 		{
 		case DataType::boolean:
-			_dst = mInt?"true":"false";
-			break;
+			return mInt?"true":"false";
 		case DataType::dictionary:
 		{
-			_dst = "{";
+			string dst = "{ "; // Empty space prevents smashing opening brace for empty dictionaries
 			for(const auto& entry : mDictionary) {
-				std::string value;
-				*entry.second >> value;
-				_dst.append(string("\"")+entry.first+"\":"+value+",");
+				dst.append(string("\"")+entry.first+"\":"+entry.second->serialize()+",");
 			}
-			_dst.back() = '}';
-			break;
+			dst.back() = '}';
+			return dst;
 		}
 		case DataType::list:
 		{
-			_dst = "[";
+			string dst = "[ "; // Empty space prevents smashing opening brace for empty lists
 			for(const auto& entry : mList) {
-				std::string value;
-				*entry >> value;
-				_dst.append(value+",");
+				dst.append(entry->serialize()+",");
 			}
-			_dst.back() = ']';
-			break;
+			dst.back() = ']';
+			return dst;
 		}
 		case DataType::text:
 		{
-			_dst = "\"";
-			_dst.append(mString+"\"");
-			break;
+			return string("\"")+mString+"\"";
 		}
 		case DataType::integer:
 		{
 			std::stringstream s;
 			s << mInt;
-			_dst.append(s.str());
-			break;
+			return s.str();
 		}
 		default:
 			assert(false); // Unimplemented data type
-			break;
+			return "";
 		}
 	}
 
@@ -219,6 +220,12 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	void Json::setText(const std::string& _t) {
+		mType = DataType::text;
+		mString = _t;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	bool Json::asBool() const {
 		assert(isBool());
 		return mInt != 0;
@@ -235,6 +242,9 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	Json& Json::operator[](const std::string& _key) {
 		assert(isDictionary());
+		const auto& it = mDictionary.find(_key);
+		if(it == mDictionary.end())
+			mDictionary[_key] = new Json("");
 		return *mDictionary[_key];
 	}
 

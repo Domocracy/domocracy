@@ -47,6 +47,8 @@ namespace dmc {
 		{
 			const Json& data = *factoriesData.asList()[i];
 			Device* dev = mFactory.create(data["type"].asText(), data["data"]);
+			if(!dev)
+				continue;
 			if(mDevices.find(dev->id()) != mDevices.end()) {
 				std::cout << "Warning: Duplicate device id (" << dev->id() << ").\nOld device will be overwriten\n";
 			}
