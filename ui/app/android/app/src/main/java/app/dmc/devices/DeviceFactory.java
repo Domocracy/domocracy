@@ -49,6 +49,14 @@ public class DeviceFactory {
             }
         });
 
+        // Scene Factory
+        sFactories.put("Scene", new Factory() {
+            @Override
+            public Device create(JSONObject _data, Context _context) {
+                return new Scene(_data, _context);
+            }
+        });
+
         // Add other Factories
     }
 
