@@ -10,6 +10,7 @@
 package app.dmc.devices.supported_devices;
 
 import android.content.Context;
+import android.view.View;
 
 import org.json.JSONObject;
 
@@ -17,6 +18,7 @@ import app.dmc.R;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.ActuatorPanel;
 import app.dmc.devices.DevicePanel;
+import app.dmc.comm.JsonRequest;
 
 public class Kodi extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
@@ -28,6 +30,17 @@ public class Kodi extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public void runCommand(JSONObject _jsonCommand) {
+        final JsonRequest request = new JsonRequest("/user/dm64/device/4A");
+
+        // 666 TODO configure request.
+
+        Thread requestThread  = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                request.sendRequest();
+            }
+        });
+        requestThread.start();
 
     }
 
@@ -49,6 +62,16 @@ public class Kodi extends Actuator {
         //-----------------------------------------------------------------------------------------------------------------
         public KodiLastShowPanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context) {
             super(_parentActuator, _panelData, _layoutResId, _context);
+
+            // Set click action to the panel.
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    JSONObject playInfo = new JSONObject();
+                    runCommand(playInfo);
+                }
+            });
+
         }
 
         //-----------------------------------------------------------------------------------------------------------------

@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.dmc.comm.HubConnection;
 import app.dmc.core.Persistence;
 import app.dmc.devices.Device;
 import app.dmc.devices.DeviceManager;

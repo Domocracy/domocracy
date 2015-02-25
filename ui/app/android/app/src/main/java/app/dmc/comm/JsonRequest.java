@@ -8,7 +8,7 @@
 //
 
 
-package app.dmc.devices;
+package app.dmc.comm;
 
 import android.util.Log;
 
