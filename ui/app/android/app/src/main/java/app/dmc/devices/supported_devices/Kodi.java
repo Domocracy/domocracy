@@ -14,11 +14,12 @@ import android.view.View;
 
 import org.json.JSONObject;
 
+import app.dmc.Hub;
+import app.dmc.HubManager;
 import app.dmc.R;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.ActuatorPanel;
 import app.dmc.devices.DevicePanel;
-import app.dmc.comm.JsonRequest;
 
 public class Kodi extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
@@ -30,18 +31,8 @@ public class Kodi extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public void runCommand(JSONObject _jsonCommand) {
-        final JsonRequest request = new JsonRequest("/user/dm64/device/4A");
-
-        // 666 TODO configure request.
-
-        Thread requestThread  = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                request.sendRequest();
-            }
-        });
-        requestThread.start();
-
+        Hub hub = HubManager.get().hub(hub());
+        hub.send("/device/" + id(), _jsonCommand);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

@@ -25,6 +25,7 @@ public abstract class Device {
         try{
             mId     = _devData.getString("id");
             mName   = _devData.getString("name");
+            mHubId  = _devData.getString("hub");
 
         }catch (JSONException _exception){
             _exception.printStackTrace();
@@ -32,7 +33,8 @@ public abstract class Device {
     }
 
     public String name(){ return mName; };
-    public String id(){ return mId; };
+    public String id()  { return mId; };
+    public String hub() {return mHubId;};
 
     //-----------------------------------------------------------------------------------------------------------------
     public abstract DevicePanel createPanel(String _type, JSONObject _panelData, Context _context);
@@ -67,6 +69,7 @@ public abstract class Device {
     //-----------------------------------------------------------------------------------------------------------------
     private String mName;
     private String mId;
+    private String mHubId;
 
     private Set<DevicePanel> mRegisteredPanels;
 

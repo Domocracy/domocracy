@@ -66,7 +66,7 @@ public class JsonRequest {
             os.write(_body.getBytes("UTF8"));
             os.close();
         }catch (IOException _ioException){
-            Log.d("DOMOCRACY", "Could not send Command");
+            Log.d("DOMOCRACY", "Couldn't add body to request");
             _ioException.printStackTrace();
         }
     }
