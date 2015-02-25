@@ -7,38 +7,36 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-package app.dmc.devices;
-
+package app.dmc.devices.supported_devices.kodi;
 
 import android.content.Context;
 
 import org.json.JSONObject;
 
-public abstract class ActuatorPanel extends DevicePanel{
-    //-----------------------------------------------------------------------------------------------------------------
-    public ActuatorPanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context){
-        super(_parentActuator, _layoutResId, _context);
-        mParentActuator = _parentActuator;
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    /*@Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        mIsPaused = false;
-        Log.d("DOMOCRACY", "Intercepted Touch event. X: " + ev.getX() + "; Y: " + ev.getY());
-        return false;
-    }*/
+import app.dmc.R;
+import app.dmc.devices.Actuator;
+import app.dmc.devices.DevicePanel;
 
+public class Kodi extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
-    public void pause(){
-        mIsPaused = true;
+    //  Public Interface
+    public Kodi(JSONObject _devData){
+        super(_devData);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject action(){
-        return mParentActuator.action(null);
+    @Override
+    public JSONObject action(JSONObject _stateInfo) {
+        return null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    protected Actuator mParentActuator;
-    boolean mIsPaused = false;
+    @Override
+    public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
+        return new KodiLastShowPanel(this, _panelData, R.layout.kodi_last_show_panel, _context);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Panels
+
 }

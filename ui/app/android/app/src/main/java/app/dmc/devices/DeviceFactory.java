@@ -14,8 +14,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import app.dmc.devices.supported_devices.HueLight;
-import app.dmc.devices.supported_devices.Kodi;
+import app.dmc.devices.supported_devices.philips_hue.HueLight;
+import app.dmc.devices.supported_devices.kodi.Kodi;
+import app.dmc.devices.supported_devices.scene.Scene;
 
 public class DeviceFactory {
     //-----------------------------------------------------------------------------------------------------------------
