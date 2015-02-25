@@ -35,11 +35,6 @@ public class HueLight extends Actuator {
     }
 
     @Override
-    public JSONObject runCommand(JSONObject _jsonCommand) {
-        return new JSONObject();
-    }
-
-    @Override
     public JSONObject action(JSONObject _stateInfo) {
         return null;
     }

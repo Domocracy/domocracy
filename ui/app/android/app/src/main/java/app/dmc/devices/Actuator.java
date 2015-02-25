@@ -21,7 +21,7 @@ public abstract class Actuator extends Device {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject runCommand(final JSONObject _jsonCommand) {
+    final public JSONObject runCommand(final JSONObject _jsonCommand) {
         Hub hub = HubManager.get().hub(hub());
         return hub.send("/device/" + id(), _jsonCommand);
     }

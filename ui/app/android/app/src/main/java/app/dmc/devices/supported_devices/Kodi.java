@@ -63,6 +63,7 @@ public class Kodi extends Actuator {
 
                         }
                     });
+                    commThread.start();
                 }
             });
 
