@@ -20,32 +20,19 @@ namespace dmc { namespace kodi {
 	{
 		mIp = _data["ip"].asText();
 
-		mTcpConnection.connectTo(mIp, mPort);
-
-		Json movies = getMovies();
-		PlayMovie(movies[6]);
-
-		// Try to ping Kodi
-		/*Json request(R"({"jsonrpc": "2.0", "method": "GUI.ShowNotification", 
-						"params":{"title":"DMC", "message":"Domocratizate"},"id": 1})");
-	
-		socket.write(request.serialize());
-
-		// Wait for response from the server
-		const unsigned bufferSize = 64*1024;
-		char buffer[bufferSize+1];
-		int nBytes = socket.read(buffer, bufferSize);
-		buffer[nBytes] = '\0';
-		std::string dst(buffer);*/
+		// mTcpConnection.connectTo(mIp, mPort);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Kodi::runCommand(const Json&) {
+		Json movies = getMovies();
+		PlayMovie(movies[6]);
 		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	void Kodi::sendRequest(const Json& _cmd) {
+		mTcpConnection.connectTo(mIp, mPort);
 		mTcpConnection.write(_cmd.serialize());
 	}
 
@@ -56,6 +43,7 @@ namespace dmc { namespace kodi {
 		char buffer[bufferSize+1];
 		int nBytes = mTcpConnection.read(buffer, bufferSize);
 		buffer[nBytes] = '\0';
+		mTcpConnection.close();
 		return Json(string(buffer));
 	}
 
@@ -73,6 +61,7 @@ namespace dmc { namespace kodi {
 			Json(R"({"properties": ["file"]})"), mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
+		cout << response.serialize() << "\n";
 		return response["result"]["movies"];
 	}
 
