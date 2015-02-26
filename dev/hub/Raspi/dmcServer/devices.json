@@ -8,6 +8,18 @@
 		}
 	},
 	{
+		"type" : "Scene",
+		"data" : {
+			"name": "All off",
+			"id":58,
+			"children" : [
+				{ "id":74, "cmd": { "on":false } },
+				{ "id":42, "cmd": { "on":false } },
+				{ "id":43, "cmd": { "on":false } }
+			]
+		}
+	},
+	{
 		"type" : "HueLight",
 		"data" : {
 			"name":"HueLight0",
@@ -29,18 +41,6 @@
 			"name":"HueLight2",
 			"id":43,
 			"data":{"id":"3"}
-		}
-	},
-	{
-		"type" : "Scene",
-		"data" : {
-			"name": "All off",
-			"id":58,
-			"children" : [
-				{ "id":41, "cmd": { "on":false } },
-				{ "id":42, "cmd": { "on":false } },
-				{ "id":43, "cmd": { "on":false } }
-			]
 		}
 	}
 ]

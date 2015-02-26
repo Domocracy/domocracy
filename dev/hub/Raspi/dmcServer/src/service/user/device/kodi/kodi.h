@@ -25,9 +25,12 @@ namespace dmc { namespace kodi {
 		void sendRequest(const Json&);
 		Json readResponse();
 
-		Json getPlayers();
-		Json getMovies();
-		Json scanLibrary();
+		Json getPlayers		();
+		Json getMovies		();
+		Json getTvShows		();
+		Json getEpisodes	(const Json& _show);
+		bool playLastEpisode(const Json& _show);
+		Json scanLibrary	();
 		void PlayMovie(const Json& _movie);
 
 		std::string mIp;

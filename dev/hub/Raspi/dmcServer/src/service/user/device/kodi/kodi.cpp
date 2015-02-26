@@ -25,9 +25,8 @@ namespace dmc { namespace kodi {
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Kodi::runCommand(const Json&) {
-		Json movies = getMovies();
-		PlayMovie(movies[6]);
-		return true;
+		Json tvShows = getTvShows();
+		return playLastEpisode(tvShows[0]);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -61,8 +60,41 @@ namespace dmc { namespace kodi {
 			Json(R"({"properties": ["file"]})"), mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
-		cout << response.serialize() << "\n";
 		return response["result"]["movies"];
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::getTvShows() {
+		JsonRpcRequest request("VideoLibrary.GetTVShows", 
+			Json("{}"), mLastReqId++);
+		sendRequest(request);
+		Json response = readResponse();
+		return response["result"]["tvshows"];
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::getEpisodes(const Json& _show)
+	{
+		Json showId = _show["tvshowid"];
+		Json command = Json("{}");
+		command["tvshowid"] = showId;
+		JsonRpcRequest request("VideoLibrary.GetEpisodes",
+				command, mLastReqId++);
+		sendRequest(request);
+		Json response = readResponse();
+		return response["result"]["episodes"];
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	bool Kodi::playLastEpisode(const Json& _show) {
+		Json episodes = getEpisodes(_show);
+		Json params(R"({"item":{}})");
+		params["item"] = episodes[0];
+		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
+		sendRequest(request);
+		readResponse();
+		/// 666 TODO: Check response
+		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
