@@ -11,9 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,64 +31,25 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject getJSON(String _path){
-        JSONObject json = new JSONObject();
-        JSONObject jsonToReturn = new JSONObject();
-        List<String> fileLevels = decodePath(_path);
-
-        if (!mFiles.containsKey(fileLevels.get(0))){
-            updateFilesMap(fileLevels.get(0));
-            json = mFiles.get(fileLevels.get(0));
+    public JSONObject getJSON(String _fileName){
+        if (mFiles.containsKey(_fileName)){
+            return mFiles.get(_fileName);
+        }else {
+            return null;
+        }
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    public boolean putJSON(String _fileName, JSONObject _jsonToInsert){
+        if (mFiles.containsKey(_fileName)){
+            mFiles.put(_fileName,_jsonToInsert);
+            return true;
+        }else if(!mFiles.containsKey(_fileName)){
+            mFiles.put(_fileName,_jsonToInsert);
+            return true;
         }else{
-            json = mFiles.get(fileLevels.get(0));
+            return false;
         }
-        jsonToReturn = json;
-        for(int i = 1; i < fileLevels.size(); i++){
-            try {
-                jsonToReturn = json.getJSONObject(fileLevels.get(i));
-
-
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-        return jsonToReturn;
     }
-    //-----------------------------------------------------------------------------------------------------------------
-    public boolean putJSON(String _path, JSONObject _jsonToInsert){
-        JSONObject json = getJSON(_path);
-        List<String> fileLevels = decodePath(_path);
-
-        for(int i = 0; i < json.length(); i++){
-            try {
-
-                if (json.getString(fileLevels.get(i)) != _jsonToInsert.getString(fileLevels.get(i))) {
-                    json.put(fileLevels.get(i), _jsonToInsert.getJSONObject(fileLevels.get(i)));
-                    return true;
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    private List decodePath (String _path){
-        List<String> fileLevels = new ArrayList<String>();
-
-        String level = "";
-        for(int i = 1 ; i < _path.length()+1 ; i++){
-            if (i < _path.length() && _path.charAt(i) != '/') {
-                level = level + _path.charAt(i);
-            }else {
-                fileLevels.add(level);
-                level = "";
-            }
-        }
-    return fileLevels;
-    }
-
     //-----------------------------------------------------------------------------------------------------------------
     private JSONObject loadFile(String _fileName){
        JSONObject json = null;
