@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <service/public/hubInfo.h>
+#include <core/comm/upnp/upnp.h>
 
 namespace dmc {
 

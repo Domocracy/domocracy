@@ -8,8 +8,6 @@
 #ifndef _DMCLIB_CORE_COMM_UPNP_UPNP_H_
 #define _DMCLIB_CORE_COMM_UPNP_UPNP_H_
 
-#include "../device.h"
-
 namespace dmc {
 
 	class Upnp {

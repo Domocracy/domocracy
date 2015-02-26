@@ -8,6 +8,7 @@
 #include "upnp.h"
 #include <core/comm/socket/socket.h>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -20,7 +21,11 @@ namespace dmc {
 	void Upnp::discoverServices() {
 		Socket socket;
 		const string cMulticastAddress;
-		socket.connectTo(cMulticastAddress, 1900, Socket::Protocol::UDP);
+		bool ok = socket.connectTo(cMulticastAddress, 1900, Socket::Protocol::UDP);
+		if(ok)
+			cout << "Connected to multicast Ip\n";
+		else
+			cout << "Error: Unable to connect to multicast ip\n";
 	}
 	
 }
