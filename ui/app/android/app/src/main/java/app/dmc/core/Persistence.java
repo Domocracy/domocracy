@@ -35,6 +35,7 @@ public class Persistence {
     //-----------------------------------------------------------------------------------------------------------------
     public JSONObject getJSON(String _path){
         JSONObject json = new JSONObject();
+        JSONObject jsonToReturn = new JSONObject();
         List<String> fileLevels = decodePath(_path);
 
         if (!mFiles.containsKey(fileLevels.get(0))){
@@ -43,28 +44,28 @@ public class Persistence {
         }else{
             json = mFiles.get(fileLevels.get(0));
         }
-
+        jsonToReturn = json;
         for(int i = 1; i < fileLevels.size(); i++){
             try {
-                return json.getJSONObject(fileLevels.get(i));
+                jsonToReturn = json.getJSONObject(fileLevels.get(i));
 
 
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
-        return null;
+        return jsonToReturn;
     }
     //-----------------------------------------------------------------------------------------------------------------
     public boolean putJSON(String _path, JSONObject _jsonToInsert){
-        JSONObject jsonToChange = getJSON(_path);
+        JSONObject json = getJSON(_path);
         List<String> fileLevels = decodePath(_path);
 
-        for(int i = 0; i < fileLevels.size(); i++){
+        for(int i = 0; i < json.length(); i++){
             try {
 
-                if (jsonToChange.getString(fileLevels.get(i)) != _jsonToInsert.getString(fileLevels.get(i))) {
-                    jsonToChange.put(fileLevels.get(i), _jsonToInsert.getJSONObject(fileLevels.get(i)));
+                if (json.getString(fileLevels.get(i)) != _jsonToInsert.getString(fileLevels.get(i))) {
+                    json.put(fileLevels.get(i), _jsonToInsert.getJSONObject(fileLevels.get(i)));
                     return true;
                 }
             }catch(Exception e){

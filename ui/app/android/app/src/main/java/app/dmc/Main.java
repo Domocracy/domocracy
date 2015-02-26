@@ -28,14 +28,14 @@ public class Main extends ActionBarActivity {
         Persistence.init(this);
         //mPruebaRecieved = Persistence.get().getJSON("/hubList/hubs/rooms");
 
-        mPruebaRecieved = Persistence.get().getJSON("/hubList");
+        mPruebaRecieved = Persistence.get().getJSON("hubList");
         JSONObject test = new JSONObject();
         try {
             test = new JSONObject("{\"id\": 455555}");
         }catch(JSONException e){
             e.printStackTrace();
         }
-        Persistence.get().putJSON("/hub_123/id",test);
+        Persistence.get().putJSON("hub_123",test);
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface
