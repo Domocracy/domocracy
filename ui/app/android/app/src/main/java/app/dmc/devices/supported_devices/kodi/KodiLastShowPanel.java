@@ -95,12 +95,16 @@ public class KodiLastShowPanel extends ActuatorPanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void setUpTvShowSelector(){
-        final Spinner tvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
+        Spinner tvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
+
+        boolean hasTvShowList = false;
+        final List<String> tvShowsList = new ArrayList<>();
         // Fill with series on startup
+        
         Thread queryShowsThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                List<String> tvShowsList = new ArrayList<>();
+
                 // Fill list with series
                 JSONArray jsonShowList = commandQueryTvShows();
                 try{
@@ -111,12 +115,22 @@ public class KodiLastShowPanel extends ActuatorPanel {
                     _jsonException.printStackTrace();
                 }
 
-                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, tvShowsList);
-                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                tvShowSelector.setAdapter(spinnerAdapter);
+
+
             }
         });
         queryShowsThread.start();
+        while(!hasTvShowList){
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, tvShowsList);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tvShowSelector.setAdapter(spinnerAdapter);
     }
 
 }
