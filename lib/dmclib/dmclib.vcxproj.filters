@@ -55,6 +55,9 @@
     <Filter Include="Source Files\core\comm\json\rpc">
       <UniqueIdentifier>{e32e7cdd-be97-4078-9753-9f1cf96ba992}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\core\comm\upnp">
+      <UniqueIdentifier>{75cc8d93-a591-442c-9149-5d99dd7e19db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\time\time.cpp">
@@ -104,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="src\core\comm\json\rpc\jsonRpc.cpp">
       <Filter>Source Files\core\comm\json\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\comm\upnp\upnp.cpp">
+      <Filter>Source Files\core\comm\upnp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="src\core\comm\json\rpc\jsonRpc.h">
       <Filter>Source Files\core\comm\json\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\comm\upnp\upnp.h">
+      <Filter>Source Files\core\comm\upnp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

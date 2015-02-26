@@ -96,6 +96,7 @@
     <ClCompile Include="src\core\comm\socket\socket.cpp" />
     <ClCompile Include="src\core\comm\socket\socketServer.cpp" />
     <ClCompile Include="src\core\comm\socket\socketWin32.cpp" />
+    <ClCompile Include="src\core\comm\upnp\upnp.cpp" />
     <ClCompile Include="src\core\platfrom\file\file.cpp" />
     <ClCompile Include="src\core\serial\SerialLinux.cpp" />
     <ClCompile Include="src\core\serial\serialWin32.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="src\core\comm\socket\socketLinux.h" />
     <ClInclude Include="src\core\comm\socket\socketServer.h" />
     <ClInclude Include="src\core\comm\socket\socketWin32.h" />
+    <ClInclude Include="src\core\comm\upnp\upnp.h" />
     <ClInclude Include="src\core\platfrom\file\file.h" />
     <ClInclude Include="src\core\serial\serial.h" />
     <ClInclude Include="src\core\serial\SerialLinux.h" />
