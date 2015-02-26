@@ -45,7 +45,8 @@ namespace dmc {
 		typedef SOCKET SocketDesc;
 #endif // _WIN32
 		enum class Protocol {
-			TCP
+			TCP,
+			UDP
 		};
 
 		Socket(SocketDesc _desc = INVALID_SOCKET);

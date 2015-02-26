@@ -39,9 +39,19 @@ namespace dmc {
 		struct addrinfo* address = nullptr;
 		memset(&addrHints, 0, sizeof(addrHints));
 		addrHints.ai_family = AF_UNSPEC;		// Connect to either ip v4 or v6
-		assert(_protocol == Protocol::TCP); // Only TCP is currently supported
+		assert(_protocol == Protocol::TCP || _protocol == Protocol::UDP); // Only TCP is currently supported
 		addrHints.ai_socktype = SOCK_STREAM;	// Connection type TCP IP
-		addrHints.ai_protocol = IPPROTO_TCP;
+		switch(_protocol) {
+		case Protocol::TCP:
+			addrHints.ai_protocol = IPPROTO_TCP;
+			break;
+		case Protocol::UDP:
+			addrHints.ai_protocol = IPPROTO_UDP;
+			break;
+		default:
+			assert(false);
+			break;
+		}
 
 		int res = getaddrinfo(_url.c_str(), portStream.str().c_str(), &addrHints, &address);
 		if(0 != res)
