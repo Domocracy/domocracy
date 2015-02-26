@@ -95,7 +95,21 @@ public class KodiLastShowPanel extends ActuatorPanel {
                     public void run() {
                         // Put dev in "Sending mode"
                         // Send Response
-                        JSONObject response = mParentActuator.runCommand(new JSONObject());
+                        int tvShowIndex = mTvShowSelector.getSelectedItemPosition();
+                        JSONObject request = new JSONObject();
+                        try {
+                            request.put("method", "PUT");
+
+                            JSONObject cmd = new JSONObject();
+                            cmd.put("cmd", "lastEpisode");
+                            JSONObject tvshow = mTvShowList.get(tvShowIndex);
+                            cmd.put("tvshowid", tvshow.getInt("tvshowid"));
+
+                            request.put("cmd", cmd);
+                        } catch (JSONException _jsonException){
+                            _jsonException.printStackTrace();
+                        }
+                        JSONObject response = mParentActuator.runCommand(request);
                         // if(response OK){
                         //      Dev in mode OK
                         //else
@@ -110,10 +124,8 @@ public class KodiLastShowPanel extends ActuatorPanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    boolean hasTvShowList = false;
-
     private void setUpTvShowSelector(){
-        Spinner tvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
+        mTvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
         final List<String> tvShowsList = new ArrayList<>();
         // Fill with series on startup
         
@@ -125,6 +137,7 @@ public class KodiLastShowPanel extends ActuatorPanel {
                 try{
                     for(int i = 0; i < jsonShowList.length(); i++){
                         JSONObject tvshow = jsonShowList.getJSONObject(i);
+                        mTvShowList.add(tvshow);
                         tvShowsList.add(tvshow.getString("label"));
                     }
                 }catch (JSONException _jsonException){
@@ -149,7 +162,10 @@ public class KodiLastShowPanel extends ActuatorPanel {
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, tvShowsList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        tvShowSelector.setAdapter(spinnerAdapter);
+        mTvShowSelector.setAdapter(spinnerAdapter);
     }
 
+    private boolean hasTvShowList = false;
+    private List<JSONObject> mTvShowList = new ArrayList<>();
+    private Spinner mTvShowSelector;
 }
