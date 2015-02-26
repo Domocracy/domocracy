@@ -34,7 +34,10 @@ public class Persistence {
     public JSONObject getJSON(String _fileName){
         if (mFiles.containsKey(_fileName)){
             return mFiles.get(_fileName);
-        }else {
+        }else if(!mFiles.containsKey(_fileName)){
+            updateFilesMap(_fileName);
+            return mFiles.get(_fileName);
+        }else{
             return null;
         }
     }
@@ -110,7 +113,19 @@ public class Persistence {
         mFiles.put(_fileName,loadJSONFile(_fileName));
     }
 
+
     //-----------------------------------------------------------------------------------------------------------------
+    public boolean flush(){
+
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public boolean end(){
+        
+
+    }
+
     //Private interface
     private Persistence(Context _context){
             assert _context != null;
