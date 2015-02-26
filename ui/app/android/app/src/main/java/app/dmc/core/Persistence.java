@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -120,7 +119,16 @@ public class Persistence {
 
     //-----------------------------------------------------------------------------------------------------------------
     public boolean flush(){
+        for(String deleteIterator :mFilesToDelete){
+            if (!deleteJSONFile(deleteIterator))
+                return false;
+        }
 
+        for(String filesIterator : mFiles.keySet()){
+            if (!saveJSONFile(filesIterator,mFiles.get(filesIterator)))
+                return false;
+        }
+        return true;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -134,9 +142,9 @@ public class Persistence {
     //Private interface
     private Persistence(Context _context){
             assert _context != null;
-            mContext = _context;
-            mFiles = new HashMap<String,JSONObject>();//nor need to be initialized here.
-            mFilesToDelete = new HashSet<String>();
+            mContext        = _context;
+            mFiles          = new HashMap<String,JSONObject>();
+            mFilesToDelete  = new HashSet<String>();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
