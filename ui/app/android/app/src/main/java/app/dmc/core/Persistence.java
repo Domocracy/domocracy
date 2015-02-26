@@ -58,8 +58,9 @@ public class Persistence {
             return false;
         }
     }
+
     //-----------------------------------------------------------------------------------------------------------------
-    private JSONObject loadFile(String _fileName){
+    private JSONObject loadJSONFile(String _fileName){
        JSONObject json = null;
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
             try {
@@ -77,7 +78,7 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private boolean saveFile(String _fileName, JSONObject _json){
+    private boolean saveJSONFile(String _fileName, JSONObject _json){
         boolean success = false;
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
         try{
@@ -96,8 +97,17 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    private boolean deleteJSONFile(String _fileName){
+        File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
+        if(file.delete())
+            return true;
+        else
+            return false;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     private void updateFilesMap (String _fileName){
-        mFiles.put(_fileName,loadFile(_fileName));
+        mFiles.put(_fileName,loadJSONFile(_fileName));
     }
 
     //-----------------------------------------------------------------------------------------------------------------
