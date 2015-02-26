@@ -125,7 +125,6 @@
     <ClInclude Include="src\core\time\time.h" />
     <ClInclude Include="src\home\device.h" />
     <ClInclude Include="src\home\device\actuator.h" />
-    <ClInclude Include="src\home\device\sensor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
