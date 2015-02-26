@@ -10,6 +10,7 @@
 package app.dmc.devices.supported_devices.kodi;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -55,8 +56,23 @@ public class KodiLastShowPanel extends ActuatorPanel {
 
         JSONObject response = mParentActuator.runCommand(request);
         JSONArray jsonShowList;
-        try{ jsonShowList = response.getJSONArray("tvshows");}
-        catch (JSONException _jsonException){ _jsonException.printStackTrace(); return null; }
+        try{
+            if(response != null)
+                jsonShowList = response.getJSONArray("tvshows");
+            else{
+                jsonShowList = new JSONArray();
+                JSONObject dummyShow = new JSONObject();
+
+                dummyShow.put("tvshowid", -1);
+                dummyShow.put("label", "KODI hasn't got TV shows");
+
+                jsonShowList.put(dummyShow);
+            }
+        }
+        catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+            return null;
+        }
 
         return jsonShowList;
     }
@@ -94,32 +110,33 @@ public class KodiLastShowPanel extends ActuatorPanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    boolean hasTvShowList = false;
+
     private void setUpTvShowSelector(){
         Spinner tvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
-
-        boolean hasTvShowList = false;
         final List<String> tvShowsList = new ArrayList<>();
         // Fill with series on startup
         
         Thread queryShowsThread = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 // Fill list with series
                 JSONArray jsonShowList = commandQueryTvShows();
                 try{
                     for(int i = 0; i < jsonShowList.length(); i++){
-                        tvShowsList.add(jsonShowList.getJSONObject(i).getString("label"));
+                        JSONObject tvshow = jsonShowList.getJSONObject(i);
+                        tvShowsList.add(tvshow.getString("label"));
                     }
                 }catch (JSONException _jsonException){
                     _jsonException.printStackTrace();
                 }
-
-
-
+                hasTvShowList = true;
+                Log.d("DOMOCRACY", "List of Tv-shows");
             }
         });
         queryShowsThread.start();
+
+        Log.d("DOMOCRACY", "Waiting TV-shows");
         while(!hasTvShowList){
             try {
                 Thread.sleep(50);
@@ -127,6 +144,8 @@ public class KodiLastShowPanel extends ActuatorPanel {
                 e.printStackTrace();
             }
         }
+
+        Log.d("DOMOCRACY", "Filling adapter and spinner");
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, tvShowsList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
