@@ -14,3 +14,4 @@
 /lib/dmclib/bin
 /lib/dmclib/Debug
 *.sdf
+/ui/app/android/app/app.iml
