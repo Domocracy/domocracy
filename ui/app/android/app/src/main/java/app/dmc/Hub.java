@@ -28,7 +28,11 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public Hub(Context _context, JSONObject _jsonHub) {
+    public Hub() {
+        mConnection = new HubConnection();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    public void init(Context _context, JSONObject _jsonHub){
         try {
             mId = _jsonHub.getString("hubId");
             mName = _jsonHub.getString("name");
@@ -45,19 +49,12 @@ public class Hub {
             for(int i = 0; i < rooms.length() ; i++){
                 mRoomList.add( new Room(rooms.getJSONObject(i), this, _context));
             }
-
-            //666TODO Rooms not implemented
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        mConnection = new HubConnection();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
     public Device device(String _id) {
         return mDevMgr.device(_id);
     }

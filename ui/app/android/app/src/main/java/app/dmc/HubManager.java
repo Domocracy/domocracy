@@ -61,7 +61,8 @@ public class HubManager {
             mDefaultHub = mHubJSON.getString("defaultHub");
 
             for(int i = 0;i < mHubList.length();i++) {
-                Hub hub = new Hub(_context, mHubList.getJSONObject(i));
+                Hub hub = new Hub();
+                hub.init(_context, mHubList.getJSONObject(i));
                 mHubMap.put(hub.id(), hub);
                 mHubsIds.add(hub.id());
             }
