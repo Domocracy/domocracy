@@ -70,16 +70,21 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	Response* User::deviceCommand(const std::string& _cmd, const http::Request& _request) const {
 		string devIdStr = _cmd.substr(1); // Discard initial '/'
-		unsigned devId = strtol(devIdStr.c_str(), nullptr, 16);
+		char* idEnd;
+		unsigned devId = strtol(devIdStr.c_str(), &idEnd, 16);
 		Device* dev = mDevices->device(devId);
+		unsigned idLen = idEnd-devIdStr.c_str();
 		if(!dev){
 			return new Response404(string("Error 404: Device ")+devIdStr+" not found\n");
 		}
 		// Execute request
 		switch (_request.method())
 		{
-		case Request::METHOD::Get:
-			return new JsonResponse(dev->read(Json(_request.body())));
+		case Request::METHOD::Get: {
+			Json request("{}");
+			request["cmd"].setText(devIdStr.substr(idLen+1));
+			return new JsonResponse(dev->read(request));
+		}
 		case Request::METHOD::Put: {
 			// Use device as an actuator
 			Actuator* act = dynamic_cast<Actuator*>(dev);
