@@ -106,6 +106,12 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject get(final String _url, final JSONObject _body) {
+        String url = "http://" + ip() + "/user/dmc64" + _url;
+        return mConnection.get(url, _body);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
 
 
     public boolean modifyIp(String _ip) {

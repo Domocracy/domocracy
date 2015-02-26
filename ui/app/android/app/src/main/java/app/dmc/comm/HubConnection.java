@@ -23,13 +23,13 @@ public class HubConnection {
         return request.sendRequest();
     }
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject get(final String _url){
+    public JSONObject get(final String _url, final JSONObject _body){
         final JsonRequest request = new JsonRequest(_url);
         request.setMethod("GET");
+        request.setHeader("connection", "close");
+        request.setBody(_body.toString());
 
-        request.sendRequest();
-
-        return null;    // 666 Implement response
+        return request.sendRequest();
     }
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
