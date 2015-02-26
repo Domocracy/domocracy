@@ -63,6 +63,7 @@ public class Persistence {
             mFilesToDelete.add(_fileName);
             return true;
         }else{
+            mFilesToDelete.add(_fileName);
             return false;
         }
     }
@@ -127,25 +128,19 @@ public class Persistence {
 
 
     //-----------------------------------------------------------------------------------------------------------------
-    public boolean flush(){
-        for(String deleteIterator :mFilesToDelete){
-            if (!deleteJSONFile(deleteIterator))
-                return false;
+    public void flush(){
+        for(String deleteIterator : mFilesToDelete){
+            deleteJSONFile(deleteIterator);
         }
 
         for(String filesIterator : mFiles.keySet()){
-            if (!saveJSONFile(filesIterator,mFiles.get(filesIterator)))
-                return false;
+            saveJSONFile(filesIterator,mFiles.get(filesIterator));
         }
-        return true;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public boolean end(){
-        if(flush())
-            return true;
-        else
-            return false;
+    public void end(){
+        flush();
     }
 
     //Private interface
