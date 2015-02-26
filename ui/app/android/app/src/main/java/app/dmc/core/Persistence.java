@@ -12,7 +12,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Joscormir on 16/02/2015.
@@ -56,6 +59,7 @@ public class Persistence {
     //-----------------------------------------------------------------------------------------------------------------
     public boolean removeJSON(String _fileName){
         if (null != mFiles.remove(_fileName)){
+            mFilesToDelete.add(_fileName);
             return true;
         }else{
             return false;
@@ -117,7 +121,6 @@ public class Persistence {
     //-----------------------------------------------------------------------------------------------------------------
     public boolean flush(){
 
-
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -133,11 +136,12 @@ public class Persistence {
             assert _context != null;
             mContext = _context;
             mFiles = new HashMap<String,JSONObject>();//nor need to be initialized here.
+            mFilesToDelete = new HashSet<String>();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private static  Persistence             sInstance = null;
     private         Context                 mContext;
     private         Map<String, JSONObject> mFiles;
-
+    private         Set<String>             mFilesToDelete;
 }
