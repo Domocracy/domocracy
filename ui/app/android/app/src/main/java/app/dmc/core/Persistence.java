@@ -122,8 +122,10 @@ public class Persistence {
 
     //-----------------------------------------------------------------------------------------------------------------
     public boolean end(){
-        
-
+        if(flush())
+            return true;
+        else
+            return false;
     }
 
     //Private interface
