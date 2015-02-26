@@ -19,34 +19,53 @@ namespace dmc { namespace kodi {
 	{
 		mIp = _data["ip"].asText();
 
-		// mTcpConnection.connectTo(mIp, mPort);
+		mTcpConnection = new Socket();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	bool Kodi::runCommand(const Json&) {
+	Kodi::~Kodi() {
+		delete mTcpConnection;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	bool Kodi::runCommand(const Json& _cmd) {
+		string command = _cmd["cmd"].asText();
 		Json tvShows = getTvShows();
 		return playLastEpisode(tvShows[0]);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void Kodi::sendRequest(const Json& _cmd) {
-		mTcpConnection.connectTo(mIp, mPort);
-		mTcpConnection.write(_cmd.serialize());
+	Json Kodi::read(const Json& _request) const {
+		string command = _request["cmd"].asText();
+		if(command == "tvshows") {
+			Json response(R"({})");
+			Json shows = getTvShows();
+			response["tvshows"] = shows;
+			response["result"] = Json("\"ok\"");
+			return response;
+		}
+		return Json(R"({"result":"fail", "error":"unknown request")");
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Json Kodi::readResponse() {
+	void Kodi::sendRequest(const Json& _cmd) const {
+		mTcpConnection->connectTo(mIp, mPort);
+		mTcpConnection->write(_cmd.serialize());
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::readResponse() const {
 		/// 666 TODO: Support concatenated json responses.
 		const unsigned bufferSize = 64*1024;
 		char buffer[bufferSize+1];
-		int nBytes = mTcpConnection.read(buffer, bufferSize);
+		int nBytes = mTcpConnection->read(buffer, bufferSize);
 		buffer[nBytes] = '\0';
-		mTcpConnection.close();
+		mTcpConnection->close();
 		return Json(string(buffer));
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Json Kodi::getPlayers() {
+	Json Kodi::getPlayers() const{
 		JsonRpcRequest request("Player.GetActivePlayers", Json("{}"), mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
@@ -54,7 +73,7 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Json Kodi::getMovies() {
+	Json Kodi::getMovies() const {
 		JsonRpcRequest request("VideoLibrary.GetMovies", 
 			Json(R"({"properties": ["file"]})"), mLastReqId++);
 		sendRequest(request);
@@ -63,7 +82,7 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Json Kodi::getTvShows() {
+	Json Kodi::getTvShows() const {
 		JsonRpcRequest request("VideoLibrary.GetTVShows", 
 			Json("{}"), mLastReqId++);
 		sendRequest(request);

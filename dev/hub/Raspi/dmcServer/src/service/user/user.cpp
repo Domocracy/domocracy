@@ -79,7 +79,7 @@ namespace dmc {
 		switch (_request.method())
 		{
 		case Request::METHOD::Get:
-			return new Response404("Error 404: GET Methods not implemented");
+			return new JsonResponse(dev->read(Json(_request.body())));
 		case Request::METHOD::Put: {
 			// Use device as an actuator
 			Actuator* act = dynamic_cast<Actuator*>(dev);
