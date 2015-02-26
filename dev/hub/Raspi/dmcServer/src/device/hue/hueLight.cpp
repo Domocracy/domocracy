@@ -19,9 +19,7 @@ namespace dmc { namespace hue {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Light::Light(unsigned _id, const std::string& _name, const std::string& _hueId)
-		:Device(_id, _name)
-		,Actuator(_id,_name)
-		,Sensor(_id,_name)
+		:Actuator(_id,_name)
 		, mHueId(_hueId)
 	{
 		if(!sBridge)
@@ -38,9 +36,8 @@ namespace dmc { namespace hue {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	bool Light::read(const std::string& _param, Json& _dst) {
-		std::cout << "requested param \"" << _param << "\" of Hue light\n";
-		return true;
+	Json Light::read(const Json& _request) const {
+		return Json(); // TODO
 	}
 
 }}	// namespace dmc::hue

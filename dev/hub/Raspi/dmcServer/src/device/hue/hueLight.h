@@ -9,18 +9,17 @@
 #define _DMCSERVER_HOME_DEVICE_HUE_HUELIGHT_H_
 
 #include <home/device/actuator.h>
-#include <home/device/sensor.h>
 #include "hueBridge.h"
 
 namespace dmc { namespace hue {
 
-	class Light : public Actuator, public Sensor {
+	class Light : public Actuator {
 	public:
 		Light(unsigned _id, const std::string& _name, const std::string& _hueId);
 
 		// Device interface
 		bool runCommand(const Json& _cmd) override;
-		bool read(const std::string& _param, Json& _dst) override;
+		Json read(const Json& _request) const override;
 
 	private:
 		std::string mHueId;

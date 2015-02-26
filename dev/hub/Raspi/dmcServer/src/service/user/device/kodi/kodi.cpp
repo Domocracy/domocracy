@@ -16,7 +16,6 @@ namespace dmc { namespace kodi {
 	//------------------------------------------------------------------------------------------------------------------
 	Kodi::Kodi(const Json& _data) 
 		:Actuator(_data["id"].asInt(), _data["name"].asText())
-		,Device(_data["id"].asInt(), _data["name"].asText())
 	{
 		mIp = _data["ip"].asText();
 
@@ -98,20 +97,20 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Json Kodi::scanLibrary() {
-		JsonRpcRequest request("VideoLibrary.Scan", Json("{}"), mLastReqId++);
-		sendRequest(request);
-		Json response = readResponse();
-		return Json();
-	}
-
-	//------------------------------------------------------------------------------------------------------------------
 	void Kodi::PlayMovie(const Json& _movie) {
 		Json params(R"({"item":{}})");
 		params["item"]["movieid"] = _movie["movieid"];
 		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
 		sendRequest(request);
 		readResponse();
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::scanLibrary() {
+		JsonRpcRequest request("VideoLibrary.Scan", Json("{}"), mLastReqId++);
+		sendRequest(request);
+		Json response = readResponse();
+		return Json();
 	}
 
 }}	// namespace dmc::kodi
