@@ -30,7 +30,40 @@ public class KodiLastShowPanel extends ActuatorPanel {
     //-----------------------------------------------------------------------------------------------------------------
     public KodiLastShowPanel(final Actuator _parentActuator, final JSONObject _panelData, int _layoutResId, Context _context) {
         super(_parentActuator, _panelData, _layoutResId, _context);
+        setUpView();
+    }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    @Override
+    public void stateChanged(JSONObject _state) {
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private interface
+    // Commands
+    private JSONArray commandQueryTvShows(){
+        JSONObject command = new JSONObject();
+        try{ command.put("cmd","tvshows");}
+        catch (JSONException _jsonException){ _jsonException.printStackTrace(); }
+
+        JSONObject response = mParentActuator.runCommand(command);
+        JSONArray jsonShowList;
+        try{ jsonShowList = response.getJSONArray("tvshows");}
+        catch (JSONException _jsonException){ _jsonException.printStackTrace(); return null; }
+
+        return jsonShowList;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // View set up methods
+    private void setUpView(){
+        setUpClickAction();
+        setUpTvShowSelector();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void setUpClickAction(){
         // Set click action to the panel.
         setOnClickListener(new OnClickListener() {
             @Override
@@ -52,6 +85,10 @@ public class KodiLastShowPanel extends ActuatorPanel {
             }
         });
 
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void setUpTvShowSelector(){
         final Spinner tvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
         // Fill with series on startup
         Thread queryShowsThread = new Thread(new Runnable() {
@@ -59,9 +96,7 @@ public class KodiLastShowPanel extends ActuatorPanel {
             public void run() {
                 List<String> tvShowsList = new ArrayList<>();
                 // Fill list with series
-
-                JSONArray jsonShowList = queryTvShows();
-
+                JSONArray jsonShowList = new JSONArray();//commandQueryTvShows();
                 try{
                     // Dummy Load
                     JSONObject ej1 = new JSONObject();
@@ -71,7 +106,6 @@ public class KodiLastShowPanel extends ActuatorPanel {
                     jsonShowList.put(ej1);
                     jsonShowList.put(ej2);
                     //
-
                     for(int i = 0; i < jsonShowList.length(); i++){
                         tvShowsList.add(jsonShowList.getJSONObject(i).getString("label"));
                     }
@@ -82,41 +116,9 @@ public class KodiLastShowPanel extends ActuatorPanel {
                 ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, tvShowsList);
                 spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 tvShowSelector.setAdapter(spinnerAdapter);
-
             }
         });
         queryShowsThread.start();
-
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public void stateChanged(JSONObject _state) {
-
-    }
-
-
-
-    //-----------------------------------------------------------------------------------------------------------------
-    // Private interface
-    JSONArray queryTvShows(){
-        JSONObject command = new JSONObject();
-        try{
-            command.put("cmd","tvshows");
-        }catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-        }
-
-        JSONObject response = mParentActuator.runCommand(command);
-
-        JSONArray jsonShowList;
-        try{
-            jsonShowList = response.getJSONArray("tvshows");
-
-        } catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-            return null;
-        }
-        return jsonShowList;
-    }
 }
