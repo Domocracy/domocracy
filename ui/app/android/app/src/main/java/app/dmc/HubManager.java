@@ -62,9 +62,12 @@ public class HubManager {
 
             for(int i = 0;i < mHubList.length();i++) {
                 Hub hub = new Hub();
+
+                String hubId = mHubList.getJSONObject(i).getString("hubId");
+                mHubMap.put(hubId, hub);
+                mHubsIds.add(hubId);
+
                 hub.init(_context, mHubList.getJSONObject(i));
-                mHubMap.put(hub.id(), hub);
-                mHubsIds.add(hub.id());
             }
         }catch(JSONException e){
             e.printStackTrace();
