@@ -51,6 +51,14 @@ public class Persistence {
         }
     }
     //-----------------------------------------------------------------------------------------------------------------
+    public boolean removeJSON(String _fileName){
+        if (null != mFiles.remove(_fileName)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    //-----------------------------------------------------------------------------------------------------------------
     private JSONObject loadFile(String _fileName){
        JSONObject json = null;
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
