@@ -106,9 +106,9 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject get(final String _url, final JSONObject _body) {
+    public JSONObject get(final String _url) {
         String url = "http://" + ip() + "/user/dmc64" + _url;
-        return mConnection.get(url, _body);
+        return mConnection.get(url);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

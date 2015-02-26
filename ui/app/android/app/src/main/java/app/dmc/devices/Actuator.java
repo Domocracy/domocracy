@@ -9,6 +9,7 @@
 
 package app.dmc.devices;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.Hub;
@@ -21,9 +22,20 @@ public abstract class Actuator extends Device {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    final public JSONObject runCommand(final JSONObject _jsonCommand) {
+    final public JSONObject runCommand(final JSONObject _request) {
         Hub hub = HubManager.get().hub(hub());
-        return hub.send("/device/" + id(), _jsonCommand);
+        try{
+            String method = _request.getString("method");
+            if(method.equals("GET"))
+                return hub.get("/device/" + id() + "/" + _request.getString("url"));
+            if(method.equals("PUT"))
+                return hub.send("/device/" + id(), _request.getJSONObject("cmd"));
+
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
+
+        return null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------

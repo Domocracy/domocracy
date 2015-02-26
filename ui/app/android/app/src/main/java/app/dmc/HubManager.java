@@ -21,15 +21,14 @@ import app.dmc.core.Persistence;
 public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
-
     static public void init(Context _context){
-        instance =  new HubManager(_context);
+        sInstance =  new HubManager();
+        sInstance.loadHubs(_context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
     public static HubManager get(){
-        return instance;
+        return sInstance;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -50,8 +49,10 @@ public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface.
-    private HubManager(Context _context){
-        //here goes the loadHub
+    private HubManager(){ }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void loadHubs(Context _context){
         initJson();
         mHubMap  = new HashMap<String,Hub>();
         mHubsIds = new ArrayList<String>();
@@ -67,8 +68,8 @@ public class HubManager {
         }catch(JSONException e){
             e.printStackTrace();
         }
-
     }
+
     //-----------------------------------------------------------------------------------------------------------------
     public void initJson(){
         mHubJSON = Persistence.get().getData("hubList");
@@ -81,6 +82,6 @@ public class HubManager {
     private JSONObject      mHubJSON;
 
     //-----------------------------------------------------------------------------------------------------------------
-    private static HubManager instance = null;
+    private static HubManager sInstance = null;
 
 }

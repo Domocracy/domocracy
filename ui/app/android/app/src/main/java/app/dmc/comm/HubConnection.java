@@ -23,11 +23,10 @@ public class HubConnection {
         return request.sendRequest();
     }
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject get(final String _url, final JSONObject _body){
+    public JSONObject get(final String _url){
         final JsonRequest request = new JsonRequest(_url);
         request.setMethod("GET");
         request.setHeader("connection", "close");
-        request.setBody(_body.toString());
 
         return request.sendRequest();
     }

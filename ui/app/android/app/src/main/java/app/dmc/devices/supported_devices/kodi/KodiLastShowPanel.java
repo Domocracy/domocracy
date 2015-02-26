@@ -43,11 +43,17 @@ public class KodiLastShowPanel extends ActuatorPanel {
     // Private interface
     // Commands
     private JSONArray commandQueryTvShows(){
-        JSONObject command = new JSONObject();
-        try{ command.put("cmd","tvshows");}
-        catch (JSONException _jsonException){ _jsonException.printStackTrace(); }
+        JSONObject request = new JSONObject();
+        try{
+            request.put("url","tvshows");
+            request.put("method","GET");
 
-        JSONObject response = mParentActuator.runCommand(command);
+        }
+        catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
+
+        JSONObject response = mParentActuator.runCommand(request);
         JSONArray jsonShowList;
         try{ jsonShowList = response.getJSONArray("tvshows");}
         catch (JSONException _jsonException){ _jsonException.printStackTrace(); return null; }
@@ -96,16 +102,8 @@ public class KodiLastShowPanel extends ActuatorPanel {
             public void run() {
                 List<String> tvShowsList = new ArrayList<>();
                 // Fill list with series
-                JSONArray jsonShowList = new JSONArray();//commandQueryTvShows();
+                JSONArray jsonShowList = commandQueryTvShows();
                 try{
-                    // Dummy Load
-                    JSONObject ej1 = new JSONObject();
-                    ej1.put("label", "Matrix Reload");
-                    JSONObject ej2 = new JSONObject();
-                    ej2.put("label", "SharkNado");
-                    jsonShowList.put(ej1);
-                    jsonShowList.put(ej2);
-                    //
                     for(int i = 0; i < jsonShowList.length(); i++){
                         tvShowsList.add(jsonShowList.getJSONObject(i).getString("label"));
                     }
