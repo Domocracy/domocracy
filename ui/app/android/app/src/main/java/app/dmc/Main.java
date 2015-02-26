@@ -35,7 +35,7 @@ public class Main extends ActionBarActivity {
         }catch(JSONException e){
             e.printStackTrace();
         }
-        Persistence.get().putJSON("hub_123",test);
+        //Persistence.get().putJSON("hub_123",test);
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface

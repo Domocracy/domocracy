@@ -36,12 +36,14 @@ public class Persistence {
     public JSONObject getJSON(String _fileName){
         if (mFiles.containsKey(_fileName)){
             return mFiles.get(_fileName);
-        }else if(!mFiles.containsKey(_fileName)){
-            updateFilesMap(_fileName);
-            return mFiles.get(_fileName);
-        }else{
-            return null;
+        }else if(!mFiles.containsKey(_fileName)) {
+            if (updateFilesMap(_fileName)) {
+                return mFiles.get(_fileName);
+            } else {
+                return null;
+            }
         }
+        return null;
     }
     //-----------------------------------------------------------------------------------------------------------------
     public boolean putJSON(String _fileName, JSONObject _jsonToInsert){
@@ -66,8 +68,8 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private JSONObject loadJSONFile(String _fileName){
-       JSONObject json = null;
+    private JSONObject loadJSONFile(String _fileName) {
+        JSONObject json = null;
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
             try {
                 InputStream in = new FileInputStream(file);
@@ -80,7 +82,8 @@ public class Persistence {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-       return json;
+
+            return json;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -112,8 +115,14 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void updateFilesMap (String _fileName){
-        mFiles.put(_fileName,loadJSONFile(_fileName));
+    private boolean updateFilesMap (String _fileName){
+        File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
+        if (file.exists()) {
+            mFiles.put(_fileName, loadJSONFile(_fileName));
+            return true;
+        }else{
+           return false;
+        }
     }
 
 
