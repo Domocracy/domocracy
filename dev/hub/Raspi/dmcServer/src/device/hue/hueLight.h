@@ -18,7 +18,7 @@ namespace dmc { namespace hue {
 		Light(unsigned _id, const std::string& _name, const std::string& _hueId);
 
 		// Device interface
-		bool runCommand(const Json& _cmd) override;
+		Json runCommand(const Json& _cmd) override;
 		Json read(const Json& _request) const override;
 
 	private:

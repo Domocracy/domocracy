@@ -20,7 +20,7 @@ namespace dmc { namespace kodi {
 		Kodi(const Json&);
 		~Kodi();
 
-		bool runCommand		(const Json& _cmd) override;
+		Json runCommand		(const Json& _cmd) override;
 		Json read			(const Json& _request) const override;
 
 	private:
@@ -32,8 +32,8 @@ namespace dmc { namespace kodi {
 		Json getTvShows		() const;
 		Json getEpisodes	(const Json& _show);
 		bool playLastEpisode(const Json& _show);
+		bool PlayMovie		(const Json& _movie);
 		Json scanLibrary	();
-		void PlayMovie		(const Json& _movie);
 
 		std::string mIp;
 		unsigned	mPort = 9090;

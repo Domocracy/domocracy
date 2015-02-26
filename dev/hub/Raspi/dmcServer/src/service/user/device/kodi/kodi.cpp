@@ -28,10 +28,23 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	bool Kodi::runCommand(const Json& _cmd) {
+	Json Kodi::runCommand(const Json& _cmd) {
 		string command = _cmd["cmd"].asText();
-		Json tvShows = getTvShows();
-		return playLastEpisode(tvShows[0]);
+		if(command == "lastEpisode") {
+			if(playLastEpisode(_cmd["tvshowid"])) {
+				return Json(R"({"result": "ok"})");
+			} 
+			else 
+				return Json(R"({"result":"fail", "error":"unable to play show")");
+		}
+		else if(command == "movie") {
+			if(PlayMovie(_cmd["movieid"])) {
+				return Json(R"({"result": "ok"})");
+			}
+			else 
+				return Json(R"({"result":"fail", "error":"unable to play movie")");
+		}
+		return Json(R"({"result":"fail", "error":"unknown command")");
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -116,12 +129,14 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void Kodi::PlayMovie(const Json& _movie) {
+	bool Kodi::PlayMovie(const Json& _movie) {
 		Json params(R"({"item":{}})");
 		params["item"]["movieid"] = _movie["movieid"];
 		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
 		sendRequest(request);
 		readResponse();
+		/// 666 TODO: Check response
+		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

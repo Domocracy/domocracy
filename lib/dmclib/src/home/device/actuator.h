@@ -18,7 +18,7 @@ namespace dmc {
 	public:
 		Actuator(unsigned _id, const std::string& _name) : Device(_id, _name) {}
 		virtual ~Actuator() = default;
-		virtual bool runCommand(const Json& _cmd) = 0;
+		virtual Json runCommand(const Json& _cmd) = 0;
 	};
 }
 

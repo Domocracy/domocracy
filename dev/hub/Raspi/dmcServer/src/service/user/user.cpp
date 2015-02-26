@@ -85,11 +85,7 @@ namespace dmc {
 			Actuator* act = dynamic_cast<Actuator*>(dev);
 			if(act) {
 				Json body(_request.body()); // Extract body from request
-				bool success = act->runCommand(body);
-				if(success)
-					return new JsonResponse(Json(R"({"result":"ok"})"));
-				else
-					return new JsonResponse(Json(R"({"result":"fail"})"));
+				return new JsonResponse(act->runCommand(body));
 			} else {
 				return new Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n");
 			}

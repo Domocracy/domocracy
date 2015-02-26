@@ -24,7 +24,7 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	bool Scene::runCommand(const Json&) {
+	Json Scene::runCommand(const Json&) {
 		DeviceMgr* mgr = DeviceMgr::get();
 		bool ok = true;
 		for(auto i : mChildren)
@@ -34,8 +34,8 @@ namespace dmc {
 				ok = false;
 				continue;
 			}
-			ok &= act->runCommand(i.second);
+			ok &= (act->runCommand(i.second)["result"].asText() == "ok");
 		}
-		return ok;
+		return ok?Json(R"("result":"ok")"):Json(R"("result":"fail")");
 	}
 }
