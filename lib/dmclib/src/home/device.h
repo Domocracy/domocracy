@@ -9,6 +9,7 @@
 #define _DMCSERVER_HOME_DEVICE_H_
 
 #include <string>
+#include <core/comm/json/json.h>
 
 namespace dmc {
 
@@ -18,6 +19,7 @@ namespace dmc {
 
 		unsigned			id		() const { return mId; }
 		const std::string	name	() const { return mName; }
+		virtual Json		read	(const Json& _request) const { return Json(); }
 
 	protected:
 		Device(unsigned _id, const std::string& _name) : mId(_id), mName(_name) {}

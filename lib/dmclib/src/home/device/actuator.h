@@ -14,10 +14,11 @@ namespace dmc {
 
 	class Json;
 
-	class Actuator : public virtual Device {
+	class Actuator : public Device {
 	public:
 		Actuator(unsigned _id, const std::string& _name) : Device(_id, _name) {}
-		virtual bool runCommand(const Json& _cmd) = 0;
+		virtual ~Actuator() = default;
+		virtual Json runCommand(const Json& _cmd) = 0;
 	};
 }
 

@@ -18,23 +18,28 @@ namespace dmc { namespace kodi {
 	class Kodi final : public Actuator{
 	public:
 		Kodi(const Json&);
+		~Kodi();
 
-		bool runCommand(const Json& _cmd) override;
+		Json runCommand		(const Json& _cmd) override;
+		Json read			(const Json& _request) const override;
 
 	private:
-		void sendRequest(const Json&);
-		Json readResponse();
+		void sendRequest	(const Json&) const;
+		Json readResponse	() const;
 
-		Json getPlayers();
-		Json getMovies();
-		Json scanLibrary();
-		void PlayMovie(const Json& _movie);
+		Json getPlayers		() const;
+		Json getMovies		() const;
+		Json getTvShows		() const;
+		Json getEpisodes	(const Json& _show);
+		bool playLastEpisode(const Json& _show);
+		bool PlayMovie		(const Json& _movie);
+		Json scanLibrary	();
 
 		std::string mIp;
 		unsigned	mPort = 9090;
-		Socket		mTcpConnection;
+		Socket*		mTcpConnection;
 
-		unsigned	mLastReqId = 1;
+		mutable unsigned	mLastReqId = 1;
 	};
 
 }}	// namespace dmc::kodi
