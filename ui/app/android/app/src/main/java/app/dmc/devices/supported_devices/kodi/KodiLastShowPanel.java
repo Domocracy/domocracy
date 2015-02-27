@@ -46,7 +46,7 @@ public class KodiLastShowPanel extends ActuatorPanel {
     private JSONArray commandQueryTvShows(){
         JSONObject request = new JSONObject();
         try{
-            request.put("url","tvshows");
+            request.put("urlget","tvshows");
             request.put("method","GET");
 
         }

@@ -52,7 +52,14 @@ public class HueLightPanel extends ActuatorPanel {
                     public void run() {
                         // Put dev in "Sending mode"
                         // Send Response
-                        JSONObject response = mParentActuator.runCommand(command);
+                        try {
+                            JSONObject cmdRequest = new JSONObject();
+                            cmdRequest.put("method", "PUT");
+                            cmdRequest.put("cmd", command);
+                            JSONObject response = mParentActuator.runCommand(cmdRequest);
+                        } catch (JSONException _jsonException){
+                            _jsonException.printStackTrace();
+                        }
                         // if(response OK){
                         //      Dev in mode OK
                         //else
@@ -94,7 +101,14 @@ public class HueLightPanel extends ActuatorPanel {
                     public void run() {
                         // Put dev in "Sending mode"
                         // Send Response
-                        JSONObject response = mParentActuator.runCommand(command);
+                        try {
+                            JSONObject cmdRequest = new JSONObject();
+                            cmdRequest.put("method", "PUT");
+                            cmdRequest.put("cmd", command);
+                            JSONObject response = mParentActuator.runCommand(cmdRequest);
+                        } catch (JSONException _jsonException){
+                            _jsonException.printStackTrace();
+                        }
                         // if(response OK){
                         //      Dev in mode OK
                         //else
@@ -157,7 +171,14 @@ public class HueLightPanel extends ActuatorPanel {
                         public void run() {
                             // Put dev in "Sending mode"
                             // Send Response
-                            JSONObject response = mParentActuator.runCommand(command);
+                            try {
+                                JSONObject cmdRequest = new JSONObject();
+                                cmdRequest.put("method", "PUT");
+                                cmdRequest.put("cmd", command);
+                                JSONObject response = mParentActuator.runCommand(cmdRequest);
+                            } catch (JSONException _jsonException){
+                                _jsonException.printStackTrace();
+                            }
                             // if(response OK){
                             //      Dev in mode OK
                             //else

@@ -12,6 +12,7 @@ package app.dmc.devices.supported_devices.scene;
 import android.content.Context;
 import android.view.View;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.devices.Actuator;
@@ -29,8 +30,14 @@ public class ScenePanel extends ActuatorPanel {
                     public void run() {
                         // Put dev in "Sending mode"
                         // Send Response
-                        JSONObject response = mParentActuator.runCommand(new JSONObject());
-
+                        try {
+                            JSONObject cmdRequest = new JSONObject();
+                            cmdRequest.put("method", "PUT");
+                            cmdRequest.put("cmd", new JSONObject());
+                            JSONObject response = mParentActuator.runCommand(cmdRequest);
+                        } catch (JSONException _jsonException){
+                            _jsonException.printStackTrace();
+                        }
                         // if(response OK){
                         //      Dev in mode OK
                         //else

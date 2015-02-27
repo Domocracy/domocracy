@@ -27,7 +27,7 @@ public abstract class Actuator extends Device {
         try{
             String method = _request.getString("method");
             if(method.equals("GET"))
-                return hub.get("/device/" + id() + "/" + _request.getString("url"));
+                return hub.get("/device/" + id() + "/" + _request.getString("urlget"));
             if(method.equals("PUT"))
                 return hub.send("/device/" + id(), _request.getJSONObject("cmd"));
 
