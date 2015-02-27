@@ -36,38 +36,26 @@ public class Persistence {
     public JSONObject getJSON(String _fileName){
         if (mFiles.containsKey(_fileName)){
             return mFiles.get(_fileName);
-        }else if(!mFiles.containsKey(_fileName)) {
+        }else{
             if (updateFilesMap(_fileName)) {
                 return mFiles.get(_fileName);
             } else {
                 return null;
             }
         }
-        return null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public boolean putJSON(String _fileName, JSONObject _jsonToInsert){
-        if (mFiles.containsKey(_fileName)){
-            mFiles.put(_fileName,_jsonToInsert);
-            return true;
-        }else if(!mFiles.containsKey(_fileName)){
-            mFiles.put(_fileName,_jsonToInsert);
-            return true;
-        }else{
-            return false;
-        }
+        mFiles.put(_fileName,_jsonToInsert);
+        return true;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public boolean removeJSON(String _fileName){
-        if (null != mFiles.remove(_fileName)){
-            mFilesToDelete.add(_fileName);
-            return true;
-        }else{
-            mFilesToDelete.add(_fileName);
-            return false;
-        }
+        mFiles.remove(_fileName);
+        mFilesToDelete.add(_fileName);
+        return true;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -111,10 +99,7 @@ public class Persistence {
     //-----------------------------------------------------------------------------------------------------------------
     private boolean deleteJSONFile(String _fileName){
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
-        if(file.delete())
-            return true;
-        else
-            return false;
+        return file.delete();
     }
 
     //-----------------------------------------------------------------------------------------------------------------

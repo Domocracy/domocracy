@@ -16,19 +16,17 @@ public class Main extends ActionBarActivity {
 
 
         // Init HubManager
+        Persistence.init(this);
         HubManager.init(this);
 
 
         try {
             mPrueba = new JSONObject("{\"defaultHub\":\"0\",\"hubs\":[{\"name\":\"Home\",\"id\":\"123\",\"ip\":\"193.147.168.23\",\"rooms\":[],\"devices\":[]},{\"name\":\"Beach Flat\",\"id\":\"543\",\"ip\":\"193.154.123.54\",\"rooms\":[],\"devices\":[]}]}");
 
-        }catch(JSONException e){
-           e.printStackTrace();
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
-        Persistence.init(this);
-        //mPruebaRecieved = Persistence.get().getJSON("/hubList/hubs/rooms");
-
-        //mPruebaRecieved = Persistence.get().getJSON("hubList");
+        mPruebaRecieved = Persistence.get().getJSON("hubList");
         JSONObject test = new JSONObject();
         try {
             test = new JSONObject("{\"id\": 455555}");
