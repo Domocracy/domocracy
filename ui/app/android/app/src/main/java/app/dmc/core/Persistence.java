@@ -45,6 +45,7 @@ public class Persistence {
         }
         return null;
     }
+
     //-----------------------------------------------------------------------------------------------------------------
     public boolean putJSON(String _fileName, JSONObject _jsonToInsert){
         if (mFiles.containsKey(_fileName)){
@@ -57,6 +58,7 @@ public class Persistence {
             return false;
         }
     }
+
     //-----------------------------------------------------------------------------------------------------------------
     public boolean removeJSON(String _fileName){
         if (null != mFiles.remove(_fileName)){
@@ -126,7 +128,6 @@ public class Persistence {
         }
     }
 
-
     //-----------------------------------------------------------------------------------------------------------------
     public void flush(){
         for(String deleteIterator : mFilesToDelete){
@@ -156,4 +157,5 @@ public class Persistence {
     private         Context                 mContext;
     private         Map<String, JSONObject> mFiles;
     private         Set<String>             mFilesToDelete;
+
 }
