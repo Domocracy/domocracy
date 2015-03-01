@@ -20,7 +20,7 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	void Upnp::discoverServices() {
 		Socket socket;
-		const string cMulticastAddress;
+		const string cMulticastAddress = "239.255.255.250";
 		bool ok = socket.connectTo(cMulticastAddress, 1900, Socket::Protocol::UDP);
 		if(ok)
 			cout << "Connected to multicast Ip\n";
