@@ -64,8 +64,13 @@ namespace dmc {
 		int		read	(void* _dstbuffer, unsigned _maxLen);
 
 	private:
+
+		bool getSocketAddress	(const std::string& _url, unsigned _port, Protocol _protocol);
+		bool openSocket			();
+
 		SocketDesc mSocket = INVALID_SOCKET;
 		bool mMustClose = false;
+		struct addrinfo* mAddress;
 		std::string mInBuffer;
 	};
 }	// namespace dmc

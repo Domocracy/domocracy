@@ -26,6 +26,18 @@ namespace dmc {
 			cout << "Connected to multicast Ip\n";
 		else
 			cout << "Error: Unable to connect to multicast ip\n";
+
+		string request = string() + 
+			+"M-SEARCH * HTTP/1.1\r\n"
+			+"HOST: 239.255.255.250:1900\r\n"
+			+"MAN: ssdp:discover\r\n"
+			+"MX: 10\r\n"
+			+"ST: ssdp:all\r\n\r\n";
+		cout << request << "\nSending request\n";
+
+		socket.write(request)
+
+		// socket.write(request);
+		// unsigned nBytes = socket.read()
 	}
-	
 }
