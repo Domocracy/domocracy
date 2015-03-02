@@ -15,7 +15,6 @@
 
 namespace dmc {
 
-	class PublicService;
 	class User;
 	class DeviceMgr;
 	
@@ -28,14 +27,13 @@ namespace dmc {
 
 	private:
 		void processArguments	(int _argc, const char** _argv);
-		void loadUsers			(const std::string& _fileName);
+		void loadUsers			();
 
 		// Config
 		unsigned mHttpPort = 80;
 
 		// Components
 		http::Server*		mWebServer = nullptr;
-		PublicService*		mPublicService = nullptr;
 		std::vector<User*>	mUsers;
 		HubInfo*			mInfo = nullptr;
 		DeviceMgr*			mDeviceMgr = nullptr;

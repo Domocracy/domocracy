@@ -1,0 +1,46 @@
+[
+	{
+		"type" : "Kodi",
+		"data" : {
+			"name": "Media Player"
+			"id": 74,
+			"ip": "localhost"
+		}
+	},
+	{
+		"type" : "Scene",
+		"data" : {
+			"name": "All off",
+			"id":58,
+			"children" : [
+				{ "id":74, "cmd": { "on":false } },
+				{ "id":42, "cmd": { "on":false } },
+				{ "id":43, "cmd": { "on":false } }
+			]
+		}
+	},
+	{
+		"type" : "HueLight",
+		"data" : {
+			"name":"HueLight0",
+			"id":41,
+			"data":{"id":"1"}
+		}
+	},
+	{
+		"type" : "HueLight",
+		"data" : {
+			"name":"HueLight1",
+			"id":42,
+			"data":{"id":"2"}
+		}
+	},
+	{
+		"type" : "HueLight",
+		"data" : {
+			"name":"HueLight2",
+			"id":43,
+			"data":{"id":"3"}
+		}
+	}
+]

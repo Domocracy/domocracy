@@ -9,14 +9,14 @@ package app.dmc.devices;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-import android.content.Context;
-
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import app.dmc.devices.supported_devices.HueLight;
+import app.dmc.devices.supported_devices.philips_hue.HueLight;
+import app.dmc.devices.supported_devices.kodi.Kodi;
+import app.dmc.devices.supported_devices.scene.Scene;
 
 public class DeviceFactory {
     //-----------------------------------------------------------------------------------------------------------------
@@ -30,8 +30,8 @@ public class DeviceFactory {
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public Device create(String _type, JSONObject _data, Context _context){
-        return sFactories.get(_type).create(_data, _context);
+    public Device create(String _type, JSONObject _data){
+        return sFactories.get(_type).create(_data);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -44,8 +44,24 @@ public class DeviceFactory {
         // HueLight Factory
         sFactories.put("HueLight", new Factory() {
             @Override
-            public Device create(JSONObject _data, Context _context) {
-                return new HueLight(_data, _context);
+            public Device create(JSONObject _data) {
+                return new HueLight(_data);
+            }
+        });
+
+        // Scene Factory
+        sFactories.put("Scene", new Factory() {
+            @Override
+            public Device create(JSONObject _data) {
+                return new Scene(_data);
+            }
+        });
+
+        // Kodi Factory
+        sFactories.put("Kodi", new Factory() {
+            @Override
+            public Device create(JSONObject _data) {
+                return new Kodi(_data);
             }
         });
 
@@ -60,6 +76,6 @@ public class DeviceFactory {
 
     //-----------------------------------------------------------------------------------------------------------------
     public interface Factory{
-        Device create(JSONObject _data, Context _context);
+        Device create(JSONObject _data);
     }
 }

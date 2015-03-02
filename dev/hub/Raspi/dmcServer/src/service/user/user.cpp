@@ -21,6 +21,8 @@ namespace dmc {
 
 	using namespace http;
 
+	const string User::cDeviceLabel = "/device";
+
 	//------------------------------------------------------------------------------------------------------------------
 	User::User(const Json& _userData, Server* _serviceToListen, DeviceMgr* _devMgr)
 		:mDevices(_devMgr)
@@ -52,12 +54,13 @@ namespace dmc {
 		if(_cmd.empty()) { // Request state
 			return new Response200("666 TODO: Show list of devices and rooms available to the user\n");
 		} else {
+			unsigned devLabelSize = cDeviceLabel.size();
 			// Extract device id
-			if(_cmd == "/dev") {
+			if(_cmd == cDeviceLabel) {
 				return new Response404("404: Device list not available");
 			}
-			else if(_cmd.substr(0,4) == "/dev") {
-				return deviceCommand(_cmd.substr(4), _request);
+			else if(_cmd.substr(0,devLabelSize) == cDeviceLabel) {
+				return deviceCommand(_cmd.substr(devLabelSize), _request);
 			}
 			else
 				return new Response404(string("User unable to run command ") + _cmd);
@@ -67,28 +70,29 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	Response* User::deviceCommand(const std::string& _cmd, const http::Request& _request) const {
 		string devIdStr = _cmd.substr(1); // Discard initial '/'
-		unsigned devId = strtol(devIdStr.c_str(), nullptr, 16);
-		Device* dev = mDevices->get(devId);
+		char* idEnd;
+		unsigned devId = strtol(devIdStr.c_str(), &idEnd, 16);
+		Device* dev = mDevices->device(devId);
+		unsigned idLen = idEnd-devIdStr.c_str();
 		if(!dev){
 			return new Response404(string("Error 404: Device ")+devIdStr+" not found\n");
 		}
 		// Execute request
 		switch (_request.method())
 		{
-		case Request::METHOD::Get:
-			return new Response404("Error 404: GET Methods not implemented");
+		case Request::METHOD::Get: {
+			Json request("{}");
+			request["cmd"].setText(devIdStr.substr(idLen+1));
+			return new JsonResponse(dev->read(request));
+		}
 		case Request::METHOD::Put: {
 			// Use device as an actuator
 			Actuator* act = dynamic_cast<Actuator*>(dev);
-			if(!act) {
-				return new Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n");
-			} else {
+			if(act) {
 				Json body(_request.body()); // Extract body from request
-				bool success = act->runCommand(body);
-				if(success)
-					return new JsonResponse(Json(R"({"result":"ok"})"));
-				else
-					return new JsonResponse(Json(R"({"result":"fail"})"));
+				return new JsonResponse(act->runCommand(body));
+			} else {
+				return new Response404(string("Error 404: Device ")+devIdStr+" is not an actuator\n");
 			}
 		}
 		default:

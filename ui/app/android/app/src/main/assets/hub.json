@@ -1,20 +1,20 @@
 {
-	"name":"Homie Homie",
-	"rooms":[
-		{ 
-			"name": "Living Room",
-			"devices":[
-				{
-					"name":"Light Hue 1",
-					"type":"json",
-					"id":43,
-					"on":"on",
-					"off":"off",
-					"slider":{"bri":"%s,value","on":true}
-				}
-			]
-		}
-	],
-	"timeStamp":0,
-	"localIp":"192.168.1.20"
-}
+   	"name":"Homie Homie",
+   	"rooms":[
+   		{
+   			"name": "Living Room",
+   			"devices":[
+   				{
+   					"name":"Light Hue 1",
+   					"type":"json",
+   					"id":43,
+   					"on":"on",
+   					"off":"off",
+   					"slider":{"bri":"%s,value","on":true}
+   				}
+   			]
+   		}
+   	],
+   	"timeStamp":0,
+   	"localIp":"192.168.1.20"
+   }

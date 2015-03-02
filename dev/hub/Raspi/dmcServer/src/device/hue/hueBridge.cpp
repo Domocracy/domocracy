@@ -9,6 +9,7 @@
 #include <core/comm/http/httpClient.h>
 #include <core/comm/http/request/jsonRequest.h>
 #include <cassert>
+#include <iostream>
 
 using namespace dmc::http;
 
@@ -72,8 +73,5 @@ namespace dmc { namespace hue {
 			mState = State::connected;
 		});
 	}
-
-	//------------------------------------------------------------------------------------------------------------------
-
 
 }}	// namespace dmc::hue

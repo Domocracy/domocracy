@@ -34,6 +34,8 @@ namespace dmc {
 		std::string mId;
 		std::string mPrefix;
 		DeviceMgr*	mDevices;
+
+		const static std::string	cDeviceLabel;
 	};
 
 }	// namespace dmc

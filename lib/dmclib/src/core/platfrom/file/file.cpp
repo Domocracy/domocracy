@@ -19,7 +19,8 @@ namespace dmc {
 		fstream srcFile;
 		// Open the file
 		srcFile.open(_path.c_str(), ios_base::binary | ios_base::in);
-		assert(srcFile.is_open());
+		if(!srcFile.is_open())
+			return;
 		// Meassure it's size
 		srcFile.seekg(0, ios::end);
 		mSize = int(srcFile.tellg());

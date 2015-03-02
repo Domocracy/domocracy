@@ -1,20 +1,55 @@
 {
-    "defaultHub":"0",
-    "hubs":[{
-        "name":"Home",
-        "id":"123",
-        "ip":"193.147.168.23",
-        "rooms":[],
-        "devices":[]
-        },
+    "defaultHub":"123",
+    "hubs":[
         {
-        "name":"Beach Flat",
-        "id":"543",
-        "ip":"193.154.123.54",
-        "rooms":[],
-        "devices":[]
+            "name":"Home",
+            "hubId":"123",
+            "ip":"10.100.5.7",
+            "rooms":
+                [
+                    {
+                        "name":"Timmy's Room",
+                        "roomId":"1",
+                        "panels":
+                            [
+                                {
+                                    "devId":"2A",
+                                    "type":"hueLight"
+                                },
+                                {
+                                    "devId":"2B",
+                                    "type":"hueLight"
+                                }
+                            ]
+                    }
+                ],
+            "devices":
+                [
+                    {
+                        "type":"HueLight",
+                        "data":{
+                                "name":"HueLight1",
+                                "id":"2A",
+                                "hub":"123"
+                                }
+                    },
+                    {
+                        "type":"HueLight",
+                        "data":{
+                                "name":"HueLight2",
+                                "id":"2B",
+                                "hub":"123"
+                                }
+                    },
+                    {
+                        "type":"Scene",
+                        "data":{
+                                "name":"All lights",
+                                "id":"3A",
+                                "hub":"123"
+                                }
+                    }
+                ]
         }
     ]
 }
-
-{"defaultHub":"0","hubs":[{"name":"Home","id":"123","ip":"193.147.168.23","rooms":[],"devices":[]},{"name":"Beach Flat","id":"543","ip":"193.154.123.54","rooms":[],"devices":[]}]}

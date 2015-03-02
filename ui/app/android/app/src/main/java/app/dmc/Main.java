@@ -2,6 +2,7 @@ package app.dmc;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +19,7 @@ public class Main extends ActionBarActivity {
         // Init HubManager
         Persistence.init(this);
         HubManager.init(this);
+
 
 
         try {
@@ -55,8 +57,6 @@ public class Main extends ActionBarActivity {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private interface.
-    private Object mPruebaRecieved = null;
-    private JSONObject mPrueba;
     private UserInterface mUI;
 
    }
