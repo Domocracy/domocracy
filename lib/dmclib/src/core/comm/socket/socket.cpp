@@ -146,7 +146,6 @@ namespace dmc {
 		mAddress = nullptr;
 		memset(&addrHints, 0, sizeof(addrHints));
 		addrHints.ai_family = AF_UNSPEC;		// Connect to either ip v4 or v6
-		assert(_protocol == Protocol::TCP || _protocol == Protocol::UDP); // Only TCP is currently supported
 		switch(_protocol) {
 		case Protocol::TCP:
 			addrHints.ai_socktype = SOCK_STREAM;	// Connection type TCP IP
