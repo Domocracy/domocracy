@@ -13,7 +13,9 @@
 	#include <Windows.h>
 	#include <winsock2.h>
 #include <bthdef.h>
+#include <bluetoothapis.h>
 #include <ws2bth.h>
+#include <windows.devices.bluetooth.h>
 	#include <ws2tcpip.h>
 
 	#include "socketWin32.h"

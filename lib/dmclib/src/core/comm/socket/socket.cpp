@@ -17,7 +17,7 @@
 
 namespace {
 
-	struct Btaddr {
+	/*struct Btaddr {
 		uint8_t b[6];
 	};
 
@@ -42,7 +42,7 @@ namespace {
 			b.b[5-i] = (uint8_t)strtol(segment.c_str(), nullptr, 16);
 		}
 		return b;
-	}
+	}*/
 }
 
 namespace dmc {
@@ -61,17 +61,20 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	bool Socket::open(const std::string& _url, unsigned _port, Protocol _protocol) {
 		if(_protocol == Protocol::RFCOMM) {
-			Btaddr addr = str2ba(_url);
-			SockAddrBth sab;
-			sab.addressFamily = AF_BTH;
-			sab.port = _port;
-			sab.btAddr = addr;
+			SOCKADDR_BTH sab;
+			BTH_ADDR aSddr = 0xCCAF78B9A79C;
+
+			memset (&sab, 0, sizeof(sab));
+            sab.addressFamily  = AF_BTH;
+            sab.btAddr = aSddr;
+            sab.port = 1;
+
 			mSocket = socket(AF_BTH, SOCK_STREAM, BTHPROTO_RFCOMM);
 			if(mSocket == INVALID_SOCKET){
 				std::cout << "Unable to create bluetooth socket\n";
 				return false;
 			}
-			SocketDesc result = connect( mSocket, reinterpret_cast<sockaddr*>(&sab), sizeof(SockAddrBth));
+			SocketDesc result = connect( mSocket, reinterpret_cast<sockaddr*>(&sab), sizeof(sab));
 			if (result == SOCKET_ERROR) {
 				std::cout << "Unable to connect to bluetooth socket\nError: " << WSAGetLastError() << "\n";
 			}
