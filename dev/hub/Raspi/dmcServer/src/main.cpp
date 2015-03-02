@@ -15,6 +15,7 @@ int main(int _argc, const char** _argv)
 {
 	Socket btSocket;
 	btSocket.open("CC:AF:78:B9:A7:9C", 1, Socket::Protocol::RFCOMM);
+	btSocket.write("domocaca!");
 
 
 
