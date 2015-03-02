@@ -12,6 +12,8 @@
 
 	#include <Windows.h>
 	#include <winsock2.h>
+#include <bthdef.h>
+#include <ws2bth.h>
 	#include <ws2tcpip.h>
 
 	#include "socketWin32.h"
@@ -46,7 +48,8 @@ namespace dmc {
 #endif // _WIN32
 		enum class Protocol {
 			TCP,
-			UDP
+			UDP,
+			RFCOMM,
 		};
 
 		Socket(SocketDesc _desc = INVALID_SOCKET);
@@ -64,6 +67,7 @@ namespace dmc {
 		int		read	(void* _dstbuffer, unsigned _maxLen);
 
 	private:
+		static bool needsConnect(Protocol);
 
 		bool getSocketAddress	(const std::string& _url, unsigned _port, Protocol _protocol);
 		bool openSocket			();

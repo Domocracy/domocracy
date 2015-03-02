@@ -15,6 +15,36 @@
 #include <cstring> // memset
 #include <string>
 
+namespace {
+
+	struct Btaddr {
+		uint8_t b[6];
+	};
+
+	struct SockAddrBth {
+		USHORT  addressFamily;
+		Btaddr	btAddr;
+		GUID    serviceClassId;
+		ULONG   port;
+	};
+
+	// Translate bluetooth addresses to mac addresses
+	Btaddr str2ba(const std::string& _str)
+	{
+		assert(_str.size() == 17);
+		for(unsigned i = 1; i < 5; ++i)
+			assert(_str[3*i-1] == ':');
+		unsigned ptr = 0;
+
+		Btaddr b;
+		for(unsigned i = 0; i < 6; i++, ptr+=3) {
+			const std::string segment = _str.substr(ptr, 2);
+			b.b[5-i] = (uint8_t)strtol(segment.c_str(), nullptr, 16);
+		}
+		return b;
+	}
+}
+
 namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -39,15 +69,26 @@ namespace dmc {
 			if(!openSocket())
 				continue;
 
-			if(Protocol::TCP == _protocol) {
+			if(needsConnect(_protocol)) {
 				// Connect to server.
-				if(SOCKET_ERROR != connect( mSocket, mAddress->ai_addr, (int)mAddress->ai_addrlen)) {
+				SocketDesc result = (SocketDesc)SOCKET_ERROR;
+				if(_protocol == Protocol::RFCOMM) {
+					Btaddr addr = str2ba(_url);
+					SockAddrBth sab;
+					sab.addressFamily = mAddress->ai_addr->sa_family;
+					sab.port = _port;
+					sab.btAddr = addr;
+					result = connect( mSocket, reinterpret_cast<sockaddr*>(&sab), sizeof(SockAddrBth));
+				}else {
+					result = connect( mSocket, mAddress->ai_addr, (int)mAddress->ai_addrlen);
+				}
+				if(SOCKET_ERROR != result) {
 					break; // Connected
 				} else {
 					mSocket = INVALID_SOCKET;
 					closesocket(mSocket); // Unable to connect
 				}
-			} else { // UDP doesn't need a connection
+			} else {
 				break;
 			}
 		}
@@ -115,6 +156,13 @@ namespace dmc {
 			addrHints.ai_socktype = SOCK_DGRAM;
 			addrHints.ai_protocol = IPPROTO_UDP;
 			break;
+		case Protocol::RFCOMM:
+			addrHints.ai_socktype = SOCK_STREAM;	// Connection type TCP IP
+#ifdef _WIN32
+			addrHints.ai_protocol = BTHPROTO_RFCOMM;
+			addrHints.ai_family = AF_BTH;
+#endif // _WIN32
+			break;
 		}
 		// --- Query the OS for an address fitting the description
 		std::stringstream portStream;
@@ -140,6 +188,11 @@ namespace dmc {
 			return false;
 		}
 		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	bool Socket::needsConnect(Protocol _protocol) {
+		return _protocol == Protocol::TCP || _protocol == Protocol::RFCOMM;
 	}
 
 }	// namespace dmc
