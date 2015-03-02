@@ -72,6 +72,9 @@ namespace dmc {
 				return false;
 			}
 			SocketDesc result = connect( mSocket, reinterpret_cast<sockaddr*>(&sab), sizeof(SockAddrBth));
+			if (result == SOCKET_ERROR) {
+				std::cout << "Unable to connect to bluetooth socket\nError: " << WSAGetLastError() << "\n";
+			}
 			return result != SOCKET_ERROR;
 		}
 		mMustClose = false;
