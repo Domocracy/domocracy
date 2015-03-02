@@ -59,4 +59,7 @@ public class Main extends ActionBarActivity {
     // Private interface.
     private UserInterface mUI;
 
+    private Object mPruebaRecieved = null;
+    private JSONObject mPrueba;
    }
+

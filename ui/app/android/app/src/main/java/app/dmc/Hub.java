@@ -40,7 +40,7 @@ public class Hub {
             mHubFileName = "hub_" + mId;
             // 666 TODO: no default hub data
             mJSONdefault = new JSONObject("{\"name\": \"Home\",\"id\": \"123\",\"ip\": \"193.147.168.23\"}");
-            Persistence.get().putData(mHubFileName, mJSONdefault);
+            Persistence.get().putJSON(mHubFileName, mJSONdefault);
             mRoomList = new ArrayList<>();
             JSONArray rooms = _jsonHub.getJSONArray("rooms");
 
@@ -114,10 +114,10 @@ public class Hub {
     public boolean modifyIp(String _ip) {
         if (!_ip.equals(mIp)) {
             mIp = _ip;
-            JSONObject json = Persistence.get().getData(mHubFileName);
+            JSONObject json = Persistence.get().getJSON(mHubFileName);
             try {
                 json.put("ip", _ip);
-                Persistence.get().putData(mHubFileName, json);
+                Persistence.get().putJSON(mHubFileName, json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
