@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "dmcServer.h"
 #include <core/comm/socket/socket.h>
+#include <iostream>
 
 using namespace dmc;
 
@@ -14,8 +15,10 @@ using namespace dmc;
 int main(int _argc, const char** _argv)
 {
 	Socket btSocket;
-	btSocket.open("CC:AF:78:B9:A7:9C", 1, Socket::Protocol::RFCOMM);
-	btSocket.write("domocaca!");
+	if(btSocket.open("CC:AF:78:B9:A7:9C", 1, Socket::Protocol::RFCOMM))
+		btSocket.write("domocaca!");
+	else
+		std::cout << "Unable to open bluetooth socket\n";
 
 
 

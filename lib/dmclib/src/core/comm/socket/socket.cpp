@@ -61,6 +61,7 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	bool Socket::open(const std::string& _url, unsigned _port, Protocol _protocol) {
 		if(_protocol == Protocol::RFCOMM) {
+#ifdef _WIN32
 			SOCKADDR_BTH sab;
 			BTH_ADDR aSddr = 0xCCAF78B9A79C;
 
@@ -78,6 +79,17 @@ namespace dmc {
 			if (result == SOCKET_ERROR) {
 				std::cout << "Unable to connect to bluetooth socket\nError: " << WSAGetLastError() << "\n";
 			}
+#endif // _WIN32
+#ifdef __linux__
+			SocketDesc s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
+			struct sockaddr_rc addr = { 0 };
+			addr.rc_family = AF_BLUETOOTH;
+		    addr.rc_channel = (uint8_t) 1;
+		    str2ba( _url.c_str(), &addr.rc_bdaddr );
+
+		    // connect to server
+		    int result = connect(s, (struct sockaddr *)&addr, sizeof(addr));
+#endif // __linux__
 			return result != SOCKET_ERROR;
 		}
 		mMustClose = false;
@@ -164,6 +176,9 @@ namespace dmc {
 		case Protocol::UDP:
 			addrHints.ai_socktype = SOCK_DGRAM;
 			addrHints.ai_protocol = IPPROTO_UDP;
+			break;
+		default:
+			assert(false);
 			break;
 		}
 		// --- Query the OS for an address fitting the description

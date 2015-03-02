@@ -25,6 +25,9 @@
 	#include <unistd.h>
 	#include <sys/types.h>
 	#include <sys/socket.h>
+	#include <bluetooth/bluetooth.h>
+	#include <bluetooth/rfcomm.h>
+
 	#include <netdb.h>
 
 	#include "socketLinux.h"

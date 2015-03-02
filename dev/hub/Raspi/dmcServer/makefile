@@ -64,7 +64,7 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 $(OUTPUT): $(OBJ_FILES) $(BUILD_DIR) $(EXTRA_DEPEND) $(BIN_DIR)
-	$(CXX) -o $@ $(OBJ_FILES) $(CXX_FLAGS) $(LIB_DIR) -ldmclib -lpthread -lc -lm -lc
+	$(CXX) -o $@ $(OBJ_FILES) $(CXX_FLAGS) $(LIB_DIR) -ldmclib -lbluetooth -lpthread -lc -lm -lc
 
 %.cpp.s: %.cpp
 	$(CXX) -S -o $@ $^ $(CXX_FLAGS) $(LIB_DIR)
