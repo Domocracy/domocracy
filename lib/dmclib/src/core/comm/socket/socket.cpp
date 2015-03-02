@@ -141,6 +141,8 @@ namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Socket::getSocketAddress(const std::string& _url, unsigned _port, Protocol _protocol) {
+		if (_protocol == Protocol::RFCOMM)
+			return true;
 		// ------ Get proper address info -------
 		struct addrinfo addrHints;
 		mAddress = nullptr;
@@ -159,7 +161,7 @@ namespace dmc {
 			addrHints.ai_socktype = SOCK_STREAM;	// Connection type TCP IP
 #ifdef _WIN32
 			addrHints.ai_protocol = BTHPROTO_RFCOMM;
-			addrHints.ai_family = AF_BTH;
+//			addrHints.ai_family = AF_BTH;
 #endif // _WIN32
 			break;
 		}
