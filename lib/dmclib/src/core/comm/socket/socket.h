@@ -53,7 +53,7 @@ namespace dmc {
 
 		~Socket();
 
-		bool connectTo	(const std::string& _url, unsigned _port, Protocol = Protocol::TCP);
+		bool open		(const std::string& _url, unsigned _port, Protocol = Protocol::TCP);
 		void close		();
 
 		bool isOpen		() const;
@@ -71,6 +71,7 @@ namespace dmc {
 		SocketDesc mSocket = INVALID_SOCKET;
 		bool mMustClose = false;
 		struct addrinfo* mAddress;
+		struct addrinfo* mSystemAddress;
 		std::string mInBuffer;
 	};
 }	// namespace dmc

@@ -62,7 +62,7 @@ namespace dmc { namespace kodi {
 
 	//------------------------------------------------------------------------------------------------------------------
 	void Kodi::sendRequest(const Json& _cmd) const {
-		mTcpConnection->connectTo(mIp, mPort);
+		mTcpConnection->open(mIp, mPort);
 		mTcpConnection->write(_cmd.serialize());
 	}
 

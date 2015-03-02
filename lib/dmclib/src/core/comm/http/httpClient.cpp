@@ -16,7 +16,7 @@ namespace dmc { namespace http {
 	//------------------------------------------------------------------------------------------------------------------
 	bool Client::connect(const std::string& _url, unsigned _port) {
 		mUrl = _url;
-		return mSocket.connectTo(_url, _port);
+		return mSocket.open(_url, _port);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ namespace dmc { namespace http {
 			auto iter = _req.headers().find("Host");
 			if(iter == _req.headers().end())
 				return nullptr;
-			if(!mSocket.connectTo(iter->second.c_str(), 80))
+			if(!mSocket.open(iter->second.c_str(), 80))
 				return nullptr;
 		}
 

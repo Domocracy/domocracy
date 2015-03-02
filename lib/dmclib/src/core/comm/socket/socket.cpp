@@ -29,13 +29,13 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	bool Socket::connectTo(const std::string& _url, unsigned _port, Protocol _protocol) {
+	bool Socket::open(const std::string& _url, unsigned _port, Protocol _protocol) {
 		mMustClose = false;
 		if(!getSocketAddress(_url, _port, _protocol))
 			return false;
 
 		// ----- Try to connect -----
-		for(; nullptr != mAddress; mAddress = mAddress->ai_next) { // Iterate over all possible adresses
+		for(mAddress = mSystemAddress; nullptr != mAddress; mAddress = mAddress->ai_next) { // Iterate over all possible adresses
 			if(!openSocket())
 				continue;
 
@@ -56,10 +56,10 @@ namespace dmc {
 	
 	//------------------------------------------------------------------------------------------------------------------
 	void Socket::close() {
-		if(mAddress) {
-			freeaddrinfo(mAddress);
-			mAddress = nullptr;
-		}
+		// if(mSystemAddress) {
+		// 	freeaddrinfo(mSystemAddress);
+		// 	mSystemAddress = nullptr;
+		// }
 		if(mSocket == INVALID_SOCKET)
 			return; // Nothing to do here
 		closesocket(mSocket);
@@ -119,7 +119,7 @@ namespace dmc {
 		// --- Query the OS for an address fitting the description
 		std::stringstream portStream;
 		portStream << _port;
-		int res = getaddrinfo(_url.c_str(), portStream.str().c_str(), &addrHints, &mAddress);
+		int res = getaddrinfo(_url.c_str(), portStream.str().c_str(), &addrHints, &mSystemAddress);
 		if(0 != res)
 		{
 			std::cout << "Error: unable to get addr info for socket\n\t-url: "
