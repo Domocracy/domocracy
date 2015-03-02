@@ -60,6 +60,20 @@ namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Socket::open(const std::string& _url, unsigned _port, Protocol _protocol) {
+		if(_protocol == Protocol::RFCOMM) {
+			Btaddr addr = str2ba(_url);
+			SockAddrBth sab;
+			sab.addressFamily = AF_BTH;
+			sab.port = _port;
+			sab.btAddr = addr;
+			mSocket = socket(AF_BTH, SOCK_STREAM, BTHPROTO_RFCOMM);
+			if(mSocket == INVALID_SOCKET){
+				std::cout << "Unable to create bluetooth socket\n";
+				return false;
+			}
+			SocketDesc result = connect( mSocket, reinterpret_cast<sockaddr*>(&sab), sizeof(SockAddrBth));
+			return result != SOCKET_ERROR;
+		}
 		mMustClose = false;
 		if(!getSocketAddress(_url, _port, _protocol))
 			return false;
@@ -71,17 +85,7 @@ namespace dmc {
 
 			if(needsConnect(_protocol)) {
 				// Connect to server.
-				SocketDesc result = (SocketDesc)SOCKET_ERROR;
-				if(_protocol == Protocol::RFCOMM) {
-					Btaddr addr = str2ba(_url);
-					SockAddrBth sab;
-					sab.addressFamily = mAddress->ai_addr->sa_family;
-					sab.port = _port;
-					sab.btAddr = addr;
-					result = connect( mSocket, reinterpret_cast<sockaddr*>(&sab), sizeof(SockAddrBth));
-				}else {
-					result = connect( mSocket, mAddress->ai_addr, (int)mAddress->ai_addrlen);
-				}
+				SocketDesc result = connect( mSocket, mAddress->ai_addr, (int)mAddress->ai_addrlen);
 				if(SOCKET_ERROR != result) {
 					break; // Connected
 				} else {
@@ -141,8 +145,6 @@ namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Socket::getSocketAddress(const std::string& _url, unsigned _port, Protocol _protocol) {
-		if (_protocol == Protocol::RFCOMM)
-			return true;
 		// ------ Get proper address info -------
 		struct addrinfo addrHints;
 		mAddress = nullptr;
@@ -156,13 +158,6 @@ namespace dmc {
 		case Protocol::UDP:
 			addrHints.ai_socktype = SOCK_DGRAM;
 			addrHints.ai_protocol = IPPROTO_UDP;
-			break;
-		case Protocol::RFCOMM:
-			addrHints.ai_socktype = SOCK_STREAM;	// Connection type TCP IP
-#ifdef _WIN32
-			addrHints.ai_protocol = BTHPROTO_RFCOMM;
-//			addrHints.ai_family = AF_BTH;
-#endif // _WIN32
 			break;
 		}
 		// --- Query the OS for an address fitting the description
