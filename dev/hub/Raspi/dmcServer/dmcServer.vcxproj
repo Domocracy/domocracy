@@ -78,7 +78,8 @@
     <ClCompile Include="src\provider\deviceFactory.cpp" />
     <ClCompile Include="src\provider\deviceMgr.cpp" />
     <ClCompile Include="src\provider\persistence.cpp" />
-    <ClCompile Include="src\public\publicService.cpp" />
+    <ClCompile Include="src\service\user\device\kodi\kodi.cpp" />
+    <ClCompile Include="src\service\user\device\scene.cpp" />
     <ClCompile Include="src\service\user\user.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -88,8 +89,9 @@
     <ClInclude Include="src\provider\deviceFactory.h" />
     <ClInclude Include="src\provider\deviceMgr.h" />
     <ClInclude Include="src\provider\persistence.h" />
-    <ClInclude Include="src\public\publicService.h" />
     <ClInclude Include="src\service\public\hubInfo.h" />
+    <ClInclude Include="src\service\user\device\kodi\kodi.h" />
+    <ClInclude Include="src\service\user\device\scene.h" />
     <ClInclude Include="src\service\user\room.h" />
     <ClInclude Include="src\service\user\user.h" />
   </ItemGroup>

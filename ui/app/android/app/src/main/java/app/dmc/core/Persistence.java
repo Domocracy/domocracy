@@ -1,7 +1,9 @@
 package app.dmc.core;
 
 import android.content.Context;
+
 import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -9,6 +11,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Joscormir on 16/02/2015.
@@ -16,20 +22,45 @@ import java.io.OutputStream;
 
 public class Persistence {
     //-----------------------------------------------------------------------------------------------------------------
-    static public void init(Context _context){
-        mContext = _context;
+    public static void init(Context _context){
+        assert sInstance == null;
+        sInstance = new Persistence(_context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public static Persistence get(){
-        assert mContext != null;
-        if(instance == null) instance = new Persistence(mContext);
-        return instance;
+        return sInstance;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject getData(String _fileName){
-       JSONObject json = null;
+    public JSONObject getJSON(String _fileName){
+        if (mFiles.containsKey(_fileName)){
+            return mFiles.get(_fileName);
+        }else{
+            if (updateFilesMap(_fileName)) {
+                return mFiles.get(_fileName);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public boolean putJSON(String _fileName, JSONObject _jsonToInsert){
+        mFiles.put(_fileName,_jsonToInsert);
+        return true;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public boolean removeJSON(String _fileName){
+        mFiles.remove(_fileName);
+        mFilesToDelete.add(_fileName);
+        return true;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private JSONObject loadJSONFile(String _fileName) {
+        JSONObject json = null;
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
             try {
                 InputStream in = new FileInputStream(file);
@@ -42,11 +73,12 @@ public class Persistence {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-       return json;
+
+            return json;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public boolean putData(String _fileName, JSONObject _json){
+    private boolean saveJSONFile(String _fileName, JSONObject _json){
         boolean success = false;
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
         try{
@@ -65,13 +97,50 @@ public class Persistence {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    //Private interface
-    private Persistence(Context _context){
-
+    private boolean deleteJSONFile(String _fileName){
+        File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
+        return file.delete();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private static Persistence  instance = null;
-    private static Context      mContext = null;
+    private boolean updateFilesMap (String _fileName){
+        File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
+        if (file.exists()) {
+            mFiles.put(_fileName, loadJSONFile(_fileName));
+            return true;
+        }else{
+           return false;
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void flush(){
+        for(String deleteIterator : mFilesToDelete){
+            deleteJSONFile(deleteIterator);
+        }
+
+        for(String filesIterator : mFiles.keySet()){
+            saveJSONFile(filesIterator,mFiles.get(filesIterator));
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void end(){
+        flush();
+    }
+
+    //Private interface
+    private Persistence(Context _context){
+            assert _context != null;
+            mContext        = _context;
+            mFiles          = new HashMap<String,JSONObject>();
+            mFilesToDelete  = new HashSet<String>();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private static  Persistence             sInstance = null;
+    private         Context                 mContext;
+    private         Map<String, JSONObject> mFiles;
+    private         Set<String>             mFilesToDelete;
 
 }

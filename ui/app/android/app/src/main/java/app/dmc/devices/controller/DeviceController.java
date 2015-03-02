@@ -1,14 +1,16 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //      Domocracy Android App
-//         Author: Pablo R.S.
-//         Date:    2015-FEB-10
+//         Author: Carmelo J. Fdez-Agüera Tortosa (a.k.a. Technik)
+//         Date:    2015-FEB-15
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
 
-package app.dmc.devices;
+package app.dmc.devices.controller;
 
-public interface Sensor extends Device{
+/**
+ * Created by technik on 23-Feb-15.
+ */
+public class DeviceController {
 
 }

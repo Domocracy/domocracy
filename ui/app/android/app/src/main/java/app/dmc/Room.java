@@ -10,94 +10,70 @@
 package app.dmc;
 
 import android.content.Context;
-import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ScrollView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import app.dmc.devices.Device;
+import app.dmc.user_interface.PanelList;
+import app.dmc.user_interface.RoomHeader;
 
 public class Room {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
-    public Room(JSONObject _data, Hub _hub){
-        mHub = _hub;
-        try{
-            mId         = _data.getString("id");
-            mName       = _data.getString("name");
-
-            JSONArray devices = _data.getJSONArray("devices");
-
-            mDeviceList = new ArrayList<>();
-            for(int i = 0; i < devices.length(); i++){
-                mDeviceList.add(devices.getString(i));
+    public Room(JSONObject _data, Hub _hub, Context _context){
+        mLayout = new ScrollView(_context);
+        mLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
             }
+        });
 
+        mDefaultHub = _hub;
+
+        try{
+            mId         = _data.getString("roomId");
+            mName       = _data.getString("name");
+            mPanels     = new PanelList(_data.getJSONArray("panels"), _hub, _context);
+            mHeader     = new RoomHeader(_context);
         }catch(JSONException e){
             e.printStackTrace();
         }
-    }
 
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public View view(Context _context){
-        LinearLayout base = new LinearLayout(_context);
-        base.setOrientation(LinearLayout.VERTICAL);
-
-        TextView roomName = new TextView(_context);
-        roomName.setText(name());
-        roomName.setGravity(Gravity.CENTER_HORIZONTAL);
-        roomName.setTextSize(50);
-        base.addView(roomName);
-
-        for(String deviceId:devices()){
-            Device device = mHub.device(deviceId);
-            if(device != null) {
-                View v = device.view(_context);
-
-                // If device was added to another room, detach from parent
-                ViewGroup parent = (ViewGroup) v.getParent();
-                if(parent != null)
-                    parent.removeView(v);
-
-                // Add view to new parent
-                base.addView(v);
-            }
-        }
-
-        return base;
+        // ScrollView can host only one child
+        LinearLayout baseLayout = new LinearLayout(_context);
+        baseLayout.setOrientation(LinearLayout.VERTICAL);
+        baseLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        baseLayout.addView(mHeader);
+        baseLayout.addView(mPanels);
+        mLayout.addView(baseLayout);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public View view(){
+        return mLayout;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Getters
     public String name(){
         return mName;
     }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public String id(){
-        return mId;
-
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public List<String> devices(){
-        return mDeviceList;
-    }
+    public String id(){ return mId; }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
     // Identification
     private String mName;
     private String mId;
-    private Hub mHub;
 
-    List<String> mDeviceList;
+    private Hub mDefaultHub;
+
+    private ScrollView  mLayout;
+    private PanelList   mPanels;
+    private RoomHeader  mHeader;
 }

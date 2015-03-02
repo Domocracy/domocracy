@@ -9,7 +9,7 @@
 
 package app.dmc.user_interface;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
@@ -25,15 +25,15 @@ import app.dmc.Room;
 public class RoomSelector {
     //-----------------------------------------------------------------------------------------------------------------
     // Public interface
-    public RoomSelector(final Context _context, final List<Room>_rooms){
+    public RoomSelector(final Activity _activity, final List<Room>_rooms){
         // Store Rooms
         mRooms = _rooms;
 
         // Init Selector
-        mSelector = new ViewFlipper(_context);
+        mSelector = new ViewFlipper(_activity);
 
         // Testing Room images
-        View roomView1 = mRooms.get(mCurrentRoom).view(_context);
+        View roomView1 = mRooms.get(mCurrentRoom).view();
 
         mSelector.addView(roomView1);
 
@@ -54,7 +54,7 @@ public class RoomSelector {
                         Canvas c = new Canvas(snapshot);
                         _view.draw(c);
 
-                        snapShotView = new ImageView(_context);
+                        snapShotView = new ImageView(_activity);
                         snapShotView.setImageBitmap(snapshot);
 
                         break;
@@ -68,10 +68,10 @@ public class RoomSelector {
 
                                 mSelector.removeAllViews();
                                 mSelector.addView(snapShotView);
-                                mSelector.addView(mRooms.get(mCurrentRoom).view(_context));
+                                mSelector.addView(mRooms.get(mCurrentRoom).view());
 
-                                mSelector.setInAnimation(_context, R.anim.slide_in_left);
-                                mSelector.setOutAnimation(_context, R.anim.slide_out_right);
+                                mSelector.setInAnimation(_activity, R.anim.slide_in_left);
+                                mSelector.setOutAnimation(_activity, R.anim.slide_out_right);
                                 mSelector.showPrevious();
 
                             }
@@ -82,10 +82,10 @@ public class RoomSelector {
 
                                 mSelector.removeAllViews();
                                 mSelector.addView(snapShotView);
-                                mSelector.addView(mRooms.get(mCurrentRoom).view(_context));
+                                mSelector.addView(mRooms.get(mCurrentRoom).view());
 
-                                mSelector.setInAnimation(_context, R.anim.slide_in_right);
-                                mSelector.setOutAnimation(_context, R.anim.slide_out_left);
+                                mSelector.setInAnimation(_activity, R.anim.slide_in_right);
+                                mSelector.setOutAnimation(_activity, R.anim.slide_out_left);
                                 mSelector.showNext();
 
                             }
@@ -95,42 +95,6 @@ public class RoomSelector {
                 return true;
             }
         });
-
-        /*mSelector.addView(iv);
-        mSelector.addView(mRooms.get(1).view(_context));*/
-
-
-        /*layout.setOnTouchListener(new View.OnTouchListener() {
-            Bitmap mSnapshot;
-            @Override
-            public boolean onTouch(View _view, MotionEvent _event) {
-                switch (_event.getAction()){
-                case MotionEvent.ACTION_DOWN:
-                    // Get a snapshot of the current room
-                    mSnapshot = Bitmap.createBitmap(_view.getWidth(), _view.getHeight(), Bitmap.Config.ARGB_8888);
-                    Canvas c = new Canvas(mSnapshot);
-                    _view.draw(c);
-
-                    // Clean layout
-                    layout.removeAllViews();
-
-                    ImageView iv = new ImageView(_view.getContext());
-                    iv.setImageBitmap(mSnapshot);
-                    layout.addView(iv);
-                    View room = mRooms.get(0).view(_context);
-                    layout.addView(room);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-                }
-
-                layout.removeView(iv);
-
-                return false;
-            }
-        });*/
     }
 
     //-----------------------------------------------------------------------------------------------------------------

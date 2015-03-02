@@ -40,8 +40,11 @@
     <Filter Include="Source Files\device\hue">
       <UniqueIdentifier>{5c96905c-35bc-4bfd-a8e7-713682494675}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\public">
-      <UniqueIdentifier>{13bf250e-7d8a-466c-a027-2b2753cfe663}</UniqueIdentifier>
+    <Filter Include="Source Files\service\user\device">
+      <UniqueIdentifier>{d455dbd2-97d7-47c7-a3e8-2bbe084b9dfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\service\user\device\kodi">
+      <UniqueIdentifier>{a27aee57-f70b-4d29-a37c-79ed1c849917}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,9 +53,6 @@
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\public\publicService.cpp">
-      <Filter>Source Files\public</Filter>
     </ClCompile>
     <ClCompile Include="src\service\user\user.cpp">
       <Filter>Source Files\service\user</Filter>
@@ -72,13 +72,16 @@
     <ClCompile Include="src\provider\persistence.cpp">
       <Filter>Source Files\providers</Filter>
     </ClCompile>
+    <ClCompile Include="src\service\user\device\scene.cpp">
+      <Filter>Source Files\service\user\device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\service\user\device\kodi\kodi.cpp">
+      <Filter>Source Files\service\user\device\kodi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\public\publicService.h">
-      <Filter>Source Files\public</Filter>
     </ClInclude>
     <ClInclude Include="src\device\hue\hueLight.h">
       <Filter>Source Files\device\hue</Filter>
@@ -103,6 +106,12 @@
     </ClInclude>
     <ClInclude Include="src\provider\persistence.h">
       <Filter>Source Files\providers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\service\user\device\scene.h">
+      <Filter>Source Files\service\user\device</Filter>
+    </ClInclude>
+    <ClInclude Include="src\service\user\device\kodi\kodi.h">
+      <Filter>Source Files\service\user\device\kodi</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

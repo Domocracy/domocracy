@@ -8,9 +8,12 @@
 //
 
 
-package app.dmc.devices;
+package app.dmc.comm;
 
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,13 +69,14 @@ public class JsonRequest {
             os.write(_body.getBytes("UTF8"));
             os.close();
         }catch (IOException _ioException){
-            Log.d("DOMOCRACY", "Could not send Command");
+            Log.d("DOMOCRACY", "Couldn't add body to request");
             _ioException.printStackTrace();
         }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void sendRequest(){
+    public JSONObject sendRequest(){
+        JSONObject response = null;
         try {
             int responseCode = mConnection.getResponseCode();
             System.out.println("\nSending 'PUT' request to URL : " + mUrl);
@@ -80,18 +84,23 @@ public class JsonRequest {
 
             BufferedReader in = new BufferedReader( new InputStreamReader(mConnection.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuffer responseString = new StringBuffer();
 
             while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                responseString.append(inputLine);
             }
             in.close();
 
+            response = new JSONObject(responseString.toString());
             //print result
-            System.out.println(response.toString());
+            //System.out.println(responseString.toString());
         }catch (IOException _ioException){
             _ioException.printStackTrace();
+        } catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
         }
+
+        return response;
     }
 
     //-----------------------------------------------------------------------------------------------------------------

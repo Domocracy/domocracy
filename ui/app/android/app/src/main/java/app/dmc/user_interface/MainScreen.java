@@ -31,8 +31,6 @@ public class MainScreen {
         mRoomSelector = new RoomSelector(_activity, mCurrentHub.rooms());
 
         ll.addView(mRoomSelector.view());
-
-
         //.addView(mCurrentRoom.view(_activity));
 /*
         HueLight hue = (HueLight) mCurrentHub.device("2A");

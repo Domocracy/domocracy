@@ -7,11 +7,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-package app.dmc;
+package app.dmc.comm;
 
 import org.json.JSONObject;
-
-import app.dmc.devices.JsonRequest;
 
 public class HubConnection {
     //-----------------------------------------------------------------------------------------------------------------
@@ -22,18 +20,15 @@ public class HubConnection {
         request.setHeader("connection", "close");
         request.setBody(_body.toString());
 
-        request.sendRequest();
-
-        return null;    // 666 Implement response
+        return request.sendRequest();
     }
     //-----------------------------------------------------------------------------------------------------------------
     public JSONObject get(final String _url){
         final JsonRequest request = new JsonRequest(_url);
         request.setMethod("GET");
+        request.setHeader("connection", "close");
 
-        request.sendRequest();
-
-        return null;    // 666 Implement response
+        return request.sendRequest();
     }
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface
