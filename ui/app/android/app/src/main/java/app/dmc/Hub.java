@@ -28,7 +28,11 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public Hub(Context _context, JSONObject _jsonHub) {
+    public Hub() {
+        mConnection = new HubConnection();
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    public void init(Context _context, JSONObject _jsonHub){
         try {
             mId = _jsonHub.getString("hubId");
             mName = _jsonHub.getString("name");
@@ -36,7 +40,7 @@ public class Hub {
             mHubFileName = "hub_" + mId;
             // 666 TODO: no default hub data
             mJSONdefault = new JSONObject("{\"name\": \"Home\",\"id\": \"123\",\"ip\": \"193.147.168.23\"}");
-            Persistence.get().putData(mHubFileName, mJSONdefault);
+            Persistence.get().putJSON(mHubFileName, mJSONdefault);
             mRoomList = new ArrayList<>();
             JSONArray rooms = _jsonHub.getJSONArray("rooms");
 
@@ -45,19 +49,12 @@ public class Hub {
             for(int i = 0; i < rooms.length() ; i++){
                 mRoomList.add( new Room(rooms.getJSONObject(i), this, _context));
             }
-
-            //666TODO Rooms not implemented
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        mConnection = new HubConnection();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
     public Device device(String _id) {
         return mDevMgr.device(_id);
     }
@@ -106,15 +103,21 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject get(final String _url) {
+        String url = "http://" + ip() + "/user/dmc64" + _url;
+        return mConnection.get(url);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
 
 
     public boolean modifyIp(String _ip) {
         if (!_ip.equals(mIp)) {
             mIp = _ip;
-            JSONObject json = Persistence.get().getData(mHubFileName);
+            JSONObject json = Persistence.get().getJSON(mHubFileName);
             try {
                 json.put("ip", _ip);
-                Persistence.get().putData(mHubFileName, json);
+                Persistence.get().putJSON(mHubFileName, json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

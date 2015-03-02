@@ -104,11 +104,10 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Json Kodi::getEpisodes(const Json& _show)
+	Json Kodi::getEpisodes(const Json& _showId)
 	{
-		Json showId = _show["tvshowid"];
 		Json command = Json("{}");
-		command["tvshowid"] = showId;
+		command["tvshowid"] = _showId;
 		JsonRpcRequest request("VideoLibrary.GetEpisodes",
 				command, mLastReqId++);
 		sendRequest(request);
