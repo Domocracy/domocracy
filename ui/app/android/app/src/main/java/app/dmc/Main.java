@@ -49,7 +49,7 @@ public class Main extends ActionBarActivity {
         inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
-    //-----------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
