@@ -21,11 +21,7 @@ namespace dmc {
 	DmcServer::DmcServer(int _argc, const char** _argv)
 	{
 		processArguments(_argc, _argv); // Execution arguments can override default configuration values
-		// ---- 666 TODO: Remove this!
-		Upnp serviceDiscovery;
-		serviceDiscovery.discoverServices();
-
-
+		
 		// Launch web service
 		Persistence::init();
 		mWebServer = new http::Server(mHttpPort);
