@@ -77,6 +77,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\provider\deviceFactory.cpp" />
     <ClCompile Include="src\provider\deviceMgr.cpp" />
+    <ClCompile Include="src\provider\idGenerator.cpp" />
     <ClCompile Include="src\provider\persistence.cpp" />
     <ClCompile Include="src\service\user\device\kodi\kodi.cpp" />
     <ClCompile Include="src\service\user\device\scene.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="src\dmcServer.h" />
     <ClInclude Include="src\provider\deviceFactory.h" />
     <ClInclude Include="src\provider\deviceMgr.h" />
+    <ClInclude Include="src\provider\idGenerator.h" />
     <ClInclude Include="src\provider\persistence.h" />
     <ClInclude Include="src\service\public\hubInfo.h" />
     <ClInclude Include="src\service\user\device\kodi\kodi.h" />
