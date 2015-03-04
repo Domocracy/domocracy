@@ -129,7 +129,6 @@ public class Hub {
     }
     //-----------------------------------------------------------------------------------------------------------------
     private void save(){
-        
         JSONObject jsonToSave = new JSONObject();
         try {
             jsonToSave.put("hubId", mId);
@@ -139,7 +138,7 @@ public class Hub {
         }catch(JSONException e){
             e.printStackTrace();
         }
-
+        Persistence.get().putJSON(mHubFileName,jsonToSave);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

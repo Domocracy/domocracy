@@ -75,6 +75,14 @@ public class HubManager {
             e.printStackTrace();
         }
     }
+    //-----------------------------------------------------------------------------------------------------------------
+    @Override
+    protected void finalize() throws Throwable {
+        for(String hubMapIterator : mHubMap.keySet()){
+            mHubMap.get(hubMapIterator).finalize();
+        }
+        super.finalize();
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     private Map<String,Hub> mHubMap;
