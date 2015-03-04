@@ -12,6 +12,7 @@
 #include "persistence.h"
 #include <cassert>
 #include <iostream>
+#include <provider/idGenerator.h>
 
 namespace dmc {
 
@@ -38,6 +39,21 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	Device* DeviceMgr::device(unsigned _id) const {
+		auto iter = mDevices.find(_id);
+		if(iter != mDevices.end())
+			return iter->second;
+		else
+			return nullptr;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Device* DeviceMgr::newDevice(const Json& _devType, const Json& _devData) {
+		unsigned devId = IdGenerator::get()->newId();
+		return createDevice(devId, _devType, _devData);
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	DeviceMgr::DeviceMgr() {
 		// Load devices from local database
 		Json factoriesData = Persistence::get()->getData("devices");
@@ -46,23 +62,25 @@ namespace dmc {
 		for(size_t i = 0; i < factoriesData.asList().size(); ++i)
 		{
 			const Json& data = *factoriesData.asList()[i];
-			Device* dev = mFactory.create(data["type"].asText(), data["data"]);
-			if(!dev)
-				continue;
-			if(mDevices.find(dev->id()) != mDevices.end()) {
-				std::cout << "Warning: Duplicate device id (" << dev->id() << ").\nOld device will be overwriten\n";
-			}
-			mDevices.insert(std::make_pair(dev->id(), dev));
+			loadDevice(data);
 		}
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Device* DeviceMgr::device(unsigned _id) const {
-		auto iter = mDevices.find(_id);
-		if(iter != mDevices.end())
-			return iter->second;
-		else
-			return nullptr;
+	Device* DeviceMgr::createDevice(unsigned _id, const Json& _devType, const Json& _devData) {
+		if(mDevices.find(_id) != mDevices.end()) {
+			std::cout << "Warning: Duplicate device id (" << _id << ").\nOld device will be overwriten\n";
+		} 
+		
+		Device* newDev = mFactory.create(_id, _devType.asText(), _devData);
+		mDevices.insert(std::make_pair(_id, newDev));
+		return newDev;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void DeviceMgr::loadDevice(const Json& _creationData){
+		unsigned devId = (unsigned)_creationData["id"].asInt();
+		createDevice(devId, _creationData["type"], _creationData["data"]);
 	}
 
 }	// namespace dmc

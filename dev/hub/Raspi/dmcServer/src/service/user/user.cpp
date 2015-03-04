@@ -68,6 +68,17 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	Response* User::addDevie(const Json& _deviceData) {
+		Json devId = _deviceData["id"];
+		if(devId.isNill()) {
+			return new Response200("Error: Invalid device data");
+		} else {
+			unsigned id = (unsigned)atoi(devId.asText().c_str());
+			
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	Response* User::deviceCommand(const std::string& _cmd, const http::Request& _request) const {
 		string devIdStr = _cmd.substr(1); // Discard initial '/'
 		char* idEnd;

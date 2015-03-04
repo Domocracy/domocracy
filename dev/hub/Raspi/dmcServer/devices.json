@@ -1,17 +1,17 @@
 [
 	{
 		"type" : "Kodi",
+		"id": 74,
 		"data" : {
 			"name": "Media Player"
-			"id": 74,
 			"ip": "localhost"
 		}
 	},
 	{
 		"type" : "Scene",
+		"id":58,
 		"data" : {
 			"name": "All off",
-			"id":58,
 			"children" : [
 				{ "id":74, "cmd": { "on":false } },
 				{ "id":42, "cmd": { "on":false } },
@@ -21,25 +21,25 @@
 	},
 	{
 		"type" : "HueLight",
+		"id":41,
 		"data" : {
 			"name":"HueLight0",
-			"id":41,
 			"data":{"id":"1"}
 		}
 	},
 	{
 		"type" : "HueLight",
+		"id":42,
 		"data" : {
 			"name":"HueLight1",
-			"id":42,
 			"data":{"id":"2"}
 		}
 	},
 	{
 		"type" : "HueLight",
+		"id":43,
 		"data" : {
 			"name":"HueLight2",
-			"id":43,
 			"data":{"id":"3"}
 		}
 	}

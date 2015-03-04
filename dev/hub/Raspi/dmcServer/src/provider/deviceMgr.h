@@ -19,14 +19,18 @@ namespace dmc {
 	class DeviceMgr {
 	public:
 		// Singleton interface
-		static void init();
-		static void end();
-		static DeviceMgr* get();
+		static void			init();
+		static void			end	();
+		static DeviceMgr*	get	();
 
-		Device* device(unsigned _id) const;
+		Device* device		(unsigned _id) const;
+		Device*	newDevice(const Json& _devType, const Json& _devData);
 
 	private:
-		DeviceMgr();
+		DeviceMgr				();
+		Device*	createDevice	(unsigned _id, const Json& _devType, const Json& _devData);
+		void	loadDevice		(const Json& _creationData);
+
 		std::unordered_map<unsigned,Device*>	mDevices;
 		DeviceFactory							mFactory;
 

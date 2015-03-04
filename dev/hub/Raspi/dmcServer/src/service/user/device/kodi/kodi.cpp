@@ -14,11 +14,10 @@ using namespace std;
 namespace dmc { namespace kodi {
 
 	//------------------------------------------------------------------------------------------------------------------
-	Kodi::Kodi(const Json& _data) 
-		:Actuator(_data["id"].asInt(), _data["name"].asText())
+	Kodi::Kodi(unsigned _id, const Json& _data) 
+		:Actuator(_id, _data["name"].asText())
 	{
 		mIp = _data["ip"].asText();
-
 		mTcpConnection = new Socket();
 	}
 

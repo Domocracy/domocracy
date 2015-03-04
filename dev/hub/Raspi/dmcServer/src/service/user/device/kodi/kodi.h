@@ -17,7 +17,7 @@ namespace dmc { namespace kodi {
 
 	class Kodi final : public Actuator{
 	public:
-		Kodi(const Json&);
+		Kodi(unsigned _id, const Json&);
 		~Kodi();
 
 		Json runCommand		(const Json& _cmd) override;

@@ -22,8 +22,8 @@ namespace dmc {
 	public:
 		DeviceFactory();
 
-		Device* create(const std::string& _devType, const Json& _constructionData);
-		typedef std::function<Device*(const Json&)>	Creator;
+		Device* create(unsigned _id, const std::string& _devType, const Json& _constructionData);
+		typedef std::function<Device*(unsigned _id, const Json&)>	Creator;
 
 	private:
 		std::unordered_map<std::string, Creator>	mFactories;
