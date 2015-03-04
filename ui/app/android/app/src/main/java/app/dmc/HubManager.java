@@ -53,7 +53,9 @@ public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void loadHubs(Context _context){
-        initJson();
+
+        JSONObject mHubJSON =  Persistence.get().getJSON("hubList");
+
         mHubMap  = new HashMap<String,Hub>();
         mHubsIds = new ArrayList<String>();
         try {
@@ -61,13 +63,13 @@ public class HubManager {
             mDefaultHub = mHubJSON.getString("defaultHub");
 
             for(int i = 0;i < mHubList.length();i++) {
+
                 Hub hub = new Hub();
-
-                String hubId = mHubList.getJSONObject(i).getString("hubId");
-                mHubMap.put(hubId, hub);
-                mHubsIds.add(hubId);
-
                 hub.init(_context, mHubList.getJSONObject(i));
+
+                mHubMap.put(mHubList.getJSONObject(i).getString("hubId"), hub);
+                mHubsIds.add(mHubList.getJSONObject(i).getString("hubId"));
+
             }
         }catch(JSONException e){
             e.printStackTrace();
@@ -75,15 +77,10 @@ public class HubManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void initJson(){
-        mHubJSON = Persistence.get().getJSON("hubList");
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
     private Map<String,Hub> mHubMap;
     private List<String>    mHubsIds;
     private String          mDefaultHub;
-    private JSONObject      mHubJSON;
+
 
     //-----------------------------------------------------------------------------------------------------------------
     private static HubManager sInstance = null;

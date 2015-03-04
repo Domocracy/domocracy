@@ -3,6 +3,8 @@ package app.dmc;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import app.dmc.core.Persistence;
 
 /**
@@ -50,4 +52,5 @@ public class User {
     //-----------------------------------------------------------------------------------------------------------------
     private static  User             sInstance = null;
     private static JSONObject        mLastHub;
+    private static List<String>      mHubList;
 }

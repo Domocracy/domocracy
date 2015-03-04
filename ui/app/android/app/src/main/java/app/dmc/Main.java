@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.core.Persistence;
@@ -20,15 +19,8 @@ public class Main extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         // Init HubManager
         Persistence.init(this);
+        //MANDATORY: Persistence need to be initialized BEFORE HubManager.
         HubManager.init(this);
-
-        try {
-            mPrueba = new JSONObject("{\"defaultHub\":\"0\",\"hubs\":[{\"name\":\"Home\",\"id\":\"123\",\"ip\":\"193.147.168.23\",\"rooms\":[],\"devices\":[]},{\"name\":\"Beach Flat\",\"id\":\"543\",\"ip\":\"193.154.123.54\",\"rooms\":[],\"devices\":[]}]}");
-
-        }catch(JSONException e) {
-            e.printStackTrace();
-        }
-        mPruebaRecieved = Persistence.get().getJSON("hubList");
         Persistence.get().flush();
         Persistence.get().end();
         // Create Interface

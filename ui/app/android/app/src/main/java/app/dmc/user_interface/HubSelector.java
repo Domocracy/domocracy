@@ -12,6 +12,7 @@ package app.dmc.user_interface;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import app.dmc.Hub;
 import app.dmc.HubManager;
+import app.dmc.R;
 
 public class HubSelector extends BaseAdapter{
     //-----------------------------------------------------------------------------------------------------------------
@@ -29,7 +31,8 @@ public class HubSelector extends BaseAdapter{
         mHubList = HubManager.get().hubsIds();
 
         mHubSpinner = new Spinner(_context);
-        mHubSpinner.setAdapter(this);
+        ArrayAdapter<String> adapterHubList = new ArrayAdapter<String>(_context,R.layout.support_simple_spinner_dropdown_item,mHubList);
+        mHubSpinner.setAdapter(adapterHubList);
     }
 
     View view(){
