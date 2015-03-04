@@ -14,6 +14,7 @@
 #include <service/user/user.h>
 #include <provider/deviceMgr.h>
 #include <provider/persistence.h>
+#include <provider/idGenerator.h>
 
 namespace dmc {
 
@@ -24,11 +25,12 @@ namespace dmc {
 		
 		// Launch web service
 		Persistence::init();
+
+		IdGenerator::init();
 		mWebServer = new http::Server(mHttpPort);
 		mWebServer->setResponder("/public/ping", http::Response200());
 		mInfo = new HubInfo(mWebServer);
 		DeviceMgr::init();
-		mDeviceMgr = DeviceMgr::get(); // Cache manager
 		loadUsers();
 	}
 
@@ -39,6 +41,7 @@ namespace dmc {
 		DeviceMgr::end();
 		if(mWebServer)
 			delete mWebServer;
+		IdGenerator::end();
 		Persistence::end();
 	}
 
@@ -56,7 +59,7 @@ namespace dmc {
 	void DmcServer::loadUsers() {
 		Json usersDatabase = Persistence::get()->getData("users");
 		for(auto userData : usersDatabase.asList()) {
-			mUsers.push_back(new User(*userData, mWebServer, mDeviceMgr));
+			mUsers.push_back(new User(*userData, mWebServer));
 		}
 	}
 

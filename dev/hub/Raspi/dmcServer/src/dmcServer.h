@@ -37,7 +37,6 @@ namespace dmc {
 		http::Server*		mWebServer = nullptr;
 		std::vector<User*>	mUsers;
 		HubInfo*			mInfo = nullptr;
-		DeviceMgr*			mDeviceMgr = nullptr;
 	};
 
 }

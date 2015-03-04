@@ -24,13 +24,13 @@ namespace dmc {
 	const string User::cDeviceLabel = "/device";
 
 	//------------------------------------------------------------------------------------------------------------------
-	User::User(const Json& _userData, Server* _serviceToListen, DeviceMgr* _devMgr)
-		:mDevices(_devMgr)
+	User::User(const Json& _userData, Server* _serviceToListen)
 	{
 		// Init internal data
 		mName = _userData["name"].asText();
 		mId = _userData["id"].asText();
 		mPrefix = string("/user/") + mId;
+		loadDevices(_userData["devices"]); // Ids of devices available to this user
 		// Register to service
 		_serviceToListen->setResponder(mPrefix, [this](Server* _s, unsigned _conId, const Request& _request){
 			this->processRequest(_s, _conId, _request);
@@ -72,7 +72,10 @@ namespace dmc {
 		string devIdStr = _cmd.substr(1); // Discard initial '/'
 		char* idEnd;
 		unsigned devId = strtol(devIdStr.c_str(), &idEnd, 16);
-		Device* dev = mDevices->device(devId);
+		Device* dev = nullptr;
+		if(mDevices.find(devId) != mDevices.end()) { // Device available to the user, permission granted
+			dev = DeviceMgr::get()->device(devId);
+		}
 		unsigned idLen = idEnd-devIdStr.c_str();
 		if(!dev){
 			return new Response404(string("Error 404: Device ")+devIdStr+" not found\n");
@@ -111,5 +114,13 @@ namespace dmc {
 		assert((formatedUrl.size() >= mPrefix.size()) && (formatedUrl.substr(0, mPrefix.size()) == mPrefix));
 		return formatedUrl.substr(mPrefix.size());
 	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void User::loadDevices(const Json& _deviceList) {
+		for(auto entry : _deviceList.asList()) {
+			mDevices.insert((unsigned)entry->asInt());
+		}
+	}
+
 
 }	// namespace dmc
