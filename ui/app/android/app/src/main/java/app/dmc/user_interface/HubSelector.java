@@ -23,12 +23,13 @@ import java.util.List;
 import app.dmc.Hub;
 import app.dmc.HubManager;
 import app.dmc.R;
+import app.dmc.User;
 
 public class HubSelector extends BaseAdapter{
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     HubSelector(Context _context){
-        mHubList = HubManager.get().hubsIds();
+        mHubList = User.get().getHubsIds();
 
         mHubSpinner = new Spinner(_context);
         ArrayAdapter<String> adapterHubList = new ArrayAdapter<String>(_context,R.layout.support_simple_spinner_dropdown_item,mHubList);

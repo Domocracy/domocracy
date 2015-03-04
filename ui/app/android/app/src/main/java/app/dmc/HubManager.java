@@ -6,9 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import app.dmc.core.Persistence;
@@ -32,11 +30,6 @@ public class HubManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public List<String> hubsIds(){
-        return  mHubsIds;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
     public String defaultHub(){
         return mDefaultHub;
     }
@@ -57,18 +50,15 @@ public class HubManager {
         JSONObject mHubJSON =  Persistence.get().getJSON("hubList");
 
         mHubMap  = new HashMap<String,Hub>();
-        mHubsIds = new ArrayList<String>();
+
         try {
             JSONArray mHubList = mHubJSON.getJSONArray("hubs");
             mDefaultHub = mHubJSON.getString("defaultHub");
 
             for(int i = 0;i < mHubList.length();i++) {
-
                 Hub hub = new Hub();
                 hub.init(_context, mHubList.getJSONObject(i));
-
                 mHubMap.put(mHubList.getJSONObject(i).getString("hubId"), hub);
-                mHubsIds.add(mHubList.getJSONObject(i).getString("hubId"));
 
             }
         }catch(JSONException e){
@@ -86,7 +76,6 @@ public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
     private Map<String,Hub> mHubMap;
-    private List<String>    mHubsIds;
     private String          mDefaultHub;
 
 

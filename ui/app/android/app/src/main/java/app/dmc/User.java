@@ -1,5 +1,6 @@
 package app.dmc;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +24,12 @@ public class User {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public List getHubsIds(){
+        return mHubsId;
+    }
+
+
+    //-----------------------------------------------------------------------------------------------------------------
     public boolean setLastHubID(String _lastHubID){
          try {
             mLastHub.put("id", _lastHubID);
@@ -43,14 +50,25 @@ public class User {
         return null;
     }
     //-----------------------------------------------------------------------------------------------------------------
+    private void createHub(String _hubId){
 
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     //Private interface
     private User(String _userID){
-        mLastHub = Persistence.get().getJSON(_userID);
+        try {
+            JSONArray userJSONHubs = Persistence.get().getJSON(_userID).getJSONArray("hubs");
+            for(int i = 0; i < userJSONHubs.length(); ++i){
+                mHubsId.add(userJSONHubs.getJSONObject(i).getString("hubId"));
+            }
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private static  User             sInstance = null;
     private static JSONObject        mLastHub;
-    private static List<String>      mHubList;
+    private static List<String>      mHubsId;
 }
