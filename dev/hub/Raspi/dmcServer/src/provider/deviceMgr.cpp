@@ -50,6 +50,7 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	Device* DeviceMgr::newDevice(const Json& _devType, const Json& _devData) {
 		unsigned devId = IdGenerator::get()->newId();
+		save();
 		return createDevice(devId, _devType, _devData);
 	}
 
@@ -81,6 +82,11 @@ namespace dmc {
 	void DeviceMgr::loadDevice(const Json& _creationData){
 		unsigned devId = (unsigned)_creationData["id"].asInt();
 		createDevice(devId, _creationData["type"], _creationData["data"]);
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void DeviceMgr::save() {
+		// 666 TODO: Actually save something
 	}
 
 }	// namespace dmc

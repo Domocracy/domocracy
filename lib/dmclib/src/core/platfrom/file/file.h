@@ -13,16 +13,23 @@ namespace dmc {
 
 	class File {
 	public:
-		File(const std::string& _path);
+		File(const std::string& _path); // File must exist
 		~File();
+
+		static File* openExisting(const std::string& _path); // Returns nullptr if the file doesn't exist already
+
+		void			readAll		();
+		void			setContent	(void* _buffer, size_t);
 
 		const void *	buffer		() const;
 		const char *	bufferAsText() const;
-		int				sizeInBytes	() const;
+		size_t			sizeInBytes	() const;
 
 	private:
-		unsigned	mSize = 0;
+		size_t		mSize = 0;
 		void*		mBuffer = nullptr;
+		bool		mMustWrite = false;
+		std::string	mPath;
 	};
 
 	typedef File FileBase;
@@ -32,7 +39,7 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	inline const void * File::buffer		() const { return mBuffer; }
 	inline const char * File::bufferAsText	() const { return reinterpret_cast<const char*>(mBuffer); }
-	inline int			File::sizeInBytes	() const { return mSize; }
+	inline size_t		File::sizeInBytes	() const { return mSize; }
 
 }
 

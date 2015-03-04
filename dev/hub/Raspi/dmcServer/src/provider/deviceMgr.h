@@ -31,6 +31,8 @@ namespace dmc {
 		Device*	createDevice	(unsigned _id, const Json& _devType, const Json& _devData);
 		void	loadDevice		(const Json& _creationData);
 
+		void	save();
+
 		std::unordered_map<unsigned,Device*>	mDevices;
 		DeviceFactory							mFactory;
 
