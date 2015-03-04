@@ -26,8 +26,8 @@ namespace dmc {
 	private:
 		void			processRequest	(http::Server* _s, unsigned _conId, const http::Request& _request);
 		std::string		extractCommand	(const std::string& _url) const;
-		http::Response*	runCommand		(const std::string& _command, const http::Request& _request) const; // Runs a command and returns the proper http response
-		http::Response* addDevie		(const Json& _deviceData);
+		http::Response*	runCommand		(const std::string& _command, const http::Request& _request); // Runs a command and returns the proper http response
+		http::Response* addDevice		(const Json& _deviceData);
 		http::Response*	deviceCommand	(const std::string& _devCmd, const http::Request& _request) const;
 		void			loadDevices		(const Json& _deviceList);
 
@@ -38,6 +38,7 @@ namespace dmc {
 		std::set<unsigned>	mDevices;
 
 		const static std::string	cDeviceLabel;
+		const static std::string	cAddDevLabel;
 	};
 
 }	// namespace dmc

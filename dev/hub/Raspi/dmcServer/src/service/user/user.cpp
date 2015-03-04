@@ -22,6 +22,7 @@ namespace dmc {
 	using namespace http;
 
 	const string User::cDeviceLabel = "/device";
+	const string User::cAddDevLabel = "/addDevice";
 
 	//------------------------------------------------------------------------------------------------------------------
 	User::User(const Json& _userData, Server* _serviceToListen)
@@ -50,17 +51,18 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Response* User::runCommand(const std::string& _cmd, const http::Request& _request) const {
+	Response* User::runCommand(const std::string& _cmd, const http::Request& _request) {
 		if(_cmd.empty()) { // Request state
 			return new Response200("666 TODO: Show list of devices and rooms available to the user\n");
 		} else {
-			unsigned devLabelSize = cDeviceLabel.size();
 			// Extract device id
 			if(_cmd == cDeviceLabel) {
 				return new Response404("404: Device list not available");
 			}
-			else if(_cmd.substr(0,devLabelSize) == cDeviceLabel) {
-				return deviceCommand(_cmd.substr(devLabelSize), _request);
+			else if(_cmd.substr(0,cDeviceLabel.size()) == cDeviceLabel) {
+				return deviceCommand(_cmd.substr(cDeviceLabel.size()), _request);
+			} else if(_cmd == cAddDevLabel) {
+				return addDevice(Json(_request.body()));
 			}
 			else
 				return new Response404(string("User unable to run command ") + _cmd);
@@ -68,14 +70,14 @@ namespace dmc {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	Response* User::addDevie(const Json& _deviceData) {
-		Json devId = _deviceData["id"];
-		if(devId.isNill()) {
-			return new Response200("Error: Invalid device data");
-		} else {
-			unsigned id = (unsigned)atoi(devId.asText().c_str());
-			
-		}
+	Response* User::addDevice(const Json& _deviceData) {
+		Device* newDev = DeviceMgr::get()->newDevice(_deviceData["type"], _deviceData);
+		if(newDev) {
+			Json result (R"({"result":"ok")");
+			result["id"].setInt((int)newDev->id());
+			return new JsonResponse(result);
+		} else
+			return new Response200(R"({"result":"fail", "error":"unable to create device"})");
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
