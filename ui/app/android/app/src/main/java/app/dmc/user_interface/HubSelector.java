@@ -61,25 +61,25 @@ public class HubSelector extends BaseAdapter{
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public View getView(int _position, View _convertView, ViewGroup _parent) {
-        HubViewHolder view;
+        HubViewHolder hubViewHolder;
 
         if(_convertView == null){
-            Context context = _parent.getContext();
+            Context _parentContext = _parent.getContext();
 
-            LinearLayout ll = new LinearLayout(context);
-            TextView tv = new TextView(context);
-            ll.addView(tv);
+            LinearLayout parentLinearLayout = new LinearLayout(_parentContext);
+            TextView parentTextView = new TextView(_parentContext);
+            parentLinearLayout.addView(parentTextView);
 
-            _convertView = ll;
+            _convertView = parentLinearLayout;
 
-            view = new HubViewHolder();
-            view.mName = new TextView(context);
-            view.mName.setText(((Hub)getItem(_position)).name());
+            hubViewHolder = new HubViewHolder();
+            hubViewHolder.mName = new TextView(_parentContext);
+            hubViewHolder.mName.setText(((Hub)getItem(_position)).name());
 
-            _convertView.setTag(view);
+            _convertView.setTag(hubViewHolder);
 
         }else{
-            view = (HubViewHolder) _convertView.getTag();
+            hubViewHolder = (HubViewHolder) _convertView.getTag();
         }
 
         return _convertView;
@@ -92,6 +92,6 @@ public class HubSelector extends BaseAdapter{
     }
 
     // Members
-    private List<String> mHubList;
-    private Spinner mHubSpinner;
+    private List<String>    mHubList;
+    private Spinner         mHubSpinner;
 }

@@ -11,8 +11,6 @@ package app.dmc.user_interface;
 
 import android.app.Activity;
 import android.widget.LinearLayout;
-
-import app.dmc.HubManager;
 import app.dmc.R;
 
 public class SlideMenu {

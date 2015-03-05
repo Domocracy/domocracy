@@ -1,9 +1,12 @@
 package app.dmc;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import app.dmc.core.Persistence;
@@ -13,9 +16,10 @@ import app.dmc.core.Persistence;
  */
 public class User {
     //-----------------------------------------------------------------------------------------------------------------
-    public static void init(String _userID){
+    public static void init(String _userID,Context _context){
         assert sInstance == null;
-        sInstance = new User(_userID);
+        sInstance = new User(_userID, _context);
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -24,7 +28,7 @@ public class User {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public List getHubsIds(){
+    public List<String> getHubsIds(){
         return mHubsId;
     }
 
@@ -50,13 +54,19 @@ public class User {
         return null;
     }
     //-----------------------------------------------------------------------------------------------------------------
+    public String getUserId(){
+        return mUserId;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
     private void createHub(String _hubId){
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //Private interface
-    private User(String _userID){
+    private User(String _userID, Context _context){
+        HubManager.init(_context, _userID);
+        mHubsId = new ArrayList<String>();
         try {
             JSONArray userJSONHubs = Persistence.get().getJSON(_userID).getJSONArray("hubs");
             for(int i = 0; i < userJSONHubs.length(); ++i){
@@ -71,4 +81,5 @@ public class User {
     private static  User             sInstance = null;
     private static JSONObject        mLastHub;
     private static List<String>      mHubsId;
+    private static String            mUserId;
 }

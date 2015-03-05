@@ -19,9 +19,9 @@ import app.dmc.core.Persistence;
 public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
-    static public void init(Context _context){
+    static public void init(Context _context, String _userID){
         sInstance =  new HubManager();
-        sInstance.loadHubs(_context);
+        sInstance.loadHubs(_context, _userID);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -45,10 +45,9 @@ public class HubManager {
     private HubManager(){ }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void loadHubs(Context _context){
-
-        JSONObject mHubJSON =  Persistence.get().getJSON("hubList");
-
+    private void loadHubs(Context _context,String _userID){
+        JSONObject mHubJSON =  Persistence.get().getJSON(_userID);
+        assert mHubJSON != null;
         mHubMap  = new HashMap<String,Hub>();
 
         try {
