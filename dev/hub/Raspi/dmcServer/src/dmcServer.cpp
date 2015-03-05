@@ -28,10 +28,14 @@ namespace dmc {
 
 		IdGenerator::init();
 		mWebServer = new http::Server(mHttpPort);
-		mWebServer->setResponder("/public/ping", http::Response::response200());
 		mInfo = new HubInfo(mWebServer);
 		DeviceMgr::init();
 		loadUsers();
+		// Public services
+		mWebServer->setResponder("/public/ping", http::Response::response200());
+		mWebServer->setResponder("/public/newUser", [this](http::Server* _s, unsigned _conId, const http::Request&) {
+			_s->respond(_conId, createNewUser());
+		});
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -63,6 +67,13 @@ namespace dmc {
 		for(auto userData : usersDatabase.asList()) {
 			mUsers.push_back(new User(*userData, mWebServer));
 		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	http::Response DmcServer::createNewUser() {
+		// Generate unique key
+		// Store user locally
+		// Return generated credentials
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
