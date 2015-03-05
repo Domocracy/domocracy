@@ -58,6 +58,8 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	void DmcServer::loadUsers() {
 		Json usersDatabase = Persistence::get()->getData("users");
+		if(usersDatabase.isNill())
+			return;
 		for(auto userData : usersDatabase.asList()) {
 			mUsers.push_back(new User(*userData, mWebServer));
 		}

@@ -53,6 +53,8 @@ namespace dmc {
 		srand((uint32_t)time(0));
 		// Load previous data
 		Json storedIds = Persistence::get()->getData("randomIds");
+		if(storedIds.isNill())
+			return;
 		for(auto id : storedIds.asList()) {
 			mGeneratedIds.insert((uint32_t)id->asInt());
 		}

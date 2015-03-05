@@ -28,7 +28,7 @@ namespace dmc {
 			dstFile.close();
 		}
 		if (mBuffer)
-			delete static_cast<char*>(mBuffer); // Static cast prevents undefined behavior deleting void*
+			delete static_cast<const char*>(mBuffer); // Static cast prevents undefined behavior deleting void*
 	}
 
 	//--------------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ namespace dmc {
 	void File::readAll() {
 		fstream srcFile;
 		// Open the file
-		srcFile.open(mPath.c_str(), ios_base::binary);
+		srcFile.open(mPath.c_str(), ios_base::binary | ios_base::out);
 		assert(srcFile.is_open());
 		// Meassure it's size
 		srcFile.seekg(0, ios::end);
@@ -63,12 +63,13 @@ namespace dmc {
 	}
 
 	//--------------------------------------------------------------------------------------------------------------
-	void File::setContent(void* _buffer, size_t _size) {
+	void File::setContent(const void* _buffer, size_t _size) {
 		if(mBuffer) {
-			delete static_cast<char*>(mBuffer);
+			delete static_cast<const char*>(mBuffer);
 		}
 		mSize = _size;
 		mBuffer = _buffer;
+		mMustWrite = true;
 	}
 
 }
