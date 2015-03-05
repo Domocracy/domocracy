@@ -15,13 +15,10 @@ namespace dmc { namespace http {
 
 	//----------------------------------------------------------------------------------------------------------------------
 	Request::Request(METHOD _method, const string& _url, // Status line
-				const vector<string>& _headers, // Headers
 				const string& _body) // Body
 		:mMethod(_method)
 		,mUrl(_url)
 	{
-		for(auto h : _headers)
-			addHeader(h);
 		setBody(_body);
 		setReady();
 	}
@@ -30,6 +27,14 @@ namespace dmc { namespace http {
 	Request::Request(const string& _raw) {
 		// Break the string into parts
 		this->operator<<(_raw);
+	}
+
+	//----------------------------------------------------------------------------------------------------------------------
+	Request Request::jsonRequest(METHOD _method, const std::string& _url, const Json& _payload) {
+		Request r(_method, _url, "");
+		r.headers()["Content-Type"] = "application/json; charset=UTF-8";
+		r.setBody(_payload.serialize());
+		return r;
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------

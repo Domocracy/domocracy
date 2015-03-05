@@ -49,9 +49,6 @@
     <Filter Include="Source Files\home\device">
       <UniqueIdentifier>{bcc1dc54-bd93-4c92-a676-eef5666972c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\core\comm\http\request">
-      <UniqueIdentifier>{2c27a9e7-6578-4fcc-bdb2-8095f7d5171b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\core\comm\json\rpc">
       <UniqueIdentifier>{e32e7cdd-be97-4078-9753-9f1cf96ba992}</UniqueIdentifier>
     </Filter>
@@ -172,9 +169,6 @@
     </ClInclude>
     <ClInclude Include="src\home\device\actuator.h">
       <Filter>Source Files\home\device</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\comm\http\request\jsonRequest.h">
-      <Filter>Source Files\core\comm\http\request</Filter>
     </ClInclude>
     <ClInclude Include="src\core\comm\http\httpMessage.h">
       <Filter>Source Files\core\comm\http</Filter>
