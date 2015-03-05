@@ -10,7 +10,7 @@
 #include "dmcServer.h"
 #include <core/comm/json/json.h>
 #include <core/time/time.h>
-#include <core/comm/http/response/response200.h>
+#include <core/comm/http/httpResponse.h>
 #include <service/user/user.h>
 #include <provider/deviceMgr.h>
 #include <provider/persistence.h>
@@ -28,7 +28,7 @@ namespace dmc {
 
 		IdGenerator::init();
 		mWebServer = new http::Server(mHttpPort);
-		mWebServer->setResponder("/public/ping", http::Response200());
+		mWebServer->setResponder("/public/ping", http::Response::response200());
 		mInfo = new HubInfo(mWebServer);
 		DeviceMgr::init();
 		loadUsers();
