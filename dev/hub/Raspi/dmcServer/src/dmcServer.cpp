@@ -72,8 +72,15 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	http::Response DmcServer::createNewUser() {
 		// Generate unique key
+		unsigned newId = IdGenerator::get()->newId();
 		// Store user locally
+		User* u = new User(newId, mWebServer);
+		mUsers.push_back(u);
 		// Return generated credentials
+		Json result("{}");
+		result["result"].setText("ok");
+		result["userId"].setText(u->strId());
+		return http::Response::jsonResponse(result);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

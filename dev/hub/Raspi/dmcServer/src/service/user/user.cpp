@@ -12,6 +12,7 @@
 #include <string>
 #include <provider/deviceMgr.h>
 #include <home/device/actuator.h>
+#include <sstream>
 
 using namespace std;
 
@@ -34,6 +35,27 @@ namespace dmc {
 		_serviceToListen->setResponder(mPrefix, [this](Server* _s, unsigned _conId, const Request& _request){
 			this->processRequest(_s, _conId, _request);
 		});
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	User::User(unsigned _userId, Server* _serviceToListen) {
+		mId = idAsString(_userId);
+		mName = mId;
+		mPrefix = string("/user/") + mId;
+		// Register to service
+		_serviceToListen->setResponder(mPrefix, [this](Server* _s, unsigned _conId, const Request& _request){
+			this->processRequest(_s, _conId, _request);
+		});
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	string User::idAsString(unsigned _id) {
+		stringstream idStream;
+		idStream.setf(ios_base::hex);
+		idStream.width(8);
+		idStream.fill('0');
+		idStream << _id;
+		return idStream.str();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
