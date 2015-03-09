@@ -45,7 +45,7 @@ namespace dmc {
 	void File::readAll() {
 		fstream srcFile;
 		// Open the file
-		srcFile.open(mPath.c_str(), ios_base::binary | ios_base::out);
+		srcFile.open(mPath.c_str(), ios_base::binary | ios_base::in);// | ios_base::out);
 		assert(srcFile.is_open());
 		// Meassure it's size
 		srcFile.seekg(0, ios::end);
