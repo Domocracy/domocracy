@@ -116,6 +116,8 @@ public class KodiLastShowPanel extends ActuatorPanel {
                             request.put("cmd", cmd);
                         } catch (JSONException _jsonException){
                             _jsonException.printStackTrace();
+                        } catch (IndexOutOfBoundsException _indexOutOfBoundException){
+                            Log.d("DOMOCRACY", "There arent any tv show in the list");
                         }
                         JSONObject response = mParentActuator.runCommand(request);
                         // if(response OK){
