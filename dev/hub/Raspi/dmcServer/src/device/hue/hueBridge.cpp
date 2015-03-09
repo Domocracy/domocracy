@@ -22,9 +22,16 @@ namespace dmc { namespace hue {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Bridge::getData	(const std::string& _url) {
+		// Try to query the Hub and update local info?
+		Json bridgeData("{}");
+		bridgeData["username"].setText(mUsername);
+		bridgeData["localIp"].setText(mLocalIp);
 		if(mState == State::disconnected)
-			return Json();
-		return Json(); // 666 TODO
+			bridgeData["state"].setText("disconnected");
+		else
+			bridgeData["state"].setText("connected");
+
+		return bridgeData;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
