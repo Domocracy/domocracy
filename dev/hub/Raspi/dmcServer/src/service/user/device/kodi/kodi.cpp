@@ -52,7 +52,10 @@ namespace dmc { namespace kodi {
 		if(command == "tvshows") {
 			Json response(R"({})");
 			Json shows = getTvShows();
-			response["tvshows"] = shows;
+			if(shows.isNill())
+				response["tvshows"] = Json("[]"); // Empty list
+			else
+				response["tvshows"] = shows;
 			response["result"] = Json("\"ok\"");
 			return response;
 		}
