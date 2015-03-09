@@ -47,7 +47,6 @@ public class HubManager {
 
         try {
             JSONArray mHubList = mHubJSON.getJSONArray("hubs");
-            //mDefaultHub = mHubJSON.getString("defaultHub");
 
             for(int i = 0;i < mHubList.length();i++) {
                 Hub hub = new Hub();
