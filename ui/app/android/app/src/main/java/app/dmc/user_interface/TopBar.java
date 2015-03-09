@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import app.dmc.HubManager;
 import app.dmc.R;
+import app.dmc.User;
 
 /**
  * Created by Joscormir on 19/02/2015.
@@ -24,18 +24,20 @@ public class TopBar {
             final View dialogLayout = inflaterSetIp.inflate(R.layout.alert_dialog_set_ip,null);
             builderDialogSetIp.setView(dialogLayout);
             EditText lastIp = (EditText)dialogLayout.findViewById(R.id.ipEditor);
-            lastIp.setText(HubManager.get().hub("123").ip()); //666TODO: this need to be updated with user hub.
+            lastIp.setText(User.get().getCurrentHub().ip()); //666TODO: this need to be updated with user hub.
             builderDialogSetIp.setPositiveButton("Set", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     EditText ip = (EditText)dialogLayout.findViewById(R.id.ipEditor);
 
                     String ipToString = ip.getText().toString();
-                    HubManager.get().hub("123").modifyIp(ipToString); //666TODO: this need to be updated with user hub.
+                    User.get().getCurrentHub().modifyIp(ipToString); //666TODO: this need to be updated with user hub.
                 }
             });
             builderDialogSetIp.setNegativeButton("Cancel",null);
             builderDialogSetIp.create().show();
             return true;
         }
+    //-----------------------------------------------------------------------------------------------------------------
+
 }

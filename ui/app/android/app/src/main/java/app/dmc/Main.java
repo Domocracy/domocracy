@@ -6,8 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import org.json.JSONObject;
-
 import app.dmc.core.Persistence;
 import app.dmc.user_interface.TopBar;
 import app.dmc.user_interface.UserInterface;
@@ -59,7 +57,5 @@ public class Main extends ActionBarActivity {
     // Private interface.
     private UserInterface mUI;
 
-    private Object mPruebaRecieved = null;
-    private JSONObject mPrueba;
    }
 
