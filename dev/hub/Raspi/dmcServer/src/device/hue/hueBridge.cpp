@@ -7,9 +7,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "hueBridge.h"
 #include <core/comm/http/httpClient.h>
-#include <core/comm/http/request/jsonRequest.h>
 #include <cassert>
 #include <iostream>
+#include <core/comm/http/httpRequest.h>
 
 using namespace dmc::http;
 
@@ -22,9 +22,16 @@ namespace dmc { namespace hue {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Bridge::getData	(const std::string& _url) {
+		// Try to query the Hub and update local info?
+		Json bridgeData("{}");
+		bridgeData["username"].setText(mUsername);
+		bridgeData["localIp"].setText(mLocalIp);
 		if(mState == State::disconnected)
-			return Json();
-		return Json(); // 666 TODO
+			bridgeData["state"].setText("disconnected");
+		else
+			bridgeData["state"].setText("connected");
+
+		return bridgeData;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -32,7 +39,7 @@ namespace dmc { namespace hue {
 		assert(_url.size() > 1 && _url[0] == '/');
 		if(mState == State::disconnected)
 			return false;
-		Request command = JsonRequest(Request::METHOD::Put, std::string("/api/")+mUsername+_url, _data);
+		Request command = Request::jsonRequest(Request::METHOD::Put, std::string("/api/")+mUsername+_url, _data);
 		command.headers()["Host"] = mLocalIp;
 		http::Response* result = mConn->makeRequest(command);
 		return result != nullptr;
@@ -51,9 +58,7 @@ namespace dmc { namespace hue {
 
 		mInitThread = std::thread([this,_info]() 
 		{
-			http::Request req = http::Request(http::Request::Get, "/api/noUser/config", 
-								std::vector<std::string>(),
-								"" );
+			http::Request req = http::Request(http::Request::Get, "/api/noUser/config", "" );
 			req.headers()["Host"] = mLocalIp;
 			req.headers()["Content-Type"] = "text/plain;charset=UTF-8";
 			req.headers()["Content-Length"]="0";

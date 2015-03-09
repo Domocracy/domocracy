@@ -9,15 +9,14 @@
 #define _DMCSERVER_SERVICE_PUBLIC_HUBINFO_H_
 
 #include <core/comm/http/httpServer.h>
-#include <core/comm/http/response/jsonResponse.h>
+#include <core/comm/http/httpResponse.h>
 
 namespace dmc {
 
 	class HubInfo {
 	public:
-		// 666 TODO: PublicService(Hub*);
 		HubInfo(http::Server* _server) {
-			_server->setResponder("/public/hubInfo", http::JsonResponse(Json(R"({"name" : "dmcHub"})")));
+			_server->setResponder("/public/hubInfo", http::Response::jsonResponse(Json(R"({"name" : "dmcHub"})")));
 		}
 		// Services
 	};

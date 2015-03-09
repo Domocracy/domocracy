@@ -13,22 +13,20 @@
 
 namespace dmc {
 
-	// 666 TODO: Regulate verbosity
 	class SocketServer {
 	public:
 		SocketServer(unsigned _port);
 		~SocketServer();
 
-		// 666 TODO: Pause and resume listening
 		typedef std::function<void(Socket*)>	Handler;
-		void setConnectionHandler(Handler _handler);
+		void setConnectionHandler				(Handler _handler);
 
 	private:
-		void		startListening(addrinfo*);
-		void		dispatchConnection(Socket::SocketDesc);
+		void		startListening				(addrinfo*);
+		void		dispatchConnection			(Socket::SocketDesc);
 		void		close();
 
-		addrinfo*	buildAddresInfo			(unsigned _port);
+		addrinfo*	buildAddresInfo				(unsigned _port);
 		Socket::SocketDesc		mListener;
 		bool		mIsListening = false;
 		bool		mMustClose = false;

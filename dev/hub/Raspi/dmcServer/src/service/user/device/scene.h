@@ -18,7 +18,7 @@ namespace dmc {
 
 	class Scene final : public Actuator {
 	public:
-		Scene(const Json& _data);
+		Scene(unsigned _id, const Json& _data);
 		~Scene() = default;
 
 		Json runCommand(const Json& _cmd) override;

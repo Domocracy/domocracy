@@ -67,12 +67,15 @@ namespace dmc {
 
 		bool getSocketAddress	(const std::string& _url, unsigned _port, Protocol _protocol);
 		bool openSocket			();
+		bool connectionLess		() const;
 
 		SocketDesc mSocket = INVALID_SOCKET;
 		bool mMustClose = false;
 		struct addrinfo* mAddress;
 		struct addrinfo* mSystemAddress;
 		std::string mInBuffer;
+
+		Protocol		mProtocol;
 	};
 }	// namespace dmc
 

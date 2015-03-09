@@ -30,6 +30,7 @@ namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Socket::open(const std::string& _url, unsigned _port, Protocol _protocol) {
+		mProtocol = _protocol;
 		mMustClose = false;
 		if(!getSocketAddress(_url, _port, _protocol))
 			return false;
@@ -39,7 +40,7 @@ namespace dmc {
 			if(!openSocket())
 				continue;
 
-			if(Protocol::TCP == _protocol) {
+			if(!connectionLess()) {
 				// Connect to server.
 				if(SOCKET_ERROR != connect( mSocket, mAddress->ai_addr, (int)mAddress->ai_addrlen)) {
 					break; // Connected
@@ -78,21 +79,24 @@ namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Socket::write(unsigned _length, const void* _data) {
-		return SOCKET_ERROR != send(mSocket, (const char*)_data, _length, 0);
+		if(connectionLess())
+			return SOCKET_ERROR != sendto(mSocket, (const char*)_data, _length, 0, mAddress->ai_addr, mAddress->ai_addrlen);
+		else
+			return SOCKET_ERROR != send(mSocket, (const char*)_data, _length, 0);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	int Socket::read(void* _data, unsigned _maxLength) {
-		
 		int nBytes = recv(mSocket, reinterpret_cast<char*>(_data), _maxLength, 0);
 		if(0 == nBytes)
 			close();
 		else if(nBytes == SOCKET_ERROR) {
-			std::cout << "Socket " << mSocket << " failed to read with error "
 #ifdef _WIN32
-				<< WSAGetLastError() 
+			std::cout << "Socket " << mSocket << " failed to read with error "<< WSAGetLastError() << "\n";
 #endif // _WIN32
-				<< "\n";
+#ifdef __linux__
+			perror("Socket failed to read with error:\n");
+#endif // __linux__
 			return -1;
 		}
 		return nBytes;
@@ -140,6 +144,11 @@ namespace dmc {
 			return false;
 		}
 		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	bool Socket::connectionLess() const {
+		return mProtocol == Protocol::UDP;
 	}
 
 }	// namespace dmc

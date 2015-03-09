@@ -28,8 +28,6 @@ namespace dmc {
 			Server(unsigned _port);
 			~Server();
 
-			// 666 TODO: Start or stop listening
-			// void listen(bool);
 			void respond(unsigned _conId, const Response&);
 
 			// Configure responses

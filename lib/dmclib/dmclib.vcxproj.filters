@@ -40,17 +40,11 @@
     <Filter Include="Source Files\core\platform\file">
       <UniqueIdentifier>{60b770c2-238c-4eb1-b429-d13b52e9a212}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\core\comm\http\response">
-      <UniqueIdentifier>{99d14d9d-1f54-467f-ae27-4db807e47289}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\home">
       <UniqueIdentifier>{2a477feb-c255-4679-ba8b-a23e85fe1938}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\home\device">
       <UniqueIdentifier>{bcc1dc54-bd93-4c92-a676-eef5666972c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\core\comm\http\request">
-      <UniqueIdentifier>{2c27a9e7-6578-4fcc-bdb2-8095f7d5171b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\core\comm\json\rpc">
       <UniqueIdentifier>{e32e7cdd-be97-4078-9753-9f1cf96ba992}</UniqueIdentifier>
@@ -95,12 +89,6 @@
     </ClCompile>
     <ClCompile Include="src\core\comm\http\httpResponse.cpp">
       <Filter>Source Files\core\comm\http</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\comm\http\response\jsonResponse.cpp">
-      <Filter>Source Files\core\comm\http\response</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\comm\http\response\htmlResponse.cpp">
-      <Filter>Source Files\core\comm\http\response</Filter>
     </ClCompile>
     <ClCompile Include="src\core\comm\http\httpMessage.cpp">
       <Filter>Source Files\core\comm\http</Filter>
@@ -152,29 +140,14 @@
     <ClInclude Include="src\core\comm\http\httpResponse.h">
       <Filter>Source Files\core\comm\http</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\comm\http\response\jsonResponse.h">
-      <Filter>Source Files\core\comm\http\response</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\comm\http\response\htmlResponse.h">
-      <Filter>Source Files\core\comm\http\response</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\comm\socket\socketLinux.h">
       <Filter>Source Files\core\comm\socket</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\comm\http\response\response404.h">
-      <Filter>Source Files\core\comm\http\response</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\comm\http\response\response200.h">
-      <Filter>Source Files\core\comm\http\response</Filter>
     </ClInclude>
     <ClInclude Include="src\home\device.h">
       <Filter>Source Files\home</Filter>
     </ClInclude>
     <ClInclude Include="src\home\device\actuator.h">
       <Filter>Source Files\home\device</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\comm\http\request\jsonRequest.h">
-      <Filter>Source Files\core\comm\http\request</Filter>
     </ClInclude>
     <ClInclude Include="src\core\comm\http\httpMessage.h">
       <Filter>Source Files\core\comm\http</Filter>

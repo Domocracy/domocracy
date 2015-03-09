@@ -10,10 +10,11 @@
 #include "dmcServer.h"
 #include <core/comm/json/json.h>
 #include <core/time/time.h>
-#include <core/comm/http/response/response200.h>
+#include <core/comm/http/httpResponse.h>
 #include <service/user/user.h>
 #include <provider/deviceMgr.h>
 #include <provider/persistence.h>
+#include <provider/idGenerator.h>
 
 namespace dmc {
 
@@ -21,19 +22,20 @@ namespace dmc {
 	DmcServer::DmcServer(int _argc, const char** _argv)
 	{
 		processArguments(_argc, _argv); // Execution arguments can override default configuration values
-		// ---- 666 TODO: Remove this!
-		Upnp serviceDiscovery;
-		serviceDiscovery.discoverServices();
-
-
+		
 		// Launch web service
 		Persistence::init();
+
+		IdGenerator::init();
 		mWebServer = new http::Server(mHttpPort);
-		mWebServer->setResponder("/public/ping", http::Response200());
 		mInfo = new HubInfo(mWebServer);
 		DeviceMgr::init();
-		mDeviceMgr = DeviceMgr::get(); // Cache manager
 		loadUsers();
+		// Public services
+		mWebServer->setResponder("/public/ping", http::Response::response200());
+		mWebServer->setResponder("/public/newUser", [this](http::Server* _s, unsigned _conId, const http::Request&) {
+			_s->respond(_conId, createNewUser());
+		});
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -43,6 +45,7 @@ namespace dmc {
 		DeviceMgr::end();
 		if(mWebServer)
 			delete mWebServer;
+		IdGenerator::end();
 		Persistence::end();
 	}
 
@@ -59,9 +62,25 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	void DmcServer::loadUsers() {
 		Json usersDatabase = Persistence::get()->getData("users");
+		if(usersDatabase.isNill())
+			return;
 		for(auto userData : usersDatabase.asList()) {
-			mUsers.push_back(new User(*userData, mWebServer, mDeviceMgr));
+			mUsers.push_back(new User(*userData, mWebServer));
 		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	http::Response DmcServer::createNewUser() {
+		// Generate unique key
+		unsigned newId = IdGenerator::get()->newId();
+		// Store user locally
+		User* u = new User(newId, mWebServer);
+		mUsers.push_back(u);
+		// Return generated credentials
+		Json result("{}");
+		result["result"].setText("ok");
+		result["userId"].setText(u->strId());
+		return http::Response::jsonResponse(result);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

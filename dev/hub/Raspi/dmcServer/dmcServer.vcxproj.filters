@@ -78,6 +78,9 @@
     <ClCompile Include="src\service\user\device\kodi\kodi.cpp">
       <Filter>Source Files\service\user\device\kodi</Filter>
     </ClCompile>
+    <ClCompile Include="src\provider\idGenerator.cpp">
+      <Filter>Source Files\providers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dmcServer.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="src\service\user\device\kodi\kodi.h">
       <Filter>Source Files\service\user\device\kodi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\idGenerator.h">
+      <Filter>Source Files\providers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -27,8 +27,10 @@ namespace dmc {
 		bool update	();
 
 	private:
-		void processArguments	(int _argc, const char** _argv);
-		void loadUsers			();
+		void processArguments		(int _argc, const char** _argv);
+		void loadUsers				();
+
+		http::Response createNewUser();
 
 		// Config
 		unsigned mHttpPort = 80;
@@ -37,7 +39,6 @@ namespace dmc {
 		http::Server*		mWebServer = nullptr;
 		std::vector<User*>	mUsers;
 		HubInfo*			mInfo = nullptr;
-		DeviceMgr*			mDeviceMgr = nullptr;
 	};
 
 }

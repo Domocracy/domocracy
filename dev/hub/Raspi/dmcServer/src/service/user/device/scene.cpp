@@ -11,8 +11,8 @@
 namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
-	Scene::Scene(const Json& _data)
-		:Actuator(_data["id"].asInt(), _data["name"].asText())
+	Scene::Scene(unsigned _id, const Json& _data)
+		:Actuator(_id, _data["name"].asText())
 	{
 		Json childrenData = _data["children"];
 		const auto& list = childrenData.asList();

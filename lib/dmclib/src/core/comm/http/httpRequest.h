@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <vector>
 #include "httpMessage.h"
+#include <core/comm/json/json.h>
 
 namespace dmc { namespace http {
 
@@ -23,7 +24,6 @@ namespace dmc { namespace http {
 		};
 		// Construction
 		Request(METHOD, const std::string& _url, // Status line
-				const std::vector<std::string>& _headers, // Headers
 				const std::string& _body); // Body
 		Request(const std::string& _rawRequest);
 		virtual ~Request() = default;
@@ -31,6 +31,8 @@ namespace dmc { namespace http {
 		// Accessors
 		METHOD				method		() const { return mMethod; }
 		const std::string&	url			() const { return mUrl; }
+
+		static Request		jsonRequest	(METHOD, const std::string& _url, const Json& _payload);
 
 	private:
 		int		processMessageLine		(const std::string& _raw) override;
