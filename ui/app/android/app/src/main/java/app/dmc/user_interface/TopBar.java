@@ -24,14 +24,15 @@ public class TopBar {
             final View dialogLayout = inflaterSetIp.inflate(R.layout.alert_dialog_set_ip,null);
             builderDialogSetIp.setView(dialogLayout);
             EditText lastIp = (EditText)dialogLayout.findViewById(R.id.ipEditor);
-            lastIp.setText(User.get().getCurrentHub().ip()); //666TODO: this need to be updated with user hub.
+            lastIp.setText(User.get().getCurrentHub().ip());
             builderDialogSetIp.setPositiveButton("Set", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     EditText ip = (EditText)dialogLayout.findViewById(R.id.ipEditor);
 
                     String ipToString = ip.getText().toString();
-                    User.get().getCurrentHub().modifyIp(ipToString); //666TODO: this need to be updated with user hub.
+                    User.get().getCurrentHub().modifyIp(ipToString);
+
                 }
             });
             builderDialogSetIp.setNegativeButton("Cancel",null);
