@@ -27,7 +27,7 @@ public class UserInterface {
 
     //-----------------------------------------------------------------------------------------------------------------
     public void onSetHub(){
-        
+        mMainScreen.setHub(mActivity);
         //666 TODO Need to implement "reload" method for User setHub method
     }
 
