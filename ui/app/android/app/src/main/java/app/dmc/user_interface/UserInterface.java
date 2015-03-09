@@ -26,11 +26,13 @@ public class UserInterface {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public void onSetHub(){
 
-    //666 TODO Need to implement "reload" method for User setHub method
+        //666 TODO Need to implement "reload" method for User setHub method
+    }
 
+    //-----------------------------------------------------------------------------------------------------------------
     //  Private Interface
-
     private UserInterface(Activity _activity){
         _activity.setContentView(R.layout.activity_main);
 
@@ -44,5 +46,5 @@ public class UserInterface {
     //Views
     private static MainScreen           mMainScreen;
     private static SlideMenu            mLeftSideMenu;
-
+    private static Activity             mActivity;
 }

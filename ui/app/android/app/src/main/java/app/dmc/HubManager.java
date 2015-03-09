@@ -30,11 +30,6 @@ public class HubManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public String defaultHub(){
-        return mDefaultHub;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
     public Hub hub(String _id){
         Hub hub = mHubMap.get(_id);
         return hub;
@@ -52,7 +47,7 @@ public class HubManager {
 
         try {
             JSONArray mHubList = mHubJSON.getJSONArray("hubs");
-            mDefaultHub = mHubJSON.getString("defaultHub");
+            //mDefaultHub = mHubJSON.getString("defaultHub");
 
             for(int i = 0;i < mHubList.length();i++) {
                 Hub hub = new Hub();
@@ -75,7 +70,7 @@ public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
     private Map<String,Hub> mHubMap;
-    private String          mDefaultHub;
+    //private String          mDefaultHub;
 
 
     //-----------------------------------------------------------------------------------------------------------------

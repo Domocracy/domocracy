@@ -35,7 +35,7 @@ public class HubSelector implements AdapterView.OnItemSelectedListener {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //User.get().setHub(mHubList.get(position));
+        User.get().setHub(mHubList.get(position));
     }
 
     //-----------------------------------------------------------------------------------------------------------------
