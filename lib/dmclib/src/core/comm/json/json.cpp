@@ -96,6 +96,9 @@ namespace dmc {
 			return 4;
 		} else if('\"' == _code[cursor]) { // Text literal
 			unsigned terminator = _code.find('\"', cursor+1);
+			// Escape \" characters inside the string
+			while(_code[terminator-1] == '\\')
+				terminator = _code.find('\"', terminator+1); // Ignore quotes inside the string.
 			unsigned len = terminator - cursor - 1;
 			mString = _code.substr(cursor+1,len);
 			mType = DataType::text;

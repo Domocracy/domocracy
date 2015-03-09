@@ -66,8 +66,10 @@ namespace dmc { namespace hue {
 			if(!result)
 			{
 				mState = State::disconnected;
+				std::cout << "Unable to connect to Hue bridge\n";
 				return;
 			}
+			std::cout << "Connected to Hue bridge\n";
 			Json data(result->body());
 			assert(data.isDictionary());
 			// Get device list out of the bridge.
