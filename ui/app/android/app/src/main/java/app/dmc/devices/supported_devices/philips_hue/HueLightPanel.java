@@ -35,7 +35,6 @@ public class HueLightPanel extends ActuatorPanel {
         mNameView       = (TextView)        findViewById(R.id.devName);
         mIntensityBar   = (SeekBar)         findViewById(R.id.intensityBar);
         mExpandButton   = (Button)          findViewById(R.id.expandViewButton);
-        mShortView      =                   findViewById(R.id.shortLayout);
         mHueSelector    = (ImageView)       findViewById(R.id.hueSelector);
 
         mNameView.setText(_parentActuator.name());
@@ -73,7 +72,7 @@ public class HueLightPanel extends ActuatorPanel {
             }
         });
         // Implementation Expandable View
-        mShortView.setOnClickListener(new View.OnClickListener() {
+        mExpandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onExpandView();
@@ -162,18 +161,20 @@ public class HueLightPanel extends ActuatorPanel {
 
         float iniY = -1;
         Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, iniY,
-                Animation.RELATIVE_TO_SELF, 0);
+                                                        Animation.RELATIVE_TO_SELF, 0,
+                                                        Animation.RELATIVE_TO_SELF, iniY,
+                                                        Animation.RELATIVE_TO_SELF, 0);
         slideDown.setDuration(400);
 
         switch (hueSelector.getVisibility()){
             case View.VISIBLE:
                 hueSelector.setVisibility(View.GONE);
+                mExpandButton.setBackgroundResource(R.drawable.extend_button_selector);
                 break;
             case View.GONE:
                 hueSelector.setAnimation(slideDown);
                 hueSelector.setVisibility(View.VISIBLE);
+                mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
                 break;
         }
     }
@@ -221,10 +222,10 @@ public class HueLightPanel extends ActuatorPanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    //
     private Button          mExpandButton;
     private ToggleButton    mToggleButton;
     private SeekBar         mIntensityBar;
-    private View            mShortView;
     private TextView        mNameView;
-    private ImageView               mHueSelector;
+    private ImageView       mHueSelector;
 }
