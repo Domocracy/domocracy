@@ -58,7 +58,7 @@ namespace dmc { namespace kodi {
 				response["tvshows"] = shows;
 			response["result"] = Json("\"ok\"");
 			return response;
-		}
+		} 
 		return Json(R"({"result":"fail", "error":"unknown request")");
 	}
 
@@ -121,7 +121,7 @@ namespace dmc { namespace kodi {
 	bool Kodi::playLastEpisode(const Json& _show) {
 		Json episodes = getEpisodes(_show);
 		Json params(R"({"item":{}})");
-		params["item"] = episodes[0];
+		params["item"]["episodeid"] = episodes[0]["episodeid"];
 		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
 		sendRequest(request);
 		readResponse();
