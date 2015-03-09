@@ -35,7 +35,7 @@ public class UserInterface {
     //  Private Interface
     private UserInterface(Activity _activity){
         _activity.setContentView(R.layout.activity_main);
-
+        mActivity = _activity;
         mMainScreen = new MainScreen(_activity);
         mLeftSideMenu = new SlideMenu(_activity);
     }
