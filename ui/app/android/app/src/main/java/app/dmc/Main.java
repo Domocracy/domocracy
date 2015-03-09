@@ -27,7 +27,9 @@ public class Main extends ActionBarActivity {
         //  else
         //      Init Connections
         //      so on...
-        mUI = new UserInterface(this);
+        UserInterface.init(this);
+        mUI = UserInterface.get();
+
 
     }
     //-----------------------------------------------------------------------------------------------------------------

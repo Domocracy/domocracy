@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class HubSelector implements AdapterView.OnItemSelectedListener {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     HubSelector(Context _context){
-        mHubList = User.get().getHubsIds();
+        mHubList = User.get().getHubIDList();
 
         mHubSpinner = new Spinner(_context);
         ArrayAdapter<String> adapterHubList = new ArrayAdapter<String>(_context,R.layout.support_simple_spinner_dropdown_item,mHubList);
@@ -36,8 +35,7 @@ public class HubSelector implements AdapterView.OnItemSelectedListener {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
+        //User.get().setHub(mHubList.get(position));
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -52,9 +50,6 @@ public class HubSelector implements AdapterView.OnItemSelectedListener {
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private Interface
-    private class HubViewHolder{
-        TextView mName;
-    }
 
     // Members
     private List<String>    mHubList;

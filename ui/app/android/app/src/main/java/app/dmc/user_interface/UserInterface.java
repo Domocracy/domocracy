@@ -15,29 +15,34 @@ import app.dmc.R;
 
 public class UserInterface {
     //-----------------------------------------------------------------------------------------------------------------
-    //  Public Interface
+    public static void init(Activity _activity){
+        assert sInstance == null;
+        sInstance = new UserInterface(_activity);
+    }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    public static UserInterface get(){
+        return sInstance;
+    }
 
-    public UserInterface(Activity _activity){
+    //-----------------------------------------------------------------------------------------------------------------
+
+    //666 TODO Need to implement "reload" method for User setHub method
+
+    //  Private Interface
+
+    private UserInterface(Activity _activity){
         _activity.setContentView(R.layout.activity_main);
-
-
 
         mMainScreen = new MainScreen(_activity);
         mLeftSideMenu = new SlideMenu(_activity);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void setHub(int _index){
-        mLeftSideMenu.set(_index);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    //  Private Members
-
+    private static UserInterface        sInstance = null;
 
     //Views
-    private MainScreen  mMainScreen;
-    private SlideMenu   mLeftSideMenu;
+    private static MainScreen           mMainScreen;
+    private static SlideMenu            mLeftSideMenu;
 
 }

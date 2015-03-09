@@ -4,7 +4,6 @@ import android.content.Context;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +13,12 @@ import app.dmc.core.Persistence;
 /**
  * Created by Joscormir on 02/03/2015.
  */
+
 public class User {
     //-----------------------------------------------------------------------------------------------------------------
     public static void init(String _userID,Context _context){
         assert sInstance == null;
         sInstance = new User(_userID, _context);
-
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -28,45 +27,18 @@ public class User {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public List<String> getHubsIds(){
+    public List<String> getHubIDList(){
         return mHubsId;
     }
 
-
     //-----------------------------------------------------------------------------------------------------------------
-    public boolean setLastHubID(String _lastHubID){
-         try {
-            mLastHub.put("id", _lastHubID);
-            return true;
-        }catch(JSONException e){
-            e.printStackTrace();
-        }
-        return false;
+    public Hub getCurrentHub(){
+        return mLastHub;
     }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public String getLastHubID(){
-        try {
-            return mLastHub.getString("id"); //hubID
-        }catch(JSONException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public String getUserId(){
-        return mUserId;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    private void createHub(String _hubId){
-
-    }
-
     //-----------------------------------------------------------------------------------------------------------------
     public void setHub(String _hubId){
-
+       mLastHub = HubManager.get().hub(_hubId);
+       //666 TODO Need to call reload method from UserInterface
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -86,7 +58,7 @@ public class User {
 
     //-----------------------------------------------------------------------------------------------------------------
     private static  User             sInstance = null;
-    private static JSONObject        mLastHub;
+    private static Hub               mLastHub;
     private static List<String>      mHubsId;
     private static String            mUserId;
 }
