@@ -31,6 +31,14 @@ public class KodiLastShowPanel extends ActuatorPanel {
     //-----------------------------------------------------------------------------------------------------------------
     public KodiLastShowPanel(final Actuator _parentActuator, final JSONObject _panelData, int _layoutResId, Context _context) {
         super(_parentActuator, _panelData, _layoutResId, _context);
+
+        List<String> loadingDummyList = new ArrayList<String>();
+        loadingDummyList.add("Loading Tv Shows");
+        mSpinnerAdapter = new ArrayAdapter<String>(_context, android.R.layout.simple_spinner_item, loadingDummyList);
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mTvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
+        mTvShowSelector.setAdapter(mSpinnerAdapter);
+
         setUpView();
     }
 
@@ -125,47 +133,43 @@ public class KodiLastShowPanel extends ActuatorPanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void setUpTvShowSelector(){
-        mTvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
-        final List<String> tvShowsList = new ArrayList<>();
-        // Fill with series on startup
-        
         Thread queryShowsThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 // Fill list with series
+                final List<String> tvShowsList = new ArrayList<>();
                 JSONArray jsonShowList = commandQueryTvShows();
                 try{
+                    if(jsonShowList.length() == 0){
+                        tvShowsList.add("KODI hasn't got TV shows");
+                    }
                     for(int i = 0; i < jsonShowList.length(); i++){
                         JSONObject tvshow = jsonShowList.getJSONObject(i);
                         mTvShowList.add(tvshow);
                         tvShowsList.add(tvshow.getString("label"));
                     }
+
+                    mTvShowSelector.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSpinnerAdapter.clear();
+                            for(String label: tvShowsList) {
+                                mSpinnerAdapter.add(label);
+                            }
+                            mSpinnerAdapter.notifyDataSetChanged();
+                        }
+                    });
+
                 }catch (JSONException _jsonException){
                     _jsonException.printStackTrace();
                 }
-                hasTvShowList = true;
                 Log.d("DOMOCRACY", "List of Tv-shows");
             }
         });
         queryShowsThread.start();
-
-        Log.d("DOMOCRACY", "Waiting TV-shows");
-        while(!hasTvShowList){
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Log.d("DOMOCRACY", "Filling adapter and spinner");
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, tvShowsList);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mTvShowSelector.setAdapter(spinnerAdapter);
     }
 
-    private boolean hasTvShowList = false;
     private List<JSONObject> mTvShowList = new ArrayList<>();
     private Spinner mTvShowSelector;
+    ArrayAdapter<String> mSpinnerAdapter;
 }
