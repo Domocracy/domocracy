@@ -140,6 +140,9 @@ public class KodiLastShowPanel extends ActuatorPanel {
                 final List<String> tvShowsList = new ArrayList<>();
                 JSONArray jsonShowList = commandQueryTvShows();
                 try{
+                    if(jsonShowList.length() == 0){
+                        tvShowsList.add("KODI hasn't got TV shows");
+                    }
                     for(int i = 0; i < jsonShowList.length(); i++){
                         JSONObject tvshow = jsonShowList.getJSONObject(i);
                         mTvShowList.add(tvshow);
