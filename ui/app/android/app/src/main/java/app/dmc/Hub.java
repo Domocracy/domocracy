@@ -112,21 +112,13 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
-
     public boolean modifyIp(String _ip) {
         if (!_ip.equals(mIp)) {
             mIp = _ip;
-            JSONObject json = Persistence.get().getJSON(mHubFileName);
-            try {
-                json.put("ip", _ip);
-                Persistence.get().putJSON(mHubFileName, json);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             return true;
         } else return false;
     }
+
     //-----------------------------------------------------------------------------------------------------------------
     private void save(){
         JSONObject jsonToSave = new JSONObject();
@@ -135,6 +127,7 @@ public class Hub {
             jsonToSave.put("name",mName);
             jsonToSave.put("devices",mDevices);
             jsonToSave.put("rooms",mRooms);
+            jsonToSave.put("ip", mIp);
         }catch(JSONException e){
             e.printStackTrace();
         }
