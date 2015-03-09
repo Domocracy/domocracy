@@ -42,6 +42,7 @@ namespace dmc {
 			uint32_t id = (uint32_t)rand();
 			if(mGeneratedIds.find(id) == mGeneratedIds.end()) { // New key, not found
 				mGeneratedIds.insert(id);
+				save();
 				return id;
 			}
 		}
@@ -62,6 +63,11 @@ namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	IdGenerator::~IdGenerator() {
+		
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void IdGenerator::save() {
 		// Save generated ids
 		Json ids("[]");
 		for(auto id : mGeneratedIds) {
@@ -69,6 +75,7 @@ namespace dmc {
 			idJson->setInt(id);
 			ids.asList().push_back(idJson);
 		}
+		Persistence::get()->saveData("randomIds", ids);
 	}
 
 }	// namespace dmc

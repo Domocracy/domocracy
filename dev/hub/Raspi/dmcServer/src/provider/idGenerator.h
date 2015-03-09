@@ -25,6 +25,8 @@ namespace dmc {
 		IdGenerator();
 		~IdGenerator();
 
+		void save();
+
 		std::set<uint32_t>	mGeneratedIds;
 		static IdGenerator* sInstance;
 	};
