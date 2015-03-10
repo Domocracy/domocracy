@@ -40,6 +40,10 @@
 				{
 					"type": "Scene",
 					"devId":"3a"
+				},
+				{
+					"type": "Kodi",
+					"devId":"4a"
 				}
 			]
 		}

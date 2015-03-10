@@ -108,7 +108,7 @@ namespace dmc { namespace kodi {
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::getEpisodes(const Json& _showId)
 	{
-		Json command = Json("{}");
+		Json command = Json(R"({"filter": {"field": "playcount", "operator": "is", "value": "0"}, "sort":{"order": "ascending", "method": "dateadded"}})");
 		command["tvshowid"] = _showId;
 		JsonRpcRequest request("VideoLibrary.GetEpisodes",
 				command, mLastReqId++);
@@ -120,6 +120,9 @@ namespace dmc { namespace kodi {
 	//------------------------------------------------------------------------------------------------------------------
 	bool Kodi::playLastEpisode(const Json& _show) {
 		Json episodes = getEpisodes(_show);
+		if(episodes.isNill()) {
+			return true;
+		}
 		Json params(R"({"item":{}})");
 		params["item"]["episodeid"] = episodes[0]["episodeid"];
 		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
