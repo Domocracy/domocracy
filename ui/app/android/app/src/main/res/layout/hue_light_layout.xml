@@ -11,19 +11,28 @@
         android:id="@+id/shortLayout"
         android:layout_margin="5dp">
 
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/toggleButton"
-            android:background="@drawable/hue_light_icon_selector"
-            android:textOff=" "
-            android:textOn=" " />
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:gravity="center">
+
+            <ToggleButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/toggleButton"
+                android:background="@drawable/hue_light_icon_selector"
+                android:textOff=" "
+                android:textOn=" " />
+        </LinearLayout>
+
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/secondLayout">
+            android:layout_height="wrap_content"
+            android:id="@+id/secondLayout"
+            android:layout_weight="1">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,17 +42,27 @@
                 android:id="@+id/devName" />
 
             <SeekBar
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/intensityBar" />
         </LinearLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/expandViewButton"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/extend_button_selector" />
+
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/extendedLayout">
+        android:id="@+id/extendedLayout"
+        android:layout_margin="5dp">
 
         <ImageView
             android:layout_width="match_parent"

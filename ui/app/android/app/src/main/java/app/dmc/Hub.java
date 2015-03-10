@@ -28,27 +28,25 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public Hub() {
+    public Hub(String _id, Context _context) {
         mConnection = new HubConnection();
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-    public void init(Context _context, JSONObject _jsonHub){
-        try {
-            mId = _jsonHub.getString("hubId");
-            mName = _jsonHub.getString("name");
-            mIp = _jsonHub.getString("ip");
-            mHubFileName = "hub_" + mId;
-            mDevices = _jsonHub.getJSONArray("devices");
-            mRooms = _jsonHub.getJSONArray("rooms");
+		mId = _id;
+		JSONObject hubData = Persistence.get().getJSON("hub_"+_id);
 
-            mDevMgr = new DeviceManager(_jsonHub.getJSONArray("devices"));
-            mRoomList = new ArrayList<>();
-            for(int i = 0; i < mRooms.length() ; i++){
-                mRoomList.add( new Room(mRooms.getJSONObject(i), this, _context));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+		try {
+			mName = hubData.getString("name");
+			mIp = hubData.getString("ip");
+			mDevices = hubData.getJSONArray("devices");
+			mRooms = hubData.getJSONArray("rooms");
+
+			mDevMgr = new DeviceManager(hubData.getJSONArray("devices"));
+			mRoomList = new ArrayList<>();
+			for(int i = 0; i < mRooms.length() ; i++){
+				mRoomList.add( new Room(mRooms.getJSONObject(i), this, _context));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -71,16 +69,9 @@ public class Hub {
         return null;
     }
 
-
     //-----------------------------------------------------------------------------------------------------------------
     public String name(){
         return mName;
-
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public String fileName(){
-        return mHubFileName;
 
     }
 
@@ -131,28 +122,23 @@ public class Hub {
         }catch(JSONException e){
             e.printStackTrace();
         }
-        Persistence.get().putJSON(mHubFileName,jsonToSave);
+        Persistence.get().putJSON("hub_"+mId,jsonToSave);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
     @Override
     protected void finalize() throws Throwable {
         save();
         super.finalize();
     }
 
-
     //-----------------------------------------------------------------------------------------------------------------
-
     // Identification
     private String          mIp;
     private String          mId;
     private String          mName;
-    private String          mHubFileName;
     private JSONArray       mDevices;
     private JSONArray       mRooms;
-
 
     List<Room> mRoomList;
     DeviceManager   mDevMgr = null;

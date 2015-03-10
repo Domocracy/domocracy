@@ -2,20 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <ToggleButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/toggleButton"
-        android:background="@drawable/scene_icon_selector"
-        android:textOff=" "
-        android:textOn=" "
-        android:layout_margin="5dp" />
+
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center">
+
+        <ToggleButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/toggleButton"
+            android:background="@drawable/scene_icon_selector"
+            android:textOff=" "
+            android:textOn=" " />
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/devName"
-        android:layout_margin="10dp" />
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1" />
+
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/expandViewButton"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/extend_button_selector"
+        android:layout_marginRight="5dp" />
+
 </LinearLayout>
