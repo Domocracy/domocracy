@@ -86,7 +86,13 @@ namespace dmc {
 
 	//------------------------------------------------------------------------------------------------------------------
 	void DeviceMgr::save() {
-		// 666 TODO: Actually save something
+		Json deviceList("[]");
+		for(auto dev : mDevices) {
+			Json *devData = dev.second->serialize();
+			assert(!(*devData)["type"].isNill());
+			deviceList.asList().push_back(devData);
+		}
+		Persistence::get()->saveData("devices", deviceList);
 	}
 
 }	// namespace dmc
