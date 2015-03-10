@@ -50,7 +50,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/extendedLayout"
         android:layout_margin="5dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="@color/material_blue_grey_800"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp">
     </LinearLayout>
 
 </LinearLayout>

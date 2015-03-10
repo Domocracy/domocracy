@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
+import app.dmc.User;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.ActuatorPanel;
 import app.dmc.user_interface.PanelList;
@@ -32,9 +33,7 @@ public class ScenePanel extends ActuatorPanel {
         mExpandButton = (Button) findViewById(R.id.expandViewButton);
         mExtendedView = (LinearLayout) findViewById(R.id.extendedLayout);
 
-        //mDeviceList = new PanelList(_devicesData, User.get().getCurrentHub(), _context);
-        //mExtendedView.addView(mDeviceList);
-
+        mDevData = _devicesData;
 
         setCallbacks();
     }
@@ -42,12 +41,6 @@ public class ScenePanel extends ActuatorPanel {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public void stateChanged(JSONObject _state) {
-
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    // Private members
-    private void fillList(){
 
     }
 
@@ -64,6 +57,10 @@ public class ScenePanel extends ActuatorPanel {
         mExpandButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mDeviceList == null){
+                    mDeviceList = new PanelList(mDevData, User.get().getCurrentHub(), getContext());
+                    mExtendedView.addView(mDeviceList);
+                }
                 onExpandView();
             }
         });
@@ -120,4 +117,6 @@ public class ScenePanel extends ActuatorPanel {
     private Button          mExpandButton;
     private LinearLayout    mExtendedView;
     private PanelList       mDeviceList;
+
+    private JSONArray       mDevData;
 }

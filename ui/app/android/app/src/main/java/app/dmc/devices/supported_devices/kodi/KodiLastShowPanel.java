@@ -168,7 +168,7 @@ public class KodiLastShowPanel extends ActuatorPanel {
                 Log.d("DOMOCRACY", "List of Tv-shows");
             }
         });
-        queryShowsThread.start();
+        //queryShowsThread.start(); --- > Move to device not panel
     }
 
     private List<JSONObject> mTvShowList = new ArrayList<>();
