@@ -20,8 +20,9 @@ namespace dmc { namespace kodi {
 		Kodi(unsigned _id, const Json&);
 		~Kodi();
 
-		Json runCommand		(const Json& _cmd) override;
-		Json read			(const Json& _request) const override;
+		Json	runCommand	(const Json& _cmd) override;
+		Json	read		(const Json& _request) const override;
+		Json*	serialize	() const override;
 
 	private:
 		void sendRequest	(const Json&) const;

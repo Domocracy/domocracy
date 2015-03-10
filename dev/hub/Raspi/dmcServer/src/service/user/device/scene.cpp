@@ -38,4 +38,19 @@ namespace dmc {
 		}
 		return ok?Json(R"("result":"ok")"):Json(R"("result":"fail")");
 	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json* Scene::serialize() const {
+		Json& base = *Actuator::serialize();
+		base["type"].setText("Scene");
+		Json children("[]"); // Serialize children commands
+		for (auto child : mChildren) {
+			Json& childData = *new Json("{}");
+			childData["id"].setInt(child.first);
+			childData["cmd"] = child.second;
+			children.asList().push_back(&childData);
+		}
+		base["children"] = children;
+		return &base;
+	}
 }
