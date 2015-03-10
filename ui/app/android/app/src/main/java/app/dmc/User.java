@@ -41,7 +41,6 @@ public class User {
     public void setHub(String _hubId){
        mLastHub = HubManager.get().hub(_hubId);
        UserInterface.get().onSetHub();
-       //666 TODO Need to call reload method from UserInterface
     }
 
     //-----------------------------------------------------------------------------------------------------------------
