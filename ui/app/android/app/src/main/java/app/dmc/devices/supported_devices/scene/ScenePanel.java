@@ -16,28 +16,25 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
-import app.dmc.User;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.ActuatorPanel;
 import app.dmc.user_interface.PanelList;
 
 public class ScenePanel extends ActuatorPanel {
-    public ScenePanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context) {
+    public ScenePanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context, JSONArray _devicesData) {
         super(_parentActuator, _panelData, _layoutResId, _context);
 
         mExpandButton = (Button) findViewById(R.id.expandViewButton);
         mExtendedView = (LinearLayout) findViewById(R.id.extendedLayout);
 
-        try{
-            mDeviceList = new PanelList(_panelData.getJSONArray("deviceList"), User.get().getCurrentHub(), _context);
-            mExtendedView.addView(mDeviceList);
-        }catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-        }
+        //mDeviceList = new PanelList(_devicesData, User.get().getCurrentHub(), _context);
+        //mExtendedView.addView(mDeviceList);
+
 
         setCallbacks();
     }
