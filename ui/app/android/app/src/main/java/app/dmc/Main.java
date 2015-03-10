@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import app.dmc.comm.HubFinder;
 import app.dmc.core.Persistence;
 import app.dmc.user_interface.TopBar;
 import app.dmc.user_interface.UserInterface;
@@ -28,6 +29,8 @@ public class Main extends ActionBarActivity {
         UserInterface.init(this);
         mUI = UserInterface.get();
 
+        HubFinder finder = new HubFinder(this);
+        finder.lookForHub();
 
     }
     //-----------------------------------------------------------------------------------------------------------------

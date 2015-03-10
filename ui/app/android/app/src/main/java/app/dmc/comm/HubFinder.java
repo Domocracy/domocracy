@@ -37,12 +37,12 @@ public class HubFinder {
 
     // ----------------------------------------------------------------------------------------------------------------
     // Private Interface
-    private void lookForHub() {
+    public void lookForHub() {
         mNsdManager.discoverServices(DOMOCRACY_HUB_SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, mDiscoveryListener);
     }
 
     // ----------------------------------------------------------------------------------------------------------------
-    private void stopLookingFor() {
+    public void stopLookingFor() {
         mNsdManager.stopServiceDiscovery(mDiscoveryListener);
     }
 
@@ -67,8 +67,7 @@ public class HubFinder {
     private class NSDresolver implements NsdManager.ResolveListener{
         // -----------------------------------------------------------------------------------
         @Override
-        public void onResolveFailed(NsdServiceInfo _serviceInfo,
-                                    int _errorCode) {
+        public void onResolveFailed(NsdServiceInfo _serviceInfo, int _errorCode) {
             Log.d("DMC", "Resolved failed, error code: " + _errorCode);
 
         }
@@ -95,14 +94,12 @@ public class HubFinder {
         public void onDiscoveryStarted(String _regType) {
             Log.d("DMC", "Started NSD");
         }
-
         // -----------------------------------------------------------------------------------
         @Override
         public void onDiscoveryStopped(String _serviceType) {
             Log.d("DMC", "Stopped NSD");
 
         }
-
         // -----------------------------------------------------------------------------------
         @Override
         public void onServiceFound(NsdServiceInfo _service) {
@@ -114,27 +111,22 @@ public class HubFinder {
             }
 
         }
-
         // -----------------------------------------------------------------------------------
         @Override
         public void onServiceLost(NsdServiceInfo _service) {
             Log.d("DMC",
                     "The service is not longer available on the network");
         }
-
         // -----------------------------------------------------------------------------------
         @Override
-        public void onStartDiscoveryFailed(String _serviceType,
-                                           int _errorCode) {
+        public void onStartDiscoveryFailed(String _serviceType, int _errorCode) {
             Log.d("DMC", "Discovery failed: Error code: " + _errorCode);
             mNsdManager.stopServiceDiscovery(this);
 
         }
-
         // -----------------------------------------------------------------------------------
         @Override
-        public void onStopDiscoveryFailed(String _serviceType,
-                                          int _errorCode) {
+        public void onStopDiscoveryFailed(String _serviceType,int _errorCode) {
             Log.d("DMC", "Discovery failed: Error code: " + _errorCode);
             mNsdManager.stopServiceDiscovery(this);
 
