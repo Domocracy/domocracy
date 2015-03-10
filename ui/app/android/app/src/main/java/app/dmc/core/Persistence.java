@@ -1,6 +1,7 @@
 package app.dmc.core;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -105,6 +106,7 @@ public class Persistence {
     //-----------------------------------------------------------------------------------------------------------------
     private boolean updateFilesMap (String _fileName){
         File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
+        Log.d("fallo", mContext.getExternalFilesDir(null).toString());
         if (file.exists()) {
             mFiles.put(_fileName, loadJSONFile(_fileName));
             return true;
