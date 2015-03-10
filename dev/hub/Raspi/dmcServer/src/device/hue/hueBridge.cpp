@@ -17,7 +17,7 @@ namespace dmc { namespace hue {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Bridge*	Bridge::load() {
-		return new Bridge(Json(R"({"internalipaddress":"10.100.5.9", "username":"newdeveloper"})"));
+		return new Bridge(Json(R"({"internalipaddress":"10.100.6.110", "username":"newdeveloper"})"));
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
