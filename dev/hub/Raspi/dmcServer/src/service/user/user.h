@@ -32,6 +32,7 @@ namespace dmc {
 		http::Response		runCommand		(const std::string& _command, const http::Request& _request); // Runs a command and returns the proper http response
 		http::Response		addDevice		(const Json& _deviceData);
 		http::Response		deviceCommand	(const std::string& _devCmd, const http::Request& _request) const;
+		http::Response		reportUserData	() const;
 		void				loadDevices		(const Json& _deviceList);
 		static std::string	idAsString		(unsigned);
 

@@ -70,7 +70,7 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	Response User::runCommand(const std::string& _cmd, const http::Request& _request) {
 		if(_cmd.empty()) { // Request state
-			return Response::response200("666 TODO: Show list of devices and rooms available to the user\n");
+			return reportUserData();
 		} else {
 			// Extract device id
 			if(_cmd == cDeviceLabel) {
@@ -131,6 +131,14 @@ namespace dmc {
 		default:
 			return Response::response404("Error 404: Unsupported http method");
 		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Response User::reportUserData() const {
+		Json userData("{}");
+		userData["devices"] = Json("{}");
+		userData["rooms"] = Json("{}");
+		return Response::jsonResponse(userData);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
