@@ -1,6 +1,7 @@
 package app.dmc.core;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -98,19 +99,24 @@ public class Persistence {
 
     //-----------------------------------------------------------------------------------------------------------------
     private boolean deleteJSONFile(String _fileName){
-        File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
+		File dir = mContext.getExternalFilesDir(null);
+		Log.d("Persistence", dir.toString());
+		File file = new File(dir, _fileName + ".json");
         return file.delete();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private boolean updateFilesMap (String _fileName){
-        File file = new File(mContext.getExternalFilesDir(null), _fileName + ".json");
+		File dir = mContext.getExternalFilesDir(null);
+		Log.d("Persistence", dir.toString());
+		File file = new File(dir, _fileName + ".json");
         if (file.exists()) {
             mFiles.put(_fileName, loadJSONFile(_fileName));
             return true;
         }else{
            return false;
         }
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------

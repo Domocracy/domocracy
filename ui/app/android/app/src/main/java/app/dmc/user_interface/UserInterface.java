@@ -27,15 +27,14 @@ public class UserInterface {
 
     //-----------------------------------------------------------------------------------------------------------------
     public void onSetHub(){
-        
-        //666 TODO Need to implement "reload" method for User setHub method
+        mMainScreen.setHub(mActivity);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private Interface
     private UserInterface(Activity _activity){
         _activity.setContentView(R.layout.activity_main);
-
+        mActivity = _activity;
         mMainScreen = new MainScreen(_activity);
         mLeftSideMenu = new SlideMenu(_activity);
     }
