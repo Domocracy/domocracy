@@ -1,0 +1,47 @@
+{
+	"hubId" : "dmcKike",
+	"name": "dmcKike",
+	"ip": "10.200.12.53",
+	"devices": [
+		{
+			"type":"HueLight",
+			"data": {
+				"id": "2a",
+				"name": "light",
+				"hub": "dmc64"
+			}
+		},
+		{
+			"type":"Scene",
+			"data":{
+				"id": "3a",
+				"name": "Scene",
+				"hub": "dmc64"
+			}
+		},
+		{
+			"type":"Kodi",
+			"data":{
+				"id": "4a",
+				"name": "Media",
+				"hub": "dmc64"
+			}
+		}
+	],
+	"rooms":[
+		{
+			"roomId" : "baadfeed",
+			"name": "Timmy's room",
+			"panels": [ 
+				{
+					"type": "HueLight",
+					"devId":"2a"
+				},
+				{
+					"type": "Scene",
+					"devId":"3a"
+				}
+			]
+		}
+	]
+}
