@@ -1,18 +1,25 @@
 package app.dmc;
 
+import android.content.Context;
+
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import app.dmc.core.Persistence;
+import app.dmc.user_interface.UserInterface;
 
 /**
  * Created by Joscormir on 02/03/2015.
  */
+
 public class User {
     //-----------------------------------------------------------------------------------------------------------------
-    public static void init(String _userID){
+    public static void init(String _userID,Context _context){
         assert sInstance == null;
-        sInstance = new User(_userID);
+        sInstance = new User(_userID, _context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -21,33 +28,39 @@ public class User {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public boolean setLastHubID(String _lastHubID){
-         try {
-            mLastHub.put("id", _lastHubID);
-            return true;
-        }catch(JSONException e){
-            e.printStackTrace();
-        }
-        return false;
+    public List<String> getHubIDList(){
+        return mHubsId;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public String getLastHubID(){
-        try {
-            return mLastHub.getString("id"); //hubID
-        }catch(JSONException e){
-            e.printStackTrace();
-        }
-        return null;
+    public Hub getCurrentHub(){
+        return mLastHub;
     }
     //-----------------------------------------------------------------------------------------------------------------
+    public void setHub(String _hubId){
+       mLastHub = HubManager.get().hub(_hubId);
+       UserInterface.get().onSetHub();
+       //666 TODO Need to call reload method from UserInterface
+    }
 
+    //-----------------------------------------------------------------------------------------------------------------
     //Private interface
-    private User(String _userID){
-        mLastHub = Persistence.get().getJSON(_userID);
+    private User(String _userID, Context _context){
+        HubManager.init(_context, _userID);
+        mHubsId = new ArrayList<String>();
+        try {
+            mLastHub = HubManager.get().hub(Persistence.get().getJSON(_userID).getString("defaultHub"));
+            JSONArray userJSONHubs = Persistence.get().getJSON(_userID).getJSONArray("hubs");
+            for(int i = 0; i < userJSONHubs.length(); ++i){
+                mHubsId.add(userJSONHubs.getJSONObject(i).getString("hubId"));
+            }
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private static  User             sInstance = null;
-    private static JSONObject        mLastHub;
+    private static  User                sInstance = null;
+    private static  Hub                 mLastHub;
+    private static  List<String>        mHubsId;
 }

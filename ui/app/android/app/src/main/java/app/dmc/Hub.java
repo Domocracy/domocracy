@@ -38,16 +38,13 @@ public class Hub {
             mName = _jsonHub.getString("name");
             mIp = _jsonHub.getString("ip");
             mHubFileName = "hub_" + mId;
-            // 666 TODO: no default hub data
-            mJSONdefault = new JSONObject("{\"name\": \"Home\",\"id\": \"123\",\"ip\": \"193.147.168.23\"}");
-            Persistence.get().putJSON(mHubFileName, mJSONdefault);
-            mRoomList = new ArrayList<>();
-            JSONArray rooms = _jsonHub.getJSONArray("rooms");
+            mDevices = _jsonHub.getJSONArray("devices");
+            mRooms = _jsonHub.getJSONArray("rooms");
 
             mDevMgr = new DeviceManager(_jsonHub.getJSONArray("devices"));
-
-            for(int i = 0; i < rooms.length() ; i++){
-                mRoomList.add( new Room(rooms.getJSONObject(i), this, _context));
+            mRoomList = new ArrayList<>();
+            for(int i = 0; i < mRooms.length() ; i++){
+                mRoomList.add( new Room(mRooms.getJSONObject(i), this, _context));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -82,6 +79,12 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public String fileName(){
+        return mHubFileName;
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
 
     public String id() {
         return mId;
@@ -109,21 +112,36 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
-
     public boolean modifyIp(String _ip) {
         if (!_ip.equals(mIp)) {
             mIp = _ip;
-            JSONObject json = Persistence.get().getJSON(mHubFileName);
-            try {
-                json.put("ip", _ip);
-                Persistence.get().putJSON(mHubFileName, json);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             return true;
         } else return false;
     }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void save(){
+        JSONObject jsonToSave = new JSONObject();
+        try {
+            jsonToSave.put("hubId", mId);
+            jsonToSave.put("name",mName);
+            jsonToSave.put("devices",mDevices);
+            jsonToSave.put("rooms",mRooms);
+            jsonToSave.put("ip", mIp);
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        Persistence.get().putJSON(mHubFileName,jsonToSave);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+
+    @Override
+    protected void finalize() throws Throwable {
+        save();
+        super.finalize();
+    }
+
 
     //-----------------------------------------------------------------------------------------------------------------
 
@@ -132,7 +150,10 @@ public class Hub {
     private String          mId;
     private String          mName;
     private String          mHubFileName;
-    private JSONObject      mJSONdefault;
+    private JSONArray       mDevices;
+    private JSONArray       mRooms;
+
+
     List<Room> mRoomList;
     DeviceManager   mDevMgr = null;
     HubConnection   mConnection = null;

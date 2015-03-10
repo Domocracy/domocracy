@@ -6,9 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import app.dmc.core.Persistence;
@@ -21,24 +19,14 @@ import app.dmc.core.Persistence;
 public class HubManager {
 
     //-----------------------------------------------------------------------------------------------------------------
-    static public void init(Context _context){
+    static public void init(Context _context, String _userID){
         sInstance =  new HubManager();
-        sInstance.loadHubs(_context);
+        sInstance.loadHubs(_context, _userID);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public static HubManager get(){
         return sInstance;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public List<String> hubsIds(){
-        return  mHubsIds;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public String defaultHub(){
-        return mDefaultHub;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -52,38 +40,37 @@ public class HubManager {
     private HubManager(){ }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void loadHubs(Context _context){
-        initJson();
+    private void loadHubs(Context _context,String _userID){
+        JSONObject mHubJSON =  Persistence.get().getJSON(_userID);
+        assert mHubJSON != null;
         mHubMap  = new HashMap<String,Hub>();
-        mHubsIds = new ArrayList<String>();
+
         try {
             JSONArray mHubList = mHubJSON.getJSONArray("hubs");
-            mDefaultHub = mHubJSON.getString("defaultHub");
 
             for(int i = 0;i < mHubList.length();i++) {
                 Hub hub = new Hub();
-
-                String hubId = mHubList.getJSONObject(i).getString("hubId");
-                mHubMap.put(hubId, hub);
-                mHubsIds.add(hubId);
-
                 hub.init(_context, mHubList.getJSONObject(i));
+                mHubMap.put(mHubList.getJSONObject(i).getString("hubId"), hub);
+
             }
         }catch(JSONException e){
             e.printStackTrace();
         }
     }
-
     //-----------------------------------------------------------------------------------------------------------------
-    public void initJson(){
-        mHubJSON = Persistence.get().getJSON("hubList");
+    @Override
+    protected void finalize() throws Throwable {
+        for(String hubMapIterator : mHubMap.keySet()){
+            mHubMap.get(hubMapIterator).finalize();
+        }
+        super.finalize();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private Map<String,Hub> mHubMap;
-    private List<String>    mHubsIds;
-    private String          mDefaultHub;
-    private JSONObject      mHubJSON;
+    //private String          mDefaultHub;
+
 
     //-----------------------------------------------------------------------------------------------------------------
     private static HubManager sInstance = null;
