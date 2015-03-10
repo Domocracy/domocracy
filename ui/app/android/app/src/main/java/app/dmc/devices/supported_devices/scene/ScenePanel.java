@@ -14,30 +14,27 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import app.dmc.R;
+import app.dmc.User;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.ActuatorPanel;
+import app.dmc.user_interface.PanelList;
 
 public class ScenePanel extends ActuatorPanel {
     public ScenePanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context) {
         super(_parentActuator, _panelData, _layoutResId, _context);
 
         mExpandButton = (Button) findViewById(R.id.expandViewButton);
-        mDeviceIdList = new ArrayList<>();
+        mExtendedView = (LinearLayout) findViewById(R.id.extendedLayout);
 
         try{
-            JSONArray idList = _panelData.getJSONArray("idlist");
-            for(int i = 0; i < idList.length(); i++){
-                mDeviceIdList
-            }
+            mDeviceList = new PanelList(_panelData.getJSONArray("deviceList"), User.get().getCurrentHub(), _context);
+            mExtendedView.addView(mDeviceList);
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
@@ -53,6 +50,11 @@ public class ScenePanel extends ActuatorPanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
+    private void fillList(){
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     private void setCallbacks(){
         // Generic click callback
         setOnClickListener(new OnClickListener() {
@@ -96,8 +98,6 @@ public class ScenePanel extends ActuatorPanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onExpandView(){
-        mExtendedView = findViewById(R.id.extendedLayout);
-
         float iniY = -1;
         Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
                 Animation.RELATIVE_TO_SELF, 0,
@@ -121,7 +121,6 @@ public class ScenePanel extends ActuatorPanel {
     //-----------------------------------------------------------------------------------------------------------------
     // private members
     private Button          mExpandButton;
-    private View            mExtendedView;
-
-    private List<String>    mDeviceIdList;
+    private LinearLayout    mExtendedView;
+    private PanelList       mDeviceList;
 }
