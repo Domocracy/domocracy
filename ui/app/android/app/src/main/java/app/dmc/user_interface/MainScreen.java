@@ -31,6 +31,8 @@ public class MainScreen {
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
+        ll.removeAllViews();
+
         mRoomSelector = new RoomSelector(_activity, mCurrentHub.rooms());
 
         ll.addView(mRoomSelector.view());
