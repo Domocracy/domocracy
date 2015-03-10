@@ -35,6 +35,7 @@ public class HubManager {
     //-----------------------------------------------------------------------------------------------------------------
     // Private Interface.
     private HubManager(Context _context){
+		mContext = _context;
 		mHubMap  = new HashMap<String,Hub>();
 	}
 

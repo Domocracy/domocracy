@@ -47,11 +47,12 @@ public class User {
     //-----------------------------------------------------------------------------------------------------------------
     //Private interface
     private User(String _userId, Context _context){
+		mHubIds = new ArrayList<>();
         HubManager.init(_context);
-		JSONObject userData = Persistence.get().getJSON( _userId + ".json");
+		JSONObject userData = Persistence.get().getJSON( _userId );
 		try {
 			String lastHubId = userData.getString("lastHub");
-			Hub mLastHub = HubManager.get().hub(lastHubId);
+			mLastHub = HubManager.get().hub(lastHubId);
 			JSONArray hubList = userData.getJSONArray("hubs");
 			for(int i = 0; i < hubList.length(); ++i){
 				mHubIds.add(hubList.getString(i));
