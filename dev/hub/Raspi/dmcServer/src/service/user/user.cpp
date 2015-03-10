@@ -74,7 +74,7 @@ namespace dmc {
 		} else {
 			// Extract device id
 			if(_cmd == cDeviceLabel) {
-				return Response::response404("404: Device list not available");
+				return reportDeviceList();
 			}
 			else if(_cmd.substr(0,cDeviceLabel.size()) == cDeviceLabel) {
 				return deviceCommand(_cmd.substr(cDeviceLabel.size()), _request);
@@ -139,6 +139,11 @@ namespace dmc {
 		userData["devices"] = deviceListJson();
 		userData["rooms"] = Json("[]");
 		return Response::jsonResponse(userData);
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Response User::reportDeviceList() const {
+		return Response::jsonResponse(deviceListJson());
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
