@@ -136,9 +136,20 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	Response User::reportUserData() const {
 		Json userData("{}");
-		userData["devices"] = Json("{}");
-		userData["rooms"] = Json("{}");
+		userData["devices"] = deviceListJson();
+		userData["rooms"] = Json("[]");
 		return Response::jsonResponse(userData);
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json User::deviceListJson() const {
+		Json devices("[]");
+		for(auto deviceId : mDevices) {
+			Json* devJson = new Json;
+			devJson->setInt((int)deviceId);
+				devices.asList().push_back(devJson);
+		}
+		return devices;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
