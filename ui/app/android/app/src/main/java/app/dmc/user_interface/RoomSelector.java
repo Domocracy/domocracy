@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
@@ -28,12 +29,14 @@ public class RoomSelector {
     public RoomSelector(final Activity _activity, final List<Room>_rooms){
         // Store Rooms
         mRooms = _rooms;
-
         // Init Selector
         mSelector = new ViewFlipper(_activity);
 
         // Testing Room images
         View roomView1 = mRooms.get(mCurrentRoom).view();
+
+        if(roomView1.getParent() != null)
+            ((ViewGroup) roomView1.getParent()).removeAllViews();
 
         mSelector.addView(roomView1);
 
@@ -95,6 +98,13 @@ public class RoomSelector {
                 return true;
             }
         });
+    }
+
+
+    //-----------------------------------------------------------------------------------------------------------------
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
     }
 
     //-----------------------------------------------------------------------------------------------------------------

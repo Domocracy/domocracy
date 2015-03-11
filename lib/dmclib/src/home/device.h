@@ -17,9 +17,10 @@ namespace dmc {
 	public:
 		virtual ~Device() = default;
 
-		unsigned			id		() const { return mId; }
-		const std::string	name	() const { return mName; }
-		virtual Json		read	(const Json& _request) const { return Json(); }
+		unsigned			id			() const { return mId; }
+		const std::string	name		() const { return mName; }
+		virtual Json		read		(const Json& _request) const { return Json(); }
+		virtual Json*		serialize	() const;
 
 	protected:
 		Device(unsigned _id, const std::string& _name) : mId(_id), mName(_name) {}
@@ -28,6 +29,14 @@ namespace dmc {
 		unsigned	mId;
 		std::string	mName;
 	};
+
+	//------------------------------------------------------------------------------------------------------------------
+	inline Json* Device::serialize() const {
+		Json * devData = new Json("{}");
+		(*devData)["id"].setInt((unsigned)mId);
+		(*devData)["name"].setText(mName);
+		return devData;
+	}
 
 }	// namespace dmc
 

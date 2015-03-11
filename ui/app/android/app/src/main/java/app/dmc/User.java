@@ -1,9 +1,10 @@
 package app.dmc;
 
-import android.content.Context;
+import android.app.Activity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,9 @@ import app.dmc.user_interface.UserInterface;
 
 public class User {
     //-----------------------------------------------------------------------------------------------------------------
-    public static void init(String _userID,Context _context){
+    public static void init(String _userID,Activity _activity){
         assert sInstance == null;
-        sInstance = new User(_userID, _context);
+        sInstance = new User(_userID, _activity);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -29,7 +30,7 @@ public class User {
 
     //-----------------------------------------------------------------------------------------------------------------
     public List<String> getHubIDList(){
-        return mHubsId;
+        return mHubIds;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -39,28 +40,30 @@ public class User {
     //-----------------------------------------------------------------------------------------------------------------
     public void setHub(String _hubId){
        mLastHub = HubManager.get().hub(_hubId);
-       UserInterface.get().onSetHub();
-       //666 TODO Need to call reload method from UserInterface
+       UserInterface.get().onSetHub(mLastHub);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //Private interface
-    private User(String _userID, Context _context){
-        HubManager.init(_context, _userID);
-        mHubsId = new ArrayList<String>();
-        try {
-            mLastHub = HubManager.get().hub(Persistence.get().getJSON(_userID).getString("defaultHub"));
-            JSONArray userJSONHubs = Persistence.get().getJSON(_userID).getJSONArray("hubs");
-            for(int i = 0; i < userJSONHubs.length(); ++i){
-                mHubsId.add(userJSONHubs.getJSONObject(i).getString("hubId"));
-            }
+    private User(String _userId, Activity _activity){
+		mHubIds = new ArrayList<>();
+        HubManager.init(_activity);
+		JSONObject userData = Persistence.get().getJSON( _userId );
+		try {
+			String lastHubId = userData.getString("lastHub");
+			mLastHub = HubManager.get().hub(lastHubId);
+			JSONArray hubList = userData.getJSONArray("hubs");
+			for(int i = 0; i < hubList.length(); ++i){
+				mHubIds.add(hubList.getString(i));
+			}
         }catch(JSONException e){
             e.printStackTrace();
         }
+		UserInterface.init(_activity, this);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private static  User                sInstance = null;
     private static  Hub                 mLastHub;
-    private static  List<String>        mHubsId;
+    private static  List<String>        mHubIds;
 }

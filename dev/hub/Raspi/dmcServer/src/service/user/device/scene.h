@@ -21,7 +21,8 @@ namespace dmc {
 		Scene(unsigned _id, const Json& _data);
 		~Scene() = default;
 
-		Json runCommand(const Json& _cmd) override;
+		Json	runCommand	(const Json& _cmd) override;
+		Json*	serialize	() const override;
 
 	private:
 		std::unordered_map<unsigned,Json>	mChildren;

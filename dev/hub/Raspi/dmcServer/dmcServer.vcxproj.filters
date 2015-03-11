@@ -16,9 +16,6 @@
     <Filter Include="Source Files\service">
       <UniqueIdentifier>{0b506cd2-bd1b-49e2-9894-6b8345f84d97}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\device">
-      <UniqueIdentifier>{c7c97c65-7ea6-4418-aef3-e1fac58fefc9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\providers">
       <UniqueIdentifier>{43043a34-7bbc-48fb-9df4-b00fda808f97}</UniqueIdentifier>
     </Filter>
@@ -37,14 +34,14 @@
     <Filter Include="Source Files\providers\cloud">
       <UniqueIdentifier>{2274fd9c-2d2b-4f2e-ade7-e461771229d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\device\hue">
-      <UniqueIdentifier>{5c96905c-35bc-4bfd-a8e7-713682494675}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\service\user\device">
       <UniqueIdentifier>{d455dbd2-97d7-47c7-a3e8-2bbe084b9dfc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\service\user\device\kodi">
       <UniqueIdentifier>{a27aee57-f70b-4d29-a37c-79ed1c849917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\service\user\device\hue">
+      <UniqueIdentifier>{5c96905c-35bc-4bfd-a8e7-713682494675}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,10 +61,10 @@
       <Filter>Source Files\providers</Filter>
     </ClCompile>
     <ClCompile Include="src\device\hue\hueLight.cpp">
-      <Filter>Source Files\device\hue</Filter>
+      <Filter>Source Files\service\user\device\hue</Filter>
     </ClCompile>
     <ClCompile Include="src\device\hue\hueBridge.cpp">
-      <Filter>Source Files\device\hue</Filter>
+      <Filter>Source Files\service\user\device\hue</Filter>
     </ClCompile>
     <ClCompile Include="src\provider\persistence.cpp">
       <Filter>Source Files\providers</Filter>
@@ -87,7 +84,7 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\device\hue\hueLight.h">
-      <Filter>Source Files\device\hue</Filter>
+      <Filter>Source Files\service\user\device\hue</Filter>
     </ClInclude>
     <ClInclude Include="src\provider\deviceFactory.h">
       <Filter>Source Files\providers</Filter>
@@ -105,7 +102,7 @@
       <Filter>Source Files\providers</Filter>
     </ClInclude>
     <ClInclude Include="src\device\hue\hueBridge.h">
-      <Filter>Source Files\device\hue</Filter>
+      <Filter>Source Files\service\user\device\hue</Filter>
     </ClInclude>
     <ClInclude Include="src\provider\persistence.h">
       <Filter>Source Files\providers</Filter>

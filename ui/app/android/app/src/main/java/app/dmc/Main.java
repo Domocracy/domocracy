@@ -26,8 +26,9 @@ public class Main extends ActionBarActivity {
         //  else
         //      Init Connections
         //      so on...
-        UserInterface.init(this);
+        //UserInterface.init(this);
         mUI = UserInterface.get();
+    }
 
         HubFinder finder = new HubFinder(this);
         finder.lookForHub();

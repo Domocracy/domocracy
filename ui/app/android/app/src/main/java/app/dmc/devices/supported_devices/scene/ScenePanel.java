@@ -11,20 +11,29 @@ package app.dmc.devices.supported_devices.scene;
 
 import android.content.Context;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
+import app.dmc.User;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.ActuatorPanel;
+import app.dmc.user_interface.PanelList;
 
 public class ScenePanel extends ActuatorPanel {
-    public ScenePanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context) {
+    public ScenePanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context, JSONArray _devicesData) {
         super(_parentActuator, _panelData, _layoutResId, _context);
 
         mExpandButton = (Button) findViewById(R.id.expandViewButton);
+        mExtendedView = (LinearLayout) findViewById(R.id.extendedLayout);
+
+        mDevData = _devicesData;
 
         setCallbacks();
     }
@@ -36,7 +45,27 @@ public class ScenePanel extends ActuatorPanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    // Private members
+    private void setCallbacks(){
+        // Generic click callback
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRunCommand();
+            }
+        });
+
+        mExpandButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mDeviceList == null){
+                    mDeviceList = new PanelList(mDevData, User.get().getCurrentHub(), getContext());
+                    mExtendedView.addView(mDeviceList);
+                }
+                onExpandView();
+            }
+        });
+    }
+
     private void onClickRunCommand(){
         Thread commThread = new Thread(new Runnable() {
             @Override
@@ -62,26 +91,32 @@ public class ScenePanel extends ActuatorPanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void setCallbacks(){
-        // Generic click callback
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickRunCommand();
-            }
-        });
+    private void onExpandView(){
+        float iniY = -1;
+        Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, iniY,
+                Animation.RELATIVE_TO_SELF, 0);
+        slideDown.setDuration(400);
 
-        mExpandButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Expand View
-            }
-        });
+        switch (mExtendedView.getVisibility()){
+            case View.VISIBLE:
+                mExtendedView.setVisibility(View.GONE);
+                mExpandButton.setBackgroundResource(R.drawable.extend_button_selector);
+                break;
+            case View.GONE:
+                mExtendedView.setAnimation(slideDown);
+                mExtendedView.setVisibility(View.VISIBLE);
+                mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
+                break;
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    //
+    // private members
+    private Button          mExpandButton;
+    private LinearLayout    mExtendedView;
+    private PanelList       mDeviceList;
 
-    private Button mExpandButton;
-
+    private JSONArray       mDevData;
 }

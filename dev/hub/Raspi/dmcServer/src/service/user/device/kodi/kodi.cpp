@@ -63,6 +63,14 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	Json* Kodi::serialize() const {
+		Json *base = Actuator::serialize();
+		(*base)["ip"].setText(mIp);
+		(*base)["type"].setText("Kodi");
+		return base;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	void Kodi::sendRequest(const Json& _cmd) const {
 		mTcpConnection->open(mIp, mPort);
 		mTcpConnection->write(_cmd.serialize());
@@ -70,7 +78,6 @@ namespace dmc { namespace kodi {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::readResponse() const {
-		/// 666 TODO: Support concatenated json responses.
 		const unsigned bufferSize = 64*1024;
 		char buffer[bufferSize+1];
 		int nBytes = mTcpConnection->read(buffer, bufferSize);
@@ -108,7 +115,7 @@ namespace dmc { namespace kodi {
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::getEpisodes(const Json& _showId)
 	{
-		Json command = Json("{}");
+		Json command = Json(R"({"filter": {"field": "playcount", "operator": "is", "value": "0"}, "sort":{"order": "ascending", "method": "dateadded"}})");
 		command["tvshowid"] = _showId;
 		JsonRpcRequest request("VideoLibrary.GetEpisodes",
 				command, mLastReqId++);
@@ -120,12 +127,14 @@ namespace dmc { namespace kodi {
 	//------------------------------------------------------------------------------------------------------------------
 	bool Kodi::playLastEpisode(const Json& _show) {
 		Json episodes = getEpisodes(_show);
+		if(episodes.isNill()) {
+			return true;
+		}
 		Json params(R"({"item":{}})");
 		params["item"]["episodeid"] = episodes[0]["episodeid"];
 		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
 		sendRequest(request);
-		readResponse();
-		/// 666 TODO: Check response
+		readResponse(); // Prevent return string to stack on read buffer.
 		return true;
 	}
 
@@ -135,8 +144,7 @@ namespace dmc { namespace kodi {
 		params["item"]["movieid"] = _movie["movieid"];
 		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
 		sendRequest(request);
-		readResponse();
-		/// 666 TODO: Check response
+		readResponse(); // Prevent return string to stack on read buffer.
 		return true;
 	}
 
