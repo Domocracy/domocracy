@@ -57,14 +57,14 @@ public abstract class Device {
 	}
 
     //-----------------------------------------------------------------------------------------------------------------
-    public abstract DevicePanel createPanel(String _type, JSONObject _panelData, Context _context);
+    public abstract DevicePanel createPanel(String _type, Context _context);
 
 	//-----------------------------------------------------------------------------------------------------------------
 	public abstract JSONObject action(JSONObject _stateInfo);
 
     //-----------------------------------------------------------------------------------------------------------------
-    final public DevicePanel newPanel(String _type, JSONObject _panelData, Context _context){
-        DevicePanel panel = createPanel(_type, _panelData, _context);
+    final public DevicePanel newPanel(String _type, Context _context){
+        DevicePanel panel = createPanel(_type, _context);
         mRegisteredPanels.add(panel);
         return panel;
     }

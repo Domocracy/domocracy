@@ -28,22 +28,17 @@ import app.dmc.user_interface.PanelList;
 public class ScenePanel extends DevicePanel {
 
 	//-----------------------------------------------------------------------------------------------------------------
-    public ScenePanel(Scene _parent, JSONArray _panelsData, int _layoutResId, Context _context) {
-        super(_parent, null, _layoutResId, _context);
+    public ScenePanel(Scene _parent, JSONArray _panelsData, JSONArray _childActions, int _layoutResId, Context _context) {
+        super(_parent, _layoutResId, _context);
 
         mExpandButton = (Button) findViewById(R.id.expandViewButton);
         mExtendedView = (LinearLayout) findViewById(R.id.extendedLayout);
 
 		mPanelData = _panelsData;
+		mChildActions = _childActions;
 		mParentScene = _parent;
 
         setCallbacks();
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public void stateChanged(JSONObject _state) {
-
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -140,6 +135,8 @@ public class ScenePanel extends DevicePanel {
 		mExtendedView.setAnimation(slideDown);
 		mExtendedView.setVisibility(View.VISIBLE);
 		mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
+
+		// 666 TODO: Use mChildrenActions to modify the state of child panels
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -158,4 +155,5 @@ public class ScenePanel extends DevicePanel {
 	private boolean			mExpanded;
 	private Scene			mParentScene;
 	private JSONArray		mCapturedState;
+	private JSONArray		mChildActions;
 }

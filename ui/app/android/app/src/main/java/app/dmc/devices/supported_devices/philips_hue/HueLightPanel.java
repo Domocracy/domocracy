@@ -24,12 +24,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
-import app.dmc.devices.Actuator;
+import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
 
 public class HueLightPanel extends DevicePanel {
-    HueLightPanel(final Actuator _parentActuator, int _layoutResId, final Context _context){
-        super(_parentActuator, _layoutResId, _context);
+    HueLightPanel(Device _parent, int _layoutResId, final Context _context){
+        super(_parent, _layoutResId, _context);
 
         mToggleButton   = (ToggleButton)    findViewById(R.id.toggleButton);
         mNameView       = (TextView)        findViewById(R.id.devName);
@@ -37,7 +37,7 @@ public class HueLightPanel extends DevicePanel {
         mExpandButton   = (Button)          findViewById(R.id.expandViewButton);
         mHueSelector    = (ImageView)       findViewById(R.id.hueSelector);
 
-        mNameView.setText(_parentActuator.name());
+        mNameView.setText(_parent.name());
         setCallbacks();
     }
 

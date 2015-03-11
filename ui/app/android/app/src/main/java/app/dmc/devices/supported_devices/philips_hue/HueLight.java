@@ -14,20 +14,20 @@ import android.content.Context;
 import org.json.JSONObject;
 
 import app.dmc.R;
-import app.dmc.devices.Actuator;
+import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
 
-public class HueLight extends Actuator {
+public class HueLight extends Device {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     public HueLight(JSONObject _devData){
-        super(_devData);
+		super(_devData);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
-        return new HueLightPanel(this, _panelData, R.layout.hue_light_layout, _context);
+    public DevicePanel createPanel(String _type, Context _context) {
+        return new HueLightPanel(this, R.layout.hue_light_layout, _context);
     }
 
     @Override

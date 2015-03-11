@@ -18,10 +18,10 @@ import org.json.JSONObject;
 
 import app.dmc.R;
 import app.dmc.core.Persistence;
-import app.dmc.devices.Actuator;
+import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
 
-public class Scene extends Actuator {
+public class Scene extends Device {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     public Scene(JSONObject _sceneData) {
@@ -37,7 +37,7 @@ public class Scene extends Actuator {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
+    public DevicePanel createPanel(String _type, Context _context) {
         return new ScenePanel(this, mPanelData, mChildActions, R.layout.scene_layout, _context);
     }
 
