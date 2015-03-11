@@ -24,6 +24,16 @@ public class Kodi extends Actuator {
     //  Public Interface
     public Kodi(JSONObject _devData){
         super(_devData);
+        mMovieDataList  = new JSONArray();
+        mTvShowDataList = new JSONArray();
+
+        try {
+            JSONObject mediaData = _devData.getJSONObject("media");
+            mMovieDataList = mediaData.getJSONArray("movies");
+            mTvShowDataList = mediaData.getJSONArray("tvshows");
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -39,15 +49,22 @@ public class Kodi extends Actuator {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    JSONArray movies()  {return mMovieDataList;}
+
+    //-----------------------------------------------------------------------------------------------------------------
+    JSONArray tvShows() {return mTvShowDataList;}
+
+    //-----------------------------------------------------------------------------------------------------------------
     public void loadTvShows(){
         Thread queryShowsThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 // Fill list with series
-                JSONArray jsonShowList = commandQueryTvShows();
+                mTvShowDataList = commandQueryTvShows();
+                // 666 Update data in persistence.
                 try{
                     JSONObject state = new JSONObject();
-                    state.put("state", jsonShowList);
+                    state.put("state", mTvShowDataList);
                     // Update panels
                     updateState(state);
                 }catch (JSONException _jsonException){
@@ -60,7 +77,6 @@ public class Kodi extends Actuator {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private methods
-
 
     // Commands
     private JSONArray commandQueryTvShows(){
@@ -96,4 +112,11 @@ public class Kodi extends Actuator {
 
         return jsonShowList;
     }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private members
+    private JSONArray mMovieDataList;
+    private JSONArray mTvShowDataList;
+
 }
+
