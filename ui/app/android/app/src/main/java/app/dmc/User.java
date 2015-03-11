@@ -21,7 +21,6 @@ public class User {
     public static void init(String _userID,Activity _activity){
         assert sInstance == null;
         sInstance = new User(_userID, _activity);
-        UserInterface.init(_activity);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -59,10 +58,8 @@ public class User {
 			}
         }catch(JSONException e){
             e.printStackTrace();
-
         }
-
-
+		UserInterface.init(_activity);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
