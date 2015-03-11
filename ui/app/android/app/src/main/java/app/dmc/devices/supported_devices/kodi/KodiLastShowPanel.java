@@ -32,6 +32,7 @@ public class KodiLastShowPanel extends ActuatorPanel {
     public KodiLastShowPanel(final Actuator _parentActuator, final JSONObject _panelData, int _layoutResId, Context _context) {
         super(_parentActuator, _panelData, _layoutResId, _context);
 
+        mTvShowList = new ArrayList<>();
         List<String> loadingDummyList = new ArrayList<String>();
         loadingDummyList.add("Loading Tv Shows");
         mSpinnerAdapter = new ArrayAdapter<String>(_context, android.R.layout.simple_spinner_item, loadingDummyList);

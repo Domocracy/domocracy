@@ -57,7 +57,7 @@ public class Kodi extends Actuator {
                 }
             }
         });
-        queryShowsThread.start();
+        //queryShowsThread.start();
     }
 
     // Commands
