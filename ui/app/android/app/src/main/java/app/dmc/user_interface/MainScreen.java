@@ -9,7 +9,7 @@
 
 package app.dmc.user_interface;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.LinearLayout;
 
@@ -28,7 +28,7 @@ public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     public void setHub(ActionBarActivity _activity){
         mCurrentHub = User.get().getCurrentHub();
-        mCurrentRoom = mCurrentHub.room("1");
+        mCurrentRoom = mCurrentHub.room("0");
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
@@ -37,12 +37,13 @@ public class MainScreen {
         mRoomSelector = new RoomSelector(_activity, mCurrentHub.rooms());
 
         ll.addView(mRoomSelector.view());
+        if(mCurrentRoom != null)
         setRoomTitle(_activity);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public void setRoomTitle(ActionBarActivity _activity){
-        ActionBar ab = _activity.getActionBar();
+        ActionBar ab = _activity.getSupportActionBar();
         ab.setTitle(mCurrentRoom.name());
     }
 

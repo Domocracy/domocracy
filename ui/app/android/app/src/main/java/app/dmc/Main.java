@@ -35,7 +35,10 @@ public class Main extends ActionBarActivity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        return true;
+
+
+
+            return true;
     }
         //-----------------------------------------------------------------------------------------------------------------
 
@@ -43,7 +46,7 @@ public class Main extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         TopBar topBar = new TopBar();
         switch(item.getItemId()){
-            case R.id.set_ip:
+                case R.id.set_ip:
                 if(topBar.setIpButton(this))
                 return true;
             default:
