@@ -29,8 +29,9 @@ public class UserInterface {
     public void onSetHub(){
         mMainScreen.setHub(mActivity);
     }
-
+    
     //-----------------------------------------------------------------------------------------------------------------
+
     //  Private Interface
     private UserInterface(Activity _activity){
         _activity.setContentView(R.layout.activity_main);
