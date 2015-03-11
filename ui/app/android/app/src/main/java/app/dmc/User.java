@@ -40,7 +40,7 @@ public class User {
     //-----------------------------------------------------------------------------------------------------------------
     public void setHub(String _hubId){
        mLastHub = HubManager.get().hub(_hubId);
-       UserInterface.get().onSetHub();
+       UserInterface.get().onSetHub(mLastHub);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ public class User {
         }catch(JSONException e){
             e.printStackTrace();
         }
-		UserInterface.init(_activity);
+		UserInterface.init(_activity, this);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
