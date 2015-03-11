@@ -91,6 +91,9 @@ namespace dmc { namespace kodi {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::readResponse() const {
+		if(!mTcpConnection->isOpen()) {
+			return Json();
+		}
 		const unsigned bufferSize = 64*1024;
 		char buffer[bufferSize+1];
 		int nBytes = mTcpConnection->read(buffer, bufferSize);
@@ -103,8 +106,7 @@ namespace dmc { namespace kodi {
 	Json Kodi::getPlayers() const{
 		JsonRpcRequest request("Player.GetActivePlayers", Json("{}"), mLastReqId++);
 		sendRequest(request);
-		Json response = readResponse();
-		return Json();
+		return readResponse();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -113,6 +115,8 @@ namespace dmc { namespace kodi {
 			Json(R"({"properties": ["file"]})"), mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
+		if(response.isNill())
+			return response;
 		return response["result"]["movies"];
 	}
 
@@ -122,6 +126,8 @@ namespace dmc { namespace kodi {
 			Json("{}"), mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
+		if(response.isNill())
+			return response;
 		return response["result"]["tvshows"];
 	}
 
@@ -134,6 +140,8 @@ namespace dmc { namespace kodi {
 				command, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
+		if(response.isNill())
+			return response;
 		return response["result"]["episodes"];
 	}
 
@@ -143,6 +151,8 @@ namespace dmc { namespace kodi {
 		JsonRpcRequest request("Player.GetActivePlayers", command, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
+		if(response.isNill())
+			return response;
 		return response["result"];
 	}
 
@@ -152,6 +162,8 @@ namespace dmc { namespace kodi {
 		JsonRpcRequest request("Player.PlayPause", player, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
+		if(response.isNill())
+			return response;
 		return response["result"];
 	}
 
@@ -161,6 +173,8 @@ namespace dmc { namespace kodi {
 		JsonRpcRequest request("Player.Stop", player, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
+		if(response.isNill())
+			return response;
 		return response["result"];
 	}
 
@@ -171,6 +185,8 @@ namespace dmc { namespace kodi {
 		JsonRpcRequest request("Application.SetVolume", volumeCmd, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
+		if(response.isNill())
+			return response;
 		return response["result"];
 	}
 
@@ -202,7 +218,7 @@ namespace dmc { namespace kodi {
 	Json Kodi::scanLibrary() {
 		JsonRpcRequest request("VideoLibrary.Scan", Json("{}"), mLastReqId++);
 		sendRequest(request);
-		Json response = readResponse();
+		readResponse();
 		return Json();
 	}
 
