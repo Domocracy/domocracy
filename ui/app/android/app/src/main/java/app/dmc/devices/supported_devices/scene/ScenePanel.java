@@ -22,18 +22,18 @@ import org.json.JSONObject;
 
 import app.dmc.R;
 import app.dmc.User;
-import app.dmc.devices.Actuator;
 import app.dmc.devices.ActuatorPanel;
 import app.dmc.user_interface.PanelList;
 
 public class ScenePanel extends ActuatorPanel {
-    public ScenePanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context, JSONArray _devicesData) {
-        super(_parentActuator, _panelData, _layoutResId, _context);
+    public ScenePanel(Scene _parent, JSONObject _panelData, int _layoutResId, Context _context, JSONArray _devicesData) {
+        super(_parent, _panelData, _layoutResId, _context);
 
         mExpandButton = (Button) findViewById(R.id.expandViewButton);
         mExtendedView = (LinearLayout) findViewById(R.id.extendedLayout);
 
         mDevData = _devicesData;
+		mParentScene = _parent;
 
         setCallbacks();
     }
@@ -61,11 +61,15 @@ public class ScenePanel extends ActuatorPanel {
                     mDeviceList = new PanelList(mDevData, User.get().getCurrentHub(), getContext());
                     mExtendedView.addView(mDeviceList);
                 }
-                onExpandView();
+				if(!mExpanded)
+					onExpandView();
+				else
+					onCollapseView();
             }
         });
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
     private void onClickRunCommand(){
         Thread commThread = new Thread(new Runnable() {
             @Override
@@ -92,25 +96,38 @@ public class ScenePanel extends ActuatorPanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onExpandView(){
-        float iniY = -1;
-        Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, iniY,
-                Animation.RELATIVE_TO_SELF, 0);
-        slideDown.setDuration(400);
-
-        switch (mExtendedView.getVisibility()){
-            case View.VISIBLE:
-                mExtendedView.setVisibility(View.GONE);
-                mExpandButton.setBackgroundResource(R.drawable.extend_button_selector);
-                break;
-            case View.GONE:
-                mExtendedView.setAnimation(slideDown);
-                mExtendedView.setVisibility(View.VISIBLE);
-                mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
-                break;
-        }
+		mExpanded = true;
+		mParentScene.captureState();
+		displayExtendedView(); // Display extended view
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void onCollapseView() {
+		mExpanded = false;
+		mParentScene.saveModifications();
+		mParentScene.restoreState();
+		hideExtendedView();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void displayExtendedView() {
+		float iniY = -1;
+		Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
+				Animation.RELATIVE_TO_SELF, 0,
+				Animation.RELATIVE_TO_SELF, iniY,
+				Animation.RELATIVE_TO_SELF, 0);
+		slideDown.setDuration(400);
+
+		mExtendedView.setAnimation(slideDown);
+		mExtendedView.setVisibility(View.VISIBLE);
+		mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void hideExtendedView() {
+		mExtendedView.setVisibility(View.GONE);
+		mExpandButton.setBackgroundResource(R.drawable.extend_button_selector);
+	}
 
     //-----------------------------------------------------------------------------------------------------------------
     // private members
@@ -119,4 +136,7 @@ public class ScenePanel extends ActuatorPanel {
     private PanelList       mDeviceList;
 
     private JSONArray       mDevData;
+	private JSONArray		mDevCommand;
+	private boolean			mExpanded;
+	private Scene			mParentScene;
 }
