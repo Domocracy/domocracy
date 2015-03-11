@@ -63,6 +63,14 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	Json* Kodi::serialize() const {
+		Json *base = Actuator::serialize();
+		(*base)["ip"].setText(mIp);
+		(*base)["type"].setText("Kodi");
+		return base;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	void Kodi::sendRequest(const Json& _cmd) const {
 		mTcpConnection->open(mIp, mPort);
 		mTcpConnection->write(_cmd.serialize());

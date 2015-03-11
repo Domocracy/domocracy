@@ -27,6 +27,13 @@ namespace dmc { namespace hue {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	Json * Light::serialize() const {
+		Json * base = Actuator::serialize();
+		(*base)["type"].setText("HueLight");
+		return base;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	Json Light::runCommand(const Json& _cmd) {
 		if(!sBridge)
 			return Json(R"("result":"fail")");
