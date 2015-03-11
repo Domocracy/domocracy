@@ -20,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import app.dmc.Hub;
 import app.dmc.devices.DevicePanel;
@@ -60,9 +59,9 @@ public class PanelList extends LinearLayout {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Getters
-    public List<DevicePanel> panels(){ return mPanels; }
+    public ArrayList<DevicePanel> panels(){ return mPanels; }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
-    private List<DevicePanel> mPanels;
+    private ArrayList<DevicePanel> mPanels;
 }

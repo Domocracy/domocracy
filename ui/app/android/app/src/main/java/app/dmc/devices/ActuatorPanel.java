@@ -20,25 +20,7 @@ public abstract class ActuatorPanel extends DevicePanel{
         super(_parentActuator, _layoutResId, _context);
         mParentActuator = _parentActuator;
     }
-    //-----------------------------------------------------------------------------------------------------------------
-    /*@Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        mIsPaused = false;
-        Log.d("DOMOCRACY", "Intercepted Touch event. X: " + ev.getX() + "; Y: " + ev.getY());
-        return false;
-    }*/
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public void pause(){
-        mIsPaused = true;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    public JSONObject action(){
-        return mParentActuator.action(null);
-    }
 
     //-----------------------------------------------------------------------------------------------------------------
     protected Actuator mParentActuator;
-    boolean mIsPaused = false;
 }

@@ -23,9 +23,13 @@ import org.json.JSONObject;
 import app.dmc.R;
 import app.dmc.User;
 import app.dmc.devices.ActuatorPanel;
+import app.dmc.devices.Device;
+import app.dmc.devices.DevicePanel;
 import app.dmc.user_interface.PanelList;
 
 public class ScenePanel extends ActuatorPanel {
+
+	//-----------------------------------------------------------------------------------------------------------------
     public ScenePanel(Scene _parent, JSONObject _panelData, int _layoutResId, Context _context, JSONArray _devicesData) {
         super(_parent, _panelData, _layoutResId, _context);
 
@@ -97,14 +101,47 @@ public class ScenePanel extends ActuatorPanel {
     //-----------------------------------------------------------------------------------------------------------------
     private void onExpandView(){
 		mExpanded = true;
+		mCapturedState = captureState();
 		displayExtendedView(); // Display extended view
+		pauseChildren();
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private JSONArray captureState() {
+		JSONArray state = new JSONArray();
+		for( DevicePanel child : mDeviceList.panels() ) {
+			state.put(child.action());
+		}
+		return state;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void pauseChildren() {
+		for( DevicePanel child : mDeviceList.panels() ) {
+			child.pause();
+		}
+	}
 
 	//-----------------------------------------------------------------------------------------------------------------
 	private void onCollapseView() {
 		mExpanded = false;
-		//mParentScene.saveModifications();
+		JSONArray finalState = captureState();
+		mParentScene.saveModifications(finalState);
+		restoreState(mCapturedState);
 		hideExtendedView();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void restoreState(JSONArray _state) {
+		for(int i = 0; i < _state.length(); ++i) {
+			try {
+				JSONObject command = _state.getJSONObject(i);
+				Device dev = mDeviceList.panels().get(i).device();
+				dev.runCommand(command);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -136,4 +173,5 @@ public class ScenePanel extends ActuatorPanel {
     private JSONArray       mDevData;
 	private boolean			mExpanded;
 	private Scene			mParentScene;
+	private JSONArray		mCapturedState;
 }

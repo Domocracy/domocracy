@@ -17,6 +17,9 @@ import org.json.JSONObject;
 import java.util.HashSet;
 import java.util.Set;
 
+import app.dmc.Hub;
+import app.dmc.HubManager;
+
 public abstract class Device {
     //-----------------------------------------------------------------------------------------------------------------
     Device(JSONObject _devData){
@@ -36,8 +39,28 @@ public abstract class Device {
     public String id()  { return mId; };
     public String hub() {return mHubId;};
 
+	//-----------------------------------------------------------------------------------------------------------------
+	final public JSONObject runCommand(final JSONObject _request) {
+		Hub hub = HubManager.get().hub(hub());
+		try{
+			String method = _request.getString("method");
+			if(method.equals("GET"))
+				return hub.get("/device/" + id() + "/" + _request.getString("urlget"));
+			if(method.equals("PUT"))
+				return hub.send("/device/" + id(), _request.getJSONObject("cmd"));
+
+		}catch (JSONException _jsonException){
+			_jsonException.printStackTrace();
+		}
+
+		return null;
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     public abstract DevicePanel createPanel(String _type, JSONObject _panelData, Context _context);
+
+	//-----------------------------------------------------------------------------------------------------------------
+	public abstract JSONObject action(JSONObject _stateInfo);
 
     //-----------------------------------------------------------------------------------------------------------------
     final public DevicePanel newPanel(String _type, JSONObject _panelData, Context _context){
@@ -86,5 +109,4 @@ public abstract class Device {
     private String mHubId;
 
     private Set<DevicePanel> mRegisteredPanels;
-
 }

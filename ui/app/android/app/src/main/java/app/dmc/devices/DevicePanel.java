@@ -9,6 +9,7 @@
 package app.dmc.devices;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -32,6 +33,25 @@ public abstract class DevicePanel extends LinearLayout {
         View.inflate(_context, _layoutResId, this);
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		mIsPaused = false;
+		Log.d("DOMOCRACY", "Intercepted Touch event. X: " + ev.getX() + "; Y: " + ev.getY());
+		return false;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	public void pause(){
+		// 666 TODO: Paused panels should not request command from their parent devices, but return stored command instead
+		mIsPaused = true;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	public JSONObject action(){
+		return mParentDevice.action(null);
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     public void destroy(){
         mParentDevice.unregisterPanel(this);
@@ -44,10 +64,14 @@ public abstract class DevicePanel extends LinearLayout {
         super.finalize();
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	public Device device() { return mParentDevice; }
+
     //-----------------------------------------------------------------------------------------------------------------
     public abstract void stateChanged(JSONObject _state);
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
     Device mParentDevice;
+	boolean mIsPaused = false;
 }
