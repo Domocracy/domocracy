@@ -42,6 +42,19 @@ namespace dmc { namespace kodi {
 			}
 			else 
 				return Json(R"({"result":"fail", "error":"unable to play movie")");
+		} else if(command == "setVolume") {
+			unsigned volume = (unsigned)_cmd["volume"].asInt();
+			Json finalVol = setVolume(volume);
+			Json result = Json(R"({"result": "ok"})");
+			result["volume"] = finalVol;
+			return result;
+		} else if(command == "pause" || command == "resume") {
+			Json result(R"({"result": "ok"})");
+			result["state"] = pauseResume();
+			return result;
+		} else if(command == "stop") {
+			stop();
+			return Json(R"({"result": "ok"})");
 		}
 		return Json(R"({"result":"fail", "error":"unknown command")");
 	}
