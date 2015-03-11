@@ -36,6 +36,27 @@
 				"id": "4a",
 				"name": "Media",
 				"hub": "dmc64"
+				"media":
+					{
+					"tvshows":
+						[
+							{
+								"label":"Dead Set"
+								"tvshowid":"1"
+							},
+							{
+								"label":"New Girl"
+								"tvshowid":"2"
+							}
+						],
+					"movies":
+						[
+							{
+								"label":"Matrix"
+								"movieid":"1"
+							}
+						]
+					}
 			}
 		}
 	],
