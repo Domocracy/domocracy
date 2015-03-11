@@ -10,7 +10,7 @@
 package app.dmc.user_interface;
 
 import android.app.ActionBar;
-import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.LinearLayout;
 
 import app.dmc.Hub;
@@ -22,11 +22,11 @@ public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public MainScreen(Activity _activity) {
+    public MainScreen(ActionBarActivity _activity) {
         setHub(_activity);
     }
     //-----------------------------------------------------------------------------------------------------------------
-    public void setHub(Activity _activity){
+    public void setHub(ActionBarActivity _activity){
         mCurrentHub = User.get().getCurrentHub();
         mCurrentRoom = mCurrentHub.room("1");
 
@@ -41,7 +41,7 @@ public class MainScreen {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void setRoomTitle(Activity _activity){
+    public void setRoomTitle(ActionBarActivity _activity){
         ActionBar ab = _activity.getActionBar();
         ab.setTitle(mCurrentRoom.name());
     }
