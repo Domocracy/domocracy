@@ -29,7 +29,7 @@ public class UserInterface {
     public void onSetHub(){
         mMainScreen.setHub(mActivity);
     }
-    
+
     //-----------------------------------------------------------------------------------------------------------------
 
     //  Private Interface

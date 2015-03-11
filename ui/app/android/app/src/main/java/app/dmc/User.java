@@ -18,7 +18,7 @@ import app.dmc.user_interface.UserInterface;
 
 public class User {
     //-----------------------------------------------------------------------------------------------------------------
-    public static void init(String _userID,Activity _activity){
+    public static void init(String _userID, Activity _activity){
         assert sInstance == null;
         sInstance = new User(_userID, _activity);
         UserInterface.init(_activity);
