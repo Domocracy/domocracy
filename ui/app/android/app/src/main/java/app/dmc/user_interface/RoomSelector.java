@@ -30,7 +30,13 @@ public class RoomSelector {
         // Store Rooms
         mRooms = _rooms;
         // Init Selector
-        mSelector = new ViewFlipper(_activity);
+        mSelector = new ViewFlipper(_activity);/*{
+            @Override
+            public boolean onInterceptTouchEvent(MotionEvent ev) {
+                Log.d("TEST", "JAJAJA IM THE FIRST ONE.");
+                return false;
+            }
+        };*/
 
         // Testing Room images
         View roomView1 = mRooms.get(mCurrentRoom).view();
@@ -40,7 +46,7 @@ public class RoomSelector {
 
         mSelector.addView(roomView1);
 
-        mSelector.setOnTouchListener(new View.OnTouchListener() {
+       mSelector.setOnTouchListener(new ViewFlipper.OnTouchListener() {
             final double OFFSET = 30;
             double iniX;
             ImageView snapShotView;
@@ -100,18 +106,15 @@ public class RoomSelector {
         });
     }
 
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-    }
-
     //-----------------------------------------------------------------------------------------------------------------
     public View view(){
         return mSelector;
     }
+
     //-----------------------------------------------------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------------------------------------------------
+
     // Private members
     private List<Room>      mRooms = null;
     private ViewFlipper     mSelector = null;

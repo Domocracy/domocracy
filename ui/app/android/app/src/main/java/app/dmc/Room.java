@@ -10,10 +10,10 @@
 package app.dmc;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,16 +25,9 @@ public class Room {
     //-----------------------------------------------------------------------------------------------------------------
     // Public Interface
     public Room(JSONObject _data, Hub _hub, Context _context){
-        mLayout = new ScrollView(_context);
-        mLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
+        mLayout = new LinearLayout(_context);
 
         mDefaultHub = _hub;
-
         try{
             mId         = _data.getString("roomId");
             mName       = _data.getString("name");
@@ -50,6 +43,25 @@ public class Room {
         baseLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         baseLayout.addView(mHeader);
         baseLayout.addView(mPanels);
+
+        baseLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d("TEST", "I'm the room base layout");
+                return false;
+            }
+        });
+
+        mLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d("TEST", "I'm the Scroll view");
+                    return false;
+            }
+        });
+
+
+
         mLayout.addView(baseLayout);
     }
 
@@ -73,7 +85,7 @@ public class Room {
 
     private Hub mDefaultHub;
 
-    private ScrollView  mLayout;
+    private LinearLayout  mLayout;
     private PanelList   mPanels;
     private RoomHeader  mHeader;
 }
