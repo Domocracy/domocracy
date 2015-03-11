@@ -9,7 +9,7 @@
 
 package app.dmc.user_interface;
 
-import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 
 import app.dmc.Hub;
 import app.dmc.R;
@@ -17,7 +17,7 @@ import app.dmc.User;
 
 public class UserInterface {
     //-----------------------------------------------------------------------------------------------------------------
-    public static void init(Activity _activity, User _user){
+    public static void init(ActionBarActivity _activity, User _user){
         assert sInstance == null;
         sInstance = new UserInterface(_activity, _user);
     }
@@ -33,8 +33,9 @@ public class UserInterface {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+
     //  Private Interface
-    private UserInterface(Activity _activity, User _user){
+    private UserInterface(ActionBarActivity _activity, User _user){
         _activity.setContentView(R.layout.activity_main);
         mActivity = _activity;
         mMainScreen = new MainScreen(_activity, _user.getCurrentHub());
@@ -47,5 +48,5 @@ public class UserInterface {
     //Views
     private static MainScreen           mMainScreen;
     private static SlideMenu            mLeftSideMenu;
-    private static Activity             mActivity;
+    private static ActionBarActivity    mActivity;
 }

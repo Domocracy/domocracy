@@ -32,6 +32,10 @@ namespace dmc { namespace kodi {
 		Json getMovies		() const;
 		Json getTvShows		() const;
 		Json getEpisodes	(const Json& _show);
+		Json getPlayer		() const;
+		Json pauseResume	();
+		Json stop			();
+		Json setVolume		(unsigned _volume); // 0 to 100
 		bool playLastEpisode(const Json& _show);
 		bool PlayMovie		(const Json& _movie);
 		Json scanLibrary	();

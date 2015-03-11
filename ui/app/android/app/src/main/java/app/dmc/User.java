@@ -1,6 +1,6 @@
 package app.dmc;
 
-import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +18,7 @@ import app.dmc.user_interface.UserInterface;
 
 public class User {
     //-----------------------------------------------------------------------------------------------------------------
-    public static void init(String _userID,Activity _activity){
+    public static void init(String _userID, ActionBarActivity _activity){
         assert sInstance == null;
         sInstance = new User(_userID, _activity);
     }
@@ -45,7 +45,7 @@ public class User {
 
     //-----------------------------------------------------------------------------------------------------------------
     //Private interface
-    private User(String _userId, Activity _activity){
+    private User(String _userId, ActionBarActivity _activity){
 		mHubIds = new ArrayList<>();
         HubManager.init(_activity);
 		JSONObject userData = Persistence.get().getJSON( _userId );

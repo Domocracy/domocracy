@@ -63,7 +63,43 @@
 	"rooms":[
 		{
 			"roomId" : "baadfeed",
-			"name": "Timmy's room",
+			"name": "Charmilion's room",
+			"panels": [ 
+				{
+					"type": "HueLight",
+					"devId":"2a"
+				},
+				{
+					"type": "Scene",
+					"devId":"3a"
+				},
+				{
+					"type": "Kodi",
+					"devId":"4a"
+				}
+			]
+		},
+		{
+			"roomId" : "baadfeed1",
+			"name": "Pablo's room",
+			"panels": [ 
+				{
+					"type": "HueLight",
+					"devId":"2a"
+				},
+				{
+					"type": "Scene",
+					"devId":"3a"
+				},
+				{
+					"type": "Kodi",
+					"devId":"4a"
+				}
+			]
+		},
+		{
+			"roomId" : "baadfeed2",
+			"name": "Kike's room",
 			"panels": [ 
 				{
 					"type": "HueLight",
