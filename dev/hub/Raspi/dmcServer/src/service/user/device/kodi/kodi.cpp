@@ -78,7 +78,6 @@ namespace dmc { namespace kodi {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::readResponse() const {
-		/// 666 TODO: Support concatenated json responses.
 		const unsigned bufferSize = 64*1024;
 		char buffer[bufferSize+1];
 		int nBytes = mTcpConnection->read(buffer, bufferSize);
@@ -135,8 +134,7 @@ namespace dmc { namespace kodi {
 		params["item"]["episodeid"] = episodes[0]["episodeid"];
 		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
 		sendRequest(request);
-		readResponse();
-		/// 666 TODO: Check response
+		readResponse(); // Prevent return string to stack on read buffer.
 		return true;
 	}
 
@@ -146,8 +144,7 @@ namespace dmc { namespace kodi {
 		params["item"]["movieid"] = _movie["movieid"];
 		JsonRpcRequest request ("Player.Open", params, mLastReqId++);
 		sendRequest(request);
-		readResponse();
-		/// 666 TODO: Check response
+		readResponse(); // Prevent return string to stack on read buffer.
 		return true;
 	}
 

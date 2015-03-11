@@ -23,8 +23,8 @@ import app.dmc.User;
 public class HubSelector implements AdapterView.OnItemSelectedListener {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    HubSelector(Context _context){
-        mHubList = User.get().getHubIDList();
+    HubSelector(Context _context, List<String> _hubIdList){
+        mHubList = _hubIdList;
 
         mHubSpinner = new Spinner(_context);
         ArrayAdapter<String> adapterHubList = new ArrayAdapter<String>(_context,R.layout.support_simple_spinner_dropdown_item,mHubList);
