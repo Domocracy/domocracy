@@ -24,7 +24,6 @@ public class Kodi extends Actuator {
     //  Public Interface
     public Kodi(JSONObject _devData){
         super(_devData);
-        loadTvShows();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -40,8 +39,7 @@ public class Kodi extends Actuator {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    // Private methods
-    private void loadTvShows(){
+    public void loadTvShows(){
         Thread queryShowsThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -57,8 +55,12 @@ public class Kodi extends Actuator {
                 }
             }
         });
-        //queryShowsThread.start();
+        queryShowsThread.start();
     }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private methods
+
 
     // Commands
     private JSONArray commandQueryTvShows(){

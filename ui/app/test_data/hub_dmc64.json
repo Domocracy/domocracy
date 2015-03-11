@@ -1,7 +1,7 @@
 {
 	"hubId" : "dmc64",
 	"name": "dmc64",
-	"ip": "10.200.12.53",
+	"ip": "10.200.12.63",
 	"devices": [
 		{
 			"type":"HueLight",
@@ -16,7 +16,18 @@
 			"data":{
 				"id": "3a",
 				"name": "Scene",
-				"hub": "dmc64"
+				"hub": "dmc64",
+				"devices":
+					[
+						{
+							"type": "HueLight",
+							"devId":"2a"
+						},
+						{
+							"type": "Kodi",
+							"devId":"4a"
+						}
+					]
 			}
 		},
 		{

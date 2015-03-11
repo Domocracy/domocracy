@@ -11,6 +11,7 @@ package app.dmc.devices.supported_devices.kodi;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -83,6 +84,15 @@ public class KodiLastShowPanel extends ActuatorPanel {
     // View set up methods
     private void setUpView(){
         setUpClickAction();
+
+        // Update tvshowlist
+        mTvShowSelector.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ((Kodi) mParentActuator).loadTvShows();
+                return false;
+            }
+        });
     }
 
     //-----------------------------------------------------------------------------------------------------------------
