@@ -17,7 +17,13 @@
 				"id": "3a",
 				"name": "Scene",
 				"hub": "dmc64",
-				"devices":
+				"children": [
+					{
+					},
+					{
+					}
+				],
+				"panels":
 					[
 						{
 							"type": "HueLight",

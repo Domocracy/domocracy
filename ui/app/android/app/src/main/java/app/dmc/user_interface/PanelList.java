@@ -43,7 +43,7 @@ public class PanelList extends LinearLayout {
                 String type     = panelData.getString("type");
                 String devID    = panelData.getString("devId");
 
-                addPanel(_defaultHub.device(devID).newPanel(type, panelData, _context));
+                addPanel(_defaultHub.device(devID).newPanel(type, _context));
 
             }catch (JSONException _exception){
                 _exception.printStackTrace();

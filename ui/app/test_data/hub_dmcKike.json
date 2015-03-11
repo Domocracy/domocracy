@@ -12,25 +12,6 @@
 			}
 		},
 		{
-			"type":"Scene",
-			"data":{
-				"id": "3a",
-				"name": "Scene",
-				"hub": "dmcKike",
-				"devices":
-					[
-						{
-							"type": "HueLight",
-							"devId":"2a"
-						},
-						{
-							"type": "Kodi",
-							"devId":"4a"
-						}
-					]
-			}
-		},
-		{
 			"type":"Kodi",
 			"data":{
 				"id": "4a",
@@ -43,14 +24,14 @@
 		{
 			"roomId" : "baadfeed",
 			"name": "Timmy's room",
-			"panels": [ 
-				{
-					"type": "Scene",
-					"devId":"3a"
-				},
+			"panels": [
 				{
 					"type": "HueLight",
 					"devId":"2a"
+				},
+				{
+					"type": "Kodi",
+					"devId":"4a"
 				}
 			]
 		}

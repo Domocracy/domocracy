@@ -130,8 +130,6 @@ public class HueLightPanel extends DevicePanel {
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Put dev in "Sending mode"
-                // Send Response
                 try {
                     JSONObject cmdRequest = new JSONObject();
                     cmdRequest.put("method", "PUT");
@@ -140,10 +138,6 @@ public class HueLightPanel extends DevicePanel {
                 } catch (JSONException _jsonException){
                     _jsonException.printStackTrace();
                 }
-                // if(response OK){
-                //      Dev in mode OK
-                //else
-                //      Dev back to last state
             }
         });
         commThread.start();

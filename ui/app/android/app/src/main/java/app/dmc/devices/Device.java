@@ -22,7 +22,7 @@ import app.dmc.HubManager;
 
 public abstract class Device {
     //-----------------------------------------------------------------------------------------------------------------
-    Device(JSONObject _devData){
+    public Device(JSONObject _devData){
         mRegisteredPanels = new HashSet<>();
 
         try{
