@@ -15,18 +15,17 @@ import android.widget.LinearLayout;
 import app.dmc.Hub;
 import app.dmc.R;
 import app.dmc.Room;
-import app.dmc.User;
 
 public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public MainScreen(Activity _activity) {
-        setHub(_activity);
+    public MainScreen(Activity _activity, Hub _currentHub) {
+        setHub(_activity, _currentHub);
     }
     //-----------------------------------------------------------------------------------------------------------------
-    public void setHub(Activity _activity){
-        mCurrentHub = User.get().getCurrentHub();
+    public void setHub(Activity _activity, Hub _currentHub){
+        mCurrentHub = _currentHub;
         mCurrentRoom = mCurrentHub.room("1");
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);

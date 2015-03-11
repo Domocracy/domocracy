@@ -28,7 +28,6 @@ public class Main extends ActionBarActivity {
         //UserInterface.init(this);
         mUI = UserInterface.get();
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

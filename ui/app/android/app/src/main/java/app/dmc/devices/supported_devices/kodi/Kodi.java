@@ -11,6 +11,8 @@ package app.dmc.devices.supported_devices.kodi;
 
 import android.content.Context;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
@@ -37,6 +39,61 @@ public class Kodi extends Actuator {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    // Panels
+    public void loadTvShows(){
+        Thread queryShowsThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Fill list with series
+                JSONArray jsonShowList = commandQueryTvShows();
+                try{
+                    JSONObject state = new JSONObject();
+                    state.put("state", jsonShowList);
+                    // Update panels
+                    updateState(state);
+                }catch (JSONException _jsonException){
+                    _jsonException.printStackTrace();
+                }
+            }
+        });
+        queryShowsThread.start();
+    }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private methods
+
+
+    // Commands
+    private JSONArray commandQueryTvShows(){
+        JSONObject request = new JSONObject();
+        try{
+            request.put("urlget","tvshows");
+            request.put("method","GET");
+
+        }
+        catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
+
+        JSONObject response = runCommand(request);
+        JSONArray jsonShowList;
+        try{
+            if(response != null)
+                jsonShowList = response.getJSONArray("tvshows");
+            else{
+                jsonShowList = new JSONArray();
+                JSONObject dummyShow = new JSONObject();
+
+                dummyShow.put("tvshowid", -1);
+                dummyShow.put("label", "KODI hasn't got TV shows");
+
+                jsonShowList.put(dummyShow);
+            }
+        }
+        catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+            return null;
+        }
+
+        return jsonShowList;
+    }
 }
