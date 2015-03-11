@@ -66,7 +66,7 @@ namespace dmc { namespace kodi {
 			Json response(R"({})");
 			Json shows = getTvShows();
 			if(shows.isNill())
-				response["tvshows"] = Json("[]"); // Empty list
+				return Json(R"({"result":"fail", "error":"Kodi not available"})");
 			else
 				response["tvshows"] = shows;
 			response["result"] = Json("\"ok\"");
@@ -117,7 +117,10 @@ namespace dmc { namespace kodi {
 		Json response = readResponse();
 		if(response.isNill())
 			return response;
-		return response["result"]["movies"];
+		Json cmdResult = response["result"];
+		if(cmdResult["movies"].isNill())
+			return Json("[]"); // Empty list
+		return cmdResult["movies"];
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -128,7 +131,10 @@ namespace dmc { namespace kodi {
 		Json response = readResponse();
 		if(response.isNill())
 			return response;
-		return response["result"]["tvshows"];
+		Json cmdResult = response["result"];
+		if(cmdResult["tvshows"].isNill())
+			return Json("[]"); // Empty list
+		return cmdResult["tvshows"];
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
