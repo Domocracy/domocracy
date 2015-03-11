@@ -125,6 +125,43 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::getPlayer() const {
+		Json command = Json("{}");
+		JsonRpcRequest request("Player.GetActivePlayers", command, mLastReqId++);
+		sendRequest(request);
+		Json response = readResponse();
+		return response["result"];
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::pauseResume() {
+		Json player = getPlayer();
+		JsonRpcRequest request("Player.PlayPause", player, mLastReqId++);
+		sendRequest(request);
+		Json response = readResponse();
+		return response["result"];
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::stop() {
+		Json player = getPlayer();
+		JsonRpcRequest request("Player.Stop", player, mLastReqId++);
+		sendRequest(request);
+		Json response = readResponse();
+		return response["result"];
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	Json Kodi::setVolume(unsigned _volume) {
+		Json volumeCmd("{}");
+		volumeCmd["volume"].setInt((int)_volume);
+		JsonRpcRequest request("Application.SetVolume", volumeCmd, mLastReqId++);
+		sendRequest(request);
+		Json response = readResponse();
+		return response["result"];
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	bool Kodi::playLastEpisode(const Json& _show) {
 		Json episodes = getEpisodes(_show);
 		if(episodes.isNill()) {
