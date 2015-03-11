@@ -97,15 +97,13 @@ public class ScenePanel extends ActuatorPanel {
     //-----------------------------------------------------------------------------------------------------------------
     private void onExpandView(){
 		mExpanded = true;
-		mParentScene.captureState();
 		displayExtendedView(); // Display extended view
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
 	private void onCollapseView() {
 		mExpanded = false;
-		mParentScene.saveModifications();
-		mParentScene.restoreState();
+		//mParentScene.saveModifications();
 		hideExtendedView();
 	}
 
@@ -136,7 +134,6 @@ public class ScenePanel extends ActuatorPanel {
     private PanelList       mDeviceList;
 
     private JSONArray       mDevData;
-	private JSONArray		mDevCommand;
 	private boolean			mExpanded;
 	private Scene			mParentScene;
 }

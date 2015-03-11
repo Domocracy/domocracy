@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
+import app.dmc.core.Persistence;
 import app.dmc.devices.Actuator;
 import app.dmc.devices.DevicePanel;
 
@@ -27,7 +28,8 @@ public class Scene extends Actuator {
         super(_sceneData);
 
         try {
-            mJSONDevices = _sceneData.getJSONArray("devices");
+            mChildActions = _sceneData.getJSONArray("children");
+			mPanelData = _sceneData.getJSONArray("panels");
         } catch (JSONException _jsonException) {
             _jsonException.printStackTrace();
         }
@@ -36,7 +38,7 @@ public class Scene extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
-        return new ScenePanel(this, _panelData, R.layout.scene_layout, _context, mJSONDevices);
+        return new ScenePanel(this, _panelData, R.layout.scene_layout, _context, mPanelData);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -46,22 +48,31 @@ public class Scene extends Actuator {
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
-	public void captureState() {
-
+	public void saveModifications(JSONArray _newActions) {
+		mChildActions = _newActions;
+		save();
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
-	public void restoreState() {
-
+	@Override
+	protected JSONObject serialize() {
+		JSONObject  base = super.serialize();
+		try {
+			base.put("children", mChildActions);
+			base.put("panels", mPanelData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return base;
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
-	public void saveModifications() {
-
+	private void save() {
+		Persistence.get().putJSON(id(), serialize());
 	}
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private Members
-    private JSONArray mJSONDevices;
-
+    private JSONArray mChildActions;
+	private JSONArray mPanelData;
 }

@@ -66,6 +66,20 @@ public abstract class Device {
         }
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	protected JSONObject serialize() {
+		JSONObject serial = new JSONObject();
+		try{
+			serial.put("id", mId);
+			serial.put("id", mName);
+			serial.put("hub", mHubId);
+
+		}catch (JSONException _exception){
+			_exception.printStackTrace();
+		}
+		return serial;
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     private String mName;
     private String mId;
