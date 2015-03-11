@@ -21,13 +21,14 @@ public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public MainScreen(Activity _activity, Hub _currentHub) {
+    public MainScreen(ActionBarActivity _activity, Hub _currentHub) {
         setHub(_activity, _currentHub);
     }
     //-----------------------------------------------------------------------------------------------------------------
-    public void setHub(Activity _activity, Hub _currentHub){
+    public void setHub(ActionBarActivity _activity, Hub _currentHub){
         mCurrentHub = _currentHub;
-        mCurrentRoom = mCurrentHub.room("0");
+
+        mCurrentRoom = mCurrentHub.room(mCurrentHub.rooms().get(0).id());
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
 
