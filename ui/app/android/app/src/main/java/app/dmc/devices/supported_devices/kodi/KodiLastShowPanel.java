@@ -45,51 +45,43 @@ public class KodiLastShowPanel extends ActuatorPanel {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public void stateChanged(JSONObject _state) {
+        // Fill list with series
+        final List<String> tvShowsList = new ArrayList<>();
+        try{
+            JSONArray jsonShowList = _state.getJSONArray("state");
+            if(jsonShowList.length() == 0){
+                tvShowsList.add("KODI hasn't got TV shows");
+            }
+            for(int i = 0; i < jsonShowList.length(); i++){
+                JSONObject tvshow = jsonShowList.getJSONObject(i);
+                mTvShowList.add(tvshow);
+                tvShowsList.add(tvshow.getString("label"));
+            }
 
+            mTvShowSelector.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSpinnerAdapter.clear();
+                    for(String label: tvShowsList) {
+                        mSpinnerAdapter.add(label);
+                    }
+                    mSpinnerAdapter.notifyDataSetChanged();
+                }
+            });
+
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
+        Log.d("DOMOCRACY", "List of Tv-shows");
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private interface
-    // Commands
-    private JSONArray commandQueryTvShows(){
-        JSONObject request = new JSONObject();
-        try{
-            request.put("urlget","tvshows");
-            request.put("method","GET");
-
-        }
-        catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-        }
-
-        JSONObject response = mParentActuator.runCommand(request);
-        JSONArray jsonShowList;
-        try{
-            if(response != null)
-                jsonShowList = response.getJSONArray("tvshows");
-            else{
-                jsonShowList = new JSONArray();
-                JSONObject dummyShow = new JSONObject();
-
-                dummyShow.put("tvshowid", -1);
-                dummyShow.put("label", "KODI hasn't got TV shows");
-
-                jsonShowList.put(dummyShow);
-            }
-        }
-        catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-            return null;
-        }
-
-        return jsonShowList;
-    }
 
     //-----------------------------------------------------------------------------------------------------------------
     // View set up methods
     private void setUpView(){
         setUpClickAction();
-        setUpTvShowSelector();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -133,45 +125,9 @@ public class KodiLastShowPanel extends ActuatorPanel {
 
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
-    private void setUpTvShowSelector(){
-        Thread queryShowsThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // Fill list with series
-                final List<String> tvShowsList = new ArrayList<>();
-                JSONArray jsonShowList = commandQueryTvShows();
-                try{
-                    if(jsonShowList.length() == 0){
-                        tvShowsList.add("KODI hasn't got TV shows");
-                    }
-                    for(int i = 0; i < jsonShowList.length(); i++){
-                        JSONObject tvshow = jsonShowList.getJSONObject(i);
-                        mTvShowList.add(tvshow);
-                        tvShowsList.add(tvshow.getString("label"));
-                    }
-
-                    mTvShowSelector.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mSpinnerAdapter.clear();
-                            for(String label: tvShowsList) {
-                                mSpinnerAdapter.add(label);
-                            }
-                            mSpinnerAdapter.notifyDataSetChanged();
-                        }
-                    });
-
-                }catch (JSONException _jsonException){
-                    _jsonException.printStackTrace();
-                }
-                Log.d("DOMOCRACY", "List of Tv-shows");
-            }
-        });
-        //queryShowsThread.start(); --- > Move to device not panel
-    }
-
-    private List<JSONObject> mTvShowList = new ArrayList<>();
+    // Private members
     private Spinner mTvShowSelector;
     ArrayAdapter<String> mSpinnerAdapter;
+
+    private List<JSONObject> mTvShowList;
 }
