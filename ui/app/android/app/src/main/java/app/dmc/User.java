@@ -1,6 +1,6 @@
 package app.dmc;
 
-import android.content.Context;
+import android.app.Activity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,9 +18,9 @@ import app.dmc.user_interface.UserInterface;
 
 public class User {
     //-----------------------------------------------------------------------------------------------------------------
-    public static void init(String _userID,Context _context){
+    public static void init(String _userID,Activity _activity){
         assert sInstance == null;
-        sInstance = new User(_userID, _context);
+        sInstance = new User(_userID, _activity);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -45,9 +45,9 @@ public class User {
 
     //-----------------------------------------------------------------------------------------------------------------
     //Private interface
-    private User(String _userId, Context _context){
+    private User(String _userId, Activity _activity){
 		mHubIds = new ArrayList<>();
-        HubManager.init(_context);
+        HubManager.init(_activity);
 		JSONObject userData = Persistence.get().getJSON( _userId );
 		try {
 			String lastHubId = userData.getString("lastHub");
@@ -59,6 +59,7 @@ public class User {
         }catch(JSONException e){
             e.printStackTrace();
         }
+		UserInterface.init(_activity);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
