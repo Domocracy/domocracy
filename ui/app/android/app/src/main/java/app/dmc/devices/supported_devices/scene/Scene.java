@@ -38,12 +38,19 @@ public class Scene extends Actuator {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
-        return new ScenePanel(this, _panelData, R.layout.scene_layout, _context, mPanelData);
+        return new ScenePanel(this, mPanelData, mChildActions, R.layout.scene_layout, _context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public JSONObject action(JSONObject _stateInfo) {
+		JSONObject command = new JSONObject();
+		try {
+			command.put("method", "PUT");
+			command.put("cmd", new JSONObject());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         return null;
     }
 

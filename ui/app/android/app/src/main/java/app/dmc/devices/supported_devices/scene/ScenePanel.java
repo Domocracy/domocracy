@@ -17,26 +17,24 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
 import app.dmc.User;
-import app.dmc.devices.ActuatorPanel;
 import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
 import app.dmc.user_interface.PanelList;
 
-public class ScenePanel extends ActuatorPanel {
+public class ScenePanel extends DevicePanel {
 
 	//-----------------------------------------------------------------------------------------------------------------
-    public ScenePanel(Scene _parent, JSONObject _panelData, int _layoutResId, Context _context, JSONArray _devicesData) {
-        super(_parent, _panelData, _layoutResId, _context);
+    public ScenePanel(Scene _parent, JSONArray _panelsData, int _layoutResId, Context _context) {
+        super(_parent, null, _layoutResId, _context);
 
         mExpandButton = (Button) findViewById(R.id.expandViewButton);
         mExtendedView = (LinearLayout) findViewById(R.id.extendedLayout);
 
-        mDevData = _devicesData;
+		mPanelData = _panelsData;
 		mParentScene = _parent;
 
         setCallbacks();
@@ -62,7 +60,7 @@ public class ScenePanel extends ActuatorPanel {
             @Override
             public void onClick(View v) {
                 if(mDeviceList == null){
-                    mDeviceList = new PanelList(mDevData, User.get().getCurrentHub(), getContext());
+                    mDeviceList = new PanelList(mPanelData, User.get().getCurrentHub(), getContext());
                     mExtendedView.addView(mDeviceList);
                 }
 				if(!mExpanded)
@@ -78,21 +76,7 @@ public class ScenePanel extends ActuatorPanel {
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Put dev in "Sending mode"
-                // Send Response
-                try {
-                    JSONObject cmdRequest = new JSONObject();
-                    cmdRequest.put("method", "PUT");
-                    cmdRequest.put("cmd", new JSONObject());
-                    JSONObject response = mParentActuator.runCommand(cmdRequest);
-                } catch (JSONException _jsonException){
-                    _jsonException.printStackTrace();
-                }
-                // if(response OK){
-                //      Dev in mode OK
-                //else
-                //      Dev back to last state
-
+        	mParentScene.runCommand(mParentScene.action(null));
             }
         });
         commThread.start();
@@ -170,7 +154,7 @@ public class ScenePanel extends ActuatorPanel {
     private LinearLayout    mExtendedView;
     private PanelList       mDeviceList;
 
-    private JSONArray       mDevData;
+    private JSONArray       mPanelData;
 	private boolean			mExpanded;
 	private Scene			mParentScene;
 	private JSONArray		mCapturedState;

@@ -18,17 +18,16 @@ import org.json.JSONObject;
 
 public abstract class DevicePanel extends LinearLayout {
     //-----------------------------------------------------------------------------------------------------------------
-    public DevicePanel(Device _dev, JSONObject _command, int _layoutResId, Context _context){
+    public DevicePanel(Device _dev, int _layoutResId, Context _context){
         super(_context);
         mParentDevice = _dev;
-		mCommand = _command;
 
-        setOnTouchListener(new OnTouchListener() {
+        /*setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return false;
             }
-        });
+        });*/
         View.inflate(_context, _layoutResId, this);
     }
 
@@ -53,7 +52,9 @@ public abstract class DevicePanel extends LinearLayout {
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
-	public abstract JSONObject queryDeviceCommand ();
+	public JSONObject queryDeviceCommand () {
+		return mParentDevice.action(null);
+	}
 
     //-----------------------------------------------------------------------------------------------------------------
     public void destroy(){
@@ -76,6 +77,6 @@ public abstract class DevicePanel extends LinearLayout {
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
     Device mParentDevice;
-	JSONObject mCommand;
+	protected JSONObject mCommand;
 	boolean mIsPaused = false;
 }

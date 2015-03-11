@@ -25,11 +25,11 @@ import org.json.JSONObject;
 
 import app.dmc.R;
 import app.dmc.devices.Actuator;
-import app.dmc.devices.ActuatorPanel;
+import app.dmc.devices.DevicePanel;
 
-public class HueLightPanel extends ActuatorPanel {
-    HueLightPanel(final Actuator _parentActuator, JSONObject _panelData, int _layoutResId, final Context _context){
-        super(_parentActuator, _panelData, _layoutResId, _context);
+public class HueLightPanel extends DevicePanel {
+    HueLightPanel(final Actuator _parentActuator, int _layoutResId, final Context _context){
+        super(_parentActuator, _layoutResId, _context);
 
         mToggleButton   = (ToggleButton)    findViewById(R.id.toggleButton);
         mNameView       = (TextView)        findViewById(R.id.devName);
@@ -99,20 +99,14 @@ public class HueLightPanel extends ActuatorPanel {
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Put dev in "Sending mode"
-                // Send Response
                 try {
                     JSONObject cmdRequest = new JSONObject();
                     cmdRequest.put("method", "PUT");
                     cmdRequest.put("cmd", command);
-                    JSONObject response = mParentActuator.runCommand(cmdRequest);
+                    device().runCommand(cmdRequest);
                 } catch (JSONException _jsonException){
                     _jsonException.printStackTrace();
                 }
-                // if(response OK){
-                //      Dev in mode OK
-                //else
-                //      Dev back to last state
             }
         });
         commThread.start();
@@ -142,7 +136,7 @@ public class HueLightPanel extends ActuatorPanel {
                     JSONObject cmdRequest = new JSONObject();
                     cmdRequest.put("method", "PUT");
                     cmdRequest.put("cmd", command);
-                    JSONObject response = mParentActuator.runCommand(cmdRequest);
+                    JSONObject response = device().runCommand(cmdRequest);
                 } catch (JSONException _jsonException){
                     _jsonException.printStackTrace();
                 }
@@ -199,20 +193,14 @@ public class HueLightPanel extends ActuatorPanel {
             Thread commThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // Put dev in "Sending mode"
-                    // Send Response
                     try {
                         JSONObject cmdRequest = new JSONObject();
                         cmdRequest.put("method", "PUT");
                         cmdRequest.put("cmd", command);
-                        JSONObject response = mParentActuator.runCommand(cmdRequest);
+                        device().runCommand(cmdRequest);
                     } catch (JSONException _jsonException){
                         _jsonException.printStackTrace();
                     }
-                    // if(response OK){
-                    //      Dev in mode OK
-                    //else
-                    //      Dev back to last state
                 }
             });
             commThread.start();
