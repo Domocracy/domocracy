@@ -24,15 +24,39 @@ public class HueLight extends Device {
 		super(_devData);
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public JSONObject serialize() {
+		JSONObject base = super.serialize();
+		try {
+			base.put("type", "HueLight");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return base;
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, Context _context) {
         return new HueLightPanel(this, R.layout.hue_light_layout, _context);
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
     @Override
     public JSONObject action(JSONObject _stateInfo) {
-        return null;
+		JSONObject command;
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
     }
+
+	private int mHue = 0;
+	private int bSat = 0;
+	private int mBri = 0;
+	private boolean mOn = false;
 
 }

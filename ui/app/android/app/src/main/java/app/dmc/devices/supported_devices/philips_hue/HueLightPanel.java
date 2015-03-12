@@ -90,26 +90,13 @@ public class HueLightPanel extends DevicePanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onToggleButtonCallback(){
-        final JSONObject command = new JSONObject();
-        try {
-            command.put("on", mToggleButton.isChecked());
-        }catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-        }
-        Thread commThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject cmdRequest = new JSONObject();
-                    cmdRequest.put("method", "PUT");
-                    cmdRequest.put("cmd", command);
-                    device().runCommand(cmdRequest);
-                } catch (JSONException _jsonException){
-                    _jsonException.printStackTrace();
-                }
-            }
-        });
-        commThread.start();
+		JSONObject command = new JSONObject();
+		try {
+			command.put("on", mToggleButton.isChecked());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		device().setState(command);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

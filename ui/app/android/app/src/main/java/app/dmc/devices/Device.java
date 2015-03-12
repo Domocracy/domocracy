@@ -41,6 +41,8 @@ public abstract class Device {
 
 	//-----------------------------------------------------------------------------------------------------------------
 	final public JSONObject runCommand(final JSONObject _request) {
+		if(_request == null)
+			return null;
 		Hub hub = HubManager.get().hub(hub());
 		try{
 			String method = _request.getString("method");
@@ -52,15 +54,35 @@ public abstract class Device {
 		}catch (JSONException _jsonException){
 			_jsonException.printStackTrace();
 		}
-
 		return null;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	final public void setState(JSONObject _state) {
+		if(_state == null)
+			return;
+		JSONObject command = new JSONObject();
+		try {
+			command.put("method", "PUT");
+			command.put("cmd", _state);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		runCommand(_state);
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	public JSONObject state() {
+		return null;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	public void onStateChange(JSONObject _state) {
+		//
 	}
 
     //-----------------------------------------------------------------------------------------------------------------
     public abstract DevicePanel createPanel(String _type, Context _context);
-
-	//-----------------------------------------------------------------------------------------------------------------
-	public abstract JSONObject action(JSONObject _stateInfo);
 
     //-----------------------------------------------------------------------------------------------------------------
     final public DevicePanel newPanel(String _type, Context _context){

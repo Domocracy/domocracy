@@ -9,7 +9,6 @@
 package app.dmc.devices;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,12 +21,20 @@ public abstract class DevicePanel extends LinearLayout {
         super(_context);
         mParentDevice = _dev;
 
-        /*setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });*/
+		setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) { // Default onclick listener sends default panel command.
+			Thread commThread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+				JSONObject request = action();
+				device().setState(request);
+				}
+			});
+			commThread.start();
+			}
+		});
+
         View.inflate(_context, _layoutResId, this);
     }
 
@@ -35,7 +42,6 @@ public abstract class DevicePanel extends LinearLayout {
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		mIsPaused = false;
-		Log.d("DOMOCRACY", "Intercepted Touch event. X: " + ev.getX() + "; Y: " + ev.getY());
 		return false;
 	}
 
@@ -47,25 +53,18 @@ public abstract class DevicePanel extends LinearLayout {
 	//-----------------------------------------------------------------------------------------------------------------
 	public final JSONObject action(){
 		if(!mIsPaused)
-			mCommand = queryDeviceCommand();
+			mCommand = queryAction();
 		return mCommand;
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
-	public JSONObject queryDeviceCommand () {
-		return mParentDevice.action(null);
+	public JSONObject queryAction () {
+		return mParentDevice.state();
 	}
 
     //-----------------------------------------------------------------------------------------------------------------
     public void destroy(){
         mParentDevice.unregisterPanel(this);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    protected void finalize() throws Throwable {
-        destroy();
-        super.finalize();
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
