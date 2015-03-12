@@ -61,10 +61,9 @@ public class Kodi extends Device {
             public void run() {
                 // Fill list with series
                 mTvShowDataList = commandQueryTvShows();
-                // 666 Update data in persistence.
                 try{
                     JSONObject state = new JSONObject();
-                    state.put("state", mTvShowDataList);
+                    state.put("tvshows", mTvShowDataList);
                     // Update panels
                     updateState(state);
                 }catch (JSONException _jsonException){
@@ -112,6 +111,21 @@ public class Kodi extends Device {
 
         return jsonShowList;
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public JSONObject serialize() {
+		JSONObject serial = super.serialize(); // Retrieve base Device's info
+		JSONObject media = new JSONObject();
+		try {
+			media.put("tvshows", mTvShowDataList);
+			media.put("movies", mMovieDataList);
+			serial.put("media", media);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return serial;
+	}
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members

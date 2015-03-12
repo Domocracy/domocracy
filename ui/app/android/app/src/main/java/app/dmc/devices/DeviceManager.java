@@ -29,6 +29,20 @@ public class DeviceManager {
 
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	public JSONArray serializeDevices() {
+		JSONArray deviceList = new JSONArray();
+		try {
+			for( Map.Entry<String,Device> dev : mRegisteredDevices.entrySet()) {
+				JSONObject serializedDev = dev.getValue().serialize();
+				deviceList.put(serializedDev);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return deviceList;
+	}
+
     public DeviceManager(JSONArray _devData) {
         createDevices(_devData);
     }

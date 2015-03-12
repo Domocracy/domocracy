@@ -28,6 +28,12 @@ public class Persistence {
         sInstance = new Persistence(_context);
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	public static void end() {
+		sInstance.onEnd();
+		sInstance = null;
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     public static Persistence get(){
         return sInstance;
@@ -130,10 +136,10 @@ public class Persistence {
         }
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
-    public void end(){
-        flush();
-    }
+	//-----------------------------------------------------------------------------------------------------------------
+	private void onEnd() {
+		flush();
+	}
 
     //Private interface
     private Persistence(Context _context){

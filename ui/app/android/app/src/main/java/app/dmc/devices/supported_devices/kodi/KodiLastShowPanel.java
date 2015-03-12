@@ -44,7 +44,7 @@ public class KodiLastShowPanel extends DevicePanel {
         final List<String> tvShowsList = new ArrayList<>();
         try{
             mTvShowList = new JSONArray();
-            JSONArray jsonShowList = _state.getJSONArray("state");
+            JSONArray jsonShowList = _state.getJSONArray("tvshows");
             if(jsonShowList.length() == 0){
                 tvShowsList.add("KODI hasn't got TV shows");
             }

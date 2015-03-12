@@ -111,25 +111,18 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void save(){
+    public void save(){
         JSONObject jsonToSave = new JSONObject();
         try {
             jsonToSave.put("hubId", mId);
             jsonToSave.put("name",mName);
-            jsonToSave.put("devices",mDevices);
+            jsonToSave.put("devices",mDevMgr.serializeDevices());
             jsonToSave.put("rooms",mRooms);
             jsonToSave.put("ip", mIp);
         }catch(JSONException e){
             e.printStackTrace();
         }
         Persistence.get().putJSON("hub_"+mId,jsonToSave);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    protected void finalize() throws Throwable {
-        save();
-        super.finalize();
     }
 
     //-----------------------------------------------------------------------------------------------------------------

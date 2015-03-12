@@ -94,7 +94,7 @@ public abstract class Device {
 		JSONObject serial = new JSONObject();
 		try{
 			serial.put("id", mId);
-			serial.put("id", mName);
+			serial.put("name", mName);
 			serial.put("hub", mHubId);
 
 		}catch (JSONException _exception){
