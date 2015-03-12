@@ -13,7 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DeviceManager {
@@ -33,6 +35,13 @@ public class DeviceManager {
         createDevices(_devData);
     }
 
+    public List<String> devicesId(){
+        List<String> ids = new ArrayList<>();
+        for(Device dev: mRegisteredDevices.values()){
+            ids.add(dev.id());
+        }
+        return ids;
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private Interface
