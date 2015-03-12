@@ -51,7 +51,7 @@ public class Scene extends Device {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        return null;
+        return command;
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
