@@ -38,12 +38,6 @@ public class Kodi extends Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public JSONObject action(JSONObject _stateInfo) {
-        return null;
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
     public DevicePanel createPanel(String _type, Context _context) {
         return new KodiLastShowPanel(this, R.layout.kodi_last_show_panel, _context);
     }
