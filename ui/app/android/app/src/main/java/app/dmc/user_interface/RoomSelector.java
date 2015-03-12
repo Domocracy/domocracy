@@ -12,7 +12,6 @@ package app.dmc.user_interface;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,13 +61,11 @@ public class RoomSelector {
         public boolean onInterceptTouchEvent(MotionEvent _event) {
             switch (_event.getAction()){
                 case MotionEvent.ACTION_DOWN:
-                    Log.d("Test", "Action Down");
                     return actionDownCallback(mSelector, _event);
                 case MotionEvent.ACTION_UP:
-                    Log.d("Test", "Action Up");
                     return actionUpCallback(mSelector, _event);
             }
-            return super.onInterceptTouchEvent(_event);
+            return false;
         }
 
         //-----------------------------------------------------------------------------------------------------------------
@@ -107,7 +104,6 @@ public class RoomSelector {
             }else if((iniX - x) > OFFSET){  // next room
                 if(mCurrentRoom + 1 < mRooms.size()) {
                     mCurrentRoom++;
-
                     mSelector.removeAllViews();
                     mSelector.addView(snapShotView);
                     mSelector.addView(mRooms.get(mCurrentRoom).view());
@@ -127,7 +123,6 @@ public class RoomSelector {
         final double OFFSET = 30;
         double iniX;
         ImageView snapShotView;
-
     }
 
 }
