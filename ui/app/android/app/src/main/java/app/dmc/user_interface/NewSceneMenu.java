@@ -15,9 +15,12 @@ import android.content.DialogInterface;
 import android.util.Pair;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,22 +62,50 @@ public class NewSceneMenu{
         title.setText("Add new scene");
         layout.addView(title);
 
-        mDevList = new ListView(_context);
         List<String> deviceIds = User.get().getCurrentHub().deviceIds();
-        layout.addView(new DevicesCheckList(_context, deviceIds));
+        mCheckList = new DevicesCheckList(_context, deviceIds);
+        layout.addView(mCheckList);
 
         mMenuBuilder.setView(layout);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private void addScene(){
+        // Serialize info into a JSON
+        List<Pair<String, List<String>>>  devList = mCheckList.panelsChecked();
+        if(devList.size() == 0)
+            return;
+
+        JSONObject sceneJSON = new JSONObject();
+        try{
+            sceneJSON.put("type", "Scene");
+
+            JSONObject sceneData = new JSONObject();
+            sceneData.put("id","9a");   // 666 TODO random number initialization.
+            sceneData.put("name", "New Scene");
+            sceneData.put("hub", User.get().getCurrentHub().name());
+
+            JSONArray panels = new JSONArray();
+            for(Pair<String, List<String>> dev: devList){
+                for(String panel: dev.second){
+                    JSONObject panelJSON = new JSONObject();
+                    panelJSON.put("devId", dev.first);
+                    panelJSON.put("type", panel);
+                    panels.put(panelJSON);
+                }
+            }
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
+        
+        // Call user to create new device
 
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
     private AlertDialog.Builder mMenuBuilder;
-    ListView mDevList;
+    private DevicesCheckList    mCheckList;
 
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -102,6 +133,9 @@ public class NewSceneMenu{
                     panels.add(mPanelTypes.get(i).first);
                 }
             }
+            if(panels.size() == 0)
+                return null;
+
             Pair<String, List<String>> info = new Pair<>(mDevId, panels);
             return info;
         }
@@ -159,7 +193,9 @@ public class NewSceneMenu{
         public List<Pair<String, List<String>>> panelsChecked(){
             List<Pair<String, List<String>>> listData = new ArrayList<>();
             for(PanelsCheckList panelsChecked: mDevicePanelsList){
-                listData.add(panelsChecked.panelsChecked());
+                Pair<String, List<String>> data = panelsChecked.panelsChecked();
+                if(data != null)
+                    listData.add(data);
             }
 
             return listData;
