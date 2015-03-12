@@ -9,9 +9,10 @@
 
 package app.dmc.user_interface;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,84 +27,16 @@ import app.dmc.Room;
 public class RoomSelector {
     //-----------------------------------------------------------------------------------------------------------------
     // Public interface
-    public RoomSelector(final Activity _activity, final List<Room>_rooms){
-        // Store Rooms
+    public RoomSelector(Context _context, final List<Room>_rooms){
         mRooms = _rooms;
-        // Init Selector
-        mSelector = new ViewFlipper(_activity);/*{
-            @Override
-            public boolean onInterceptTouchEvent(MotionEvent ev) {
-                Log.d("TEST", "JAJAJA IM THE FIRST ONE.");
-                return false;
-            }
-        };*/
+        mSelector = new CustomViewFlipper(_context);
 
-        // Testing Room images
-        View roomView1 = mRooms.get(mCurrentRoom).view();
+        View roomView = mRooms.get(mCurrentRoom).view();
 
-        if(roomView1.getParent() != null)
-            ((ViewGroup) roomView1.getParent()).removeAllViews();
+        if(roomView.getParent() != null)
+            ((ViewGroup) roomView.getParent()).removeAllViews();
 
-        mSelector.addView(roomView1);
-
-       mSelector.setOnTouchListener(new ViewFlipper.OnTouchListener() {
-            final double OFFSET = 30;
-            double iniX;
-            ImageView snapShotView;
-
-            @Override
-            public boolean onTouch(View _view, MotionEvent event) {
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        iniX = event.getX();
-                        int width = _view.getWidth();
-                        int height = _view.getHeight();
-
-                        Bitmap snapshot = Bitmap.createBitmap(width, height , Bitmap.Config.ARGB_8888);
-                        Canvas c = new Canvas(snapshot);
-                        _view.draw(c);
-
-                        snapShotView = new ImageView(_activity);
-                        snapShotView.setImageBitmap(snapshot);
-
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        double x = event.getX();
-                        if((iniX - x) < - OFFSET){  // previous room
-                            if(mCurrentRoom - 1 >= 0 ) {
-                                mCurrentRoom--;
-
-                                mSelector.removeAllViews();
-                                mSelector.addView(snapShotView);
-                                mSelector.addView(mRooms.get(mCurrentRoom).view());
-
-                                mSelector.setInAnimation(_activity, R.anim.slide_in_left);
-                                mSelector.setOutAnimation(_activity, R.anim.slide_out_right);
-                                mSelector.showPrevious();
-
-                            }
-
-                        }else if((iniX - x) > OFFSET){  // next room
-                            if(mCurrentRoom + 1 < mRooms.size()) {
-                                mCurrentRoom++;
-
-                                mSelector.removeAllViews();
-                                mSelector.addView(snapShotView);
-                                mSelector.addView(mRooms.get(mCurrentRoom).view());
-
-                                mSelector.setInAnimation(_activity, R.anim.slide_in_right);
-                                mSelector.setOutAnimation(_activity, R.anim.slide_out_left);
-                                mSelector.showNext();
-
-                            }
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
+        mSelector.addView(roomView);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -112,12 +45,89 @@ public class RoomSelector {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
-    //-----------------------------------------------------------------------------------------------------------------
-
     // Private members
     private List<Room>      mRooms = null;
     private ViewFlipper     mSelector = null;
     private int             mCurrentRoom = 0;
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Inner Classes
+    class CustomViewFlipper extends ViewFlipper{
+        CustomViewFlipper(Context _context){
+            super(_context);
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------
+        @Override
+        public boolean onInterceptTouchEvent(MotionEvent _event) {
+            switch (_event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    Log.d("Test", "Action Down");
+                    return actionDownCallback(mSelector, _event);
+                case MotionEvent.ACTION_UP:
+                    Log.d("Test", "Action Up");
+                    return actionUpCallback(mSelector, _event);
+            }
+            return super.onInterceptTouchEvent(_event);
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------
+        // Private Methods
+        private boolean actionDownCallback(View _view, MotionEvent _event){
+            iniX = _event.getX();
+            int width = _view.getWidth();
+            int height = _view.getHeight();
+
+            Bitmap snapshot = Bitmap.createBitmap(width, height , Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(snapshot);
+            _view.draw(c);
+
+            snapShotView = new ImageView(_view.getContext());
+            snapShotView.setImageBitmap(snapshot);
+            return false;
+        }
+        //-----------------------------------------------------------------------------------------------------------------
+        private boolean actionUpCallback(View _view, MotionEvent _event){
+            double x = _event.getX();
+            if((iniX - x) < - OFFSET){  // previous room
+                if(mCurrentRoom - 1 >= 0 ) {
+                    mCurrentRoom--;
+
+                    mSelector.removeAllViews();
+                    mSelector.addView(snapShotView);
+                    mSelector.addView(mRooms.get(mCurrentRoom).view());
+
+                    mSelector.setInAnimation(_view.getContext(), R.anim.slide_in_left);
+                    mSelector.setOutAnimation(_view.getContext(), R.anim.slide_out_right);
+                    mSelector.showPrevious();
+
+                    return true;
+                }
+
+            }else if((iniX - x) > OFFSET){  // next room
+                if(mCurrentRoom + 1 < mRooms.size()) {
+                    mCurrentRoom++;
+
+                    mSelector.removeAllViews();
+                    mSelector.addView(snapShotView);
+                    mSelector.addView(mRooms.get(mCurrentRoom).view());
+
+                    mSelector.setInAnimation(_view.getContext(), R.anim.slide_in_right);
+                    mSelector.setOutAnimation(_view.getContext(), R.anim.slide_out_left);
+                    mSelector.showNext();
+
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------
+        // Private Members
+        final double OFFSET = 30;
+        double iniX;
+        ImageView snapShotView;
+
+    }
 
 }
