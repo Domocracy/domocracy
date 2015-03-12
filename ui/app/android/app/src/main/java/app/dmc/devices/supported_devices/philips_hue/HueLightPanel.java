@@ -28,6 +28,7 @@ import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
 
 public class HueLightPanel extends DevicePanel {
+	//-----------------------------------------------------------------------------------------------------------------
     HueLightPanel(Device _parent, int _layoutResId, final Context _context){
         super(_parent, _layoutResId, _context);
 
@@ -43,8 +44,8 @@ public class HueLightPanel extends DevicePanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public void stateChanged(JSONObject _state) {
-
+    public void onStateChange(JSONObject _state) {
+		/// 666 TODO
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -85,7 +86,6 @@ public class HueLightPanel extends DevicePanel {
                 return onChangeHue(_v, _event);
             }
         });
-
     }
 
     //-----------------------------------------------------------------------------------------------------------------

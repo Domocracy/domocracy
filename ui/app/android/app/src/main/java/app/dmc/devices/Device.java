@@ -107,7 +107,7 @@ public abstract class Device {
         onUpdateState(_state);
 
         for(DevicePanel panel : mRegisteredPanels){
-            panel.stateChanged(_state);
+            panel.onStateChange(_state);
         }
     }
 

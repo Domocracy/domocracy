@@ -71,7 +71,7 @@ public abstract class DevicePanel extends LinearLayout {
 	public Device device() { return mParentDevice; }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void onStateChanged(JSONObject _state) {}
+    public void onStateChange(JSONObject _state) {}
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
