@@ -23,6 +23,12 @@ public class User {
         sInstance = new User(_userID, _activity);
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	public static void end() {
+		sInstance.onEnd();
+		sInstance = null;
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     public static User get(){
         return sInstance;
@@ -61,6 +67,12 @@ public class User {
         }
 		UserInterface.init(_activity, this);
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void onEnd() {
+		mLastHub = null;
+		HubManager.end();
+	}
 
     //-----------------------------------------------------------------------------------------------------------------
     private static  User                sInstance = null;

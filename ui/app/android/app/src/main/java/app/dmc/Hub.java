@@ -111,7 +111,7 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void save(){
+    public void save(){
         JSONObject jsonToSave = new JSONObject();
         try {
             jsonToSave.put("hubId", mId);
@@ -123,13 +123,6 @@ public class Hub {
             e.printStackTrace();
         }
         Persistence.get().putJSON("hub_"+mId,jsonToSave);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    protected void finalize() throws Throwable {
-        save();
-        super.finalize();
     }
 
     //-----------------------------------------------------------------------------------------------------------------

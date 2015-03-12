@@ -16,22 +16,20 @@ public class Main extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Init HubManager
-        Persistence.init(this);
-        //MANDATORY: Persistence need to be initialized BEFORE HubManager.
-        User.init("kike", this);
-        // Create Interface
-        // Check if first connection
-        //      Launch firstConnectionInterface
-        //  else
-        //      Init Connections
-        //      so on...
-        //UserInterface.init(this);
-        mUI = UserInterface.get();
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
 	@Override
-	protected void onDestroy() {
+	protected void onStart() {
+		super.onStart();
+		Persistence.init(this); //MANDATORY: Persistence need to be initialized BEFORE HubManager.
+		User.init("kike", this);
+		mUI = UserInterface.get();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	protected void onStop() {
 		User.end();
 		Persistence.end();
 		super.onDestroy();
@@ -43,10 +41,7 @@ public class Main extends ActionBarActivity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-
-
-
-            return true;
+        return true;
     }
         //-----------------------------------------------------------------------------------------------------------------
 
