@@ -43,14 +43,14 @@ public class Scene extends Device {
     @Override
     public List<Pair<String,Boolean>> panelTypes(){
         List<Pair<String,Boolean>> types = new ArrayList<>();
-        types.add(new Pair<>("Complete", true));
+        types.add(new Pair<>("Scene", true));
         return types;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, Context _context) {
-        if(_type.equals("Complete")) {
+        if(_type.equals("Scene")) {
             return new ScenePanel(this, mPanelData, mChildActions, R.layout.scene_layout, _context);
         }
         return null;

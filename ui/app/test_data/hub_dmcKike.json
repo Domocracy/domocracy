@@ -47,7 +47,7 @@
 			"name": "Timmy's room",
 			"panels": [
 				{
-					"type": "Complete",
+					"type": "HueLight",
 					"devId":"2a"
 				},
 				{
