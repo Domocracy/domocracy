@@ -13,7 +13,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Pair;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -62,9 +61,7 @@ public class NewSceneMenu{
 
         mDevList = new ListView(_context);
         List<String> deviceIds = User.get().getCurrentHub().deviceIds();
-
-        DevicesCheckList checkList = new DevicesCheckList(_context, deviceIds);
-        layout.addView(checkList.view());
+        layout.addView(new DevicesCheckList(_context, deviceIds));
 
         mMenuBuilder.setView(layout);
     }
@@ -79,8 +76,11 @@ public class NewSceneMenu{
     private AlertDialog.Builder mMenuBuilder;
     ListView mDevList;
 
+
+    //-----------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------
     // Inner classes
+    //-----------------------------------------------------------------------------------------------------------------
     class PanelsCheckList extends  LinearLayout{
         //-------------------------------------------------------------------------------------------------------------
         public PanelsCheckList(Context _context, String _id){
@@ -133,10 +133,10 @@ public class NewSceneMenu{
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
     class DevicesCheckList extends ScrollView{
         DevicesCheckList(Context _context, List<String> _deviceIds){
             super(_context);
-            mCheckList          = new ListView(_context);
             mDevicePanelsList   = new ArrayList<>();
             mDeviceIds          = _deviceIds;
 
@@ -145,6 +145,7 @@ public class NewSceneMenu{
         //-----------------------------------------------------------------------------------------------------------------
         public void buildView(Context _context){
             LinearLayout base = new LinearLayout(_context);
+            base.setOrientation(LinearLayout.VERTICAL);
             for(int i = 0; i < mDeviceIds.size(); i++){
                 PanelsCheckList list = new PanelsCheckList(_context, mDeviceIds.get(i));
                 mDevicePanelsList.add(list);
@@ -165,17 +166,8 @@ public class NewSceneMenu{
         }
 
         //-----------------------------------------------------------------------------------------------------------------
-        View view(){
-            return mCheckList;
-        }
-
-        // Members
-        class Holder{
-            public LinearLayout baseLayout;
-        }
-
+        // Private members
         private List<String>                    mDeviceIds;
         private List<PanelsCheckList>           mDevicePanelsList;
-        private ListView                        mCheckList;
     }
 }
