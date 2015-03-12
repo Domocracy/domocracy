@@ -12,6 +12,7 @@ package app.dmc.user_interface;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -64,7 +65,7 @@ public class NewSceneMenu{
         mDevList = new ListView(_context);
         List<String> deviceIds = User.get().getCurrentHub().deviceIds();
 
-        CheckList checkList = new CheckList(_context, deviceIds);
+        DevicesCheckList checkList = new DevicesCheckList(_context, deviceIds);
         layout.addView(checkList.view());
 
         mMenuBuilder.setView(layout);
@@ -81,8 +82,34 @@ public class NewSceneMenu{
 
     //-----------------------------------------------------------------------------------------------------------------
     // Inner classes
-    class CheckList extends BaseAdapter{
-        CheckList(Context _context, List<String> _deviceIds){
+    class DevicePanelCheckList{
+        //-------------------------------------------------------------------------------------------------------------
+        DevicePanelCheckList(String _id, Context _context){
+            mLayout = new LinearLayout(_context);
+
+            mDevId = _id;
+            mPanelTypes = User.get().getCurrentHub().device(_id).panelTypes();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        private void buildView(Context _context){
+            TextView devName = new TextView(_context);
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        View view(){ return mLayout; }
+
+        //-------------------------------------------------------------------------------------------------------------
+        // Private Members
+        String          mDevId;
+        List<Pair<String, Boolean>>    mPanelTypes;
+
+        LinearLayout    mLayout;
+
+    }
+
+    class DevicesCheckList extends BaseAdapter{
+        DevicesCheckList(Context _context, List<String> _deviceIds){
             mCheckList = new ListView(_context);
             mCheckBoxes = new ArrayList<>();
             mDeviceIds = _deviceIds;

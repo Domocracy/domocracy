@@ -10,6 +10,7 @@
 package app.dmc.devices.supported_devices.philips_hue;
 
 import android.content.Context;
+import android.util.Pair;
 
 import org.json.JSONObject;
 
@@ -30,9 +31,9 @@ public class HueLight extends Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public List<String> panelTypes(){
-        List<String> types = new ArrayList<>();
-        types.add("Complete");
+    public List<Pair<String,Boolean>> panelTypes(){
+        List<Pair<String,Boolean>> types = new ArrayList<>();
+        types.add(new Pair<>("Complete", true));
         return types;
     }
 

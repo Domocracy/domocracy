@@ -10,6 +10,7 @@
 package app.dmc.devices.supported_devices.kodi;
 
 import android.content.Context;
+import android.util.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,9 +48,9 @@ public class Kodi extends Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public List<String> panelTypes(){
-        List<String> types = new ArrayList<>();
-        types.add("LastShow");
+    public List<Pair<String,Boolean>> panelTypes(){
+        List<Pair<String,Boolean>> types = new ArrayList<>();
+        types.add(new Pair<>("LastShow", true));
         return types;
     }
 

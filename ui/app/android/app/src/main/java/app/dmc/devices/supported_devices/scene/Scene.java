@@ -11,6 +11,7 @@
 package app.dmc.devices.supported_devices.scene;
 
 import android.content.Context;
+import android.util.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,9 +41,9 @@ public class Scene extends Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public List<String> panelTypes(){
-        List<String> types = new ArrayList<>();
-        types.add("Complete");
+    public List<Pair<String,Boolean>> panelTypes(){
+        List<Pair<String,Boolean>> types = new ArrayList<>();
+        types.add(new Pair<>("Complete", true));
         return types;
     }
 
