@@ -45,7 +45,6 @@ public class MainScreen {
                 return false;
             }
         });
-
         mCurrentRoom = mCurrentHub.room(mCurrentHub.rooms().get(0).id());
         if(mCurrentRoom != null)
             setRoomTitle(_activity);

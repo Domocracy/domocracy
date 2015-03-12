@@ -33,7 +33,6 @@ public class UserInterface {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
     //  Private Interface
     private UserInterface(ActionBarActivity _activity, User _user){
         _activity.setContentView(R.layout.activity_main);
