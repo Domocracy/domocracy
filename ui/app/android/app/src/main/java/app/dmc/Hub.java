@@ -116,7 +116,7 @@ public class Hub {
         try {
             jsonToSave.put("hubId", mId);
             jsonToSave.put("name",mName);
-            jsonToSave.put("devices",mDevices);
+            jsonToSave.put("devices",mDevMgr.serializeDevices());
             jsonToSave.put("rooms",mRooms);
             jsonToSave.put("ip", mIp);
         }catch(JSONException e){

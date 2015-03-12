@@ -11,7 +11,7 @@ import app.dmc.user_interface.TopBar;
 import app.dmc.user_interface.UserInterface;
 
 public class Main extends ActionBarActivity {
-
+	//-----------------------------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +28,15 @@ public class Main extends ActionBarActivity {
         //UserInterface.init(this);
         mUI = UserInterface.get();
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	protected void onDestroy() {
+		User.end();
+		Persistence.end();
+		super.onDestroy();
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
