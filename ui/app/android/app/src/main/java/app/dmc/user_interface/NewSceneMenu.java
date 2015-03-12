@@ -14,17 +14,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Pair;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import app.dmc.Hub;
 import app.dmc.User;
 
 public class NewSceneMenu{
@@ -34,6 +32,7 @@ public class NewSceneMenu{
         createDialog(_context);
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     private void createDialog(Context _context) {
         // Load devices and put them into the list
         setContentView(_context);
@@ -51,7 +50,6 @@ public class NewSceneMenu{
 
         mMenuBuilder.create().show();
     }
-
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private methods
@@ -71,6 +69,7 @@ public class NewSceneMenu{
         mMenuBuilder.setView(layout);
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     private void addScene(){
 
     }
@@ -82,88 +81,87 @@ public class NewSceneMenu{
 
     //-----------------------------------------------------------------------------------------------------------------
     // Inner classes
-    class DevicePanelCheckList{
+    class PanelsCheckList extends  LinearLayout{
         //-------------------------------------------------------------------------------------------------------------
-        DevicePanelCheckList(String _id, Context _context){
-            mLayout = new LinearLayout(_context);
+        public PanelsCheckList(Context _context, String _id){
+            super(_context);
+            setOrientation(VERTICAL);
 
+            mCheckBoxList = new ArrayList<>();
             mDevId = _id;
             mPanelTypes = User.get().getCurrentHub().device(_id).panelTypes();
+
+            buildView(_context);
         }
 
         //-------------------------------------------------------------------------------------------------------------
+        public Pair<String, List<String>> panelsChecked(){
+            List<String> panels = new ArrayList<>();
+            for(int i = 0 ; i < mCheckBoxList.size(); i++){
+                if(mCheckBoxList.get(i).isChecked()){
+                    panels.add(mPanelTypes.get(i).first);
+                }
+            }
+            Pair<String, List<String>> info = new Pair<>(mDevId, panels);
+            return info;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        // Private methods
         private void buildView(Context _context){
             TextView devName = new TextView(_context);
-        }
+            devName.setText(User.get().getCurrentHub().device(mDevId).name());
+            addView(devName);
 
-        //-------------------------------------------------------------------------------------------------------------
-        View view(){ return mLayout; }
+            for(int i = 0; i < mPanelTypes.size(); i++){
+                if(mPanelTypes.get(i).second){
+                    CheckBox panelCheckBox = new CheckBox(_context);
+                    panelCheckBox.setText(mPanelTypes.get(i).first);
+                    mCheckBoxList.add(panelCheckBox);
+                    addView(panelCheckBox);
+                }
+            }
+
+        }
 
         //-------------------------------------------------------------------------------------------------------------
         // Private Members
-        String          mDevId;
-        List<Pair<String, Boolean>>    mPanelTypes;
+        String                      mDevId;
+        List<Pair<String, Boolean>> mPanelTypes;
 
-        LinearLayout    mLayout;
-
+        List<CheckBox>              mCheckBoxList;
     }
 
-    class DevicesCheckList extends BaseAdapter{
+    //-----------------------------------------------------------------------------------------------------------------
+    class DevicesCheckList extends ScrollView{
         DevicesCheckList(Context _context, List<String> _deviceIds){
-            mCheckList = new ListView(_context);
-            mCheckBoxes = new ArrayList<>();
-            mDeviceIds = _deviceIds;
+            super(_context);
+            mCheckList          = new ListView(_context);
+            mDevicePanelsList   = new ArrayList<>();
+            mDeviceIds          = _deviceIds;
 
-            Hub hub = User.get().getCurrentHub();
-            for(int i = 0; i <_deviceIds.size(); i++){
-                CheckBox checkBox = new CheckBox(_context);
-                checkBox.setText(hub.device(_deviceIds.get(i)).name());
-                mCheckBoxes.add(checkBox);
+            buildView(_context);
+        }
+        //-----------------------------------------------------------------------------------------------------------------
+        public void buildView(Context _context){
+            LinearLayout base = new LinearLayout(_context);
+            for(int i = 0; i < mDeviceIds.size(); i++){
+                PanelsCheckList list = new PanelsCheckList(_context, mDeviceIds.get(i));
+                mDevicePanelsList.add(list);
+                base.addView(list);
             }
 
-            mCheckList.setAdapter(this);
+            addView(base);
         }
 
         //-----------------------------------------------------------------------------------------------------------------
-        @Override
-        public int getCount() {
-            return mCheckBoxes.size();
-        }
-
-        //-----------------------------------------------------------------------------------------------------------------
-        @Override
-        public Object getItem(int _position) {
-            return mCheckBoxes.get(_position);
-        }
-
-        //-----------------------------------------------------------------------------------------------------------------
-        @Override
-        public long getItemId(int _position) {
-            return _position;
-        }
-
-        //-----------------------------------------------------------------------------------------------------------------
-        @Override
-        public View getView(int _position, View _convertView, ViewGroup _parent) {
-            CheckBox checkBox = null;
-            if (_convertView == null) {
-                _convertView = new CheckBox(_parent.getContext());
-
-                checkBox = new CheckBox(_parent.getContext());
-                checkBox.setText(mCheckBoxes.get(_position).getText());
-                checkBox.setChecked (mCheckBoxes.get(_position).isChecked());
-
-                _convertView.setTag(checkBox);
-            }
-            else {
-                checkBox = (CheckBox) _convertView.getTag();
+        public List<Pair<String, List<String>>> panelsChecked(){
+            List<Pair<String, List<String>>> listData = new ArrayList<>();
+            for(PanelsCheckList panelsChecked: mDevicePanelsList){
+                listData.add(panelsChecked.panelsChecked());
             }
 
-            //checkBox.setText(mCheckBoxes.get(_position).getText());
-            //checkBox.setChecked (mCheckBoxes.get(_position).isChecked());
-
-            return _convertView;
-
+            return listData;
         }
 
         //-----------------------------------------------------------------------------------------------------------------
@@ -172,8 +170,12 @@ public class NewSceneMenu{
         }
 
         // Members
-        private List<String>        mDeviceIds;
-        private List<CheckBox>      mCheckBoxes;
-        private ListView            mCheckList;
+        class Holder{
+            public LinearLayout baseLayout;
+        }
+
+        private List<String>                    mDeviceIds;
+        private List<PanelsCheckList>           mDevicePanelsList;
+        private ListView                        mCheckList;
     }
 }
