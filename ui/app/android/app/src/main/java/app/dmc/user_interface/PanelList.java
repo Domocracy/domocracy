@@ -20,14 +20,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import app.dmc.Hub;
 import app.dmc.devices.DevicePanel;
 
 public class PanelList extends LinearLayout {
     //-----------------------------------------------------------------------------------------------------------------
-    public PanelList(JSONArray _contentData, Hub _defaultHub, Context _context){
+    public PanelList(JSONArray _panelsData, Hub _defaultHub, Context _context){
         super(_context);
         mPanels =  new ArrayList<>();
         setOrientation(VERTICAL);
@@ -38,13 +37,13 @@ public class PanelList extends LinearLayout {
             }
         });
 
-        for(int i = 0; i < _contentData.length(); i++){
+        for(int i = 0; i < _panelsData.length(); i++){
             try {
-                JSONObject panelData = _contentData.getJSONObject(i);
+                JSONObject panelData = _panelsData.getJSONObject(i);
                 String type     = panelData.getString("type");
                 String devID    = panelData.getString("devId");
 
-                addPanel(_defaultHub.device(devID).newPanel(type, panelData, _context));
+                addPanel(_defaultHub.device(devID).newPanel(type, _context));
 
             }catch (JSONException _exception){
                 _exception.printStackTrace();
@@ -60,9 +59,9 @@ public class PanelList extends LinearLayout {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Getters
-    public List<DevicePanel> panels(){ return mPanels; }
+    public ArrayList<DevicePanel> panels(){ return mPanels; }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
-    private List<DevicePanel> mPanels;
+    private ArrayList<DevicePanel> mPanels;
 }

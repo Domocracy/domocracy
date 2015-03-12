@@ -24,14 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.dmc.R;
-import app.dmc.devices.Actuator;
-import app.dmc.devices.ActuatorPanel;
+import app.dmc.devices.Device;
+import app.dmc.devices.DevicePanel;
 
 
-public class KodiLastShowPanel extends ActuatorPanel {
+public class KodiLastShowPanel extends DevicePanel {
     //-----------------------------------------------------------------------------------------------------------------
-    public KodiLastShowPanel(final Actuator _parentActuator, final JSONObject _panelData, int _layoutResId, Context _context) {
-        super(_parentActuator, _panelData, _layoutResId, _context);
+    public KodiLastShowPanel(final Device _parentActuator, int _layoutResId, Context _context) {
+        super(_parentActuator, _layoutResId, _context);
 
         init(_context);
         setCallbacks();
@@ -102,7 +102,7 @@ public class KodiLastShowPanel extends ActuatorPanel {
         mTvShowSelector.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                ((Kodi) mParentActuator).loadTvShows();
+                ((Kodi) device()).loadTvShows();
                 return false;
             }
         });
@@ -135,7 +135,7 @@ public class KodiLastShowPanel extends ActuatorPanel {
                         } catch (IndexOutOfBoundsException _indexOutOfBoundException) {
                             Log.d("DOMOCRACY", "There arent any tv show in the list");
                         }
-                        JSONObject response = mParentActuator.runCommand(request);
+                        JSONObject response = device().runCommand(request);
                         // if(response OK){
                         //      Dev in mode OK
                         //else

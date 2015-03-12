@@ -13,7 +13,13 @@
 		"data" : {
 			"name": "All off",
 			"children" : [
-				{ "id":74, "cmd": { "on":false } },
+				{ 
+					"id":74,
+					"cmd": { 
+						"cmd":"lastEpisode",
+						"tvshowid": 1 
+					}
+				},
 				{ "id":42, "cmd": { "on":false } },
 				{ "id":43, "cmd": { "on":false } }
 			]

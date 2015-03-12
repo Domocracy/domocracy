@@ -17,31 +17,28 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
 import app.dmc.User;
-import app.dmc.devices.Actuator;
-import app.dmc.devices.ActuatorPanel;
+import app.dmc.devices.Device;
+import app.dmc.devices.DevicePanel;
 import app.dmc.user_interface.PanelList;
 
-public class ScenePanel extends ActuatorPanel {
-    public ScenePanel(Actuator _parentActuator, JSONObject _panelData, int _layoutResId, Context _context, JSONArray _devicesData) {
-        super(_parentActuator, _panelData, _layoutResId, _context);
+public class ScenePanel extends DevicePanel {
+
+	//-----------------------------------------------------------------------------------------------------------------
+    public ScenePanel(Scene _parent, JSONArray _panelsData, JSONArray _childActions, int _layoutResId, Context _context) {
+        super(_parent, _layoutResId, _context);
 
         mExpandButton = (Button) findViewById(R.id.expandViewButton);
         mExtendedView = (LinearLayout) findViewById(R.id.extendedLayout);
 
-        mDevData = _devicesData;
+		mPanelData = _panelsData;
+		mChildActions = _childActions;
+		mParentScene = _parent;
 
         setCallbacks();
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public void stateChanged(JSONObject _state) {
-
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -58,33 +55,23 @@ public class ScenePanel extends ActuatorPanel {
             @Override
             public void onClick(View v) {
                 if(mDeviceList == null){
-                    mDeviceList = new PanelList(mDevData, User.get().getCurrentHub(), getContext());
+                    mDeviceList = new PanelList(mPanelData, User.get().getCurrentHub(), getContext());
                     mExtendedView.addView(mDeviceList);
                 }
-                onExpandView();
+				if(!mExpanded)
+					onExpandView();
+				else
+					onCollapseView();
             }
         });
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
     private void onClickRunCommand(){
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Put dev in "Sending mode"
-                // Send Response
-                try {
-                    JSONObject cmdRequest = new JSONObject();
-                    cmdRequest.put("method", "PUT");
-                    cmdRequest.put("cmd", new JSONObject());
-                    JSONObject response = mParentActuator.runCommand(cmdRequest);
-                } catch (JSONException _jsonException){
-                    _jsonException.printStackTrace();
-                }
-                // if(response OK){
-                //      Dev in mode OK
-                //else
-                //      Dev back to last state
-
+        	mParentScene.runCommand(mParentScene.action(null));
             }
         });
         commThread.start();
@@ -92,25 +79,71 @@ public class ScenePanel extends ActuatorPanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onExpandView(){
-        float iniY = -1;
-        Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, iniY,
-                Animation.RELATIVE_TO_SELF, 0);
-        slideDown.setDuration(400);
-
-        switch (mExtendedView.getVisibility()){
-            case View.VISIBLE:
-                mExtendedView.setVisibility(View.GONE);
-                mExpandButton.setBackgroundResource(R.drawable.extend_button_selector);
-                break;
-            case View.GONE:
-                mExtendedView.setAnimation(slideDown);
-                mExtendedView.setVisibility(View.VISIBLE);
-                mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
-                break;
-        }
+		mExpanded = true;
+		mCapturedState = captureState();
+		displayExtendedView(); // Display extended view
+		pauseChildren();
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private JSONArray captureState() {
+		JSONArray state = new JSONArray();
+		for( DevicePanel child : mDeviceList.panels() ) {
+			state.put(child.action());
+		}
+		return state;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void pauseChildren() {
+		for( DevicePanel child : mDeviceList.panels() ) {
+			child.pause();
+		}
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void onCollapseView() {
+		mExpanded = false;
+		JSONArray finalState = captureState();
+		mParentScene.saveModifications(finalState);
+		restoreState(mCapturedState);
+		hideExtendedView();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void restoreState(JSONArray _state) {
+		for(int i = 0; i < _state.length(); ++i) {
+			try {
+				JSONObject command = _state.getJSONObject(i);
+				Device dev = mDeviceList.panels().get(i).device();
+				dev.runCommand(command);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void displayExtendedView() {
+		float iniY = -1;
+		Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
+				Animation.RELATIVE_TO_SELF, 0,
+				Animation.RELATIVE_TO_SELF, iniY,
+				Animation.RELATIVE_TO_SELF, 0);
+		slideDown.setDuration(400);
+
+		mExtendedView.setAnimation(slideDown);
+		mExtendedView.setVisibility(View.VISIBLE);
+		mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
+
+		// 666 TODO: Use mChildrenActions to modify the state of child panels
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void hideExtendedView() {
+		mExtendedView.setVisibility(View.GONE);
+		mExpandButton.setBackgroundResource(R.drawable.extend_button_selector);
+	}
 
     //-----------------------------------------------------------------------------------------------------------------
     // private members
@@ -118,5 +151,9 @@ public class ScenePanel extends ActuatorPanel {
     private LinearLayout    mExtendedView;
     private PanelList       mDeviceList;
 
-    private JSONArray       mDevData;
+    private JSONArray       mPanelData;
+	private boolean			mExpanded;
+	private Scene			mParentScene;
+	private JSONArray		mCapturedState;
+	private JSONArray		mChildActions;
 }

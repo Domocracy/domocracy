@@ -16,10 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
-import app.dmc.devices.Actuator;
+import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
 
-public class Kodi extends Actuator {
+public class Kodi extends Device {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     public Kodi(JSONObject _devData){
@@ -44,8 +44,8 @@ public class Kodi extends Actuator {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public DevicePanel createPanel(String _type, JSONObject _panelData, Context _context) {
-        return new KodiLastShowPanel(this, _panelData, R.layout.kodi_last_show_panel, _context);
+    public DevicePanel createPanel(String _type, Context _context) {
+        return new KodiLastShowPanel(this, R.layout.kodi_last_show_panel, _context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

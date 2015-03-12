@@ -39,7 +39,7 @@ namespace dmc { namespace hue {
 			return Json(R"("result":"fail")");
 		std::cout << "Hue light received a command\n";
 		string commandUrl = string("/lights/") + mHueId + "/state";
-		return sBridge->putData(commandUrl, _cmd)?Json(R"("result":"ok")"):Json(R"("result":"fail")");
+		return sBridge->putData(commandUrl, _cmd)?Json(R"({"result":"ok"})"):Json(R"({"result":"fail"})");
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
