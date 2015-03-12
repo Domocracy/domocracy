@@ -74,7 +74,7 @@ public class KodiLastShowPanel extends DevicePanel {
     //-----------------------------------------------------------------------------------------------------------------
     // Private interface
     private void init(Context _context){
-        mTvShowList = ((Kodi) mParentActuator).tvShows();
+        mTvShowList = ((Kodi) device()).tvShows();
         List<String> loadingDummyList = new ArrayList<>();
         for(int i = 0; i < mTvShowList.length(); i++){
             try {
