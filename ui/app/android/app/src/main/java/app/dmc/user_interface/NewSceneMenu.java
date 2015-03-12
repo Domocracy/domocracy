@@ -95,6 +95,7 @@ public class NewSceneMenu{
                 }
             }
             sceneData.put("panels", panels);
+            sceneData.put("children", new JSONArray());
             sceneJSON.put("data", sceneData);
             sceneJSON.put("panelType", "Scene");
         }catch (JSONException _jsonException){
