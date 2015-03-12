@@ -33,15 +33,8 @@ public class KodiLastShowPanel extends DevicePanel {
     public KodiLastShowPanel(final Device _parentActuator, int _layoutResId, Context _context) {
         super(_parentActuator, _layoutResId, _context);
 
-        mTvShowList = new ArrayList<>();
-        List<String> loadingDummyList = new ArrayList<String>();
-        loadingDummyList.add("Loading Tv Shows");
-        mSpinnerAdapter = new ArrayAdapter<String>(_context, android.R.layout.simple_spinner_item, loadingDummyList);
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mTvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
-        mTvShowSelector.setAdapter(mSpinnerAdapter);
-
-        setUpView();
+        init(_context);
+        setCallbacks();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -50,13 +43,14 @@ public class KodiLastShowPanel extends DevicePanel {
         // Fill list with series
         final List<String> tvShowsList = new ArrayList<>();
         try{
+            mTvShowList = new JSONArray();
             JSONArray jsonShowList = _state.getJSONArray("state");
             if(jsonShowList.length() == 0){
                 tvShowsList.add("KODI hasn't got TV shows");
             }
             for(int i = 0; i < jsonShowList.length(); i++){
                 JSONObject tvshow = jsonShowList.getJSONObject(i);
-                mTvShowList.add(tvshow);
+                mTvShowList.put(tvshow);
                 tvShowsList.add(tvshow.getString("label"));
             }
 
@@ -79,12 +73,31 @@ public class KodiLastShowPanel extends DevicePanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private interface
+    private void init(Context _context){
+        mTvShowList = ((Kodi) mParentActuator).tvShows();
+        List<String> loadingDummyList = new ArrayList<>();
+        for(int i = 0; i < mTvShowList.length(); i++){
+            try {
+                loadingDummyList.add(mTvShowList.getJSONObject(i).getString("label"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
+        mSpinnerAdapter = new ArrayAdapter<String>(_context, android.R.layout.simple_spinner_item, loadingDummyList);
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mTvShowSelector = (Spinner) findViewById(R.id.tvShowSelector);
+        mTvShowSelector.setAdapter(mSpinnerAdapter);
+    }
     //-----------------------------------------------------------------------------------------------------------------
     // View set up methods
-    private void setUpView(){
-        setUpClickAction();
+    private void setCallbacks(){
+       clickCallback();
+       extendCallback();
+    }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    private void extendCallback(){
         // Update tvshowlist
         mTvShowSelector.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -96,7 +109,7 @@ public class KodiLastShowPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void setUpClickAction(){
+    private void clickCallback(){
         // Set click action to the panel.
         setOnClickListener(new OnClickListener() {
             @Override
@@ -113,13 +126,13 @@ public class KodiLastShowPanel extends DevicePanel {
 
                             JSONObject cmd = new JSONObject();
                             cmd.put("cmd", "lastEpisode");
-                            JSONObject tvshow = mTvShowList.get(tvShowIndex);
+                            JSONObject tvshow = mTvShowList.getJSONObject(tvShowIndex);
                             cmd.put("tvshowid", tvshow.getInt("tvshowid"));
 
                             request.put("cmd", cmd);
-                        } catch (JSONException _jsonException){
+                        } catch (JSONException _jsonException) {
                             _jsonException.printStackTrace();
-                        } catch (IndexOutOfBoundsException _indexOutOfBoundException){
+                        } catch (IndexOutOfBoundsException _indexOutOfBoundException) {
                             Log.d("DOMOCRACY", "There arent any tv show in the list");
                         }
                         JSONObject response = device().runCommand(request);
@@ -138,7 +151,7 @@ public class KodiLastShowPanel extends DevicePanel {
 
     // Private members
     private Spinner mTvShowSelector;
-    ArrayAdapter<String> mSpinnerAdapter;
+    private ArrayAdapter<String> mSpinnerAdapter;
 
-    private List<JSONObject> mTvShowList;
+    private JSONArray mTvShowList;
 }
