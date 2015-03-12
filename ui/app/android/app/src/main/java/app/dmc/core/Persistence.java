@@ -30,6 +30,7 @@ public class Persistence {
 
 	//-----------------------------------------------------------------------------------------------------------------
 	public static void end() {
+		sInstance.onEnd();
 		sInstance = null;
 	}
 
@@ -136,10 +137,8 @@ public class Persistence {
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
-	@Override
-	protected void finalize() throws Throwable {
+	private void onEnd() {
 		flush();
-		super.finalize();
 	}
 
     //Private interface
