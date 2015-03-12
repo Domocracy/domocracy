@@ -64,7 +64,7 @@ public class Kodi extends Device {
                 // 666 Update data in persistence.
                 try{
                     JSONObject state = new JSONObject();
-                    state.put("state", mTvShowDataList);
+                    state.put("tvshows", mTvShowDataList);
                     // Update panels
                     updateState(state);
                 }catch (JSONException _jsonException){
