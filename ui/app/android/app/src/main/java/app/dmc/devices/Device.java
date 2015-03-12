@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import app.dmc.Hub;
@@ -55,6 +56,9 @@ public abstract class Device {
 
 		return null;
 	}
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public abstract List<String> panelTypes();
 
     //-----------------------------------------------------------------------------------------------------------------
     public abstract DevicePanel createPanel(String _type, Context _context);

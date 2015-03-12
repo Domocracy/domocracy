@@ -15,6 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import app.dmc.R;
 import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
@@ -44,8 +47,19 @@ public class Kodi extends Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
+    public List<String> panelTypes(){
+        List<String> types = new ArrayList<>();
+        types.add("LastShow");
+        return types;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    @Override
     public DevicePanel createPanel(String _type, Context _context) {
-        return new KodiLastShowPanel(this, R.layout.kodi_last_show_panel, _context);
+        if(_type.equals("LastShow")) {
+            return new KodiLastShowPanel(this, R.layout.kodi_last_show_panel, _context);
+        }
+        return null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -117,6 +131,5 @@ public class Kodi extends Device {
     // Private members
     private JSONArray mMovieDataList;
     private JSONArray mTvShowDataList;
-
 }
 

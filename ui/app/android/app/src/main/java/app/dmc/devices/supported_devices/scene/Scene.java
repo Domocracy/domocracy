@@ -16,6 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import app.dmc.R;
 import app.dmc.core.Persistence;
 import app.dmc.devices.Device;
@@ -37,8 +40,19 @@ public class Scene extends Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
+    public List<String> panelTypes(){
+        List<String> types = new ArrayList<>();
+        types.add("Complete");
+        return types;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    @Override
     public DevicePanel createPanel(String _type, Context _context) {
-        return new ScenePanel(this, mPanelData, mChildActions, R.layout.scene_layout, _context);
+        if(_type.equals("Complete")) {
+            return new ScenePanel(this, mPanelData, mChildActions, R.layout.scene_layout, _context);
+        }
+        return null;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
