@@ -35,7 +35,7 @@ public class NewSceneMenu{
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void createDialog(Context _context) {
+    private void createDialog(final Context _context) {
         // Load devices and put them into the list
         setContentView(_context);
         // Buttons
@@ -46,7 +46,7 @@ public class NewSceneMenu{
         });
         mMenuBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                addScene();
+                addScene(_context);
             }
         });
 
@@ -70,7 +70,7 @@ public class NewSceneMenu{
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void addScene(){
+    private void addScene(Context _context){
         // Serialize info into a JSON
         List<Pair<String, List<String>>>  devList = mCheckList.panelsChecked();
         if(devList.size() == 0)
@@ -94,9 +94,7 @@ public class NewSceneMenu{
                     panels.put(panelJSON);
                 }
             }
-
             sceneData.put("panels", panels);
-
             sceneJSON.put("data", sceneData);
             sceneJSON.put("panelType", "Scene");
         }catch (JSONException _jsonException){
@@ -105,7 +103,7 @@ public class NewSceneMenu{
         }
 
         // Call user to create new device
-        User.get().addNewDevice(sceneJSON);
+        User.get().addNewDevice(sceneJSON, _context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
