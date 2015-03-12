@@ -34,14 +34,14 @@ namespace dmc { namespace kodi {
 				return Json(R"({"result": "ok"})");
 			} 
 			else 
-				return Json(R"({"result":"fail", "error":"unable to play show")");
+				return Json(R"({"result":"fail", "error":"unable to play show"})");
 		}
 		else if(command == "movie") {
 			if(PlayMovie(_cmd["movieid"])) {
 				return Json(R"({"result": "ok"})");
 			}
 			else 
-				return Json(R"({"result":"fail", "error":"unable to play movie")");
+				return Json(R"({"result":"fail", "error":"unable to play movie"})");
 		} else if(command == "setVolume") {
 			unsigned volume = (unsigned)_cmd["volume"].asInt();
 			Json finalVol = setVolume(volume);
@@ -56,7 +56,7 @@ namespace dmc { namespace kodi {
 			stop();
 			return Json(R"({"result": "ok"})");
 		}
-		return Json(R"({"result":"fail", "error":"unknown command")");
+		return Json(R"({"result":"fail", "error":"unknown command"})");
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ namespace dmc { namespace kodi {
 			response["result"] = Json("\"ok\"");
 			return response;
 		} 
-		return Json(R"({"result":"fail", "error":"unknown request")");
+		return Json(R"({"result":"fail", "error":"unknown request"})");
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
