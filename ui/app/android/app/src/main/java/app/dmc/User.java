@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.dmc.core.Persistence;
+import app.dmc.devices.Device;
 import app.dmc.user_interface.UserInterface;
 
 /**
@@ -41,6 +42,17 @@ public class User {
     public void setHub(String _hubId){
        mLastHub = HubManager.get().hub(_hubId);
        UserInterface.get().onSetHub(mLastHub);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void addNewDevice(JSONObject _deviceInfo){
+        // Register new device on DevMgr
+        Device dev = getCurrentHub().registerDevice(_deviceInfo);
+
+        // 666 TODO: send new device to hub
+
+        // Update Interface
+        Room room = getCurrentHub().rooms().get(0);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

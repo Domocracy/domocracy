@@ -55,6 +55,11 @@ public class Hub {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public Device registerDevice(JSONObject _deviceInfo){
+        return mDevMgr.register(_deviceInfo);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     public List<String> deviceIds(){
         return mDevMgr.deviceIds();
     }
@@ -130,7 +135,7 @@ public class Hub {
     private JSONArray       mDevices;
     private JSONArray       mRooms;
 
-    List<Room> mRoomList;
-    DeviceManager   mDevMgr = null;
-    HubConnection   mConnection = null;
+    private List<Room> mRoomList;
+    private DeviceManager   mDevMgr = null;
+    private HubConnection   mConnection = null;
 }

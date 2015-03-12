@@ -94,12 +94,18 @@ public class NewSceneMenu{
                     panels.put(panelJSON);
                 }
             }
+
+            sceneData.put("panels", panels);
+
+            sceneJSON.put("data", sceneData);
+            sceneJSON.put("panelType", "Scene");
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
+            return;
         }
-        
-        // Call user to create new device
 
+        // Call user to create new device
+        User.get().addNewDevice(sceneJSON);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

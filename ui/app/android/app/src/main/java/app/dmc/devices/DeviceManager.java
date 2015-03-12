@@ -31,10 +31,29 @@ public class DeviceManager {
 
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     public DeviceManager(JSONArray _devData) {
         createDevices(_devData);
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    public Device register(JSONObject _deviceInfo){
+        DeviceFactory factory = DeviceFactory.get();
+        try {
+            String type = _deviceInfo.getString("type");
+            JSONObject data = _deviceInfo.getJSONObject("data");
+
+            Device dev = factory.create(type, data);
+            mRegisteredDevices.put(dev.id(), dev);
+
+            return dev;
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
+        return null;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     public List<String> deviceIds(){
         List<String> ids = new ArrayList<>();
         for(Device dev: mRegisteredDevices.values()){
