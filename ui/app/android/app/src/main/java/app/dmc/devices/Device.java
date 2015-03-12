@@ -105,11 +105,15 @@ public abstract class Device {
     //-----------------------------------------------------------------------------------------------------------------
     final public void updateState(JSONObject _state) {
         onUpdateState(_state);
-
-        for(DevicePanel panel : mRegisteredPanels){
-            panel.onStateChange(_state);
-        }
+		notifyPanels(_state);
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	protected final void notifyPanels(JSONObject _state) {
+		for(DevicePanel panel : mRegisteredPanels){
+			panel.onStateChange(_state);
+		}
+	}
 
 	//-----------------------------------------------------------------------------------------------------------------
 	protected JSONObject serialize() {

@@ -10,7 +10,6 @@
 package app.dmc.devices.supported_devices.kodi;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -39,29 +38,22 @@ public class KodiLastShowPanel extends DevicePanel {
 
 	//-----------------------------------------------------------------------------------------------------------------
 	@Override
-	public JSONObject queryCommand() {
+	public JSONObject queryAction() {
 		int tvShowIndex = mTvShowSelector.getSelectedItemPosition();
 		JSONObject request = new JSONObject();
 		try {
-			request.put("method", "PUT");
-
-			JSONObject cmd = new JSONObject();
-			cmd.put("cmd", "lastEpisode");
+			request.put("cmd", "lastEpisode");
 			JSONObject tvshow = mTvShowList.getJSONObject(tvShowIndex);
-			cmd.put("tvshowid", tvshow.getInt("tvshowid"));
-
-			request.put("cmd", cmd);
-		} catch (JSONException _jsonException) {
-			_jsonException.printStackTrace();
-		} catch (IndexOutOfBoundsException _indexOutOfBoundException) {
-			Log.d("DOMOCRACY", "There arent any tv show in the list");
+			request.put("tvshowid", tvshow.getInt("tvshowid"));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return request;
 	}
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public void stateChanged(JSONObject _state) {
+    public void onStateChange(JSONObject _state) {
         // Fill list with series
         final List<String> tvShowsList = new ArrayList<>();
         try{
@@ -75,7 +67,6 @@ public class KodiLastShowPanel extends DevicePanel {
                 mTvShowList.put(tvshow);
                 tvShowsList.add(tvshow.getString("label"));
             }
-
             mTvShowSelector.post(new Runnable() {
                 @Override
                 public void run() {
@@ -86,11 +77,9 @@ public class KodiLastShowPanel extends DevicePanel {
                     mSpinnerAdapter.notifyDataSetChanged();
                 }
             });
-
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
-        Log.d("DOMOCRACY", "List of Tv-shows");
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -123,8 +112,8 @@ public class KodiLastShowPanel extends DevicePanel {
         mTvShowSelector.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                ((Kodi) device()).loadTvShows();
-                return false;
+			((Kodi) device()).loadTvShows();
+			return false;
             }
         });
     }
