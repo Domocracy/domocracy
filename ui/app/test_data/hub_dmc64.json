@@ -78,10 +78,6 @@
 				{
 					"type": "Scene",
 					"devId":"3a"
-				},
-				{
-					"type": "Kodi",
-					"devId":"4a"
 				}
 			]
 		},
@@ -89,10 +85,6 @@
 			"roomId" : "baadfeed1",
 			"name": "Pablo's room",
 			"panels": [ 
-				{
-					"type": "HueLight",
-					"devId":"2a"
-				},
 				{
 					"type": "Kodi",
 					"devId":"4a"
