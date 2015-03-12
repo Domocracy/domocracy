@@ -72,15 +72,15 @@
 			"name": "Charmilion's room",
 			"panels": [ 
 				{
-					"type": "HueLight",
+					"type": "Complete",
 					"devId":"2a"
 				},
 				{
-					"type": "Scene",
+					"type": "Complete",
 					"devId":"3a"
 				},
 				{
-					"type": "Kodi",
+					"type": "LastShow",
 					"devId":"4a"
 				}
 			]
@@ -90,11 +90,11 @@
 			"name": "Pablo's room",
 			"panels": [ 
 				{
-					"type": "HueLight",
+					"type": "Complete",
 					"devId":"2a"
 				},
 				{
-					"type": "Kodi",
+					"type": "LastShow",
 					"devId":"4a"
 				}
 			]
@@ -104,11 +104,11 @@
 			"name": "Kike's room",
 			"panels": [ 
 				{
-					"type": "HueLight",
+					"type": "Complete",
 					"devId":"2a"
 				},
 				{
-					"type": "Scene",
+					"type": "Complete",
 					"devId":"3a"
 				}
 			]

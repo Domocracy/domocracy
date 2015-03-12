@@ -35,7 +35,7 @@ public class DeviceManager {
         createDevices(_devData);
     }
 
-    public List<String> devicesId(){
+    public List<String> deviceIds(){
         List<String> ids = new ArrayList<>();
         for(Device dev: mRegisteredDevices.values()){
             ids.add(dev.id());

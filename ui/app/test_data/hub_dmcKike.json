@@ -47,11 +47,11 @@
 			"name": "Timmy's room",
 			"panels": [
 				{
-					"type": "HueLight",
+					"type": "Complete",
 					"devId":"2a"
 				},
 				{
-					"type": "Kodi",
+					"type": "LastShow",
 					"devId":"4a"
 				}
 			]
