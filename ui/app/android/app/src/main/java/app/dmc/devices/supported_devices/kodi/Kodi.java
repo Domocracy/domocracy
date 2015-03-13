@@ -130,7 +130,7 @@ public class Kodi extends Device {
 			media.put("tvshows", mTvShowDataList);
 			media.put("movies", mMovieDataList);
 			serial.put("media", media);
-			serial.put("type", PANEL_TYPE_LAST_SHOW);
+			serial.put("type", "Kodi");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
