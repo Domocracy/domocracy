@@ -43,19 +43,51 @@ public abstract class Device {
 
 	//-----------------------------------------------------------------------------------------------------------------
 	final public JSONObject runCommand(final JSONObject _request) {
-		Hub hub = HubManager.get().hub(hub());
-		try{
-			String method = _request.getString("method");
-			if(method.equals("GET"))
-				return hub.get("/device/" + id() + "/" + _request.getString("urlget"));
-			if(method.equals("PUT"))
-				return hub.send("/device/" + id(), _request.getJSONObject("cmd"));
-
-		}catch (JSONException _jsonException){
-			_jsonException.printStackTrace();
-		}
-
+		if(_request == null)
+			return null;
+		Thread commThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Hub hub = HubManager.get().hub(hub());
+				try {
+					String method = _request.getString("method");
+					if(method.equals("GET"))
+						hub.get("/device/" + id() + "/" + _request.getString("urlget"));
+					if(method.equals("PUT"))
+						hub.send("/device/" + id(), _request.getJSONObject("cmd"));
+					onStateChange(_request.getJSONObject("cmd"));
+					notifyPanels(_request.getJSONObject("cmd"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		commThread.start();
 		return null;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	final public void setState(JSONObject _state) {
+		if(_state == null)
+			return;
+		JSONObject command = new JSONObject();
+		try {
+			command.put("method", "PUT");
+			command.put("cmd", _state);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		runCommand(command);
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	public JSONObject state() {
+		return new JSONObject();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	public void onStateChange(JSONObject _state) {
+		//
 	}
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -63,9 +95,6 @@ public abstract class Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     public abstract DevicePanel createPanel(String _type, Context _context);
-
-	//-----------------------------------------------------------------------------------------------------------------
-	public abstract JSONObject action(JSONObject _stateInfo);
 
     //-----------------------------------------------------------------------------------------------------------------
     final public DevicePanel newPanel(String _type, Context _context){
@@ -88,18 +117,22 @@ public abstract class Device {
     //-----------------------------------------------------------------------------------------------------------------
     final public void updateState(JSONObject _state) {
         onUpdateState(_state);
-
-        for(DevicePanel panel : mRegisteredPanels){
-            panel.stateChanged(_state);
-        }
+		notifyPanels(_state);
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	protected final void notifyPanels(JSONObject _state) {
+		for(DevicePanel panel : mRegisteredPanels){
+			panel.onStateChange(_state);
+		}
+	}
 
 	//-----------------------------------------------------------------------------------------------------------------
 	protected JSONObject serialize() {
 		JSONObject serial = new JSONObject();
 		try{
 			serial.put("id", mId);
-			serial.put("id", mName);
+			serial.put("name", mName);
 			serial.put("hub", mHubId);
 
 		}catch (JSONException _exception){

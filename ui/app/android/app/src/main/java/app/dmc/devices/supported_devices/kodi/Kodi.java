@@ -38,12 +38,8 @@ public class Kodi extends Device {
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
-    }
 
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public JSONObject action(JSONObject _stateInfo) {
-        return null;
+		//loadTvShows();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -76,12 +72,10 @@ public class Kodi extends Device {
             public void run() {
                 // Fill list with series
                 mTvShowDataList = commandQueryTvShows();
-                // 666 Update data in persistence.
                 try{
                     JSONObject state = new JSONObject();
-                    state.put("state", mTvShowDataList);
-                    // Update panels
-                    updateState(state);
+                    state.put("tvshows", mTvShowDataList);
+                    notifyPanels(state); // Update panels
                 }catch (JSONException _jsonException){
                     _jsonException.printStackTrace();
                 }
@@ -91,8 +85,6 @@ public class Kodi extends Device {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    // Private methods
-
     // Commands
     private JSONArray commandQueryTvShows(){
         JSONObject request = new JSONObject();
@@ -127,6 +119,22 @@ public class Kodi extends Device {
 
         return jsonShowList;
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public JSONObject serialize() {
+		JSONObject serial = super.serialize(); // Retrieve base Device's info
+		JSONObject media = new JSONObject();
+		try {
+			media.put("tvshows", mTvShowDataList);
+			media.put("movies", mMovieDataList);
+			serial.put("media", media);
+			serial.put("type", "Kodi");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return serial;
+	}
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members

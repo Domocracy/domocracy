@@ -10,7 +10,6 @@
 package app.dmc.devices.supported_devices.kodi;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -37,14 +36,29 @@ public class KodiLastShowPanel extends DevicePanel {
         setCallbacks();
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public JSONObject queryAction() {
+		int tvShowIndex = mTvShowSelector.getSelectedItemPosition();
+		JSONObject request = new JSONObject();
+		try {
+			request.put("cmd", "lastEpisode");
+			JSONObject tvshow = mTvShowList.getJSONObject(tvShowIndex);
+			request.put("tvshowid", tvshow.getInt("tvshowid"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return request;
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     @Override
-    public void stateChanged(JSONObject _state) {
+    public void onStateChange(JSONObject _state) {
         // Fill list with series
         final List<String> tvShowsList = new ArrayList<>();
         try{
             mTvShowList = new JSONArray();
-            JSONArray jsonShowList = _state.getJSONArray("state");
+            JSONArray jsonShowList = _state.getJSONArray("tvshows");
             if(jsonShowList.length() == 0){
                 tvShowsList.add("KODI hasn't got TV shows");
             }
@@ -53,7 +67,6 @@ public class KodiLastShowPanel extends DevicePanel {
                 mTvShowList.put(tvshow);
                 tvShowsList.add(tvshow.getString("label"));
             }
-
             mTvShowSelector.post(new Runnable() {
                 @Override
                 public void run() {
@@ -64,11 +77,9 @@ public class KodiLastShowPanel extends DevicePanel {
                     mSpinnerAdapter.notifyDataSetChanged();
                 }
             });
-
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
-        Log.d("DOMOCRACY", "List of Tv-shows");
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -92,7 +103,6 @@ public class KodiLastShowPanel extends DevicePanel {
     //-----------------------------------------------------------------------------------------------------------------
     // View set up methods
     private void setCallbacks(){
-       clickCallback();
        extendCallback();
     }
 
@@ -102,51 +112,10 @@ public class KodiLastShowPanel extends DevicePanel {
         mTvShowSelector.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                ((Kodi) device()).loadTvShows();
-                return false;
+			((Kodi) device()).loadTvShows();
+			return false;
             }
         });
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    private void clickCallback(){
-        // Set click action to the panel.
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Thread commThread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Put dev in "Sending mode"
-                        // Send Response
-                        int tvShowIndex = mTvShowSelector.getSelectedItemPosition();
-                        JSONObject request = new JSONObject();
-                        try {
-                            request.put("method", "PUT");
-
-                            JSONObject cmd = new JSONObject();
-                            cmd.put("cmd", "lastEpisode");
-                            JSONObject tvshow = mTvShowList.getJSONObject(tvShowIndex);
-                            cmd.put("tvshowid", tvshow.getInt("tvshowid"));
-
-                            request.put("cmd", cmd);
-                        } catch (JSONException _jsonException) {
-                            _jsonException.printStackTrace();
-                        } catch (IndexOutOfBoundsException _indexOutOfBoundException) {
-                            Log.d("DOMOCRACY", "There arent any tv show in the list");
-                        }
-                        JSONObject response = device().runCommand(request);
-                        // if(response OK){
-                        //      Dev in mode OK
-                        //else
-                        //      Dev back to last state
-
-                    }
-                });
-                commThread.start();
-            }
-        });
-
     }
 
     // Private members

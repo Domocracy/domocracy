@@ -6,39 +6,32 @@
 	"devices": [
 		{
 			"type":"HueLight",
-			"data": {
-				"id": "2a",
-				"name": "light",
-				"hub": "dmcKike"
-			}
+			"id": "2a",
+			"name": "light",
+			"hub": "dmcKike"
 		},
 		{
 			"type":"Kodi",
-			"data":{
-				"id": "4a",
-				"name": "Media",
-				"hub": "dmcKike",
-				"media":
+			"id": "4a",
+			"name": "Media",
+			"hub": "dmcKike",
+			"media": {
+				"tvshows": [
 					{
-					"tvshows":
-						[
-							{
-								"label":"Dead Set",
-								"tvshowid":"1"
-							},
-							{
-								"label":"New Girl",
-								"tvshowid":"2"
-							}
-						],
-					"movies":
-						[
-							{
-								"label":"Matrix",
-								"movieid":"1"
-							}
-						]
+						"label":"Dead Set",
+						"tvshowid":"1"
+					},
+					{
+						"label":"New Girl",
+						"tvshowid":"2"
 					}
+				],
+				"movies":[
+					{
+						"label":"Matrix",
+						"movieid":"1"
+					}
+				]
 			}
 		}
 	],

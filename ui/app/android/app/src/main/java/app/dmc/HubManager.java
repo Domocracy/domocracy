@@ -22,6 +22,12 @@ public class HubManager {
         return sInstance;
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	public static void end() {
+		sInstance.onEnd();
+		sInstance = null;
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     public Hub hub(String _id){
         Hub hub = mHubMap.get(_id);
@@ -37,6 +43,14 @@ public class HubManager {
     private HubManager(Context _context){
 		mContext = _context;
 		mHubMap  = new HashMap<String,Hub>();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void onEnd() {
+		for( Map.Entry<String, Hub> hub : mHubMap.entrySet()) {
+			hub.getValue().save();
+		}
+		mHubMap = null;
 	}
 
     //-----------------------------------------------------------------------------------------------------------------

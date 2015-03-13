@@ -11,33 +11,37 @@ import app.dmc.user_interface.TopBar;
 import app.dmc.user_interface.UserInterface;
 
 public class Main extends ActionBarActivity {
-
+	//-----------------------------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Init HubManager
-        Persistence.init(this);
-        //MANDATORY: Persistence need to be initialized BEFORE HubManager.
-        User.init("dmc64", this);
-        // Create Interface
-        // Check if first connection
-        //      Launch firstConnectionInterface
-        //  else
-        //      Init Connections
-        //      so on...
-        //UserInterface.init(this);
-        mUI = UserInterface.get();
     }
+
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Persistence.init(this); //MANDATORY: Persistence need to be initialized BEFORE HubManager.
+		User.init("dmc64", this);
+		mUI = UserInterface.get();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	protected void onStop() {
+		User.end();
+		Persistence.end();
+		super.onDestroy();
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-
-
-
-            return true;
+        return true;
     }
         //-----------------------------------------------------------------------------------------------------------------
 

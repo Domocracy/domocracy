@@ -6,64 +6,54 @@
 	"devices": [
 		{
 			"type":"HueLight",
-			"data": {
-				"id": "2a",
-				"name": "light",
-				"hub": "dmc64"
-			}
+			"id": "2a",
+			"name": "light",
+			"hub": "dmc64"
 		},
 		{
 			"type":"Scene",
-			"data":{
-				"id": "3a",
-				"name": "Scene",
-				"hub": "dmc64",
-				"children": [
-					{
-					},
-					{
-					}
-				],
-				"panels":
-					[
-						{
-							"type": "HueLight",
-							"devId":"2a"
-						},
-						{
-							"type": "Kodi",
-							"devId":"4a"
-						}
-					]
-			}
+			"id": "3a",
+			"name": "Scene",
+			"hub": "dmc64",
+			"children": [
+				{
+				},
+				{
+				}
+			],
+			"panels": [
+				{
+					"type": "HueLight",
+					"devId":"2a"
+				},
+				{
+					"type": "Kodi",
+					"devId":"4a"
+				}
+			]
 		},
 		{
 			"type":"Kodi",
-			"data":{
-				"id": "4a",
-				"name": "Media",
-				"hub": "dmc64",
-				"media":
+			"id": "4a",
+			"name": "Media",
+			"hub": "dmc64",
+			"media": {
+				"tvshows": [
 					{
-					"tvshows":
-						[
-							{
-								"label":"Dead Set",
-								"tvshowid":"1"
-							},
-							{
-								"label":"New Girl",
-								"tvshowid":"2"
-							}
-						],
-					"movies":
-						[
-							{
-								"label":"Matrix",
-								"movieid":"1"
-							}
-						]
+						"label":"Dead Set",
+						"tvshowid":"1"
+					},
+					{
+						"label":"New Girl",
+						"tvshowid":"2"
 					}
+				],
+				"movies": [
+					{
+						"label":"Matrix",
+						"movieid":"1"
+					}
+				]
 			}
 		}
 	],
