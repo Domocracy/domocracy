@@ -14,9 +14,32 @@
             android:src="@drawable/kodi_logo" />
     </LinearLayout>
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvShowSelector"
-        android:layout_gravity="center_vertical" />
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center">
+
+        <ToggleButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/playButton"
+            android:background="@drawable/play_button"
+            android:textOff=" "
+            android:textOn=" " />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center">
+
+        <ToggleButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/stopButton"
+            android:background="@drawable/stop_button"
+            android:textOff=" "
+            android:textOn=" " />
+    </LinearLayout>
+
 </LinearLayout>
