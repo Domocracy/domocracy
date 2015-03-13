@@ -7,6 +7,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
@@ -24,17 +26,47 @@ public class KodiBasicsPanel extends DevicePanel {
     }
     //-----------------------------------------------------------------------------------------------------------------
     public void play(){
-        setState
+        JSONObject request = new JSONObject();
+        try{
+            request.put("cmd","play");
+            ((Kodi)device()).setState(request);
+        }catch(JSONException e){
+           e.printStackTrace();
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void pause(){}
+    public void pause(){
+        JSONObject request = new JSONObject();
+        try{
+            request.put("cmd","pause");
+            ((Kodi)device()).setState(request);
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void resume(){}
+    public void resume(){
+        JSONObject request = new JSONObject();
+        try{
+            request.put("cmd","resume");
+            ((Kodi)device()).setState(request);
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void stop(){}
+    public void stop(){
+        JSONObject request = new JSONObject();
+        try{
+            request.put("cmd","stop");
+            ((Kodi)device()).setState(request);
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private interface
