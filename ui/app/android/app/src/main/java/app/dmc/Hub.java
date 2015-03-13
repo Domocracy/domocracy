@@ -48,22 +48,18 @@ public class Hub {
 			e.printStackTrace();
 		}
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public Device device(String _id) {
         return mDevMgr.device(_id);
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public Device registerDevice(JSONObject _deviceInfo){
         return mDevMgr.register(_deviceInfo);
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public List<String> deviceIds(){
         return mDevMgr.deviceIds();
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public Room room(String _id){
         for(int i = 0 ; i < mRoomList.size() ; i++) {
@@ -72,12 +68,14 @@ public class Hub {
         }
         return null;
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public List<Room> rooms(){
         return mRoomList;
     }
-
+    //-----------------------------------------------------------------------------------------------------------------
+    public String currentRoom() { return mLastRoom; }
+    //-----------------------------------------------------------------------------------------------------------------
+    public void changeRoom(String _roomId){ mLastRoom = _roomId; }
     //-----------------------------------------------------------------------------------------------------------------
     public String name(){ return mName; }
     //-----------------------------------------------------------------------------------------------------------------
@@ -134,6 +132,7 @@ public class Hub {
     private String          mName;
     private JSONArray       mDevices;
     private JSONArray       mRooms;
+    private String          mLastRoom;
 
     private List<Room> mRoomList;
     private DeviceManager   mDevMgr = null;

@@ -28,6 +28,8 @@ import java.util.List;
 
 import app.dmc.Hub;
 import app.dmc.User;
+import app.dmc.devices.Device;
+import app.dmc.devices.DevicePanel;
 
 public class NewSceneMenu{
     public NewSceneMenu(Context _context){
@@ -114,7 +116,7 @@ public class NewSceneMenu{
                 JSONObject response = hub.send("/addDevice", sceneJSON);
                 try{
                     Log.d("Response", response.toString());
-                    if (response.getString("result").equals("OK")){
+                    if (response.getString("result").equals("ok")){
                         sceneJSON.put("id", response.getString("id"));
                     }
                 }catch (JSONException _jsonException) {
@@ -126,8 +128,9 @@ public class NewSceneMenu{
                 }
 
                 // Check response, if OK add device
-                User.get().addNewDevice(sceneJSON);
-
+                Device dev = User.get().addNewDevice(sceneJSON);
+                DevicePanel panel = dev.createPanel("Scene", _context);
+                User.get().getCurrentHub().rooms().get(0).addPanel(panel);
                 //Add panel to current room
             }
         };

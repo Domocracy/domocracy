@@ -44,9 +44,9 @@ public class User {
        UserInterface.get().onSetHub(mLastHub);
     }
     //-----------------------------------------------------------------------------------------------------------------
-    public void addNewDevice(JSONObject _deviceInfo){
+    public Device addNewDevice(JSONObject _deviceInfo){
         // Register new device on DevMgr
-        Device dev = getCurrentHub().registerDevice(_deviceInfo);
+        return getCurrentHub().registerDevice(_deviceInfo);
     }
     //-----------------------------------------------------------------------------------------------------------------
     //Private interface
