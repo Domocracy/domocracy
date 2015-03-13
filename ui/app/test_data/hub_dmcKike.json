@@ -2,6 +2,7 @@
 	"hubId" : "dmcKike",
 	"name": "dmcKike",
 	"ip": "10.200.12.63",
+	"lastroom":"baadfeed",
 	"devices": [
 		{
 			"type":"HueLight",
@@ -44,7 +45,7 @@
 					"devId":"2a"
 				},
 				{
-					"type": "Kodi",
+					"type": "LastShow",
 					"devId":"4a"
 				}
 			]

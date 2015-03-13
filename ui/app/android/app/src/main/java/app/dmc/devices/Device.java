@@ -10,11 +10,13 @@
 package app.dmc.devices;
 
 import android.content.Context;
+import android.util.Pair;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import app.dmc.Hub;
@@ -87,6 +89,9 @@ public abstract class Device {
 	public void onStateChange(JSONObject _state) {
 		//
 	}
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public abstract List<Pair<String, Boolean>> panelTypes();
 
     //-----------------------------------------------------------------------------------------------------------------
     public abstract DevicePanel createPanel(String _type, Context _context);

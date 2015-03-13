@@ -38,6 +38,7 @@ public class Hub {
 			mIp = hubData.getString("ip");
 			mDevices = hubData.getJSONArray("devices");
 			mRooms = hubData.getJSONArray("rooms");
+            mLastRoom = hubData.getString("lastroom");
 
 			mDevMgr = new DeviceManager(hubData.getJSONArray("devices"));
 			mRoomList = new ArrayList<>();
@@ -48,18 +49,18 @@ public class Hub {
 			e.printStackTrace();
 		}
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public Device device(String _id) {
         return mDevMgr.device(_id);
     }
-
     //-----------------------------------------------------------------------------------------------------------------
-
-    public List<Room> rooms(){
-        return mRoomList;
+    public Device registerDevice(JSONObject _deviceInfo){
+        return mDevMgr.register(_deviceInfo);
     }
-
+    //-----------------------------------------------------------------------------------------------------------------
+    public List<String> deviceIds(){
+        return mDevMgr.deviceIds();
+    }
     //-----------------------------------------------------------------------------------------------------------------
     public Room room(String _id){
         for(int i = 0 ; i < mRoomList.size() ; i++) {
@@ -68,31 +69,24 @@ public class Hub {
         }
         return null;
     }
-
     //-----------------------------------------------------------------------------------------------------------------
-    public String name(){
-        return mName;
-
+    public List<Room> rooms(){
+        return mRoomList;
     }
+    //-----------------------------------------------------------------------------------------------------------------
+    public String currentRoom() { return mLastRoom; }
+    //-----------------------------------------------------------------------------------------------------------------
+    public void changeRoom(String _roomId){ mLastRoom = _roomId; }
+    //-----------------------------------------------------------------------------------------------------------------
+    public String name(){ return mName; }
+    //-----------------------------------------------------------------------------------------------------------------
+    public String id() { return mId; }
+    //-----------------------------------------------------------------------------------------------------------------
+    public String ip() { return mIp; }
 
     //-----------------------------------------------------------------------------------------------------------------
-
-    public String id() {
-        return mId;
-
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-
-    public String ip() {
-        return mIp;
-
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-
     public JSONObject send(final String _url, final JSONObject _body) {
-        String url = "http://" + ip() + "/user/dmc64" + _url;
+        String url = "http://" + ip() + "/user/" + User.get().id() + _url;
         return mConnection.send(url, _body);
     }
 
@@ -132,8 +126,9 @@ public class Hub {
     private String          mName;
     private JSONArray       mDevices;
     private JSONArray       mRooms;
+    private String          mLastRoom;
 
-    List<Room> mRoomList;
-    DeviceManager   mDevMgr = null;
-    HubConnection   mConnection = null;
+    private List<Room>      mRoomList;
+    private DeviceManager   mDevMgr = null;
+    private HubConnection   mConnection = null;
 }

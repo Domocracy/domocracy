@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.dmc.core.Persistence;
+import app.dmc.devices.Device;
 import app.dmc.user_interface.UserInterface;
 
 /**
@@ -33,12 +34,12 @@ public class User {
     public static User get(){
         return sInstance;
     }
-
+    //-----------------------------------------------------------------------------------------------------------------
+    public String id(){ return mId; }
     //-----------------------------------------------------------------------------------------------------------------
     public List<String> getHubIDList(){
         return mHubIds;
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public Hub getCurrentHub(){
         return mLastHub;
@@ -48,7 +49,11 @@ public class User {
        mLastHub = HubManager.get().hub(_hubId);
        UserInterface.get().onSetHub(mLastHub);
     }
-
+    //-----------------------------------------------------------------------------------------------------------------
+    public Device addNewDevice(JSONObject _deviceInfo){
+        // Register new device on DevMgr
+        return getCurrentHub().registerDevice(_deviceInfo);
+    }
     //-----------------------------------------------------------------------------------------------------------------
     //Private interface
     private User(String _userId, ActionBarActivity _activity){
@@ -62,6 +67,7 @@ public class User {
 			for(int i = 0; i < hubList.length(); ++i){
 				mHubIds.add(hubList.getString(i));
 			}
+            mId = _userId;
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -73,6 +79,9 @@ public class User {
 		mLastHub = null;
 		HubManager.end();
 	}
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private String mId;
 
     //-----------------------------------------------------------------------------------------------------------------
     private static  User                sInstance = null;

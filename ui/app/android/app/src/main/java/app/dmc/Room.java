@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import app.dmc.devices.DevicePanel;
 import app.dmc.user_interface.PanelList;
 import app.dmc.user_interface.RoomHeader;
 
@@ -48,6 +49,11 @@ public class Room {
     //-----------------------------------------------------------------------------------------------------------------
     public View view(){
         return mLayout;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void addPanel(DevicePanel _panel){
+        mPanels.addPanel(_panel);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

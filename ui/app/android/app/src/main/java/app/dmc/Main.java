@@ -23,7 +23,7 @@ public class Main extends ActionBarActivity {
 	protected void onStart() {
 		super.onStart();
 		Persistence.init(this); //MANDATORY: Persistence need to be initialized BEFORE HubManager.
-		User.init("kike", this);
+		User.init("dmc64", this);
 		mUI = UserInterface.get();
 	}
 

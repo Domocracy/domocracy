@@ -13,7 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DeviceManager {
@@ -47,6 +49,29 @@ public class DeviceManager {
         createDevices(_devData);
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    public Device register(JSONObject _deviceInfo){
+        DeviceFactory factory = DeviceFactory.get();
+        try {
+            String type = _deviceInfo.getString("type");
+            Device dev = factory.create(type, _deviceInfo);
+            mRegisteredDevices.put(dev.id(), dev);
+
+            return dev;
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
+        return null;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public List<String> deviceIds(){
+        List<String> ids = new ArrayList<>();
+        for(Device dev: mRegisteredDevices.values()){
+            ids.add(dev.id());
+        }
+        return ids;
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private Interface
