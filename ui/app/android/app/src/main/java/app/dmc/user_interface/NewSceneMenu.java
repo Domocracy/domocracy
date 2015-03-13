@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.dmc.Hub;
 import app.dmc.User;
 
 public class NewSceneMenu{
@@ -112,7 +113,8 @@ public class NewSceneMenu{
                 JSONObject sceneJSON = gatherSceneInfo();
 
                 // Send info to hub
-                User.get().getCurrentHub().send("", )
+                Hub hub = User.get().getCurrentHub();
+                hub.send()
 
                 // Check response, if OK add device
                 User.get().addNewDevice(sceneJSON, _context);

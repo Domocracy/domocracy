@@ -87,7 +87,7 @@ public class Hub {
 
     //-----------------------------------------------------------------------------------------------------------------
     public JSONObject send(final String _url, final JSONObject _body) {
-        String url = "http://" + ip() + "/user/dmc64" + _url;
+        String url = "http://" + ip() + "/user/" + User.get().id() + _url;
         return mConnection.send(url, _body);
     }
 

@@ -29,12 +29,12 @@ public class User {
     public static User get(){
         return sInstance;
     }
-
+    //-----------------------------------------------------------------------------------------------------------------
+    public String id(){ return mId; }
     //-----------------------------------------------------------------------------------------------------------------
     public List<String> getHubIDList(){
         return mHubIds;
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public Hub getCurrentHub(){
         return mLastHub;
@@ -44,7 +44,6 @@ public class User {
        mLastHub = HubManager.get().hub(_hubId);
        UserInterface.get().onSetHub(mLastHub);
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public void addNewDevice(JSONObject _deviceInfo, Context _context){
         // Register new device on DevMgr
@@ -74,11 +73,15 @@ public class User {
 			for(int i = 0; i < hubList.length(); ++i){
 				mHubIds.add(hubList.getString(i));
 			}
+            mId = _userId;
         }catch(JSONException e){
             e.printStackTrace();
         }
 		UserInterface.init(_activity, this);
     }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private String mId;
 
     //-----------------------------------------------------------------------------------------------------------------
     private static  User                sInstance = null;

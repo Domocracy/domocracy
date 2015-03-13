@@ -18,7 +18,7 @@ public class Main extends ActionBarActivity {
         // Init HubManager
         Persistence.init(this);
         //MANDATORY: Persistence need to be initialized BEFORE HubManager.
-        User.init("kike", this);
+        User.init("dmc64", this);
         // Create Interface
         // Check if first connection
         //      Launch firstConnectionInterface
