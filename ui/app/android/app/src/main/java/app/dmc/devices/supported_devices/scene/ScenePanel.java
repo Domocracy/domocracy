@@ -134,7 +134,20 @@ public class ScenePanel extends DevicePanel {
 		mExtendedView.setVisibility(View.VISIBLE);
 		mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
 
-		// 666 TODO: Use mChildrenActions to modify the state of child panels
+		initChildrenState();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void initChildrenState() {
+		JSONArray childrenActions = mParentScene.childCommnands();
+		for(int i = 0; i < childrenActions.length(); ++i) {
+			try {
+				JSONObject command = childrenActions.getJSONObject(i);
+				mDeviceList.panels().get(i).onStateChange(command);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
