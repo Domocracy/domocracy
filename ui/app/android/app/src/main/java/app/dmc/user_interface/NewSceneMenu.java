@@ -131,7 +131,9 @@ public class NewSceneMenu{
                 Device dev = User.get().addNewDevice(sceneJSON);
                 DevicePanel panel = dev.createPanel("Scene", _context);
                 User.get().getCurrentHub().rooms().get(0).addPanel(panel);
-                //Add panel to current room
+
+
+
             }
         };
         comThread.start();

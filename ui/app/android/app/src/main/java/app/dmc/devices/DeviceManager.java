@@ -41,9 +41,7 @@ public class DeviceManager {
         DeviceFactory factory = DeviceFactory.get();
         try {
             String type = _deviceInfo.getString("type");
-            JSONObject data = _deviceInfo.getJSONObject("data");
-
-            Device dev = factory.create(type, data);
+            Device dev = factory.create(type, _deviceInfo);
             mRegisteredDevices.put(dev.id(), dev);
 
             return dev;
