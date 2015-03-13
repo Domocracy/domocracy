@@ -112,6 +112,7 @@ public class Hub {
             jsonToSave.put("name",mName);
             jsonToSave.put("ip", mIp);
             jsonToSave.put("devices",mDevMgr.serializeDevices());
+            jsonToSave.put("lastroom",currentRoom());
             mRooms = new JSONArray();
             for(Room room : mRoomList){
                 mRooms.put(room.serialize());
