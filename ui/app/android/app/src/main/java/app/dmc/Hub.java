@@ -110,13 +110,17 @@ public class Hub {
         try {
             jsonToSave.put("hubId", mId);
             jsonToSave.put("name",mName);
-            jsonToSave.put("devices",mDevMgr.serializeDevices());
-            jsonToSave.put("rooms",mRooms);
             jsonToSave.put("ip", mIp);
+            jsonToSave.put("devices",mDevMgr.serializeDevices());
+            mRooms = new JSONArray();
+            for(Room room : mRoomList){
+                mRooms.put(room.serialize());
+            }
+            jsonToSave.put("rooms",mRooms);
         }catch(JSONException e){
             e.printStackTrace();
         }
-        Persistence.get().putJSON("hub_"+mId,jsonToSave);
+        Persistence.get().putJSON("hub_" + mId, jsonToSave);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
