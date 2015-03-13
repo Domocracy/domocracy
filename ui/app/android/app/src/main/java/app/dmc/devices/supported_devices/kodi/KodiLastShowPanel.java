@@ -83,6 +83,19 @@ public class KodiLastShowPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    protected JSONObject serialize(){
+        JSONObject serial = new JSONObject();
+        try{
+            serial.put("type", Kodi.PANEL_TYPE_LAST_SHOW);
+            serial.put("devId", device().id());
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+        }
+
+        return serial;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     // Private interface
     private void init(Context _context){
         mTvShowList = ((Kodi) device()).tvShows();
@@ -117,6 +130,7 @@ public class KodiLastShowPanel extends DevicePanel {
             }
         });
     }
+
 
     // Private members
     private Spinner mTvShowSelector;

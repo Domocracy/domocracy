@@ -142,6 +142,6 @@ public class Kodi extends Device {
     private JSONArray mMovieDataList;
     private JSONArray mTvShowDataList;
 
-    private static String PANEL_TYPE_LAST_SHOW = "LastShow";
+    protected static String PANEL_TYPE_LAST_SHOW = "LastShow";
 }
 
