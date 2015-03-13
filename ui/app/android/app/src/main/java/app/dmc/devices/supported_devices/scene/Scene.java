@@ -48,6 +48,11 @@ public class Scene extends Device {
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
+	public JSONArray childCommnands() {
+		return mChildActions;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
 	@Override
 	protected JSONObject serialize() {
 		JSONObject  base = super.serialize();
