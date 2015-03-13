@@ -12,11 +12,13 @@ package app.dmc.user_interface;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.util.Pair;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -114,10 +116,14 @@ public class NewSceneMenu{
 
                 // Send info to hub
                 Hub hub = User.get().getCurrentHub();
-                hub.send()
-
+                JSONObject response = hub.send("/addDevice", sceneJSON);
+                if(response == null) {
+                    Toast.makeText(_context,"Can't connect to Server", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.d("Response", response.toString());
                 // Check response, if OK add device
-                User.get().addNewDevice(sceneJSON, _context);
+                //User.get().addNewDevice(sceneJSON, _context);
             }
         };
         comThread.start();

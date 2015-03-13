@@ -19,7 +19,7 @@ namespace dmc {
 		static File* openExisting(const std::string& _path); // Returns nullptr if the file doesn't exist already
 
 		void			readAll		();
-		void			setContent	(const void* _buffer, size_t);
+		void			setContent	(const void* _buffer, size_t, bool _hardCopy = true);
 
 		const void *	buffer		() const;
 		const char *	bufferAsText() const;
