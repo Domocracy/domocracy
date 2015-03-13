@@ -22,7 +22,7 @@ public class SlideMenu {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
 
-    public SlideMenu(Activity _activity, List<String> _hubIdList) {
+    public SlideMenu(final Activity _activity, List<String> _hubIdList) {
         // Get Base Layout
         mLayout = (LinearLayout) _activity.findViewById(R.id.left_menu);
         // Create a Spinner to store List of hubs.
@@ -34,7 +34,7 @@ public class SlideMenu {
         newSceneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewSceneMenu newSceneMenu = new NewSceneMenu(v.getContext());
+                NewSceneMenu newSceneMenu = new NewSceneMenu(_activity);
             }
         });
         mLayout.addView(newSceneButton);

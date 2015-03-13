@@ -9,6 +9,7 @@
 package app.dmc.user_interface;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,16 +33,16 @@ import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
 
 public class NewSceneMenu{
-    public NewSceneMenu(Context _context){
-        mMenuBuilder = new AlertDialog.Builder(_context);
+    public NewSceneMenu(Activity _activity){
+        mMenuBuilder = new AlertDialog.Builder(_activity);
 
-        createDialog(_context);
+        createDialog(_activity);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void createDialog(final Context _context) {
+    private void createDialog(final Activity _activity) {
         // Load devices and put them into the list
-        setContentView(_context);
+        setContentView(_activity);
         // Buttons
         mMenuBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -50,7 +51,7 @@ public class NewSceneMenu{
         });
         mMenuBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                addScene(_context);
+                addScene(_activity);
             }
         });
 
@@ -104,7 +105,7 @@ public class NewSceneMenu{
         return sceneJSON;
     }
     //-----------------------------------------------------------------------------------------------------------------
-    private void addScene(final Context _context){
+    private void addScene(final Activity _activity){
         Thread comThread = new Thread(){
             @Override
             public void run() {
@@ -129,11 +130,13 @@ public class NewSceneMenu{
 
                 // Check response, if OK add device
                 Device dev = User.get().addNewDevice(sceneJSON);
-                DevicePanel panel = dev.createPanel("Scene", _context);
-                User.get().getCurrentHub().rooms().get(0).addPanel(panel);
-
-
-
+                final DevicePanel panel = dev.createPanel("Scene", _activity);
+                _activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        User.get().getCurrentHub().rooms().get(0).addPanel(panel);
+                    }
+                });
             }
         };
         comThread.start();
