@@ -35,7 +35,7 @@ public class Kodi extends Device {
             _jsonException.printStackTrace();
         }
 
-		loadTvShows();
+		//loadTvShows();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
