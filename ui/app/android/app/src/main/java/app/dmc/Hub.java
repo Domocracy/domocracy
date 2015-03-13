@@ -38,6 +38,7 @@ public class Hub {
 			mIp = hubData.getString("ip");
 			mDevices = hubData.getJSONArray("devices");
 			mRooms = hubData.getJSONArray("rooms");
+            mLastRoom = hubData.getString("lastroom");
 
 			mDevMgr = new DeviceManager(hubData.getJSONArray("devices"));
 			mRoomList = new ArrayList<>();
@@ -134,7 +135,7 @@ public class Hub {
     private JSONArray       mRooms;
     private String          mLastRoom;
 
-    private List<Room> mRoomList;
+    private List<Room>      mRoomList;
     private DeviceManager   mDevMgr = null;
     private HubConnection   mConnection = null;
 }

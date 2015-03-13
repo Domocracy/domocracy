@@ -134,7 +134,8 @@ public class NewSceneMenu{
                 _activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        User.get().getCurrentHub().rooms().get(0).addPanel(panel);
+                        Hub hub = User.get().getCurrentHub();
+                        hub.room(hub.currentRoom()).addPanel(panel);
                     }
                 });
             }
