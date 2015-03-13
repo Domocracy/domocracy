@@ -34,12 +34,8 @@ public class Kodi extends Device {
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
-    }
 
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public JSONObject action(JSONObject _stateInfo) {
-        return null;
+		//loadTvShows();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -64,8 +60,7 @@ public class Kodi extends Device {
                 try{
                     JSONObject state = new JSONObject();
                     state.put("tvshows", mTvShowDataList);
-                    // Update panels
-                    updateState(state);
+                    notifyPanels(state); // Update panels
                 }catch (JSONException _jsonException){
                     _jsonException.printStackTrace();
                 }
@@ -75,8 +70,6 @@ public class Kodi extends Device {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    // Private methods
-
     // Commands
     private JSONArray commandQueryTvShows(){
         JSONObject request = new JSONObject();
@@ -121,6 +114,7 @@ public class Kodi extends Device {
 			media.put("tvshows", mTvShowDataList);
 			media.put("movies", mMovieDataList);
 			serial.put("media", media);
+			serial.put("type", "Kodi");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -41,19 +41,6 @@ public class Scene extends Device {
         return new ScenePanel(this, mPanelData, mChildActions, R.layout.scene_layout, _context);
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
-    @Override
-    public JSONObject action(JSONObject _stateInfo) {
-		JSONObject command = new JSONObject();
-		try {
-			command.put("method", "PUT");
-			command.put("cmd", new JSONObject());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        return command;
-    }
-
 	//-----------------------------------------------------------------------------------------------------------------
 	public void saveModifications(JSONArray _newActions) {
 		mChildActions = _newActions;
@@ -67,6 +54,7 @@ public class Scene extends Device {
 		try {
 			base.put("children", mChildActions);
 			base.put("panels", mPanelData);
+			base.put("type", "Scene");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -44,37 +44,19 @@ public class ScenePanel extends DevicePanel {
     //-----------------------------------------------------------------------------------------------------------------
     private void setCallbacks(){
         // Generic click callback
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickRunCommand();
-            }
-        });
-
         mExpandButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mDeviceList == null){
-                    mDeviceList = new PanelList(mPanelData, User.get().getCurrentHub(), getContext());
-                    mExtendedView.addView(mDeviceList);
-                }
-				if(!mExpanded)
-					onExpandView();
-				else
-					onCollapseView();
+			if(mDeviceList == null){
+				mDeviceList = new PanelList(mPanelData, User.get().getCurrentHub(), getContext());
+				mExtendedView.addView(mDeviceList);
+			}
+			if(!mExpanded)
+				onExpandView();
+			else
+				onCollapseView();
             }
         });
-    }
-
-	//-----------------------------------------------------------------------------------------------------------------
-    private void onClickRunCommand(){
-        Thread commThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-        	mParentScene.runCommand(mParentScene.action(null));
-            }
-        });
-        commThread.start();
     }
 
     //-----------------------------------------------------------------------------------------------------------------

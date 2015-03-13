@@ -58,11 +58,10 @@ public class DeviceManager {
                 // Extract device type and data
                 JSONObject deviceData = _devData.getJSONObject(i);
                 String type = deviceData.getString("type");
-                JSONObject data = deviceData.getJSONObject("data");
 
                 // Look for factory and create device
                 DeviceFactory factory = DeviceFactory.get();
-                Device dev = factory.create(type, data);
+                Device dev = factory.create(type, deviceData);
                 mRegisteredDevices.put(dev.id(), dev);
             }
 
