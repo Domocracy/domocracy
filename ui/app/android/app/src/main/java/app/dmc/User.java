@@ -1,6 +1,5 @@
 package app.dmc;
 
-import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 
 import org.json.JSONArray;
@@ -45,21 +44,10 @@ public class User {
        UserInterface.get().onSetHub(mLastHub);
     }
     //-----------------------------------------------------------------------------------------------------------------
-    public void addNewDevice(JSONObject _deviceInfo, Context _context){
+    public void addNewDevice(JSONObject _deviceInfo){
         // Register new device on DevMgr
         Device dev = getCurrentHub().registerDevice(_deviceInfo);
-
-        // 666 TODO: send new device to hub
-
-        // Update Interface
-        Room room = getCurrentHub().rooms().get(0);
-        try {
-            room.addPanel(dev.createPanel(_deviceInfo.getString("panelType"), _context));
-        }catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-        }
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     //Private interface
     private User(String _userId, ActionBarActivity _activity){
