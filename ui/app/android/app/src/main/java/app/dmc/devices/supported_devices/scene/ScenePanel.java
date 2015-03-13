@@ -43,13 +43,14 @@ public class ScenePanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    protected JSONObject serialize(){
+    public JSONObject serialize(){
         JSONObject serial = new JSONObject();
         try{
             serial.put("type", Scene.PANEL_TYPE_SCENE);
             serial.put("devId", device().id());
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
+            return null;
         }
 
         return serial;

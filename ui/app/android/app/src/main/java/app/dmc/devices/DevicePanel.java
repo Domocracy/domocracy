@@ -74,7 +74,7 @@ public abstract class DevicePanel extends LinearLayout {
     public void onStateChange(JSONObject _state) {}
 
     //-----------------------------------------------------------------------------------------------------------------
-    protected abstract  JSONObject serialize();
+    public abstract  JSONObject serialize();
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
