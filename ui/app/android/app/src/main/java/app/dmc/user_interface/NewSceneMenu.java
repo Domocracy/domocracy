@@ -70,11 +70,10 @@ public class NewSceneMenu{
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void addScene(Context _context){
-        // Serialize info into a JSON
+    private JSONObject gatherSceneInfo(){
         List<Pair<String, List<String>>>  devList = mCheckList.panelsChecked();
         if(devList.size() == 0)
-            return;
+            return null;
 
         JSONObject sceneJSON = new JSONObject();
         try{
@@ -100,11 +99,26 @@ public class NewSceneMenu{
             sceneJSON.put("panelType", "Scene");
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
-            return;
+            return null;
         }
+        return sceneJSON;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    private void addScene(final Context _context){
+        Thread comThread = new Thread(){
+            @Override
+            public void run() {
+                // Serialize info into a JSON
+                JSONObject sceneJSON = gatherSceneInfo();
 
-        // Call user to create new device
-        User.get().addNewDevice(sceneJSON, _context);
+                // Send info to hub
+                User.get().getCurrentHub().send("", )
+
+                // Check response, if OK add device
+                User.get().addNewDevice(sceneJSON, _context);
+            }
+        };
+        comThread.start();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
