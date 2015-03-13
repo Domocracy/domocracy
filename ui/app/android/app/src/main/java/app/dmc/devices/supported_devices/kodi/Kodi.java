@@ -24,6 +24,7 @@ import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
 
 public class Kodi extends Device {
+
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
     public Kodi(JSONObject _devData){
@@ -46,14 +47,14 @@ public class Kodi extends Device {
     @Override
     public List<Pair<String,Boolean>> panelTypes(){
         List<Pair<String,Boolean>> types = new ArrayList<>();
-        types.add(new Pair<>("LastShow", true));
+        types.add(new Pair<>(PANEL_TYPE_LAST_SHOW, true));
         return types;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, Context _context) {
-        if(_type.equals("LastShow")) {
+        if(_type.equals(PANEL_TYPE_LAST_SHOW)) {
             return new KodiLastShowPanel(this, R.layout.kodi_last_show_panel, _context);
         }
         return null;
@@ -129,7 +130,7 @@ public class Kodi extends Device {
 			media.put("tvshows", mTvShowDataList);
 			media.put("movies", mMovieDataList);
 			serial.put("media", media);
-			serial.put("type", "Kodi");
+			serial.put("type", PANEL_TYPE_LAST_SHOW);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -140,5 +141,7 @@ public class Kodi extends Device {
     // Private members
     private JSONArray mMovieDataList;
     private JSONArray mTvShowDataList;
+
+    private static String PANEL_TYPE_LAST_SHOW = "LastShow";
 }
 
