@@ -45,7 +45,34 @@ public class HueLightPanel extends DevicePanel {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public void onStateChange(JSONObject _state) {
-		/// 666 TODO
+		if( _state == null || _state.length() == 0)
+			return;
+		boolean isOn = false;
+		try {
+			if(_state.has("on")) {
+				isOn = _state.getBoolean("on");
+			}
+			if(_state.has("bri")) {
+				int bri = _state.getInt("bri");
+				mIntensityBar.setProgress(bri*mIntensityBar.getMax()/255);
+				isOn = true;
+			}
+			/*if(_state.has("hue")) {
+				mBri = _state.getInt("hue");
+				isOn = true;
+			}
+			if(_state.has("sat")) {
+				mSat = _state.getInt("sat");
+				isOn = true;
+			}*/
+			// Update toggle button
+			mToggleButton.setChecked(isOn);
+			if(!isOn) {
+				mIntensityBar.setProgress(0);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -69,7 +96,7 @@ public class HueLightPanel extends DevicePanel {
             }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                onIntensityBarCallback();
+				onIntensityBarCallback();
             }
         });
         // Implementation Expandable View
@@ -101,33 +128,15 @@ public class HueLightPanel extends DevicePanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onIntensityBarCallback(){
-        final JSONObject command = new JSONObject();
+        JSONObject command = new JSONObject();
         try {
-            if(mIntensityBar.getProgress()== 0) {
-                command.put("on", false);
-            }else {
-                int intensity = mIntensityBar.getProgress() * 255 / mIntensityBar.getMax();
-                command.put("on", true);
-                command.put("bri", intensity);
-            }
+			int intensity = mIntensityBar.getProgress() * 255 / mIntensityBar.getMax();
+			command.put("bri", intensity);
+			command.put("on", intensity != 0);
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
-
-        Thread commThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject cmdRequest = new JSONObject();
-                    cmdRequest.put("method", "PUT");
-                    cmdRequest.put("cmd", command);
-                    JSONObject response = device().runCommand(cmdRequest);
-                } catch (JSONException _jsonException){
-                    _jsonException.printStackTrace();
-                }
-            }
-        });
-        commThread.start();
+		device().setState(command);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
