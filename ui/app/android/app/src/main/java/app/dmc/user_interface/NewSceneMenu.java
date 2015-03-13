@@ -18,7 +18,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,11 +80,8 @@ public class NewSceneMenu{
         JSONObject sceneJSON = new JSONObject();
         try{
             sceneJSON.put("type", "Scene");
-
-            JSONObject sceneData = new JSONObject();
-            sceneData.put("id","9a");   // 666 TODO random number initialization.
-            sceneData.put("name", "New Scene");
-            sceneData.put("hub", User.get().getCurrentHub().name());
+            sceneJSON.put("name", "New Scene");
+            sceneJSON.put("hub", User.get().getCurrentHub().name());
 
             JSONArray panels = new JSONArray();
             for(Pair<String, List<String>> dev: devList){
@@ -96,9 +92,8 @@ public class NewSceneMenu{
                     panels.put(panelJSON);
                 }
             }
-            sceneData.put("panels", panels);
-            sceneData.put("children", new JSONArray());
-            sceneJSON.put("data", sceneData);
+            sceneJSON.put("panels", panels);
+            sceneJSON.put("children", new JSONArray());
             sceneJSON.put("panelType", "Scene");
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
@@ -117,13 +112,23 @@ public class NewSceneMenu{
                 // Send info to hub
                 Hub hub = User.get().getCurrentHub();
                 JSONObject response = hub.send("/addDevice", sceneJSON);
-                if(response == null) {
-                    Toast.makeText(_context,"Can't connect to Server", Toast.LENGTH_SHORT).show();
+                try{
+                    Log.d("Response", response.toString());
+                    if (response.getString("result").equals("OK")){
+                        sceneJSON.put("id", response.getString("id"));
+                    }
+                }catch (JSONException _jsonException) {
+                    Log.d("Response", "Malformed response");
+                    return;
+                }catch (NullPointerException _nullPtrException){
+                    Log.d("Response", "Can't connect to Server");
                     return;
                 }
-                Log.d("Response", response.toString());
+
                 // Check response, if OK add device
-                //User.get().addNewDevice(sceneJSON, _context);
+                User.get().addNewDevice(sceneJSON);
+
+                //Add panel to current room
             }
         };
         comThread.start();

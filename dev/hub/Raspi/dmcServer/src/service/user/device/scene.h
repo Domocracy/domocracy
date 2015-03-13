@@ -26,6 +26,7 @@ namespace dmc {
 
 	private:
 		std::unordered_map<unsigned,Json>	mChildren;
+		Json								mPanels;
 	};
 }
 

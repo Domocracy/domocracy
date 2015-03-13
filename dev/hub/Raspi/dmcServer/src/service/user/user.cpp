@@ -90,7 +90,7 @@ namespace dmc {
 	Response User::addDevice(const Json& _deviceData) {
 		Device* newDev = DeviceMgr::get()->newDevice(_deviceData["type"], _deviceData);
 		if(newDev) {
-			Json result (R"({"result":"ok")");
+			Json result (R"({"result":"ok"})");
 			result["id"].setInt((int)newDev->id());
 			return Response::jsonResponse(result);
 		} else

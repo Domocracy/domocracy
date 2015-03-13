@@ -22,7 +22,18 @@
 				},
 				{ "id":42, "cmd": { "on":false } },
 				{ "id":43, "cmd": { "on":false } }
-			]
+			],
+			"panels":
+					[
+						{
+							"type": "HueLight",
+							"devId":"2a"
+						},
+						{
+							"type": "Kodi",
+							"devId":"4a"
+						}
+					]
 		}
 	},
 	{
