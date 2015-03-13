@@ -43,17 +43,24 @@ public abstract class Device {
 	final public JSONObject runCommand(final JSONObject _request) {
 		if(_request == null)
 			return null;
-		Hub hub = HubManager.get().hub(hub());
-		try{
-			String method = _request.getString("method");
-			if(method.equals("GET"))
-				return hub.get("/device/" + id() + "/" + _request.getString("urlget"));
-			if(method.equals("PUT"))
-				return hub.send("/device/" + id(), _request.getJSONObject("cmd"));
-
-		}catch (JSONException _jsonException){
-			_jsonException.printStackTrace();
-		}
+		Thread commThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Hub hub = HubManager.get().hub(hub());
+				try {
+					String method = _request.getString("method");
+					if(method.equals("GET"))
+						hub.get("/device/" + id() + "/" + _request.getString("urlget"));
+					if(method.equals("PUT"))
+						hub.send("/device/" + id(), _request.getJSONObject("cmd"));
+					onStateChange(_request.getJSONObject("cmd"));
+					notifyPanels(_request.getJSONObject("cmd"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		commThread.start();
 		return null;
 	}
 
@@ -68,7 +75,7 @@ public abstract class Device {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		runCommand(_state);
+		runCommand(command);
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------

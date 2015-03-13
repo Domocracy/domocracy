@@ -98,7 +98,7 @@ public class ScenePanel extends DevicePanel {
 			try {
 				JSONObject command = _state.getJSONObject(i);
 				Device dev = mDeviceList.panels().get(i).device();
-				dev.runCommand(command);
+				dev.setState(command);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
