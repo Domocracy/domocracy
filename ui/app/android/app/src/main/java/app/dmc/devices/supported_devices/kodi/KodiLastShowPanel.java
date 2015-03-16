@@ -131,7 +131,7 @@ public class KodiLastShowPanel extends DevicePanel {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 			((Kodi) device()).loadTvShows();
-			return false;
+			return true;
             }
         });
     }
