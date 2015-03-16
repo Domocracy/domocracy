@@ -2,7 +2,7 @@
 	"hubId" : "dmcKike",
 	"name": "dmcKike",
 	"ip": "10.200.12.63",
-	"lastroom":"baadfeed",
+	"lastRoom":"room002",
 	"devices": [
 		{
 			"type":"HueLight",
@@ -37,7 +37,7 @@
 	],
 	"rooms":[
 		{
-			"roomId" : "baadfeed",
+			"roomId" : "room002",
 			"name": "Timmy's room",
 			"panels": [
 				{

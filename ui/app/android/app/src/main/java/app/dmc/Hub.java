@@ -34,13 +34,12 @@ public class Hub {
 		JSONObject hubData = Persistence.get().getJSON("hub_"+_id);
 
 		try {
-			mName = hubData.getString("name");
-			mIp = hubData.getString("ip");
-			mDevices = hubData.getJSONArray("devices");
-			mRooms = hubData.getJSONArray("rooms");
-            mLastRoom = hubData.getString("lastroom");
+			mName = hubData.getString(NAME);
+			mIp = hubData.getString(IP);
+			mRooms = hubData.getJSONArray(ROOMS);
+            mLastRoom = hubData.getString(LAST_ROOM);
 
-			mDevMgr = new DeviceManager(hubData.getJSONArray("devices"));
+			mDevMgr = new DeviceManager(hubData.getJSONArray(DEVICES));
 			mRoomList = new ArrayList<>();
 			for(int i = 0; i < mRooms.length() ; i++){
 				mRoomList.add( new Room(mRooms.getJSONObject(i), this, _context));
@@ -108,11 +107,12 @@ public class Hub {
     public void save(){
         JSONObject jsonToSave = new JSONObject();
         try {
-            jsonToSave.put("hubId", mId);
-            jsonToSave.put("name",mName);
-            jsonToSave.put("devices",mDevMgr.serializeDevices());
-            jsonToSave.put("rooms",mRooms);
-            jsonToSave.put("ip", mIp);
+            jsonToSave.put(HUB_ID, mId);
+            jsonToSave.put(NAME, mName);
+            jsonToSave.put(DEVICES,mDevMgr.serializeDevices());
+            jsonToSave.put(ROOMS,mRooms);
+            jsonToSave.put(IP, mIp);
+			jsonToSave.put(LAST_ROOM, mLastRoom);
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -124,11 +124,19 @@ public class Hub {
     private String          mIp;
     private String          mId;
     private String          mName;
-    private JSONArray       mDevices;
     private JSONArray       mRooms;
     private String          mLastRoom;
 
     private List<Room>      mRoomList;
     private DeviceManager   mDevMgr = null;
     private HubConnection   mConnection = null;
+
+	//-----------------------------------------------------------------------------------------------------------------
+	// Constants
+	final static String LAST_ROOM = "lastRoom";
+	final static String HUB_ID = "hubId";
+	final static String NAME = "name";
+	final static String DEVICES = "devices";
+	final static String ROOMS = "rooms";
+	final static String IP = "ip";
 }
