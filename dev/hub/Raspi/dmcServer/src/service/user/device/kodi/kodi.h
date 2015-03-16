@@ -28,6 +28,8 @@ namespace dmc { namespace kodi {
 		void sendRequest	(const Json&) const;
 		Json readResponse	() const;
 
+		bool isIdValid		(const Json&) const;
+
 		Json getPlayers		() const;
 		Json getMovies		() const;
 		Json getTvShows		() const;
