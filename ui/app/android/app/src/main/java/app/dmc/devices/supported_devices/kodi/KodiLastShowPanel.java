@@ -44,7 +44,11 @@ public class KodiLastShowPanel extends DevicePanel {
 		try {
 			request.put("cmd", "lastEpisode");
 			JSONObject tvshow = mTvShowList.getJSONObject(tvShowIndex);
-			request.put("tvshowid", tvshow.getInt("tvshowid"));
+            int tvShowId = tvshow.getInt("tvshowid");
+            if(tvShowId == -1){ // Invalid tvShowID
+                return null;
+            }
+			request.put("tvshowid", tvShowId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
