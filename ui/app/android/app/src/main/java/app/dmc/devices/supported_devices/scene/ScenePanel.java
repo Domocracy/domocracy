@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
@@ -42,6 +43,21 @@ public class ScenePanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject serialize(){
+        JSONObject serial = new JSONObject();
+        try{
+            serial.put("type", Scene.PANEL_TYPE_SCENE);
+            serial.put("devId", device().id());
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+            return null;
+        }
+
+        return serial;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private methods
     private void setCallbacks(){
         // Generic click callback
         mExpandButton.setOnClickListener(new OnClickListener() {

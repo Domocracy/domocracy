@@ -28,6 +28,8 @@ public abstract class DevicePanel extends LinearLayout {
 				@Override
 				public void run() {
 				JSONObject request = action();
+                if(request == null)
+                    return;
 				device().setState(request);
 				}
 			});
@@ -72,6 +74,9 @@ public abstract class DevicePanel extends LinearLayout {
 
     //-----------------------------------------------------------------------------------------------------------------
     public void onStateChange(JSONObject _state) {}
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public abstract  JSONObject serialize();
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members

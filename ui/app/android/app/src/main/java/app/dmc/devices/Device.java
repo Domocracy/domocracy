@@ -52,11 +52,17 @@ public abstract class Device {
 				try {
 					onStateChange(_request.getJSONObject("cmd"));
 					notifyPanels(_request.getJSONObject("cmd"));
+                    JSONObject response = null;
 					String method = _request.getString("method");
 					if(method.equals("GET"))
-						hub.get("/device/" + id() + "/" + _request.getString("urlget"));
+                        response = hub.get("/device/" + id() + "/" + _request.getString("urlget"));
 					if(method.equals("PUT"))
-						hub.send("/device/" + id(), _request.getJSONObject("cmd"));
+                        response = hub.send("/device/" + id(), _request.getJSONObject("cmd"));
+
+                    onStateChange(response);
+                    notifyPanels(response);
+					//onStateChange(_request.getJSONObject("cmd"));
+					//notifyPanels(_request.getJSONObject("cmd"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

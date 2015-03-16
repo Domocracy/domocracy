@@ -81,6 +81,21 @@ public class HueLightPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject serialize(){
+        JSONObject serial = new JSONObject();
+        try{
+            serial.put("type", HueLight.PANEL_TYPE_HUE_LIGHT);
+            serial.put("devId", device().id());
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+            return null;
+        }
+
+        return serial;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private methods
     private void setCallbacks(){
         // ToggleButton action
         mToggleButton.setOnClickListener(new OnClickListener() {

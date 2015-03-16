@@ -44,9 +44,14 @@ public class KodiLastShowPanel extends DevicePanel {
 		try {
 			request.put("cmd", "lastEpisode");
 			JSONObject tvshow = mTvShowList.getJSONObject(tvShowIndex);
-			request.put("tvshowid", tvshow.getInt("tvshowid"));
+            int tvShowId = tvshow.getInt("tvshowid");
+            if(tvShowId == -1){ // Invalid tvShowID
+                return null;
+            }
+			request.put("tvshowid", tvShowId);
 		} catch (Exception e) {
 			e.printStackTrace();
+            return null;
 		}
 		return request;
 	}
@@ -57,11 +62,11 @@ public class KodiLastShowPanel extends DevicePanel {
         // Fill list with series
         final List<String> tvShowsList = new ArrayList<>();
         try{
-            mTvShowList = new JSONArray();
             JSONArray jsonShowList = _state.getJSONArray("tvshows");
             if(jsonShowList.length() == 0){
                 tvShowsList.add("KODI hasn't got TV shows");
             }
+            mTvShowList = new JSONArray();
             for(int i = 0; i < jsonShowList.length(); i++){
                 JSONObject tvshow = jsonShowList.getJSONObject(i);
                 mTvShowList.put(tvshow);
@@ -80,6 +85,20 @@ public class KodiLastShowPanel extends DevicePanel {
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject serialize(){
+        JSONObject serial = new JSONObject();
+        try{
+            serial.put("type", Kodi.PANEL_TYPE_LAST_SHOW);
+            serial.put("devId", device().id());
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+            return null;
+        }
+
+        return serial;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -117,6 +136,7 @@ public class KodiLastShowPanel extends DevicePanel {
             }
         });
     }
+
 
     // Private members
     private Spinner mTvShowSelector;

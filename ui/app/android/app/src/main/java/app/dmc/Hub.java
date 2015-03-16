@@ -112,11 +112,15 @@ public class Hub {
             jsonToSave.put(DEVICES,mDevMgr.serializeDevices());
             jsonToSave.put(ROOMS,mRooms);
             jsonToSave.put(IP, mIp);
-			jsonToSave.put(LAST_ROOM, mLastRoom);
+            mRooms = new JSONArray();
+            for(Room room : mRoomList){
+                mRooms.put(room.serialize());
+            }
+            jsonToSave.put("rooms",mRooms);
         }catch(JSONException e){
             e.printStackTrace();
         }
-        Persistence.get().putJSON("hub_"+mId,jsonToSave);
+        Persistence.get().putJSON("hub_" + mId, jsonToSave);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

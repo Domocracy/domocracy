@@ -43,14 +43,14 @@ public class Scene extends Device {
     @Override
     public List<Pair<String,Boolean>> panelTypes(){
         List<Pair<String,Boolean>> types = new ArrayList<>();
-        types.add(new Pair<>("Scene", true));
+        types.add(new Pair<>(PANEL_TYPE_SCENE, true));
         return types;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public DevicePanel createPanel(String _type, Context _context) {
-        if(_type.equals("Scene")) {
+        if(_type.equals(PANEL_TYPE_SCENE)) {
             return new ScenePanel(this, mPanelData, mChildActions, R.layout.scene_layout, _context);
         }
         return null;
@@ -90,4 +90,6 @@ public class Scene extends Device {
     // Private Members
     private JSONArray mChildActions;
 	private JSONArray mPanelData;
+
+    protected static String PANEL_TYPE_SCENE = "Scene";
 }
