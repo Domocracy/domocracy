@@ -50,25 +50,29 @@ public abstract class Device {
 			public void run() {
 				Hub hub = HubManager.get().hub(hub());
 				try {
-					onStateChange(_request.getJSONObject("cmd"));
-					notifyPanels(_request.getJSONObject("cmd"));
+					sendNotifications(_request.getJSONObject("cmd"));
+					
                     JSONObject response = null;
 					String method = _request.getString("method");
-					if(method.equals("GET"))
-                        response = hub.get("/device/" + id() + "/" + _request.getString("urlget"));
+					if(method.equals("GET")) {
+						response = hub.get("/device/" + id() + "/" + _request.getString("urlget"));
+					}
 					if(method.equals("PUT"))
                         response = hub.send("/device/" + id(), _request.getJSONObject("cmd"));
 
-                    onStateChange(response);
-                    notifyPanels(response);
-					//onStateChange(_request.getJSONObject("cmd"));
-					//notifyPanels(_request.getJSONObject("cmd"));
+                    sendNotifications(response);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 		commThread.start();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void sendNotifications(JSONObject _notification) {
+		onStateChange(_notification);
+		notifyPanels(_notification);
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
