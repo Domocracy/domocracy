@@ -63,7 +63,7 @@ public class RoomSelector {
             switch (_event.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     return actionDownCallback(mSelector, _event);
-                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_MOVE:
                     return actionUpCallback(mSelector, _event);
             }
             return false;
@@ -122,8 +122,8 @@ public class RoomSelector {
 
         //-----------------------------------------------------------------------------------------------------------------
         // Private Members
-        final double OFFSET = 30;
-        double iniX;
+        private final double OFFSET = 30;
+        private double iniX;
         ImageView snapShotView;
     }
 
