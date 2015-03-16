@@ -49,27 +49,32 @@ public class HueLightPanel extends DevicePanel {
 			return;
 		boolean isOn = false;
 		try {
+			// Process message
+			int barValue = mIntensityBar.getProgress();
 			if(_state.has("on")) {
 				isOn = _state.getBoolean("on");
 			}
 			if(_state.has("bri")) {
 				int bri = _state.getInt("bri");
-				mIntensityBar.setProgress(bri*mIntensityBar.getMax()/255);
-				isOn = true;
+				barValue = bri*mIntensityBar.getMax()/255;
+				isOn = barValue > 0;
 			}
-			/*if(_state.has("hue")) {
-				mBri = _state.getInt("hue");
-				isOn = true;
-			}
-			if(_state.has("sat")) {
-				mSat = _state.getInt("sat");
-				isOn = true;
-			}*/
-			// Update toggle button
-			mToggleButton.setChecked(isOn);
 			if(!isOn) {
-				mIntensityBar.setProgress(0);
+				barValue = 0;
 			}
+			final int intensity = barValue;
+			// Post messages to the interface
+			mIntensityBar.post(new Runnable() {
+				public void run() {
+					mIntensityBar.setProgress(intensity);
+				}
+			});
+			mToggleButton.post(new Runnable() {
+				@Override
+				public void run() {
+					mToggleButton.setChecked(intensity > 0);
+				}
+			});
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
