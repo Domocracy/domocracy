@@ -51,6 +51,7 @@ public class KodiLastShowPanel extends DevicePanel {
 			request.put("tvshowid", tvShowId);
 		} catch (Exception e) {
 			e.printStackTrace();
+            return null;
 		}
 		return request;
 	}
@@ -61,11 +62,11 @@ public class KodiLastShowPanel extends DevicePanel {
         // Fill list with series
         final List<String> tvShowsList = new ArrayList<>();
         try{
-            mTvShowList = new JSONArray();
             JSONArray jsonShowList = _state.getJSONArray("tvshows");
             if(jsonShowList.length() == 0){
                 tvShowsList.add("KODI hasn't got TV shows");
             }
+            mTvShowList = new JSONArray();
             for(int i = 0; i < jsonShowList.length(); i++){
                 JSONObject tvshow = jsonShowList.getJSONObject(i);
                 mTvShowList.put(tvshow);
@@ -131,7 +132,7 @@ public class KodiLastShowPanel extends DevicePanel {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 			((Kodi) device()).loadTvShows();
-			return true;
+			return false;
             }
         });
     }
