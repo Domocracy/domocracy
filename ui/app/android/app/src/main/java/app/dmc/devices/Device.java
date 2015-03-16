@@ -50,13 +50,13 @@ public abstract class Device {
 			public void run() {
 				Hub hub = HubManager.get().hub(hub());
 				try {
+					onStateChange(_request.getJSONObject("cmd"));
+					notifyPanels(_request.getJSONObject("cmd"));
 					String method = _request.getString("method");
 					if(method.equals("GET"))
 						hub.get("/device/" + id() + "/" + _request.getString("urlget"));
 					if(method.equals("PUT"))
 						hub.send("/device/" + id(), _request.getJSONObject("cmd"));
-					onStateChange(_request.getJSONObject("cmd"));
-					notifyPanels(_request.getJSONObject("cmd"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
