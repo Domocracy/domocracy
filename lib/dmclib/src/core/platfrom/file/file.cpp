@@ -6,6 +6,7 @@
 // File implementation for platforms conforming to C++ standard
 
 #include <cassert>
+#include <cstring>
 #include <fstream>
 
 #include "file.h"
@@ -70,7 +71,7 @@ namespace dmc {
 		}
 		
 		if (_hardCopy){
-			mBuffer = new const char[_size];
+			mBuffer = new char[_size];
 			memcpy((char*)(mBuffer), mBuffer, _size);
 		}
 		else{
