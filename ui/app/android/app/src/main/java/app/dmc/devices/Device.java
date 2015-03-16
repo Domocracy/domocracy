@@ -10,6 +10,7 @@
 package app.dmc.devices;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Pair;
 
 import org.json.JSONException;
@@ -50,18 +51,21 @@ public abstract class Device {
 			public void run() {
 				Hub hub = HubManager.get().hub(hub());
 				try {
-					sendNotifications(_request.getJSONObject("cmd"));
-					
                     JSONObject response = null;
 					String method = _request.getString("method");
 					if(method.equals("GET")) {
 						response = hub.get("/device/" + id() + "/" + _request.getString("urlget"));
+						sendNotifications(response);
 					}
-					if(method.equals("PUT"))
-                        response = hub.send("/device/" + id(), _request.getJSONObject("cmd"));
-
-                    sendNotifications(response);
-				} catch (Exception e) {
+					if(method.equals("PUT")) {
+						response = hub.send("/device/" + id(), _request.getJSONObject("cmd"));
+						if(response.getString("result").equals("ok")) {
+							sendNotifications(_request);
+						} else {
+							Log.e("Device", "Error: Received a \"result\":\"error\" from Hub\n");
+						}
+					}
+				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}

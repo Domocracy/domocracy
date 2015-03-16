@@ -37,7 +37,7 @@ public class Hub {
 			mName = hubData.getString(NAME);
 			mIp = hubData.getString(IP);
 			mRooms = hubData.getJSONArray(ROOMS);
-            mLastRoom = hubData.getString(LAST_ROOM);
+            mLastRoomId = hubData.getString(LAST_ROOM);
 
 			mDevMgr = new DeviceManager(hubData.getJSONArray(DEVICES));
 			mRoomList = new ArrayList<>();
@@ -73,9 +73,9 @@ public class Hub {
         return mRoomList;
     }
     //-----------------------------------------------------------------------------------------------------------------
-    public String currentRoom() { return mLastRoom; }
+    public String currentRoom() { return mLastRoomId; }
     //-----------------------------------------------------------------------------------------------------------------
-    public void changeRoom(String _roomId){ mLastRoom = _roomId; }
+    public void changeRoom(String _roomId){ mLastRoomId = _roomId; }
     //-----------------------------------------------------------------------------------------------------------------
     public String name(){ return mName; }
     //-----------------------------------------------------------------------------------------------------------------
@@ -110,13 +110,13 @@ public class Hub {
             jsonToSave.put(HUB_ID, mId);
             jsonToSave.put(NAME, mName);
             jsonToSave.put(DEVICES,mDevMgr.serializeDevices());
-            jsonToSave.put(ROOMS,mRooms);
+			jsonToSave.put(LAST_ROOM, mLastRoomId);
             jsonToSave.put(IP, mIp);
-            mRooms = new JSONArray();
+            JSONArray roomList = new JSONArray();
             for(Room room : mRoomList){
-                mRooms.put(room.serialize());
+                roomList.put(room.serialize());
             }
-            jsonToSave.put("rooms",mRooms);
+            jsonToSave.put(ROOMS,roomList);
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -129,7 +129,7 @@ public class Hub {
     private String          mId;
     private String          mName;
     private JSONArray       mRooms;
-    private String          mLastRoom;
+    private String			mLastRoomId;
 
     private List<Room>      mRoomList;
     private DeviceManager   mDevMgr = null;
