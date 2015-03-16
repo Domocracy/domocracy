@@ -50,6 +50,8 @@ public abstract class Device {
 			public void run() {
 				Hub hub = HubManager.get().hub(hub());
 				try {
+					onStateChange(_request.getJSONObject("cmd"));
+					notifyPanels(_request.getJSONObject("cmd"));
                     JSONObject response = null;
 					String method = _request.getString("method");
 					if(method.equals("GET"))
