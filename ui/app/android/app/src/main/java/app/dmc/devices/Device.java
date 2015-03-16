@@ -58,9 +58,10 @@ public abstract class Device {
 						sendNotifications(response);
 					}
 					if(method.equals("PUT")) {
-						response = hub.send("/device/" + id(), _request.getJSONObject("cmd"));
-						if(response.getString("result").equals("ok")) {
-							sendNotifications(_request);
+						JSONObject command = _request.getJSONObject("cmd");
+						response = hub.send("/device/" + id(), command);
+						if(response != null && response.getString("result").equals("ok")) {
+							sendNotifications(command);
 						} else {
 							Log.e("Device", "Error: Received a \"result\":\"error\" from Hub\n");
 						}
