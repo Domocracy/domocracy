@@ -39,8 +39,6 @@ public class Kodi extends Device {
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
-
-		//loadTvShows();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -66,20 +64,33 @@ public class Kodi extends Device {
     //-----------------------------------------------------------------------------------------------------------------
     JSONArray tvShows() {return mTvShowDataList;}
 
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public void onStateChange(JSONObject _state) {
+		// Fill list with series
+		final List<String> tvShowsList = new ArrayList<>();
+		try{
+			JSONArray jsonShowList = _state.getJSONArray("tvshows");
+			if(jsonShowList.length() == 0){
+				tvShowsList.add("KODI hasn't got TV shows");
+			}
+			mTvShowDataList = new JSONArray();
+			for(int i = 0; i < jsonShowList.length(); i++){
+				JSONObject tvshow = jsonShowList.getJSONObject(i);
+				mTvShowDataList.put(tvshow);
+				tvShowsList.add(tvshow.getString("label"));
+			}
+		}catch (JSONException _jsonException){
+			_jsonException.printStackTrace();
+		}
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     public void loadTvShows(){
         Thread queryShowsThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Fill list with series
-                mTvShowDataList = commandQueryTvShows();
-                try{
-                    JSONObject state = new JSONObject();
-                    state.put("tvshows", mTvShowDataList);
-                    notifyPanels(state); // Update panels
-                }catch (JSONException _jsonException){
-                    _jsonException.printStackTrace();
-                }
+                commandQueryTvShows();
             }
         });
         queryShowsThread.start();
@@ -87,7 +98,7 @@ public class Kodi extends Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Commands
-    private JSONArray commandQueryTvShows(){
+    private void commandQueryTvShows(){
         JSONObject request = new JSONObject();
         try{
             request.put("urlget","tvshows");
@@ -97,28 +108,7 @@ public class Kodi extends Device {
         catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
-
-        JSONObject response = runCommand(request);
-        JSONArray jsonShowList;
-        try{
-            if(response != null)
-                jsonShowList = response.getJSONArray("tvshows");
-            else{
-                jsonShowList = new JSONArray();
-                JSONObject dummyShow = new JSONObject();
-
-                dummyShow.put("tvshowid", -1);
-                dummyShow.put("label", "KODI hasn't got TV shows");
-
-                jsonShowList.put(dummyShow);
-            }
-        }
-        catch (JSONException _jsonException){
-            _jsonException.printStackTrace();
-            return null;
-        }
-
-        return jsonShowList;
+        runCommand(request);
     }
 
 	//-----------------------------------------------------------------------------------------------------------------

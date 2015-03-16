@@ -42,9 +42,9 @@ public abstract class Device {
     public String hub() {return mHubId;};
 
 	//-----------------------------------------------------------------------------------------------------------------
-	final public JSONObject runCommand(final JSONObject _request) {
+	final public void runCommand(final JSONObject _request) {
 		if(_request == null)
-			return null;
+			return;
 		Thread commThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -69,7 +69,6 @@ public abstract class Device {
 			}
 		});
 		commThread.start();
-		return null;
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
