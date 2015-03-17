@@ -148,6 +148,7 @@ public class KodiBasicsPanel extends DevicePanel {
         return serial;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     // Private members
 
     private ToggleButton    mToggleButton;
