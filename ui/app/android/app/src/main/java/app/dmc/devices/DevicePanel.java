@@ -70,7 +70,7 @@ public abstract class DevicePanel extends LinearLayout {
 
     //-----------------------------------------------------------------------------------------------------------------
     // private methods
-    private void setIcon(int _resource){
+    protected void setIcon(int _resource){
         mIcon.setImageResource(_resource);
     }
 
