@@ -184,6 +184,11 @@ namespace dmc { namespace kodi {
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::pauseResume() {
 		Json player = getPlayer();
+		if(player.isNill()) {
+			Json error;
+			error.setText("Error");
+			return error;
+		}
 		JsonRpcRequest request("Player.PlayPause", player, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
@@ -195,6 +200,11 @@ namespace dmc { namespace kodi {
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::stop() {
 		Json player = getPlayer();
+		if(player.isNill()) {
+			Json error;
+			error.setText("Error");
+			return error;
+		}
 		JsonRpcRequest request("Player.Stop", player, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
