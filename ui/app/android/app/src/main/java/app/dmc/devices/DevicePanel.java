@@ -20,24 +20,9 @@ public abstract class DevicePanel extends LinearLayout {
     public DevicePanel(Device _dev, int _layoutResId, Context _context){
         super(_context);
         mParentDevice = _dev;
-
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { // Default onclick listener sends default panel command.
-			Thread commThread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-				JSONObject request = action();
-                if(request == null)
-                    return;
-				device().setState(request);
-				}
-			});
-			commThread.start();
-			}
-		});
-
         View.inflate(_context, _layoutResId, this);
+
+        setCallbacks();
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -79,6 +64,42 @@ public abstract class DevicePanel extends LinearLayout {
     public abstract  JSONObject serialize();
 
     //-----------------------------------------------------------------------------------------------------------------
+    // private methods
+    private void setCallbacks(){
+        setClickCallback();
+        setLongClickCallback();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void setClickCallback(){
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) { // Default onclick listener sends default panel command.
+                Thread commThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject request = action();
+                        if(request == null)
+                            return;
+                        device().setState(request);
+                    }
+                });
+                commThread.start();
+            }
+        });
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void setLongClickCallback(){
+        setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // 666 TODO: modify device menu.
+                return false;
+            }
+        });
+    }
+
     // Private members
     Device mParentDevice;
 	protected JSONObject mCommand;
