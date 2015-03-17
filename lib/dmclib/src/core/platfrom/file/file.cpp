@@ -6,6 +6,7 @@
 // File implementation for platforms conforming to C++ standard
 
 #include <cassert>
+#include <cstring>
 #include <fstream>
 
 #include "file.h"
@@ -28,7 +29,7 @@ namespace dmc {
 			dstFile.close();
 		}
 		if (mBuffer)
-			delete static_cast<const char*>(mBuffer); // Static cast prevents undefined behavior deleting void*
+			delete[] static_cast<const char*>(mBuffer); // Static cast prevents undefined behavior deleting void*
 	}
 
 	//--------------------------------------------------------------------------------------------------------------
@@ -63,13 +64,21 @@ namespace dmc {
 	}
 
 	//--------------------------------------------------------------------------------------------------------------
-	void File::setContent(const void* _buffer, size_t _size) {
-		if(mBuffer) {
+	void File::setContent(const void* _buffer, size_t _size, bool _hardCopy) {
+		// Delete old buffer
+		if (mBuffer) {
 			delete static_cast<const char*>(mBuffer);
 		}
-		mSize = _size;
-		mBuffer = _buffer;
-		mMustWrite = true;
+		
+		if (_hardCopy){
+			mBuffer = new char[_size];
+			memcpy((char*)(mBuffer), mBuffer, _size);
+		}
+		else{
+			mSize = _size;
+			mBuffer = _buffer;
+			mMustWrite = true;
+		}
 	}
 
 }

@@ -1,99 +1,106 @@
 {
-	"hubId" : "dmc64",
-	"name": "dmc64",
-	"ip": "10.200.12.53",
-	"devices": [
-		{
-			"type":"HueLight",
-			"id": "2a",
-			"name": "light",
-			"hub": "dmc64"
-		},
-		{
-			"type":"Scene",
-			"id": "3a",
-			"name": "Scene",
-			"hub": "dmc64",
-			"children": [
-				{
-				},
-				{
-				}
-			],
-			"panels": [
-				{
-					"type": "HueLight",
-					"devId":"2a"
-				},
-				{
-					"type": "Kodi",
-					"devId":"4a"
-				}
-			]
-		},
-		{
-			"type":"Kodi",
-			"id": "4a",
-			"name": "Media",
-			"hub": "dmc64",
-			"media": {
-				"tvshows": [
-					{
-						"label":"Dead Set",
-						"tvshowid":"1"
-					},
-					{
-						"label":"New Girl",
-						"tvshowid":"2"
-					}
-				],
-				"movies": [
-					{
-						"label":"Matrix",
-						"movieid":"1"
-					}
-				]
-			}
-		}
-	],
-	"rooms":[
-		{
-			"roomId" : "baadfeed",
-			"name": "Charmilion's room",
-			"panels": [ 
-				{
-					"type": "HueLight",
-					"devId":"2a"
-				},
-				{
-					"type": "Scene",
-					"devId":"3a"
-				}
-			]
-		},
-		{
-			"roomId" : "baadfeed1",
-			"name": "Pablo's room",
-			"panels": [ 
-				{
-					"type": "Kodi",
-					"devId":"4a"
-				}
-			]
-		},
-		{
-			"roomId" : "baadfeed2",
-			"name": "Kike's room",
-			"panels": [ 
-				{
-					"type": "HueLight",
-					"devId":"2a"
-				},
-				{
-					"type": "Scene",
-					"devId":"3a"
-				}
-			]
-		}
-	]
+    "hubId": "dmc64",
+    "devices": [
+        {
+            "type": "HueLight",
+            "id": "2a",
+            "hub": "dmc64",
+            "name": "light"
+        },
+        {
+            "id": "4a",
+            "hub": "dmc64",
+            "type": "Kodi",
+            "media": {
+                "tvshows": [
+                    {
+                        "tvshowid": "1",
+                        "label": "Dead Set"
+                    },
+                    {
+                        "tvshowid": "2",
+                        "label": "New Girl"
+                    }
+                ],
+                "movies": [
+                    {
+                        "label": "Matrix",
+                        "movieid": "1"
+                    }
+                ]
+            },
+            "name": "Media"
+        },
+        {
+            "id": "3a",
+            "children": [
+                {},
+                {}
+            ],
+            "hub": "dmc64",
+            "type": "Scene",
+            "panels": [
+                {
+                    "devId": "2a",
+                    "type": "HueLight"
+                },
+                {
+                    "devId": "4a",
+                    "type": "LastShow"
+                }
+            ],
+            "name": "Scene"
+        }
+    ],
+    "ip": "10.200.13.29",
+	"lastRoom" = "room001",
+    "rooms": [
+        {
+            "panels": [
+                {
+                    "devId": "2a",
+                    "type": "HueLight"
+                },
+                {
+                    "devId": "3a",
+                    "type": "Scene"
+                },
+                {
+                    "devId": "4a",
+                    "type": "LastShow"
+                }
+            ],
+            "roomId": "room001",
+            "name": "Charmilion's room"
+        },
+        {
+            "panels": [
+                {
+                    "devId": "2a",
+                    "type": "HueLight"
+                },
+                {
+                    "devId": "4a",
+                    "type": "LastShow"
+                }
+            ],
+            "roomId": "baadfeed1",
+            "name": "Pablo's room"
+        },
+        {
+            "panels": [
+                {
+                    "devId": "2a",
+                    "type": "HueLight"
+                },
+                {
+                    "devId": "3a",
+                    "type": "Scene"
+                }
+            ],
+            "roomId": "baadfeed2",
+            "name": "Kike's room"
+        }
+    ],
+    "name": "dmc64"
 }

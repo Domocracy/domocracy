@@ -34,12 +34,12 @@ public class Hub {
 		JSONObject hubData = Persistence.get().getJSON("hub_"+_id);
 
 		try {
-			mName = hubData.getString("name");
-			mIp = hubData.getString("ip");
-			mDevices = hubData.getJSONArray("devices");
-			mRooms = hubData.getJSONArray("rooms");
+			mName = hubData.getString(NAME);
+			mIp = hubData.getString(IP);
+			mRooms = hubData.getJSONArray(ROOMS);
+            mLastRoomId = hubData.getString(LAST_ROOM);
 
-			mDevMgr = new DeviceManager(hubData.getJSONArray("devices"));
+			mDevMgr = new DeviceManager(hubData.getJSONArray(DEVICES));
 			mRoomList = new ArrayList<>();
 			for(int i = 0; i < mRooms.length() ; i++){
 				mRoomList.add( new Room(mRooms.getJSONObject(i), this, _context));
@@ -48,18 +48,18 @@ public class Hub {
 			e.printStackTrace();
 		}
     }
-
     //-----------------------------------------------------------------------------------------------------------------
     public Device device(String _id) {
         return mDevMgr.device(_id);
     }
-
     //-----------------------------------------------------------------------------------------------------------------
-
-    public List<Room> rooms(){
-        return mRoomList;
+    public Device registerDevice(JSONObject _deviceInfo){
+        return mDevMgr.register(_deviceInfo);
     }
-
+    //-----------------------------------------------------------------------------------------------------------------
+    public List<String> deviceIds(){
+        return mDevMgr.deviceIds();
+    }
     //-----------------------------------------------------------------------------------------------------------------
     public Room room(String _id){
         for(int i = 0 ; i < mRoomList.size() ; i++) {
@@ -68,31 +68,24 @@ public class Hub {
         }
         return null;
     }
-
     //-----------------------------------------------------------------------------------------------------------------
-    public String name(){
-        return mName;
-
+    public List<Room> rooms(){
+        return mRoomList;
     }
+    //-----------------------------------------------------------------------------------------------------------------
+    public String currentRoom() { return mLastRoomId; }
+    //-----------------------------------------------------------------------------------------------------------------
+    public void changeRoom(String _roomId){ mLastRoomId = _roomId; }
+    //-----------------------------------------------------------------------------------------------------------------
+    public String name(){ return mName; }
+    //-----------------------------------------------------------------------------------------------------------------
+    public String id() { return mId; }
+    //-----------------------------------------------------------------------------------------------------------------
+    public String ip() { return mIp; }
 
     //-----------------------------------------------------------------------------------------------------------------
-
-    public String id() {
-        return mId;
-
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-
-    public String ip() {
-        return mIp;
-
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-
     public JSONObject send(final String _url, final JSONObject _body) {
-        String url = "http://" + ip() + "/user/dmc64" + _url;
+        String url = "http://" + ip() + "/user/" + User.get().id() + _url;
         return mConnection.send(url, _body);
     }
 
@@ -114,15 +107,20 @@ public class Hub {
     public void save(){
         JSONObject jsonToSave = new JSONObject();
         try {
-            jsonToSave.put("hubId", mId);
-            jsonToSave.put("name",mName);
-            jsonToSave.put("devices",mDevMgr.serializeDevices());
-            jsonToSave.put("rooms",mRooms);
-            jsonToSave.put("ip", mIp);
+            jsonToSave.put(HUB_ID, mId);
+            jsonToSave.put(NAME, mName);
+            jsonToSave.put(DEVICES,mDevMgr.serializeDevices());
+			jsonToSave.put(LAST_ROOM, mLastRoomId);
+            jsonToSave.put(IP, mIp);
+            JSONArray roomList = new JSONArray();
+            for(Room room : mRoomList){
+                roomList.put(room.serialize());
+            }
+            jsonToSave.put(ROOMS,roomList);
         }catch(JSONException e){
             e.printStackTrace();
         }
-        Persistence.get().putJSON("hub_"+mId,jsonToSave);
+        Persistence.get().putJSON("hub_" + mId, jsonToSave);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -130,10 +128,19 @@ public class Hub {
     private String          mIp;
     private String          mId;
     private String          mName;
-    private JSONArray       mDevices;
     private JSONArray       mRooms;
+    private String			mLastRoomId;
 
-    List<Room> mRoomList;
-    DeviceManager   mDevMgr = null;
-    HubConnection   mConnection = null;
+    private List<Room>      mRoomList;
+    private DeviceManager   mDevMgr = null;
+    private HubConnection   mConnection = null;
+
+	//-----------------------------------------------------------------------------------------------------------------
+	// Constants
+	final static String LAST_ROOM = "lastRoom";
+	final static String HUB_ID = "hubId";
+	final static String NAME = "name";
+	final static String DEVICES = "devices";
+	final static String ROOMS = "rooms";
+	final static String IP = "ip";
 }

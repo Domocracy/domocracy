@@ -45,10 +45,57 @@ public class HueLightPanel extends DevicePanel {
     //-----------------------------------------------------------------------------------------------------------------
     @Override
     public void onStateChange(JSONObject _state) {
-		/// 666 TODO
+		if( _state == null || _state.length() == 0)
+			return;
+		boolean isOn = false;
+		try {
+			// Process message
+			int barValue = mIntensityBar.getProgress();
+			if(_state.has("on")) {
+				isOn = _state.getBoolean("on");
+			}
+			if(_state.has("bri")) {
+				int bri = _state.getInt("bri");
+				barValue = bri*mIntensityBar.getMax()/255;
+				isOn = barValue > 0;
+			}
+			if(!isOn) {
+				barValue = 0;
+			}
+			final int intensity = barValue;
+			// Post messages to the interface
+			mIntensityBar.post(new Runnable() {
+				public void run() {
+					mIntensityBar.setProgress(intensity);
+				}
+			});
+			mToggleButton.post(new Runnable() {
+				@Override
+				public void run() {
+					mToggleButton.setChecked(intensity > 0);
+				}
+			});
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject serialize(){
+        JSONObject serial = new JSONObject();
+        try{
+            serial.put("type", HueLight.PANEL_TYPE_HUE_LIGHT);
+            serial.put("devId", device().id());
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+            return null;
+        }
+
+        return serial;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private methods
     private void setCallbacks(){
         // ToggleButton action
         mToggleButton.setOnClickListener(new OnClickListener() {
@@ -69,7 +116,7 @@ public class HueLightPanel extends DevicePanel {
             }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                onIntensityBarCallback();
+				onIntensityBarCallback();
             }
         });
         // Implementation Expandable View
@@ -101,33 +148,15 @@ public class HueLightPanel extends DevicePanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onIntensityBarCallback(){
-        final JSONObject command = new JSONObject();
+        JSONObject command = new JSONObject();
         try {
-            if(mIntensityBar.getProgress()== 0) {
-                command.put("on", false);
-            }else {
-                int intensity = mIntensityBar.getProgress() * 255 / mIntensityBar.getMax();
-                command.put("on", true);
-                command.put("bri", intensity);
-            }
+			int intensity = mIntensityBar.getProgress() * 255 / mIntensityBar.getMax();
+			command.put("bri", intensity);
+			command.put("on", intensity != 0);
         }catch (JSONException _jsonException){
             _jsonException.printStackTrace();
         }
-
-        Thread commThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject cmdRequest = new JSONObject();
-                    cmdRequest.put("method", "PUT");
-                    cmdRequest.put("cmd", command);
-                    JSONObject response = device().runCommand(cmdRequest);
-                } catch (JSONException _jsonException){
-                    _jsonException.printStackTrace();
-                }
-            }
-        });
-        commThread.start();
+		device().setState(command);
     }
 
     //-----------------------------------------------------------------------------------------------------------------

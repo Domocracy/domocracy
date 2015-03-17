@@ -80,4 +80,4 @@ $(OUT_NAME).S: $(CXX_SRC)
 $(DMC_LIB):
 	cd $(DMC_LIB_DIR) && $(MAKE) -board=$(board)
 	
-.PHONY: dwarf dump readelf $(BIN_DIR) $(BUILD_DIR) run clean rebuild $(BBDUINO)
+.PHONY: dwarf dump readelf $(BIN_DIR) $(BUILD_DIR) run clean rebuild $(DMC_LIB)

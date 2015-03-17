@@ -23,6 +23,7 @@ import java.util.List;
 
 import app.dmc.R;
 import app.dmc.Room;
+import app.dmc.User;
 
 public class RoomSelector {
     //-----------------------------------------------------------------------------------------------------------------
@@ -64,7 +65,7 @@ public class RoomSelector {
             switch (_event.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     return actionDownCallback(mSelector, _event);
-                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_MOVE:
                     return actionUpCallback(mSelector, _event);
             }
             return false;
@@ -103,7 +104,7 @@ public class RoomSelector {
                     mSelector.setInAnimation(_view.getContext(), R.anim.slide_in_left);
                     mSelector.setOutAnimation(_view.getContext(), R.anim.slide_out_right);
                     mSelector.showPrevious();
-
+                    User.get().getCurrentHub().changeRoom(mRooms.get(mCurrentRoom).id());
                     return true;
                 }
 
@@ -120,8 +121,9 @@ public class RoomSelector {
                     mSelector.setInAnimation(_view.getContext(), R.anim.slide_in_right);
                     mSelector.setOutAnimation(_view.getContext(), R.anim.slide_out_left);
                     mSelector.showNext();
-
+                    User.get().getCurrentHub().changeRoom(mRooms.get(mCurrentRoom).id());
                     return true;
+
                 }
             }
             return false;
@@ -129,8 +131,8 @@ public class RoomSelector {
 
         //-----------------------------------------------------------------------------------------------------------------
         // Private Members
-        final double OFFSET = 30;
-        double iniX;
+        private final double OFFSET = 30;
+        private double iniX;
         ImageView snapShotView;
         ActionBarActivity mCurrentActivity;
     }

@@ -10,8 +10,12 @@
 package app.dmc.devices.supported_devices.philips_hue;
 
 import android.content.Context;
+import android.util.Pair;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import app.dmc.R;
 import app.dmc.devices.Device;
@@ -38,8 +42,19 @@ public class HueLight extends Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
+    public List<Pair<String,Boolean>> panelTypes(){
+        List<Pair<String,Boolean>> types = new ArrayList<>();
+        types.add(new Pair<>(PANEL_TYPE_HUE_LIGHT, true));
+        return types;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    @Override
     public DevicePanel createPanel(String _type, Context _context) {
-        return new HueLightPanel(this, R.layout.hue_light_layout, _context);
+        if(_type.equals(PANEL_TYPE_HUE_LIGHT)) {
+            return new HueLightPanel(this, R.layout.hue_light_layout, _context);
+        }
+        return null;
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -86,4 +101,5 @@ public class HueLight extends Device {
 	private int mBri = 0;
 	private boolean mOn = false;
 
+    protected static String PANEL_TYPE_HUE_LIGHT = "HueLight";
 }

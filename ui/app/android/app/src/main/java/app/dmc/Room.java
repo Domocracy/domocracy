@@ -14,9 +14,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
+import app.dmc.devices.DevicePanel;
 import app.dmc.user_interface.PanelList;
 import app.dmc.user_interface.RoomHeader;
 
@@ -30,7 +34,7 @@ public class Room {
         try{
             mId         = _data.getString("roomId");
             mName       = _data.getString("name");
-            mPanels     = new PanelList(_data.getJSONArray("panels"), _hub, _context);
+            mPanelList = new PanelList(_data.getJSONArray("panels"), _hub, _context);
             mHeader     = new RoomHeader(_context);
         }catch(JSONException e){
             e.printStackTrace();
@@ -41,13 +45,40 @@ public class Room {
         baseLayout.setOrientation(LinearLayout.VERTICAL);
         baseLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         baseLayout.addView(mHeader);
-        baseLayout.addView(mPanels);
+        baseLayout.addView(mPanelList);
         mLayout.addView(baseLayout);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     public View view(){
         return mLayout;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void addPanel(DevicePanel _panel){
+        mPanelList.addPanel(_panel);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    protected JSONObject serialize(){
+        JSONObject serial = new JSONObject();
+        List<DevicePanel> panels = mPanelList.panels();
+        try{
+            serial.put("roomId", id());
+            serial.put("name", name());
+
+            JSONArray panelsData = new JSONArray();
+            for(DevicePanel panel : panels){
+                panelsData.put(panel.serialize());
+            }
+            serial.put("panels", panelsData);
+
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+            return null;
+        }
+
+        return serial;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -66,6 +97,6 @@ public class Room {
     private Hub mDefaultHub;
 
     private ScrollView  mLayout;
-    private PanelList   mPanels;
+    private PanelList mPanelList;
     private RoomHeader  mHeader;
 }

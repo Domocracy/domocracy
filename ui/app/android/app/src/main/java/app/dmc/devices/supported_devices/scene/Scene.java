@@ -11,10 +11,14 @@
 package app.dmc.devices.supported_devices.scene;
 
 import android.content.Context;
+import android.util.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import app.dmc.R;
 import app.dmc.core.Persistence;
@@ -37,14 +41,30 @@ public class Scene extends Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     @Override
+    public List<Pair<String,Boolean>> panelTypes(){
+        List<Pair<String,Boolean>> types = new ArrayList<>();
+        types.add(new Pair<>(PANEL_TYPE_SCENE, true));
+        return types;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    @Override
     public DevicePanel createPanel(String _type, Context _context) {
-        return new ScenePanel(this, mPanelData, mChildActions, R.layout.scene_layout, _context);
+        if(_type.equals(PANEL_TYPE_SCENE)) {
+            return new ScenePanel(this, mPanelData, mChildActions, R.layout.scene_layout, _context);
+        }
+        return null;
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
 	public void saveModifications(JSONArray _newActions) {
 		mChildActions = _newActions;
 		save();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	public JSONArray childCommnands() {
+		return mChildActions;
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -70,4 +90,6 @@ public class Scene extends Device {
     // Private Members
     private JSONArray mChildActions;
 	private JSONArray mPanelData;
+
+    protected static String PANEL_TYPE_SCENE = "Scene";
 }

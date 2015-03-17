@@ -103,6 +103,14 @@ namespace dmc { namespace kodi {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
+	bool Kodi::isIdValid(const Json &_id) const {
+		if (_id.asInt() == -1)
+			return false;
+		else
+			return true;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::getPlayers() const{
 		JsonRpcRequest request("Player.GetActivePlayers", Json("{}"), mLastReqId++);
 		sendRequest(request);
@@ -198,6 +206,9 @@ namespace dmc { namespace kodi {
 
 	//------------------------------------------------------------------------------------------------------------------
 	bool Kodi::playLastEpisode(const Json& _show) {
+		if (!isIdValid(_show))
+			return false;
+
 		Json episodes = getEpisodes(_show);
 		if(episodes.isNill()) {
 			return true;

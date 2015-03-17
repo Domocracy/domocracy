@@ -15,12 +15,13 @@ namespace dmc {
 		:Actuator(_id, _data["name"].asText())
 	{
 		Json childrenData = _data["children"];
-		const auto& list = childrenData.asList();
-		for(size_t i = 0; i < list.size(); ++i) {
-			unsigned childId = unsigned((*list[i])["id"].asInt());
-			Json childCmd = (*list[i])["cmd"];
+		const auto& childrenList = childrenData.asList();
+		for (size_t i = 0; i < childrenList.size(); ++i) {
+			unsigned childId = unsigned((*childrenList[i])["id"].asInt());
+			Json childCmd = (*childrenList[i])["cmd"];
 			mChildren.insert(std::make_pair(childId, childCmd));
 		}
+		mPanels = _data["panels"];
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -50,7 +51,10 @@ namespace dmc {
 			childData["cmd"] = child.second;
 			children.asList().push_back(&childData);
 		}
-		base["children"] = children;
+
+		base["children"]	= children;
+		base["panels"]		= mPanels;
+
 		return &base;
 	}
 }
