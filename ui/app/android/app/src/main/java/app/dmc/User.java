@@ -75,6 +75,12 @@ public class User {
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
+	public void setRoom(String _roomId) {
+		mLastHub.changeRoom(_roomId);
+		UserInterface.get().setRoom(_roomId);
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
 	private void onEnd() {
 		mLastHub = null;
 		HubManager.end();

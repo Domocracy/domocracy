@@ -104,7 +104,7 @@ public class RoomSelector {
                     mSelector.setInAnimation(_view.getContext(), R.anim.slide_in_left);
                     mSelector.setOutAnimation(_view.getContext(), R.anim.slide_out_right);
                     mSelector.showPrevious();
-                    User.get().getCurrentHub().changeRoom(mRooms.get(mCurrentRoom).id());
+					User.get().setRoom(mRooms.get(mCurrentRoom).id());
                     return true;
                 }
 
@@ -121,7 +121,7 @@ public class RoomSelector {
                     mSelector.setInAnimation(_view.getContext(), R.anim.slide_in_right);
                     mSelector.setOutAnimation(_view.getContext(), R.anim.slide_out_left);
                     mSelector.showNext();
-                    User.get().getCurrentHub().changeRoom(mRooms.get(mCurrentRoom).id());
+					User.get().setRoom(mRooms.get(mCurrentRoom).id());
                     return true;
 
                 }

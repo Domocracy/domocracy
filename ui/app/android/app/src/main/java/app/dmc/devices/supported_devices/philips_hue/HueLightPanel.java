@@ -37,7 +37,7 @@ public class HueLightPanel extends DevicePanel {
         mIntensityBar   = (SeekBar)         findViewById(R.id.intensityBar);
         mExpandButton   = (Button)          findViewById(R.id.expandViewButton);
         mHueSelector    = (ImageView)       findViewById(R.id.hueSelector);
-
+		mLastIntensity =  ((HueLight)_parent).bri();
         mNameView.setText(_parent.name());
         setCallbacks();
     }
@@ -50,14 +50,20 @@ public class HueLightPanel extends DevicePanel {
 		boolean isOn = false;
 		try {
 			// Process message
-			int barValue = mIntensityBar.getProgress();
+			int barValue = mLastIntensity;
 			if(_state.has("on")) {
 				isOn = _state.getBoolean("on");
 			}
 			if(_state.has("bri")) {
 				int bri = _state.getInt("bri");
 				barValue = bri*mIntensityBar.getMax()/255;
-				isOn = barValue > 0;
+				if(barValue > 0) {
+					isOn = true;
+					mLastIntensity = barValue;
+				} else {
+					isOn = false;
+				}
+
 			}
 			if(!isOn) {
 				barValue = 0;
@@ -226,4 +232,5 @@ public class HueLightPanel extends DevicePanel {
     private SeekBar         mIntensityBar;
     private TextView        mNameView;
     private ImageView       mHueSelector;
+	private int				mLastIntensity;
 }

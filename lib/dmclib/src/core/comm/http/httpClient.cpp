@@ -38,12 +38,12 @@ namespace dmc { namespace http {
 		const unsigned bufferSize = 64*1024;
 		char buffer[bufferSize+1];
 		int nBytes = mSocket.read(buffer, bufferSize);
-		buffer[nBytes] = '\0';
-		std::string dst(buffer);
 		if(nBytes < 0) {
-				std::cout << "Error reading from socket: " << errno << "\n";
+			std::cout << "Error reading from socket: " << errno << "\n";
 			return nullptr;
 		}
+		buffer[nBytes] = '\0';
+		std::string dst(buffer);
 		// std::cout << "Recv: " << dst;
 		Response * resp = new Response(dst); // Keep reading
 		while(nBytes > 0 && resp && !resp->isComplete()) {
