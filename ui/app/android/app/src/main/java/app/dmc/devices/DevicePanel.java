@@ -70,8 +70,14 @@ public abstract class DevicePanel extends LinearLayout {
 
     //-----------------------------------------------------------------------------------------------------------------
     // private methods
-    protected void setIcon(int _resource){
-        mIcon.setImageResource(_resource);
+    protected void setIcon(final int _resource){
+        mIcon.post(new Runnable() {
+            @Override
+            public void run() {
+                mIcon.setImageResource(_resource);
+            }
+        });
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -115,6 +121,6 @@ public abstract class DevicePanel extends LinearLayout {
 	protected JSONObject mCommand;
 	private boolean mIsPaused = false;
 
-    private ImageView mIcon;
+    protected ImageView mIcon;
 
 }
