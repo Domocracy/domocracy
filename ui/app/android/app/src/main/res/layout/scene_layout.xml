@@ -15,13 +15,11 @@
             android:layout_height="80dp"
             android:gravity="center">
 
-            <ToggleButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/toggleButton"
-                android:background="@drawable/scene_icon_selector"
-                android:textOff=" "
-                android:textOn=" " />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/devIcon"
+                android:src="@drawable/power_off" />
         </LinearLayout>
 
         <TextView

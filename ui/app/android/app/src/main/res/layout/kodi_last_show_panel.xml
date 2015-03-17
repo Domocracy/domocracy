@@ -10,7 +10,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/logo_kodi"
+            android:id="@+id/devIcon"
             android:src="@drawable/kodi_logo" />
     </LinearLayout>
 
