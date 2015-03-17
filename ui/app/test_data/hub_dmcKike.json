@@ -2,6 +2,7 @@
 	"hubId" : "dmcKike",
 	"name": "dmcKike",
 	"ip": "10.200.12.63",
+	"lastRoom":"room002",
 	"devices": [
 		{
 			"type":"HueLight",
@@ -36,7 +37,7 @@
 	],
 	"rooms":[
 		{
-			"roomId" : "baadfeed",
+			"roomId" : "room002",
 			"name": "Timmy's room",
 			"panels": [
 				{
@@ -44,7 +45,7 @@
 					"devId":"2a"
 				},
 				{
-					"type": "Kodi",
+					"type": "LastShow",
 					"devId":"4a"
 				}
 			]

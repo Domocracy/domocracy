@@ -10,11 +10,14 @@
 package app.dmc.devices;
 
 import android.content.Context;
+import android.util.Log;
+import android.util.Pair;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import app.dmc.Hub;
@@ -40,21 +43,41 @@ public abstract class Device {
     public String hub() {return mHubId;};
 
 	//-----------------------------------------------------------------------------------------------------------------
-	final public JSONObject runCommand(final JSONObject _request) {
+	final public void runCommand(final JSONObject _request) {
 		if(_request == null)
-			return null;
-		Hub hub = HubManager.get().hub(hub());
-		try{
-			String method = _request.getString("method");
-			if(method.equals("GET"))
-				return hub.get("/device/" + id() + "/" + _request.getString("urlget"));
-			if(method.equals("PUT"))
-				return hub.send("/device/" + id(), _request.getJSONObject("cmd"));
+			return;
+		Thread commThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Hub hub = HubManager.get().hub(hub());
+				try {
+                    JSONObject response = null;
+					String method = _request.getString("method");
+					if(method.equals("GET")) {
+						response = hub.get("/device/" + id() + "/" + _request.getString("urlget"));
+						sendNotifications(response);
+					}
+					if(method.equals("PUT")) {
+						JSONObject command = _request.getJSONObject("cmd");
+						response = hub.send("/device/" + id(), command);
+						if(response != null && response.getString("result").equals("ok")) {
+							sendNotifications(command);
+						} else {
+							Log.e("Device", "Error: Received a \"result\":\"error\" from Hub\n");
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		commThread.start();
+	}
 
-		}catch (JSONException _jsonException){
-			_jsonException.printStackTrace();
-		}
-		return null;
+	//-----------------------------------------------------------------------------------------------------------------
+	private void sendNotifications(JSONObject _notification) {
+		onStateChange(_notification);
+		notifyPanels(_notification);
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -68,7 +91,7 @@ public abstract class Device {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		runCommand(_state);
+		runCommand(command);
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -80,6 +103,9 @@ public abstract class Device {
 	public void onStateChange(JSONObject _state) {
 		//
 	}
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public abstract List<Pair<String, Boolean>> panelTypes();
 
     //-----------------------------------------------------------------------------------------------------------------
     public abstract DevicePanel createPanel(String _type, Context _context);

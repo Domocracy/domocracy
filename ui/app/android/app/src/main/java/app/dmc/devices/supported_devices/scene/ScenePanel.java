@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import app.dmc.R;
@@ -42,6 +43,21 @@ public class ScenePanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public JSONObject serialize(){
+        JSONObject serial = new JSONObject();
+        try{
+            serial.put("type", Scene.PANEL_TYPE_SCENE);
+            serial.put("devId", device().id());
+        }catch (JSONException _jsonException){
+            _jsonException.printStackTrace();
+            return null;
+        }
+
+        return serial;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private methods
     private void setCallbacks(){
         // Generic click callback
         mExpandButton.setOnClickListener(new OnClickListener() {
@@ -98,7 +114,7 @@ public class ScenePanel extends DevicePanel {
 			try {
 				JSONObject command = _state.getJSONObject(i);
 				Device dev = mDeviceList.panels().get(i).device();
-				dev.runCommand(command);
+				dev.setState(command);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -118,7 +134,20 @@ public class ScenePanel extends DevicePanel {
 		mExtendedView.setVisibility(View.VISIBLE);
 		mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
 
-		// 666 TODO: Use mChildrenActions to modify the state of child panels
+		initChildrenState();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	private void initChildrenState() {
+		JSONArray childrenActions = mParentScene.childCommnands();
+		for(int i = 0; i < childrenActions.length(); ++i) {
+			try {
+				JSONObject command = childrenActions.getJSONObject(i);
+				mDeviceList.panels().get(i).onStateChange(command);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
