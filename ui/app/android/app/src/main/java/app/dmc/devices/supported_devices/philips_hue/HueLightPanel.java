@@ -50,7 +50,7 @@ public class HueLightPanel extends DevicePanel {
 		boolean isOn = false;
 		try {
 			// Process message
-			int barValue = mIntensityBar.getProgress();
+			int barValue = ((HueLight)device()).bri()*mIntensityBar.getMax()/255;
 			if(_state.has("on")) {
 				isOn = _state.getBoolean("on");
 			}
