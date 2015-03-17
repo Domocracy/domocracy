@@ -96,6 +96,11 @@ public class HueLight extends Device {
 		}
 	}
 
+	//-----------------------------------------------------------------------------------------------------------------
+	public int bri() {
+		return mBri;
+	}
+
 	private int mHue = 0;
 	private int mSat = 0;
 	private int mBri = 0;
