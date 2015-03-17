@@ -103,7 +103,7 @@ namespace dmc { namespace kodi {
 			buffer[nBytes] = '\0';
 			kodiResponse = Json(string(buffer));
 			Json responseId = kodiResponse["id"];
-			if(!responseId.isNill() && responseId.asInt() == (mLastReqId-1))
+			if(!responseId.isNill() && (unsigned)responseId.asInt() == (mLastReqId-1))
 				match = true;
 		}
 		mTcpConnection->close();
