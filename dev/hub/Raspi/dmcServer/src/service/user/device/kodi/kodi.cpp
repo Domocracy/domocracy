@@ -96,8 +96,16 @@ namespace dmc { namespace kodi {
 		}
 		const unsigned bufferSize = 64*1024;
 		char buffer[bufferSize+1];
-		int nBytes = mTcpConnection->read(buffer, bufferSize);
-		buffer[nBytes] = '\0';
+		bool match = false;
+		Json kodiResponse;
+		while(!match) { // Discard notifications
+			int nBytes = mTcpConnection->read(buffer, bufferSize);
+			buffer[nBytes] = '\0';
+			kodiResponse = Json(string(buffer));
+			Json responseId = kodiResponse["id"];
+			if(!responseId.isNill() && responseId.asInt() == (mLastReqId-1))
+				match = true;
+		}
 		mTcpConnection->close();
 		return Json(string(buffer));
 	}
