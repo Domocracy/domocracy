@@ -3,6 +3,7 @@ package app.dmc.devices.supported_devices.kodi;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.ToggleButton;
 
 import org.json.JSONException;
@@ -22,15 +23,15 @@ public class KodiBasicsPanel extends DevicePanel {
 
         mToggleButton       = (ToggleButton)    findViewById(R.id.playButton);
         mStopButton         = (Button)          findViewById(R.id.stopButton);
-
+      mIntensityBar         = (SeekBar)         findViewById(R.id.intensityBar);
         setCallbacks();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void play(){
+    private void play(){
         JSONObject request = new JSONObject();
         try{
-            request.put("cmd","play");
+            request.put(COMMAND,"play");
             ((Kodi)device()).setState(request);
         }catch(JSONException e){
            e.printStackTrace();
@@ -39,10 +40,10 @@ public class KodiBasicsPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void pauseShow(){
+    private  void pauseShow(){
         JSONObject request = new JSONObject();
         try{
-            request.put("cmd","pause");
+            request.put(COMMAND,"pause");
             ((Kodi)device()).setState(request);
         }catch(JSONException e){
             e.printStackTrace();
@@ -50,10 +51,10 @@ public class KodiBasicsPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void resume(){
+    private void resume(){
         JSONObject request = new JSONObject();
         try{
-            request.put("cmd","resume");
+            request.put(COMMAND,"resume");
             ((Kodi)device()).setState(request);
         }catch(JSONException e){
             e.printStackTrace();
@@ -61,28 +62,36 @@ public class KodiBasicsPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void stop(){
+    private void stop(){
         JSONObject request = new JSONObject();
         try{
-            request.put("cmd","stop");
+            request.put(COMMAND,"stop");
             ((Kodi)device()).setState(request);
         }catch(JSONException e){
             e.printStackTrace();
         }
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    // View set up methods
-    private void setCallbacks(){
-        extendCallback();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onToggleButtonCallback(){
         if(mToggleButton.isChecked())
-            play();
-        else
             pauseShow();
+        else
+            resume();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void onIntensityBarCallback(){
+        int volumeLevel = mIntensityBar.getProgress() * 255 / mIntensityBar.getMax();
+        JSONObject request = new JSONObject();
+            try{
+                request.put(COMMAND,"setVolume");
+                request.put(VOLUME,Integer.toString(volumeLevel));
+
+                ((Kodi)device()).setState(request);
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -94,7 +103,6 @@ public class KodiBasicsPanel extends DevicePanel {
                 onToggleButtonCallback();
             }
         });
-
         //Stop Button
         mStopButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +110,30 @@ public class KodiBasicsPanel extends DevicePanel {
                 stop();
             }
         });
+        //Volume Intensity Bar
+        mIntensityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+              @Override
+              public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+              }
+
+              @Override
+              public void onStartTrackingTouch(SeekBar seekBar) {
+
+              }
+
+              @Override
+              public void onStopTrackingTouch(SeekBar seekBar) {
+                  onIntensityBarCallback();
+              }
+          });
     }
+    //-----------------------------------------------------------------------------------------------------------------
+    // View set up methods
+    private void setCallbacks(){
+        extendCallback();
+    }
+
     //-----------------------------------------------------------------------------------------------------------------
     public JSONObject serialize(){
         JSONObject serial = new JSONObject();
@@ -121,5 +152,8 @@ public class KodiBasicsPanel extends DevicePanel {
 
     private ToggleButton    mToggleButton;
     private Button          mStopButton;
+    private SeekBar         mIntensityBar;
 
+    final static String COMMAND = "cmd";
+    final static String VOLUME  = "volume";
 }
