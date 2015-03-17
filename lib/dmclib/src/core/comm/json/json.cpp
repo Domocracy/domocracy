@@ -249,9 +249,8 @@ namespace dmc {
 			cout << "Error accessing Json dictionary\n"
 				<< "Requesting key \"" << _key << "\"\n"
 				<< "Json is:\n" << this->serialize() << "\n";
-			return Json();
+			assert(false);
 		}
-		assert(it != mDictionary.end());
 		return *it->second;
 	}
 
