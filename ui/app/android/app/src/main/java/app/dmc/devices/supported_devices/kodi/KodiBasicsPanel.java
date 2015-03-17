@@ -72,11 +72,6 @@ public class KodiBasicsPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    // Private interface
-    private void init(Context _context){
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
     // View set up methods
     private void setCallbacks(){
         extendCallback();
@@ -84,8 +79,10 @@ public class KodiBasicsPanel extends DevicePanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onToggleButtonCallback(){
-        play();
-
+        if(mToggleButton.isChecked())
+            play();
+        else
+            pauseShow();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
