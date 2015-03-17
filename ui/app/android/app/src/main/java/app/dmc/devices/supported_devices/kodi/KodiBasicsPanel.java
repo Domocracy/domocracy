@@ -82,11 +82,11 @@ public class KodiBasicsPanel extends DevicePanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onIntensityBarCallback(){
-        int volumeLevel = mIntensityBar.getProgress() * 255 / mIntensityBar.getMax();
+        int volumeLevel = mIntensityBar.getProgress() * 100 / mIntensityBar.getMax();
         JSONObject request = new JSONObject();
             try{
                 request.put(COMMAND,"setVolume");
-                request.put(VOLUME,Integer.toString(volumeLevel));
+                request.put(VOLUME,volumeLevel);
 
                 ((Kodi)device()).setState(request);
         }catch(JSONException e){
