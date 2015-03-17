@@ -51,8 +51,10 @@ public class MainScreen {
             setRoomTitle(_activity);
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+
     //-----------------------------------------------------------------------------------------------------------------
-    public void setRoomTitle(ActionBarActivity _activity){
+    private void setRoomTitle(ActionBarActivity _activity){
         ActionBar ab = _activity.getSupportActionBar();
         ab.setTitle(mCurrentRoom.name());
     }
