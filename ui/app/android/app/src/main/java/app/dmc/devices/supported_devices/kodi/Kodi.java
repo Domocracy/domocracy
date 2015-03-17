@@ -46,6 +46,7 @@ public class Kodi extends Device {
     public List<Pair<String,Boolean>> panelTypes(){
         List<Pair<String,Boolean>> types = new ArrayList<>();
         types.add(new Pair<>(PANEL_TYPE_LAST_SHOW, true));
+        types.add(new Pair<>(PANEL_TYPE_BASICS,true));
         return types;
     }
 
@@ -54,6 +55,8 @@ public class Kodi extends Device {
     public DevicePanel createPanel(String _type, Context _context) {
         if(_type.equals(PANEL_TYPE_LAST_SHOW)) {
             return new KodiLastShowPanel(this, R.layout.kodi_last_show_panel, _context);
+        }else if(_type.equals(PANEL_TYPE_BASICS)){
+            return new KodiBasicsPanel(this,R.layout.kodi_basics_panel, _context);
         }
         return null;
     }
@@ -132,6 +135,7 @@ public class Kodi extends Device {
     private JSONArray mMovieDataList;
     private JSONArray mTvShowDataList;
 
-    protected static String PANEL_TYPE_LAST_SHOW = "LastShow";
+    protected static String PANEL_TYPE_LAST_SHOW    = "LastShow";
+    protected static String PANEL_TYPE_BASICS       = "Basics";
 }
 
