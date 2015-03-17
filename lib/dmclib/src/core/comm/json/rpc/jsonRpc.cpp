@@ -25,8 +25,8 @@ namespace dmc {
 	JsonRpcRequest::JsonRpcRequest(const std::string& _method, const Json& _params, unsigned _id)
 		:JsonRpcNotification(_method, _params)
 	{
-		std::stringstream ss;
-		ss << "\"" <<_id << "\"";
-		(*this)["id"] = Json(ss.str());
+		// std::stringstream ss;
+		// ss << "\"" <<_id << "\"";
+		(*this)["id"].setInt((int)_id);// = Json(ss.str());
 	}
 }

@@ -53,7 +53,7 @@
         }
     ],
     "ip": "10.200.13.29",
-	"lastRoom" = "room001",
+	"lastRoom" : "room001",
     "rooms": [
         {
             "panels": [
@@ -70,7 +70,7 @@
                     "type": "LastShow"
                 }
             ],
-            "roomId": "room001",
+            "roomId" : "room001",
             "name": "Charmilion's room"
         },
         {
@@ -82,9 +82,14 @@
                 {
                     "devId": "4a",
                     "type": "LastShow"
-                }
+                },
+				{
+					"devId": "6a",
+                    "type": "Basics"
+                
+				}
             ],
-            "roomId": "baadfeed1",
+            "roomId" : "baadfeed1",
             "name": "Pablo's room"
         },
         {

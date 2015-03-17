@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -28,6 +29,9 @@ public abstract class DevicePanel extends LinearLayout {
         mIcon = (ImageView) findViewById(R.id.devIcon);
 
         setCallbacks();
+
+        mDevName = (TextView) findViewById(R.id.devName);
+        mDevName.setText(mParentDevice.name());
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -123,4 +127,6 @@ public abstract class DevicePanel extends LinearLayout {
 
     protected ImageView mIcon;
 
+
+    private TextView mDevName;
 }

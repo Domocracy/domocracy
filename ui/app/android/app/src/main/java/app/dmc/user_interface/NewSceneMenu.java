@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -65,7 +66,12 @@ public class NewSceneMenu{
         layout.setOrientation(LinearLayout.VERTICAL);
         TextView title = new TextView(_context);
         title.setText("Add new scene");
+        title.setTextSize(20);
         layout.addView(title);
+
+        mEditableName = new EditText(_context);
+        mEditableName.setText("New Scene");
+        layout.addView(mEditableName);
 
         List<String> deviceIds = User.get().getCurrentHub().deviceIds();
         mCheckList = new DevicesCheckList(_context, deviceIds);
@@ -83,7 +89,7 @@ public class NewSceneMenu{
         JSONObject sceneJSON = new JSONObject();
         try{
             sceneJSON.put("type", "Scene");
-            sceneJSON.put("name", "New Scene");
+            sceneJSON.put("name", mEditableName.getText().toString()); /// 666 TODO get from entry text.
             sceneJSON.put("hub", User.get().getCurrentHub().name());
 
             JSONArray panels = new JSONArray();
@@ -148,6 +154,7 @@ public class NewSceneMenu{
     private AlertDialog.Builder mMenuBuilder;
     private DevicesCheckList    mCheckList;
 
+    private EditText            mEditableName;
 
     //-----------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------

@@ -9,9 +9,10 @@
 
 package app.dmc.user_interface;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,9 @@ import app.dmc.User;
 public class RoomSelector {
     //-----------------------------------------------------------------------------------------------------------------
     // Public interface
-    public RoomSelector(Context _context, final List<Room>_rooms){
+    public RoomSelector(ActionBarActivity _activity, final List<Room>_rooms){
         mRooms = _rooms;
-        mSelector = new CustomViewFlipper(_context);
+        mSelector = new CustomViewFlipper(_activity);
 
         View roomView = mRooms.get(mCurrentRoom).view();
 
@@ -53,8 +54,9 @@ public class RoomSelector {
     //-----------------------------------------------------------------------------------------------------------------
     // Inner Classes
     class CustomViewFlipper extends ViewFlipper{
-        CustomViewFlipper(Context _context){
-            super(_context);
+        CustomViewFlipper(ActionBarActivity _activity){
+            super(_activity);
+            mCurrentActivity = _activity;
         }
 
         //-----------------------------------------------------------------------------------------------------------------
@@ -87,6 +89,7 @@ public class RoomSelector {
         //-----------------------------------------------------------------------------------------------------------------
         private boolean actionUpCallback(View _view, MotionEvent _event){
             double x = _event.getX();
+            ActionBar ab = mCurrentActivity.getSupportActionBar();
             if((iniX - x) < - OFFSET){  // previous room
                 if(mCurrentRoom - 1 >= 0 ) {
                     mCurrentRoom--;
@@ -95,10 +98,13 @@ public class RoomSelector {
                     mSelector.addView(snapShotView);
                     mSelector.addView(mRooms.get(mCurrentRoom).view());
 
+
+                    ab.setTitle(mRooms.get(mCurrentRoom).name());
+
                     mSelector.setInAnimation(_view.getContext(), R.anim.slide_in_left);
                     mSelector.setOutAnimation(_view.getContext(), R.anim.slide_out_right);
                     mSelector.showPrevious();
-                    User.get().getCurrentHub().changeRoom(mRooms.get(mCurrentRoom).id());
+					User.get().setRoom(mRooms.get(mCurrentRoom).id());
                     return true;
                 }
 
@@ -109,10 +115,13 @@ public class RoomSelector {
                     mSelector.addView(snapShotView);
                     mSelector.addView(mRooms.get(mCurrentRoom).view());
 
+
+                    ab.setTitle(mRooms.get(mCurrentRoom).name());
+
                     mSelector.setInAnimation(_view.getContext(), R.anim.slide_in_right);
                     mSelector.setOutAnimation(_view.getContext(), R.anim.slide_out_left);
                     mSelector.showNext();
-                    User.get().getCurrentHub().changeRoom(mRooms.get(mCurrentRoom).id());
+					User.get().setRoom(mRooms.get(mCurrentRoom).id());
                     return true;
 
                 }
@@ -125,6 +134,7 @@ public class RoomSelector {
         private final double OFFSET = 30;
         private double iniX;
         ImageView snapShotView;
+        ActionBarActivity mCurrentActivity;
     }
 
 }

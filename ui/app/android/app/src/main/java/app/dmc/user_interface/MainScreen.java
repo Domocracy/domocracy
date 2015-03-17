@@ -30,7 +30,7 @@ public class MainScreen {
     //-----------------------------------------------------------------------------------------------------------------
     public void setHub(ActionBarActivity _activity, Hub _currentHub){
         mCurrentHub = _currentHub;
-
+		mActivity = _activity;
 
         LinearLayout ll = (LinearLayout) _activity.findViewById(R.id.main_screen);
         ll.removeAllViews();
@@ -45,22 +45,29 @@ public class MainScreen {
                 return false;
             }
         });
-
         mCurrentRoom = mCurrentHub.room(mCurrentHub.rooms().get(0).id());
         if(mCurrentRoom != null)
-            setRoomTitle(_activity);
+            setRoomTitle();
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	public void setRoom(String _roomId) {
+		mCurrentRoom = mCurrentHub.room(_roomId);
+		setRoomTitle();
+		/// 666 TODO: Tell room seletor to change the room.
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
-    public void setRoomTitle(ActionBarActivity _activity){
-        ActionBar ab = _activity.getSupportActionBar();
+    private void setRoomTitle(){
+        ActionBar ab = mActivity.getSupportActionBar();
         ab.setTitle(mCurrentRoom.name());
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     //  Private interface
-    private Hub mCurrentHub = null;
-    private Room mCurrentRoom = null;
+    private Hub 		mCurrentHub = null;
+    private Room 		mCurrentRoom = null;
+	private ActionBarActivity	mActivity = null;
 
     // Views
     private RoomSelector mRoomSelector = null;
