@@ -12,8 +12,11 @@ import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONObject;
+
+import app.dmc.R;
 
 public abstract class DevicePanel extends LinearLayout {
     //-----------------------------------------------------------------------------------------------------------------
@@ -38,6 +41,9 @@ public abstract class DevicePanel extends LinearLayout {
 		});
 
         View.inflate(_context, _layoutResId, this);
+
+        mDevName = (TextView) findViewById(R.id.devName);
+        mDevName.setText(mParentDevice.name());
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -83,4 +89,6 @@ public abstract class DevicePanel extends LinearLayout {
     Device mParentDevice;
 	protected JSONObject mCommand;
 	boolean mIsPaused = false;
+
+    private TextView mDevName;
 }
