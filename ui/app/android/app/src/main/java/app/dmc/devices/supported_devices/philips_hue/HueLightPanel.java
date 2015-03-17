@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +31,6 @@ public class HueLightPanel extends DevicePanel {
     HueLightPanel(Device _parent, int _layoutResId, final Context _context){
         super(_parent, _layoutResId, _context);
 
-        mToggleButton   = (ToggleButton)    findViewById(R.id.toggleButton);
         mNameView       = (TextView)        findViewById(R.id.devName);
         mIntensityBar   = (SeekBar)         findViewById(R.id.intensityBar);
         mExpandButton   = (Button)          findViewById(R.id.expandViewButton);
@@ -75,12 +73,12 @@ public class HueLightPanel extends DevicePanel {
 					mIntensityBar.setProgress(intensity);
 				}
 			});
-			mToggleButton.post(new Runnable() {
-				@Override
-				public void run() {
-					mToggleButton.setChecked(intensity > 0);
-				}
-			});
+
+            if(isOn)
+                setIcon(R.drawable.light_on);
+            else
+                setIcon(R.drawable.light_off);
+
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,7 +102,7 @@ public class HueLightPanel extends DevicePanel {
     // Private methods
     private void setCallbacks(){
         // ToggleButton action
-        mToggleButton.setOnClickListener(new OnClickListener() {
+        mIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 onToggleButtonCallback();
@@ -145,7 +143,7 @@ public class HueLightPanel extends DevicePanel {
     private void onToggleButtonCallback(){
 		JSONObject command = new JSONObject();
 		try {
-			command.put("on", mToggleButton.isChecked());
+			command.put("on", !device().state().getBoolean("on"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -228,7 +226,6 @@ public class HueLightPanel extends DevicePanel {
     //-----------------------------------------------------------------------------------------------------------------
     //
     private Button          mExpandButton;
-    private ToggleButton    mToggleButton;
     private SeekBar         mIntensityBar;
     private TextView        mNameView;
     private ImageView       mHueSelector;
