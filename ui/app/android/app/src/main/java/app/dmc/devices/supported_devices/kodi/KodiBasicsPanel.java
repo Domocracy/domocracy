@@ -1,15 +1,14 @@
 package app.dmc.devices.supported_devices.kodi;
 
 import android.content.Context;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.ToggleButton;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import app.dmc.R;
 import app.dmc.devices.Device;
 import app.dmc.devices.DevicePanel;
 
@@ -21,9 +20,12 @@ public class KodiBasicsPanel extends DevicePanel {
     public KodiBasicsPanel(final Device _parentActuator, int _layoutResId, Context _context) {
         super(_parentActuator, _layoutResId, _context);
 
-        init(_context);
+        mToggleButton       = (ToggleButton)    findViewById(R.id.playButton);
+        mStopButton         = (Button)          findViewById(R.id.stopButton);
+
         setCallbacks();
     }
+
     //-----------------------------------------------------------------------------------------------------------------
     public void play(){
         JSONObject request = new JSONObject();
@@ -33,10 +35,11 @@ public class KodiBasicsPanel extends DevicePanel {
         }catch(JSONException e){
            e.printStackTrace();
         }
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void pause(){
+    public void pauseShow(){
         JSONObject request = new JSONObject();
         try{
             request.put("cmd","pause");
@@ -72,6 +75,7 @@ public class KodiBasicsPanel extends DevicePanel {
     // Private interface
     private void init(Context _context){
     }
+
     //-----------------------------------------------------------------------------------------------------------------
     // View set up methods
     private void setCallbacks(){
@@ -79,21 +83,33 @@ public class KodiBasicsPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
+    private void onToggleButtonCallback(){
+        play();
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     private void extendCallback(){
-        // Update tvshowlist
-        mTvShowSelector.setOnTouchListener(new OnTouchListener() {
+        // ToggleButton action
+        mToggleButton.setOnClickListener(new OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ((Kodi) device()).loadTvShows();
-                return false;
+            public void onClick(View v) {
+                onToggleButtonCallback();
+            }
+        });
+
+        //Stop Button
+        mStopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stop();
             }
         });
     }
 
-    // Private members
-    private Spinner mTvShowSelector;
-    private ArrayAdapter<String> mSpinnerAdapter;
 
-    private JSONArray mTvShowList;
+    // Private members
+    private ToggleButton    mToggleButton;
+    private Button          mStopButton;
 
 }

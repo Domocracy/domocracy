@@ -42,6 +42,7 @@ public class Kodi extends Device {
     @Override
     public DevicePanel createPanel(String _type, Context _context) {
         return new KodiLastShowPanel(this, R.layout.kodi_last_show_panel, _context);
+        //it just return one type of panel and there are two.
     }
 
     //-----------------------------------------------------------------------------------------------------------------
