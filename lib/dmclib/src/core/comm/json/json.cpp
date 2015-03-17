@@ -10,6 +10,7 @@
 #include <utility>
 #include <sstream>
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -244,6 +245,12 @@ namespace dmc {
 	const Json& Json::operator[](const std::string& _key) const {
 		assert(isDictionary());
 		const auto& it = mDictionary.find(_key);
+		if (it == mDictionary.end()) {
+			cout << "Error accessing Json dictionary\n"
+				<< "Requesting key \"" << _key << "\"\n"
+				<< "Json is:\n" << this->serialize() << "\n";
+			return Json();
+		}
 		assert(it != mDictionary.end());
 		return *it->second;
 	}
