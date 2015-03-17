@@ -32,7 +32,7 @@ public class Main extends ActionBarActivity {
 	protected void onStop() {
 		User.end();
 		Persistence.end();
-		super.onDestroy();
+		super.onStop();
 	}
 
     //-----------------------------------------------------------------------------------------------------------------
