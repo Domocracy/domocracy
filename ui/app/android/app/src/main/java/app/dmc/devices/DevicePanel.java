@@ -101,7 +101,8 @@ public abstract class DevicePanel extends LinearLayout {
     }
 
     // Private members
-    Device mParentDevice;
+    private Device mParentDevice;
 	protected JSONObject mCommand;
-	boolean mIsPaused = false;
+	private boolean mIsPaused = false;
+
 }
