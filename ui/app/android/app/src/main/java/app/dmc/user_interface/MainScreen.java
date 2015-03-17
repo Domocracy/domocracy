@@ -51,6 +51,13 @@ public class MainScreen {
             setRoomTitle();
     }
 
+	//-----------------------------------------------------------------------------------------------------------------
+	public void setRoom(String _roomId) {
+		mCurrentRoom = mCurrentHub.room(_roomId);
+		setRoomTitle();
+		/// 666 TODO: Tell room seletor to change the room.
+	}
+
     //-----------------------------------------------------------------------------------------------------------------
     private void setRoomTitle(){
         ActionBar ab = mActivity.getSupportActionBar();
