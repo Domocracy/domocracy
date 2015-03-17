@@ -11,9 +11,12 @@ package app.dmc.devices;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import org.json.JSONObject;
+
+import app.dmc.R;
 
 public abstract class DevicePanel extends LinearLayout {
     //-----------------------------------------------------------------------------------------------------------------
@@ -21,6 +24,8 @@ public abstract class DevicePanel extends LinearLayout {
         super(_context);
         mParentDevice = _dev;
         View.inflate(_context, _layoutResId, this);
+
+        mIcon = (ImageView) findViewById(R.id.devIcon);
 
         setCallbacks();
     }
@@ -65,6 +70,11 @@ public abstract class DevicePanel extends LinearLayout {
 
     //-----------------------------------------------------------------------------------------------------------------
     // private methods
+    private void setIcon(int _resource){
+        mIcon.setImageResource(_resource);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     private void setCallbacks(){
         setClickCallback();
         setLongClickCallback();
@@ -104,5 +114,7 @@ public abstract class DevicePanel extends LinearLayout {
     private Device mParentDevice;
 	protected JSONObject mCommand;
 	private boolean mIsPaused = false;
+
+    private ImageView mIcon;
 
 }
