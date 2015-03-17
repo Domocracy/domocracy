@@ -9,7 +9,6 @@
 
 package app.dmc.user_interface;
 
-import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -49,12 +48,12 @@ public class MainScreen {
 
         mCurrentRoom = mCurrentHub.room(mCurrentHub.rooms().get(0).id());
         if(mCurrentRoom != null)
-            setRoomTitle(_activity);
+            setRoomTitle();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void setRoomTitle(ActionBarActivity _activity){
-        ActionBar ab = _activity.getSupportActionBar();
+    private void setRoomTitle(){
+        ActionBar ab = mActivity.getSupportActionBar();
         ab.setTitle(mCurrentRoom.name());
     }
 
@@ -62,7 +61,7 @@ public class MainScreen {
     //  Private interface
     private Hub 		mCurrentHub = null;
     private Room 		mCurrentRoom = null;
-	private Activity	mActivity = null;
+	private ActionBarActivity	mActivity = null;
 
     // Views
     private RoomSelector mRoomSelector = null;
