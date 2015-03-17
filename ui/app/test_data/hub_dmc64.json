@@ -52,7 +52,7 @@
             "name": "Scene"
         }
     ],
-    "ip": "10.200.13.29",
+    "ip": "10.100.6.208",
 	"lastRoom" = "room001",
     "rooms": [
         {
@@ -102,5 +102,5 @@
             "name": "Kike's room"
         }
     ],
-    "name": "dmc64"
+    "name": "Raspi"
 }
