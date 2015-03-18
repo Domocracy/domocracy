@@ -10,13 +10,27 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/logo_kodi"
+            android:id="@+id/devIcon"
             android:src="@drawable/kodi_logo" />
     </LinearLayout>
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvShowSelector"
-        android:layout_gravity="center_vertical" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/devName"
+            android:layout_marginTop="5dp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvShowSelector"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
 </LinearLayout>

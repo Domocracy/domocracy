@@ -16,10 +16,10 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/devIcon"
-                android:src="@drawable/power_off" />
+                android:src="@drawable/ic_launcher" />
         </LinearLayout>
 
         <TextView
@@ -32,14 +32,6 @@
             android:layout_weight="1" />
 
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/expandViewButton"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/extend_button_selector"
-            android:layout_marginRight="5dp" />
     </LinearLayout>
 
     <LinearLayout

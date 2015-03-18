@@ -11,33 +11,27 @@ package app.dmc.devices;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONObject;
+
+import app.dmc.R;
 
 public abstract class DevicePanel extends LinearLayout {
     //-----------------------------------------------------------------------------------------------------------------
     public DevicePanel(Device _dev, int _layoutResId, Context _context){
         super(_context);
         mParentDevice = _dev;
-
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) { // Default onclick listener sends default panel command.
-			Thread commThread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-				JSONObject request = action();
-                if(request == null)
-                    return;
-				device().setState(request);
-				}
-			});
-			commThread.start();
-			}
-		});
-
         View.inflate(_context, _layoutResId, this);
+
+        mIcon = (ImageView) findViewById(R.id.devIcon);
+
+        setCallbacks();
+
+        mDevName = (TextView) findViewById(R.id.devName);
+        mDevName.setText(mParentDevice.name());
     }
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -79,8 +73,60 @@ public abstract class DevicePanel extends LinearLayout {
     public abstract  JSONObject serialize();
 
     //-----------------------------------------------------------------------------------------------------------------
+    // private methods
+    protected void setIcon(final int _resource){
+        mIcon.post(new Runnable() {
+            @Override
+            public void run() {
+                mIcon.setImageResource(_resource);
+            }
+        });
+
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void setCallbacks(){
+        setClickCallback();
+        setLongClickCallback();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void setClickCallback(){
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) { // Default onclick listener sends default panel command.
+                Thread commThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject request = action();
+                        if(request == null)
+                            return;
+                        device().setState(request);
+                    }
+                });
+                commThread.start();
+            }
+        });
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    private void setLongClickCallback(){
+        setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // 666 TODO: modify device menu.
+                return false;
+            }
+        });
+    }
+
     // Private members
-    Device mParentDevice;
+    private Device mParentDevice;
 	protected JSONObject mCommand;
-	boolean mIsPaused = false;
+	private boolean mIsPaused = false;
+
+    protected ImageView mIcon;
+
+
+    private TextView mDevName;
 }

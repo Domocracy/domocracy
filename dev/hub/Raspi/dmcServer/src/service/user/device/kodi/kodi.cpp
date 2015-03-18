@@ -96,8 +96,16 @@ namespace dmc { namespace kodi {
 		}
 		const unsigned bufferSize = 64*1024;
 		char buffer[bufferSize+1];
-		int nBytes = mTcpConnection->read(buffer, bufferSize);
-		buffer[nBytes] = '\0';
+		bool match = false;
+		Json kodiResponse;
+		while(!match) { // Discard notifications
+			int nBytes = mTcpConnection->read(buffer, bufferSize);
+			buffer[nBytes] = '\0';
+			kodiResponse = Json(string(buffer));
+			Json responseId = kodiResponse["id"];
+			if(!responseId.isNill() && (unsigned)responseId.asInt() == (mLastReqId-1))
+				match = true;
+		}
 		mTcpConnection->close();
 		return Json(string(buffer));
 	}
@@ -165,14 +173,22 @@ namespace dmc { namespace kodi {
 		JsonRpcRequest request("Player.GetActivePlayers", command, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
-		if(response.isNill())
-			return response;
-		return response["result"];
+		if(response.isNill() || response["result"].asList().empty())
+			return Json();
+		int playerId = response["result"][0]["playerid"].asInt();
+		Json playerJson("{}");
+		playerJson["playerid"].setInt(playerId);
+		return playerJson;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::pauseResume() {
 		Json player = getPlayer();
+		if(player.isNill()) {
+			Json error;
+			error.setText("Error");
+			return error;
+		}
 		JsonRpcRequest request("Player.PlayPause", player, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
@@ -184,6 +200,11 @@ namespace dmc { namespace kodi {
 	//------------------------------------------------------------------------------------------------------------------
 	Json Kodi::stop() {
 		Json player = getPlayer();
+		if(player.isNill()) {
+			Json error;
+			error.setText("Error");
+			return error;
+		}
 		JsonRpcRequest request("Player.Stop", player, mLastReqId++);
 		sendRequest(request);
 		Json response = readResponse();
