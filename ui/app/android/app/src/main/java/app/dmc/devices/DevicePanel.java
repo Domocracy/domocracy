@@ -11,6 +11,7 @@ package app.dmc.devices;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +26,6 @@ public abstract class DevicePanel extends LinearLayout {
         super(_context);
         mParentDevice = _dev;
         View.inflate(_context, _layoutResId, this);
-
         mIcon = (ImageView) findViewById(R.id.devIcon);
 
         setCallbacks();
@@ -34,7 +34,30 @@ public abstract class DevicePanel extends LinearLayout {
         mDevName.setText(mParentDevice.name());
     }
 
-	//-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
+    public DevicePanel(Device _dev, int _layoutResId, Context _context, boolean _isExtensible) {
+        super(_context);
+        mParentDevice = _dev;
+        mIsExtensible = _isExtensible;
+
+        View.inflate(_context, _layoutResId, this);
+
+        mIcon = (ImageView) findViewById(R.id.devIcon);
+
+        mShortLayout = (LinearLayout) findViewById(R.id.shortLayout);
+        if (_isExtensible){
+            mExtendButton = new ImageButton(_context);
+            mExtendButton.setImageResource(R.drawable.extend_button_selector);
+            mShortLayout.addView(mExtendButton);
+        }
+
+        mDevName = (TextView) findViewById(R.id.devName);
+        mDevName.setText(mParentDevice.name());
+
+        setCallbacks();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		mIsPaused = false;
@@ -88,6 +111,9 @@ public abstract class DevicePanel extends LinearLayout {
     private void setCallbacks(){
         setClickCallback();
         setLongClickCallback();
+        if(mIsExtensible){
+            setExtendCallback();
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -120,13 +146,19 @@ public abstract class DevicePanel extends LinearLayout {
         });
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    private void setExtendCallback(){
+        // 666 TODO: implement
+    }
+
     // Private members
     private Device mParentDevice;
 	protected JSONObject mCommand;
 	private boolean mIsPaused = false;
+    private boolean mIsExtensible = false;
 
     protected ImageView mIcon;
-
-
     private TextView mDevName;
+    private LinearLayout mShortLayout;
+    private ImageButton mExtendButton;
 }
