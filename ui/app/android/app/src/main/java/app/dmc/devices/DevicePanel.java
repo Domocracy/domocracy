@@ -47,7 +47,8 @@ public abstract class DevicePanel extends LinearLayout {
         mShortLayout = (LinearLayout) findViewById(R.id.shortLayout);
         if (_isExtensible){
             mExtendButton = new ImageButton(_context);
-            mExtendButton.setImageResource(R.drawable.extend_button_selector);
+            mExtendButton.setBackgroundResource(R.drawable.extend_button_selector);
+            mExtendButton.setLayoutParams(new LayoutParams(EXTEND_BUTTON_SIZE, EXTEND_BUTTON_SIZE));
             mShortLayout.addView(mExtendButton);
         }
 
@@ -161,4 +162,6 @@ public abstract class DevicePanel extends LinearLayout {
     private TextView mDevName;
     private LinearLayout mShortLayout;
     private ImageButton mExtendButton;
+
+    private static final int EXTEND_BUTTON_SIZE = 100;
 }
