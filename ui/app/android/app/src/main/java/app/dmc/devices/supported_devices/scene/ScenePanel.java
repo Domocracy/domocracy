@@ -37,7 +37,6 @@ public class ScenePanel extends DevicePanel {
 		mChildActions = _childActions;
 		mParentScene = _parent;
 
-        setCallbacks();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -56,23 +55,17 @@ public class ScenePanel extends DevicePanel {
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private methods
-    private void setCallbacks(){
-        // Generic click callback
-        mExtendButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-			if(mDeviceList == null){
-				mDeviceList = new PanelList(mPanelData, User.get().getCurrentHub(), getContext());
-				mExtendedView.addView(mDeviceList);
-			}
-			if(!mExpanded)
-				onExpandView();
-			else
-				onCollapseView();
-            }
-        });
+    @Override
+    protected void onExtendCallback() {
+        if(mDeviceList == null){
+            mDeviceList = new PanelList(mPanelData, User.get().getCurrentHub(), getContext());
+            mExtendedView.addView(mDeviceList);
+        }
+        if(!mExpanded)
+            onExpandView();
+        else
+            onCollapseView();
     }
-
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onExpandView(){
