@@ -54,7 +54,6 @@ public class User {
     public void addRoom(JSONObject _roomInfo, Context _context){
         Room room = new Room(_roomInfo, getCurrentHub(), _context);
         getCurrentHub().addRoom(room);
-        UserInterface.get().addRoom(room);
     }
     //-----------------------------------------------------------------------------------------------------------------
     public Device addNewDevice(JSONObject _deviceInfo){

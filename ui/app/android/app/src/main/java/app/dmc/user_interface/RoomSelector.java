@@ -46,11 +46,6 @@ public class RoomSelector {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public void addRoom(Room _room){
-        mRooms.add(_room);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
     // Private members
     private List<Room>      mRooms = null;
     private ViewFlipper     mSelector = null;

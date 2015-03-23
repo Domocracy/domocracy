@@ -56,10 +56,7 @@ public class MainScreen {
 		setRoomTitle();
 		/// 666 TODO: Tell room seletor to change the room.
 	}
-    //-----------------------------------------------------------------------------------------------------------------
-    public void addRoom(Room _room){
-        mRoomSelector.addRoom(_room);
-    }
+
     //-----------------------------------------------------------------------------------------------------------------
     private void setRoomTitle(){
         ActionBar ab = mActivity.getSupportActionBar();
