@@ -168,7 +168,13 @@ public class NewSceneMenu{
 
             mCheckBoxList = new ArrayList<>();
             mDevId = _id;
-            mPanelTypes = User.get().getCurrentHub().device(_id).panelTypes();
+			mPanelTypes = new ArrayList<>();
+			List<Pair<String, Boolean>> panelTypes = User.get().getCurrentHub().device(_id).panelTypes();
+			for(Pair<String, Boolean> entry : panelTypes)
+			{
+				if(entry.second)
+					mPanelTypes.add(entry.first);
+			}
 
             buildView(_context);
         }
@@ -178,7 +184,7 @@ public class NewSceneMenu{
             List<String> panels = new ArrayList<>();
             for(int i = 0 ; i < mCheckBoxList.size(); i++){
                 if(mCheckBoxList.get(i).isChecked()){
-                    panels.add(mPanelTypes.get(i).first);
+                    panels.add(mPanelTypes.get(i));
                 }
             }
             if(panels.size() == 0)
@@ -196,22 +202,18 @@ public class NewSceneMenu{
             addView(devName);
 
             for(int i = 0; i < mPanelTypes.size(); i++){
-                if(mPanelTypes.get(i).second){
-                    CheckBox panelCheckBox = new CheckBox(_context);
-                    panelCheckBox.setText(mPanelTypes.get(i).first);
-                    mCheckBoxList.add(panelCheckBox);
-                    addView(panelCheckBox);
-                }
+				CheckBox panelCheckBox = new CheckBox(_context);
+				panelCheckBox.setText(mPanelTypes.get(i));
+				mCheckBoxList.add(panelCheckBox);
+				addView(panelCheckBox);
             }
-
         }
 
         //-------------------------------------------------------------------------------------------------------------
         // Private Members
-        String                      mDevId;
-        List<Pair<String, Boolean>> mPanelTypes;
-
-        List<CheckBox>              mCheckBoxList;
+        String          mDevId;
+        List<String> 	mPanelTypes;
+        List<CheckBox>  mCheckBoxList;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
