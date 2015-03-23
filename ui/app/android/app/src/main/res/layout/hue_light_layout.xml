@@ -45,14 +45,6 @@
                 android:id="@+id/intensityBar" />
         </LinearLayout>
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/expandViewButton"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/extend_button_selector" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -68,8 +60,7 @@
             android:id="@+id/hueSelector"
             android:src="@drawable/hs_selector"
             android:adjustViewBounds="true"
-            android:contentDescription="HueSelector"
-            android:visibility="gone" />
+            android:contentDescription="HueSelector" />
     </LinearLayout>
 
 </LinearLayout>

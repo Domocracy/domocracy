@@ -12,9 +12,6 @@ package app.dmc.devices.supported_devices.philips_hue;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -33,7 +30,6 @@ public class HueLightPanel extends DevicePanel {
 
         mNameView       = (TextView)        findViewById(R.id.devName);
         mIntensityBar   = (SeekBar)         findViewById(R.id.intensityBar);
-        mExpandButton   = (Button)          findViewById(R.id.expandViewButton);
         mHueSelector    = (ImageView)       findViewById(R.id.hueSelector);
 		mLastIntensity =  ((HueLight)_parent).bri();
         mNameView.setText(_parent.name());
@@ -123,13 +119,6 @@ public class HueLightPanel extends DevicePanel {
 				onIntensityBarCallback();
             }
         });
-        // Implementation Expandable View
-        mExpandButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onExpandView();
-            }
-        });
         // Implementation Hue Selector
         mHueSelector.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -161,30 +150,6 @@ public class HueLightPanel extends DevicePanel {
             _jsonException.printStackTrace();
         }
 		device().setState(command);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------------
-    private void onExpandView(){
-        ImageView hueSelector = (ImageView) findViewById(R.id.hueSelector);
-
-        float iniY = -1;
-        Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
-                                                        Animation.RELATIVE_TO_SELF, 0,
-                                                        Animation.RELATIVE_TO_SELF, iniY,
-                                                        Animation.RELATIVE_TO_SELF, 0);
-        slideDown.setDuration(400);
-
-        switch (hueSelector.getVisibility()){
-            case View.VISIBLE:
-                hueSelector.setVisibility(View.GONE);
-                mExpandButton.setBackgroundResource(R.drawable.extend_button_selector);
-                break;
-            case View.GONE:
-                hueSelector.setAnimation(slideDown);
-                hueSelector.setVisibility(View.VISIBLE);
-                mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
-                break;
-        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -224,8 +189,6 @@ public class HueLightPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    //
-    private Button          mExpandButton;
     private SeekBar         mIntensityBar;
     private TextView        mNameView;
     private ImageView       mHueSelector;
