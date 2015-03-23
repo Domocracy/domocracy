@@ -46,7 +46,7 @@ public class Kodi extends Device {
     public List<Pair<String,Boolean>> panelTypes(){
         List<Pair<String,Boolean>> types = new ArrayList<>();
         types.add(new Pair<>(PANEL_TYPE_LAST_SHOW, true));
-        types.add(new Pair<>(PANEL_TYPE_BASICS,true));
+        types.add(new Pair<>(PANEL_TYPE_BASICS,false));
         return types;
     }
 
