@@ -29,7 +29,7 @@ import app.dmc.devices.DevicePanel;
 public class HueLightPanel extends DevicePanel {
 	//-----------------------------------------------------------------------------------------------------------------
     HueLightPanel(Device _parent, int _layoutResId, final Context _context){
-        super(_parent, _layoutResId, _context);
+        super(_parent, _layoutResId, _context, true);
 
         mNameView       = (TextView)        findViewById(R.id.devName);
         mIntensityBar   = (SeekBar)         findViewById(R.id.intensityBar);

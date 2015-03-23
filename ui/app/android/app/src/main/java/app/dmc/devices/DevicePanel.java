@@ -9,6 +9,7 @@
 package app.dmc.devices;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -48,7 +49,9 @@ public abstract class DevicePanel extends LinearLayout {
         if (_isExtensible){
             mExtendButton = new ImageButton(_context);
             mExtendButton.setBackgroundResource(R.drawable.extend_button_selector);
-            mExtendButton.setLayoutParams(new LayoutParams(EXTEND_BUTTON_SIZE, EXTEND_BUTTON_SIZE));
+            LayoutParams params = new LayoutParams(EXTEND_BUTTON_SIZE, EXTEND_BUTTON_SIZE);
+            params.gravity = Gravity.CENTER_VERTICAL;
+            mExtendButton.setLayoutParams(params);
             mShortLayout.addView(mExtendButton);
         }
 
