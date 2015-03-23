@@ -142,7 +142,7 @@ public abstract class DevicePanel extends LinearLayout {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void onClickCallback(){
+    protected void onClickCallback(){
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -156,12 +156,12 @@ public abstract class DevicePanel extends LinearLayout {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private boolean onLongClickCallback(){
+    protected boolean onLongClickCallback(){
         return false;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void onExtendCallback(){
+    protected void onExtendCallback(){
         float iniY = -1;
         Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
                 Animation.RELATIVE_TO_SELF, 0,
