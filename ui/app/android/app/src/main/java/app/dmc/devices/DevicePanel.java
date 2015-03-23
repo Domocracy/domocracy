@@ -117,68 +117,69 @@ public abstract class DevicePanel extends LinearLayout {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void setCallbacks(){
-        setClickCallback();
-        setLongClickCallback();
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickCallback();
+            }
+        });
+
+        setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return onLongClickCallback();
+            }
+        });
+
         if(mIsExtensible){
-            setExtendCallback();
+            mExtendButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onExtendCallback();
+                }
+            });;
         }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void setClickCallback(){
-        setOnClickListener(new OnClickListener() {
+    private void onClickCallback(){
+        Thread commThread = new Thread(new Runnable() {
             @Override
-            public void onClick(View v) { // Default onclick listener sends default panel command.
-                Thread commThread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONObject request = action();
-                        if(request == null)
-                            return;
-                        device().setState(request);
-                    }
-                });
-                commThread.start();
+            public void run() {
+                JSONObject request = action();
+                if(request == null)
+                    return;
+                device().setState(request);
             }
         });
+        commThread.start();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void setLongClickCallback(){
-        setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // 666 TODO: modify device menu.
-                return false;
-            }
-        });
+    private boolean onLongClickCallback(){
+        return false;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void setExtendCallback(){
-        mExtendButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                float iniY = -1;
-                Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
-                                                                Animation.RELATIVE_TO_SELF, 0,
-                                                                Animation.RELATIVE_TO_SELF, iniY,
-                                                                Animation.RELATIVE_TO_SELF, 0);
-                slideDown.setDuration(400);
+    private void onExtendCallback(){
+        float iniY = -1;
+        Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, iniY,
+                Animation.RELATIVE_TO_SELF, 0);
+        slideDown.setDuration(400);
 
-                switch (mExtenView.getVisibility()){
-                    case View.VISIBLE:
-                        mExtenView.setVisibility(View.GONE);
-                        mExtendButton.setBackgroundResource(R.drawable.extend_button_selector);
-                        break;
-                    case View.GONE:
-                        mExtenView.setAnimation(slideDown);
-                        mExtenView.setVisibility(View.VISIBLE);
-                        mExtendButton.setBackgroundResource(R.drawable.collapse_button_selector);
-                        break;
-                }
-            }
-        });
+        switch (mExtenView.getVisibility()){
+            case View.VISIBLE:
+                mExtenView.setVisibility(View.GONE);
+                mExtendButton.setBackgroundResource(R.drawable.extend_button_selector);
+                break;
+            case View.GONE:
+                mExtenView.setAnimation(slideDown);
+                mExtenView.setVisibility(View.VISIBLE);
+                mExtendButton.setBackgroundResource(R.drawable.collapse_button_selector);
+                break;
+        }
     }
 
     // Private members
@@ -188,10 +189,10 @@ public abstract class DevicePanel extends LinearLayout {
     private boolean mIsExtensible = false;
 
     protected ImageView mIcon;
-    private TextView mDevName;
-    private LinearLayout mShortLayout;
-    private LinearLayout mExtenView;
-    private ImageButton mExtendButton;
+    protected TextView mDevName;
+    protected LinearLayout mShortLayout;
+    protected LinearLayout mExtenView;
+    protected ImageButton mExtendButton;
 
     private static final int EXTEND_BUTTON_SIZE = 100;
 }
