@@ -175,7 +175,7 @@ public abstract class DevicePanel extends LinearLayout {
                 });
         // Create the AlertDialog object and return it
         builder.create().show();
-        return false;
+        return true;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
