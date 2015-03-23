@@ -14,14 +14,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import app.dmc.Hub;
 import app.dmc.User;
 
 
@@ -71,26 +69,12 @@ public class NewRoomMenu {
                 try{
                     roomJSON.put("name", mRoomName.getText());
                     roomJSON.put("panels", new JSONArray());
+                    roomJSON.put("roomId", "baadfeed");
                 }catch (JSONException _jsonException){
                     _jsonException.printStackTrace();
                 }
 
-                Hub hub = User.get().getCurrentHub();
-                JSONObject response = hub.send("", roomJSON);
-                try{
-                    Log.d("Response", response.toString());
-                    if (response.getString("result").equals("ok")){
-                        roomJSON.put("roomId", response.getString("id"));
-                    }
-                }catch (JSONException _jsonException) {
-                    Log.d("Response", "Malformed response");
-                    return;
-                }catch (NullPointerException _nullPtrException){
-                    Log.d("Response", "Can't connect to Server");
-                    return;
-                }
-
-                User.get().getCurrentHub().addRoom(roomJSON, _activity);
+                User.get().addRoom(roomJSON, _activity);
             }
         };
         comThread.start();

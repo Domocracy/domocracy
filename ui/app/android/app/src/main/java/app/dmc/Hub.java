@@ -77,9 +77,8 @@ public class Hub {
     //-----------------------------------------------------------------------------------------------------------------
     public void changeRoom(String _roomId){ mLastRoomId = _roomId; }
     //-----------------------------------------------------------------------------------------------------------------
-    public void addRoom(JSONObject _roomData, Context _context){
-        Room room = new Room(_roomData, this, _context);
-        mRoomList.add(room);
+    public void addRoom(Room _room){
+        mRoomList.add(_room);
     }
     //-----------------------------------------------------------------------------------------------------------------
     public String name(){ return mName; }

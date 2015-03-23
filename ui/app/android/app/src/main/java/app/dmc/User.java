@@ -1,5 +1,6 @@
 package app.dmc;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 
 import org.json.JSONArray;
@@ -48,6 +49,12 @@ public class User {
     public void setHub(String _hubId){
        mLastHub = HubManager.get().hub(_hubId);
        UserInterface.get().onSetHub(mLastHub);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+    public void addRoom(JSONObject _roomInfo, Context _context){
+        Room room = new Room(_roomInfo, getCurrentHub(), _context);
+        getCurrentHub().addRoom(room);
+        UserInterface.get().addRoom(room);
     }
     //-----------------------------------------------------------------------------------------------------------------
     public Device addNewDevice(JSONObject _deviceInfo){
