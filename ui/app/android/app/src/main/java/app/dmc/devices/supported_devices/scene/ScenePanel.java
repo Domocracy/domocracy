@@ -13,7 +13,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import org.json.JSONArray;
@@ -30,9 +29,8 @@ public class ScenePanel extends DevicePanel {
 
 	//-----------------------------------------------------------------------------------------------------------------
     public ScenePanel(Scene _parent, JSONArray _panelsData, JSONArray _childActions, int _layoutResId, Context _context) {
-        super(_parent, _layoutResId, _context);
+        super(_parent, _layoutResId, _context, true);
 
-        mExpandButton = (Button) findViewById(R.id.expandViewButton);
         mExtendedView = (LinearLayout) findViewById(R.id.extendedLayout);
 
 		mPanelData = _panelsData;
@@ -60,7 +58,7 @@ public class ScenePanel extends DevicePanel {
     // Private methods
     private void setCallbacks(){
         // Generic click callback
-        mExpandButton.setOnClickListener(new OnClickListener() {
+        mExtendButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 			if(mDeviceList == null){
@@ -74,6 +72,7 @@ public class ScenePanel extends DevicePanel {
             }
         });
     }
+
 
     //-----------------------------------------------------------------------------------------------------------------
     private void onExpandView(){
@@ -132,7 +131,7 @@ public class ScenePanel extends DevicePanel {
 
 		mExtendedView.setAnimation(slideDown);
 		mExtendedView.setVisibility(View.VISIBLE);
-		mExpandButton.setBackgroundResource(R.drawable.collapse_button_selector);
+		mExtendButton.setBackgroundResource(R.drawable.collapse_button_selector);
 
 		initChildrenState();
 	}
@@ -153,12 +152,11 @@ public class ScenePanel extends DevicePanel {
 	//-----------------------------------------------------------------------------------------------------------------
 	private void hideExtendedView() {
 		mExtendedView.setVisibility(View.GONE);
-		mExpandButton.setBackgroundResource(R.drawable.extend_button_selector);
+        mExtendButton.setBackgroundResource(R.drawable.extend_button_selector);
 	}
 
     //-----------------------------------------------------------------------------------------------------------------
     // private members
-    private Button          mExpandButton;
     private LinearLayout    mExtendedView;
     private PanelList       mDeviceList;
 
