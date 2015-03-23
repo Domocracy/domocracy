@@ -29,7 +29,7 @@ public class SlideMenu {
         mHubSelector = new HubSelector(_activity, _hubIdList);
         mLayout.addView(mHubSelector.view());
 
-        final Button newSceneButton = new Button(_activity);
+        Button newSceneButton = new Button(_activity);
         newSceneButton.setText("Add new scene");
         newSceneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +38,16 @@ public class SlideMenu {
             }
         });
         mLayout.addView(newSceneButton);
+
+        Button newRoomMenu = new Button(_activity);
+        newRoomMenu.setText("Add new room");
+        newRoomMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewRoomMenu newRoomMenu = new NewRoomMenu(_activity);
+            }
+        });
+        mLayout.addView(newRoomMenu);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
