@@ -97,13 +97,6 @@ public class HueLightPanel extends DevicePanel {
     //-----------------------------------------------------------------------------------------------------------------
     // Private methods
     private void setCallbacks(){
-        // ToggleButton action
-        mIcon.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onToggleButtonCallback();
-            }
-        });
         // Intensity Bar actuator.
         mIntensityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -129,14 +122,15 @@ public class HueLightPanel extends DevicePanel {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    private void onToggleButtonCallback(){
-		JSONObject command = new JSONObject();
-		try {
-			command.put("on", !device().state().getBoolean("on"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		device().setState(command);
+    @Override
+    protected void onClickCallback() {
+        JSONObject command = new JSONObject();
+        try {
+            command.put("on", !device().state().getBoolean("on"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        device().setState(command);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
