@@ -12,6 +12,8 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +55,8 @@ public abstract class DevicePanel extends LinearLayout {
             params.gravity = Gravity.CENTER_VERTICAL;
             mExtendButton.setLayoutParams(params);
             mShortLayout.addView(mExtendButton);
+
+            mExtenView = (LinearLayout) findViewById(R.id.extendedLayout);
         }
 
         mDevName = (TextView) findViewById(R.id.devName);
@@ -152,7 +156,29 @@ public abstract class DevicePanel extends LinearLayout {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void setExtendCallback(){
-        // 666 TODO: implement
+        mExtendButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float iniY = -1;
+                Animation slideDown = new TranslateAnimation(   Animation.RELATIVE_TO_SELF, 0,
+                                                                Animation.RELATIVE_TO_SELF, 0,
+                                                                Animation.RELATIVE_TO_SELF, iniY,
+                                                                Animation.RELATIVE_TO_SELF, 0);
+                slideDown.setDuration(400);
+
+                switch (mExtenView.getVisibility()){
+                    case View.VISIBLE:
+                        mExtenView.setVisibility(View.GONE);
+                        mExtendButton.setBackgroundResource(R.drawable.extend_button_selector);
+                        break;
+                    case View.GONE:
+                        mExtenView.setAnimation(slideDown);
+                        mExtenView.setVisibility(View.VISIBLE);
+                        mExtendButton.setBackgroundResource(R.drawable.collapse_button_selector);
+                        break;
+                }
+            }
+        });
     }
 
     // Private members
@@ -164,7 +190,9 @@ public abstract class DevicePanel extends LinearLayout {
     protected ImageView mIcon;
     private TextView mDevName;
     private LinearLayout mShortLayout;
+    private LinearLayout mExtenView;
     private ImageButton mExtendButton;
 
     private static final int EXTEND_BUTTON_SIZE = 100;
 }
+
