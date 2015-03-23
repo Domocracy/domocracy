@@ -8,12 +8,15 @@
 //
 package app.dmc.devices;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -157,6 +160,21 @@ public abstract class DevicePanel extends LinearLayout {
 
     //-----------------------------------------------------------------------------------------------------------------
     protected boolean onLongClickCallback(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle("Change Name")
+                .setView(new EditText(this.getContext()))
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Change Name;
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Intentionally blank.
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.create().show();
         return false;
     }
 
@@ -182,6 +200,8 @@ public abstract class DevicePanel extends LinearLayout {
         }
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+
     // Private members
     private Device mParentDevice;
 	protected JSONObject mCommand;
@@ -195,5 +215,6 @@ public abstract class DevicePanel extends LinearLayout {
     protected ImageButton mExtendButton;
 
     private static final int EXTEND_BUTTON_SIZE = 100;
+
 }
 
