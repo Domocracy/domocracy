@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import app.dmc.Hub;
 import app.dmc.R;
+import app.dmc.Room;
 import app.dmc.User;
 
 public class UserInterface {
@@ -36,6 +37,11 @@ public class UserInterface {
 	public void setRoom(String _roomId) {
 		mMainScreen.setRoom(_roomId);
 	}
+
+    //-----------------------------------------------------------------------------------------------------------------
+    public void addRoom(Room _room){
+        mMainScreen.addRoom(_room);
+    }
 
 	//-----------------------------------------------------------------------------------------------------------------
     //  Private Interface
