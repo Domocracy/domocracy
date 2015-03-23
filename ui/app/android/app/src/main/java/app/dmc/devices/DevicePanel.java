@@ -101,6 +101,16 @@ public abstract class DevicePanel extends LinearLayout {
 	public Device device() { return mParentDevice; }
 
     //-----------------------------------------------------------------------------------------------------------------
+    public void updateName(){
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                mDevName.setText(device().name());
+            }
+        });
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     public void onStateChange(JSONObject _state) {}
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -161,11 +171,13 @@ public abstract class DevicePanel extends LinearLayout {
     //-----------------------------------------------------------------------------------------------------------------
     protected boolean onLongClickCallback(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        final EditText editableName = new EditText(this.getContext());
+        editableName.setText(device().name());
         builder.setTitle("Change Name")
-                .setView(new EditText(this.getContext()))
+                .setView(editableName)
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // Change Name;
+                        device().changeName(editableName.getText().toString());
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -134,6 +134,13 @@ public abstract class Device {
 		notifyPanels(_state);
     }
 
+    public void changeName(String _name){
+        mName = _name;
+        for(DevicePanel panel :mRegisteredPanels){
+            panel.updateName();
+        }
+    }
+
 	//-----------------------------------------------------------------------------------------------------------------
 	protected final void notifyPanels(JSONObject _state) {
 		for(DevicePanel panel : mRegisteredPanels){
