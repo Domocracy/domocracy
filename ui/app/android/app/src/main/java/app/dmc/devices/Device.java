@@ -55,7 +55,11 @@ public abstract class Device {
 					String method = _request.getString("method");
 					if(method.equals("GET")) {
 						response = hub.get("/device/" + id() + "/" + _request.getString("urlget"));
-						sendNotifications(response);
+                        if(response != null && response.getString("result").equals("ok")) {
+                            sendNotifications(response);
+                        }else{
+                            Log.e("Device", "Error: Received a \"result\":\"error\" from Hub\n");
+                        }
 					}
 					if(method.equals("PUT")) {
 						JSONObject command = _request.getJSONObject("cmd");
