@@ -10,6 +10,7 @@
 
 package dmc.hueService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.philips.lighting.hue.sdk.PHAccessPoint;
@@ -37,10 +38,19 @@ public class HueController {
 	
 	//---------------------------------------------------------------------------------------------------------------------
 	// Public interface
-	public void searchBridge(){
+	public void searchBridges(){
 		PHBridgeSearchManager sm = (PHBridgeSearchManager) mHueSdkInstance.getSDKService(PHHueSDK.SEARCH_BRIDGE);
 	    sm.search(true, true); 
 	    
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------------
+	public List<String> bridgesIps(){
+		List<String> ipList = new ArrayList<>();
+		for(PHAccessPoint accessPoint: mLastAccessPoints){
+			ipList.add(accessPoint.getIpAddress());
+		}
+		return ipList;
 	}
 	
 	//---------------------------------------------------------------------------------------------------------------------
@@ -54,8 +64,9 @@ public class HueController {
 	// Private members
 	private static HueController mInstance = null;
 	
-	private PHHueSDK	mHueSdkInstance;
-	List<PHBridge>		mConnectedBridges;
+	private PHHueSDK			mHueSdkInstance;
+	private	List<PHBridge>		mConnectedBridges;
+	private List<PHAccessPoint>	mLastAccessPoints;
 	
 	//---------------------------------------------------------------------------------------------------------------------
 	// Inner classes
@@ -64,9 +75,11 @@ public class HueController {
 		@Override
 		public void onAccessPointsFound(List<PHAccessPoint> _accessPoints) {
 			System.out.println("Found " + _accessPoints.size() + "access points. Trying connections");
-			for(int i = 0; i < _accessPoints.size(); i++){
-				PHAccessPoint accessPoint = _accessPoints.get(i);
-				accessPoint.setUsername("dmc64");
+			mLastAccessPoints = _accessPoints;
+			
+			for(int i = 0; i < mLastAccessPoints.size(); i++){
+				PHAccessPoint accessPoint = mLastAccessPoints.get(i);
+				accessPoint.setUsername("Bardo91");
 				mHueSdkInstance.connect(accessPoint);
 			}
 		}
@@ -98,19 +111,27 @@ public class HueController {
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
-		public void onConnectionLost(PHAccessPoint arg0) {}
+		public void onConnectionLost(PHAccessPoint _accessPoint) {
+			System.out.println("Connection lost");
+		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
-		public void onConnectionResumed(PHBridge arg0) {}
+		public void onConnectionResumed(PHBridge _bridge) {
+			System.out.println("Connection Resumed");
+		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
-		public void onError(int arg0, String arg1) {}
+		public void onError(int _code, String _message) {
+			System.out.println("Error!");
+		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
-		public void onParsingErrors(List<PHHueParsingError> arg0) {}
+		public void onParsingErrors(List<PHHueParsingError> _errorList) {
+			System.out.println("Parsing errors");
+		}
 		
 	}
 	
