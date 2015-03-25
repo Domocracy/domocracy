@@ -31,9 +31,9 @@ namespace dmc { namespace hue {
 		bool	putData(const std::string& _url, const Json& _data);
 
 	private:
-		Bridge(const Json&);
+		static std::string queryLocalIp();
 
-		std::string queryLocalIp();
+		Bridge(const Json&);
 
 		std::thread mInitThread;
 

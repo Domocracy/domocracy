@@ -33,6 +33,17 @@ namespace dmc { namespace hue {
 		if (!bridgesData.isNill() && bridgesData.asList().size() != 0){
 			sBridge = new Bridge(*bridgesData.asList()[0]);		// 666 Check more bridges.
 		}
+		else{
+			std::string ip = queryLocalIp();
+			if (ip.size() != 0){
+				Json bridgeData("{\"internalipaddress\":\"" + ip + "\", \"username\":\"newdeveloper\"}");
+				Persistence::get()->saveData("hue", bridgeData);
+				sBridge = new Bridge(bridgeData);
+			}
+			else {
+				std::cout << "Could not connect to hue bridge" << std::endl;
+			}
+		}
 
 	}
 
@@ -106,11 +117,9 @@ namespace dmc { namespace hue {
 		const int MaxLength = 1024;
 		char msg[MaxLength];
 
-		if (hueService.read(msg, MaxLength) > 0){
-
-		}
-		else{
+		if (hueService.read(msg, MaxLength) <= 0){
 			std::cout << "Failed connection with local Hue Service" << std::endl;
+			return "";
 		}
 
 
