@@ -6,6 +6,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "hueBridge.h"
+#include "../../provider/persistence.h"
+
 #include <core/comm/http/httpClient.h>
 #include <cassert>
 #include <iostream>
@@ -17,7 +19,10 @@ namespace dmc { namespace hue {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Bridge*	Bridge::load() {
-		return new Bridge(Json(R"({"internalipaddress":"10.100.6.110", "username":"newdeveloper"})"));
+		Json bridgesData = Persistence::get()->getData("hue");
+		if (!bridgesData.isNill() && bridgesData.asList().size() != 0){
+			return new Bridge(*bridgesData.asList()[0]);		// 666 Check more bridges.
+		}		
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
