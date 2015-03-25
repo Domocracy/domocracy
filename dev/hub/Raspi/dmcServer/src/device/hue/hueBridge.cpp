@@ -97,4 +97,24 @@ namespace dmc { namespace hue {
 		});
 	}
 
+	//------------------------------------------------------------------------------------------------------------------
+	std::string Bridge::queryLocalIp(){
+		dmc::Socket hueService;
+		hueService.open("localhost", 5028);
+
+		hueService.write("ip");
+		const int MaxLength = 1024;
+		char msg[MaxLength];
+
+		if (hueService.read(msg, MaxLength) > 0){
+
+		}
+		else{
+			std::cout << "Failed connection with local Hue Service" << std::endl;
+		}
+
+
+		return std::string(msg);
+	}
+
 }}	// namespace dmc::hue

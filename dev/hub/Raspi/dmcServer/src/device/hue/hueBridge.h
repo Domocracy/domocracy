@@ -33,6 +33,8 @@ namespace dmc { namespace hue {
 	private:
 		Bridge(const Json&);
 
+		std::string queryLocalIp();
+
 		std::thread mInitThread;
 
 		void registerUser() {}
