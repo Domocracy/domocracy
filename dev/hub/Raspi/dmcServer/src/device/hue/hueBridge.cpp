@@ -22,7 +22,9 @@ namespace dmc { namespace hue {
 		Json bridgesData = Persistence::get()->getData("hue");
 		if (!bridgesData.isNill() && bridgesData.asList().size() != 0){
 			return new Bridge(*bridgesData.asList()[0]);		// 666 Check more bridges.
-		}		
+		}
+		
+		return nullptr;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
