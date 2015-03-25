@@ -13,6 +13,7 @@ package dmc.hueService;
 import java.util.List;
 
 import com.philips.lighting.hue.sdk.PHAccessPoint;
+import com.philips.lighting.hue.sdk.PHBridgeSearchManager;
 import com.philips.lighting.hue.sdk.PHHueSDK;
 import com.philips.lighting.hue.sdk.PHMessageType;
 import com.philips.lighting.hue.sdk.PHSDKListener;
@@ -36,7 +37,11 @@ public class HueController {
 	
 	//---------------------------------------------------------------------------------------------------------------------
 	// Public interface
-	
+	public void searchBridge(){
+		PHBridgeSearchManager sm = (PHBridgeSearchManager) mHueSdkInstance.getSDKService(PHHueSDK.SEARCH_BRIDGE);
+	    sm.search(true, true); 
+	    
+	}
 	
 	//---------------------------------------------------------------------------------------------------------------------
 	// Private methods
@@ -50,6 +55,7 @@ public class HueController {
 	private static HueController mInstance = null;
 	
 	private PHHueSDK	mHueSdkInstance;
+	List<PHBridge>		mConnectedBridges;
 	
 	//---------------------------------------------------------------------------------------------------------------------
 	// Inner classes
@@ -57,20 +63,29 @@ public class HueController {
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
 		public void onAccessPointsFound(List<PHAccessPoint> _accessPoints) {
-			System.out.println("Found " + _accessPoints.size() + "access points");
+			System.out.println("Found " + _accessPoints.size() + "access points. Trying connections");
+			for(int i = 0; i < _accessPoints.size(); i++){
+				PHAccessPoint accessPoint = _accessPoints.get(i);
+				accessPoint.setUsername("dmc64");
+				mHueSdkInstance.connect(accessPoint);
+			}
 		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
 		public void onAuthenticationRequired(PHAccessPoint _accessPoint) {
 			mHueSdkInstance.startPushlinkAuthentication(_accessPoint);
+			System.out.println("Autentication required");
 		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
 		public void onBridgeConnected(PHBridge _bridge) {
+			mConnectedBridges.add(_bridge);
+			
 			mHueSdkInstance.setSelectedBridge(_bridge);
 			mHueSdkInstance.enableHeartbeat(_bridge, PHHueSDK.HB_INTERVAL);
+			System.out.println("Connected to bridge");
 		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
