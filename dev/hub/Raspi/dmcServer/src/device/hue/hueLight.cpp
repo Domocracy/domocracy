@@ -23,7 +23,7 @@ namespace dmc { namespace hue {
 		, mHueId(_hueId)
 	{
 		if(!sBridge)
-			sBridge = Bridge::load();
+			sBridge = Bridge::get();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

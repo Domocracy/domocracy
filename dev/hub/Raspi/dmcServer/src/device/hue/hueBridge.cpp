@@ -16,15 +16,24 @@
 using namespace dmc::http;
 
 namespace dmc { namespace hue {
+	//------------------------------------------------------------------------------------------------------------------
+	Bridge *Bridge::sBridge = nullptr;
 
 	//------------------------------------------------------------------------------------------------------------------
-	Bridge*	Bridge::load() {
+	Bridge* Bridge::get(){
+		if (sBridge == nullptr){
+			init();
+		}
+		return sBridge;
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void Bridge::init() {
 		Json bridgesData = Persistence::get()->getData("hue");
 		if (!bridgesData.isNill() && bridgesData.asList().size() != 0){
-			return new Bridge(*bridgesData.asList()[0]);		// 666 Check more bridges.
+			sBridge = new Bridge(*bridgesData.asList()[0]);		// 666 Check more bridges.
 		}
-		
-		return nullptr;
+
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

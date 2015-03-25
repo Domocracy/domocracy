@@ -23,11 +23,12 @@ namespace dmc { namespace hue {
 			disconnected
 		};
 
-		static	Bridge*	load	();
+		static Bridge*	get	();
+		static	void	init();
 
-				State	state	() const { return mState; }
-				Json	getData	(const std::string& _url);
-				bool	putData(const std::string& _url, const Json& _data);
+		State	state	() const { return mState; }
+		Json	getData	(const std::string& _url);
+		bool	putData(const std::string& _url, const Json& _data);
 
 	private:
 		Bridge(const Json&);
@@ -40,6 +41,8 @@ namespace dmc { namespace hue {
 		std::string mUsername;
 		http::Client* mConn;
 		State mState;
+
+		static Bridge * sBridge;
 	};
 
 }}	// namespace dmc::hue
