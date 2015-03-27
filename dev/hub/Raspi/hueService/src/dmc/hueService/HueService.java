@@ -11,6 +11,10 @@ package dmc.hueService;
 
 public class HueService {
 	public static void main(String[] args) {
+		mController = HueController.get();
+		mController.searchBridges();
+		
+		mDmcLink = new DmcLink();
 		
 		while(true){
 			try {
@@ -22,13 +26,7 @@ public class HueService {
 	}
 	
 	//---------------------------------------------------------------------------------------------------------------------
-	// methods
-	private void init(){
-		mController = HueController.get();
-		mController.searchBridges();
-	}
-	
-	//---------------------------------------------------------------------------------------------------------------------
 	// Members
-	HueController mController = null;
+	static HueController 	mController = null;
+	static DmcLink			mDmcLink = null;
 }
