@@ -58,6 +58,7 @@ public class DmcLink {
 	private void acceptCallback(){
 		try {
 			Socket socket = mAcceptSocket.accept();
+			System.out.println("New connection. Socket: " + socket);
 			if(socket.isConnected()){
 				mClientList.add(new Delegate(socket));
 				
@@ -72,7 +73,7 @@ public class DmcLink {
 	List<Delegate>	mClientList;
 	
 	Thread			mAcceptThread;
-	boolean			mRunning = false;
+	boolean			mRunning = true;
 	
 	//-----------------------------------------------------------------------------------------------------------------
 	// Inner classes
