@@ -113,7 +113,7 @@ namespace dmc { namespace hue {
 		dmc::Socket hueService;
 		hueService.open("localhost", 5028);
 
-		hueService.write("ip");
+		hueService.write("ip\n");
 		const int MaxLength = 1024;
 		char msg[MaxLength];
 
@@ -122,8 +122,8 @@ namespace dmc { namespace hue {
 			return "";
 		}
 
-
-		return std::string(msg);
+		std::string ip(msg);
+		return ip.substr(0, ip.find("\r\n"));
 	}
 
 }}	// namespace dmc::hue
