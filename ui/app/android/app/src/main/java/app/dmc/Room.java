@@ -71,10 +71,11 @@ public class Room {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
         addButton.setLayoutParams(params);
+        final Room mySelf = this;
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewDevicePanelMenu newPanelMenu = new NewDevicePanelMenu(_context);
+                NewDevicePanelMenu newPanelMenu = new NewDevicePanelMenu(_context, mySelf);
             }
         });
         baseLayout.addView(addButton);

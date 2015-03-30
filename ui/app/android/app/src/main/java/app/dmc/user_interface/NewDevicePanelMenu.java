@@ -11,11 +11,13 @@ package app.dmc.user_interface;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+
+import app.dmc.Room;
 
 public class NewDevicePanelMenu {
-    public NewDevicePanelMenu(Context _context){
+    public NewDevicePanelMenu(Context _context, Room _room){
         mMenuBuilder = new AlertDialog.Builder(_context);
+        mParentRoom = _room;
 
         createDialog(_context);
     }
@@ -26,27 +28,18 @@ public class NewDevicePanelMenu {
         // Load devices and put them into the list
         setContentView(_context);
 
-        mMenuBuilder.setTitle("New Panel");
-        // Buttons
-        mMenuBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // Intentionally blank
-            }
-        });
-        mMenuBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
+        mMenuBuilder.setTitle("Choose device to be added:");
 
         mMenuBuilder.create().show();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     private void setContentView(Context _context){
+        
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private members
     private AlertDialog.Builder mMenuBuilder;
+    private Room                mParentRoom;
 }
