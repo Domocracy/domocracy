@@ -11,6 +11,7 @@ package app.dmc;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -46,7 +47,14 @@ public class Room {
         baseLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         baseLayout.addView(mHeader);
         baseLayout.addView(mPanelList);
+        Button addButton = new Button(_context);
+        addButton.setBackgroundResource(R.drawable.add);
+        baseLayout.addView(addButton);
         mLayout.addView(baseLayout);
+
+
+
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
