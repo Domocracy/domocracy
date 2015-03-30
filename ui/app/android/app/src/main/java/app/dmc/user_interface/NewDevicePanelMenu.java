@@ -9,23 +9,22 @@ package app.dmc.user_interface;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
 public class NewDevicePanelMenu {
-    public NewDevicePanelMenu(Activity _activity){
-        mMenuBuilder = new AlertDialog.Builder(_activity);
+    public NewDevicePanelMenu(Context _context){
+        mMenuBuilder = new AlertDialog.Builder(_context);
 
-        createDialog(_activity);
+        createDialog(_context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
     // Private methods
-    private void createDialog(final Activity _activity) {
+    private void createDialog(Context _context) {
         // Load devices and put them into the list
-        setContentView(_activity);
+        setContentView(_context);
 
         mMenuBuilder.setTitle("New Panel");
         // Buttons
