@@ -10,6 +10,7 @@
 package app.dmc;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import app.dmc.devices.DevicePanel;
+import app.dmc.user_interface.NewDevicePanelMenu;
 import app.dmc.user_interface.PanelList;
 import app.dmc.user_interface.RoomHeader;
 
@@ -40,21 +42,7 @@ public class Room {
         }catch(JSONException e){
             e.printStackTrace();
         }
-
-        // ScrollView can host only one child
-        LinearLayout baseLayout = new LinearLayout(_context);
-        baseLayout.setOrientation(LinearLayout.VERTICAL);
-        baseLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        baseLayout.addView(mHeader);
-        baseLayout.addView(mPanelList);
-        Button addButton = new Button(_context);
-        addButton.setBackgroundResource(R.drawable.add);
-        baseLayout.addView(addButton);
-        mLayout.addView(baseLayout);
-
-
-
-
+        initView(_context);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -65,6 +53,34 @@ public class Room {
     //-----------------------------------------------------------------------------------------------------------------
     public void addPanel(DevicePanel _panel){
         mPanelList.addPanel(_panel);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // Private methods
+    private void initView(final Context _context){
+        // ScrollView can host only one child
+        LinearLayout baseLayout = new LinearLayout(_context);
+        baseLayout.setOrientation(LinearLayout.VERTICAL);
+        baseLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        baseLayout.addView(mHeader);
+        baseLayout.addView(mPanelList);
+
+        // Add button
+        Button addButton = new Button(_context);
+        addButton.setBackgroundResource(R.drawable.add_icon);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER;
+        addButton.setLayoutParams(params);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewDevicePanelMenu newPanelMenu = new NewDevicePanelMenu(_context);
+            }
+        });
+        baseLayout.addView(addButton);
+
+        // Add base to an scrollable view.
+        mLayout.addView(baseLayout);
     }
 
     //-----------------------------------------------------------------------------------------------------------------
