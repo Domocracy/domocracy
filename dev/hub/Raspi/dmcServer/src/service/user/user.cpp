@@ -83,7 +83,7 @@ namespace dmc {
 				return addDevice(Json(_request.body()));
 			}
 			else if (_cmd == cDeviceListLabel) {
-				return Response::response404(string("Unimplemented command ") + _cmd);
+				return reportDeviceList();
 			} else
 				return Response::response404(string("User unable to run command ") + _cmd);
 		}
