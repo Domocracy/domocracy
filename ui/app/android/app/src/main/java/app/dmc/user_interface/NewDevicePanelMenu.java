@@ -40,7 +40,8 @@ public class NewDevicePanelMenu {
         setContentView(_context);
         mMenuBuilder.setTitle("Choose device to be added:");
 
-        mMenuBuilder.create().show();
+        mDeviceDialog = mMenuBuilder.create();
+        mDeviceDialog.show();
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -67,6 +68,7 @@ public class NewDevicePanelMenu {
     // Private members
     private AlertDialog.Builder mMenuBuilder;
     private Room                mParentRoom;
+    private AlertDialog         mDeviceDialog;
 
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -88,7 +90,8 @@ public class NewDevicePanelMenu {
             setContentView(_context);
             mMenuBuilder.setTitle("Choose controller to be added:");
 
-            mMenuBuilder.create().show();;
+            mPanelDialog = mMenuBuilder.create();
+            mPanelDialog.show();
 
         }
 
@@ -105,7 +108,8 @@ public class NewDevicePanelMenu {
                     public boolean onTouch(View v, MotionEvent event) {
                         if(event.getAction() == MotionEvent.ACTION_UP) {
                             mParentRoom.addPanel(User.get().getCurrentHub().device(mDevice.id()).newPanel(type, _context));
-
+                            mPanelDialog.dismiss();
+                            mDeviceDialog.dismiss();
                         }
                         return true;
                     }
@@ -122,6 +126,7 @@ public class NewDevicePanelMenu {
         private Room                mParentRoom;
         private Device              mDevice;
         private ArrayList<DevicePanel> mPanels;
+        private AlertDialog         mPanelDialog;
     }
 
 }
