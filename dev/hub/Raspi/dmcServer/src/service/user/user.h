@@ -46,6 +46,7 @@ namespace dmc {
 
 		const static std::string	cDeviceLabel;
 		const static std::string	cAddDevLabel;
+		const static std::string	cDeviceListLabel;
 	};
 
 }	// namespace dmc

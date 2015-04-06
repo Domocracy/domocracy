@@ -20,8 +20,9 @@ namespace dmc {
 
 	using namespace http;
 
-	const string User::cDeviceLabel = "/device";
-	const string User::cAddDevLabel = "/addDevice";
+	const string User::cDeviceLabel		= "/device";
+	const string User::cAddDevLabel		= "/addDevice";
+	const string User::cDeviceListLabel = "/deviceList";
 
 	//------------------------------------------------------------------------------------------------------------------
 	User::User(const Json& _userData, Server* _serviceToListen)
@@ -81,7 +82,9 @@ namespace dmc {
 			} else if(_cmd == cAddDevLabel) {
 				return addDevice(Json(_request.body()));
 			}
-			else
+			else if (_cmd == cDeviceListLabel) {
+				return Response::response404(string("Unimplemented command ") + _cmd);
+			} else
 				return Response::response404(string("User unable to run command ") + _cmd);
 		}
 	}
