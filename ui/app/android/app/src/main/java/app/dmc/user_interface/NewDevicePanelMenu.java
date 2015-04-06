@@ -56,7 +56,14 @@ public class NewDevicePanelMenu {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PanelListMenu menu = new PanelListMenu(_context, mParentRoom, User.get().getCurrentHub().device(id));
+                    Device dev = User.get().getCurrentHub().device(id);
+                    List<Pair<String, Boolean>> types = dev.panelTypes();
+                    if(types.size() == 1){
+                        mParentRoom.addPanel(dev.newPanel(types.get(0).first, _context));
+                        mDeviceDialog.dismiss();
+                    }else{
+                        PanelListMenu menu = new PanelListMenu(_context, mParentRoom, dev);
+                    }
                 }
             });
             layout.addView(tv);
