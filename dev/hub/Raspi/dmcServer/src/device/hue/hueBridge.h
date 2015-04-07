@@ -37,7 +37,7 @@ namespace dmc { namespace hue {
 
 		std::thread mInitThread;
 
-		void registerUser() {}
+		void registerUser();
 
 		std::string mLocalIp;
 		std::string mUsername;

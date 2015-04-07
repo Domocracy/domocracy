@@ -12,6 +12,7 @@
 #include <cassert>
 #include <iostream>
 #include <core/comm/http/httpRequest.h>
+#include <core/time/time.h>
 
 using namespace dmc::http;
 
@@ -85,7 +86,7 @@ namespace dmc { namespace hue {
 
 		mInitThread = std::thread([this,_info]() 
 		{
-			http::Request req = http::Request(http::Request::Get, "/api/noUser/config", "" );
+			http::Request req = http::Request(http::Request::Get, "/api/dmc64/", "" );
 			req.headers()["Host"] = mLocalIp;
 			req.headers()["Content-Type"] = "text/plain;charset=UTF-8";
 			req.headers()["Content-Length"]="0";
@@ -96,14 +97,13 @@ namespace dmc { namespace hue {
 				std::cout << "Unable to connect to Hue bridge\n";
 				return;
 			}
-			std::cout << "Connected to Hue bridge\n";
 			Json data(result->body());
-			assert(data.isDictionary());
-			// Get device list out of the bridge.
-			if(!_info.contains("username"))// TODO: If info contained no user, create one
-			   registerUser();
-			else
-				mUsername = _info["username"].asText();
+			if (data.isList() && data[0].contains("error")){	// Error, register new user
+				std::cout << "User is not registered. Registering: " << mUsername << std::endl;
+				registerUser();
+			}
+
+			std::cout << "Connected to Hue bridge\n";
 			mState = State::connected;
 		});
 	}
@@ -124,6 +124,31 @@ namespace dmc { namespace hue {
 
 		std::string ip(msg);
 		return ip.substr(0, ip.find("\r\n"));
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void Bridge::registerUser() {
+		http::Request req = http::Request(http::Request::Post,
+			"/api",
+			"{\"devicetype\":\"domocracy_hub\", \"username\":\"domocracy64\"}");
+
+		for (unsigned tries = 0 ; tries < 5; tries ++){
+			mConn->connect(mLocalIp);
+			http::Response* result = mConn->makeRequest(req);
+			Json data(result->body());
+
+			if (data[0].contains("error")){
+				std::cout << "Press Hue's link button" << std::endl;
+			}
+			else if (data[0].contains("success")){
+				std::cout << "User registered in Hue Bridge" << std::endl;
+				break;
+			}
+			dmc::Time::get()->sleep(5);
+		}
+
+
+
 	}
 
 }}	// namespace dmc::hue
