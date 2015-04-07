@@ -82,18 +82,18 @@ namespace dmc {
 		unsigned cursor = _code.find_first_not_of(separators);
 		assert(string::npos != cursor); // Code must be valid
 
-		if(_code.substr(0,5) == "False" || _code.substr(0,5) == "false") {
+		if (_code.substr(cursor, 5) == "False" || _code.substr(cursor, 5) == "false") {
 			mType = DataType::boolean;
 			mInt = 0;
-			return 5;
-		} else if (_code.substr(0,4) == "True" || _code.substr(0,4) == "true") {
+			return 5 + cursor;
+		} else if (_code.substr(cursor, 4) == "True" || _code.substr(cursor, 4) == "true") {
 			mType = DataType::boolean;
 			mInt = 1;
-			return 4;
-		}else if (_code.substr(0,4) == "Null" || _code.substr(0,4) == "null") {
+			return 4 + cursor;
+		} else if (_code.substr(cursor, 4) == "Null" || _code.substr(cursor, 4) == "null") {
 			mType = DataType::nill;
 			mInt = 0;
-			return 4;
+			return 4 + cursor;
 		} else if('\"' == _code[cursor]) { // Text literal
 			unsigned terminator = _code.find('\"', cursor+1);
 			// Escape \" characters inside the string
