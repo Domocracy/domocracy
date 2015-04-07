@@ -37,7 +37,7 @@ namespace dmc { namespace hue {
 		else{
 			std::string ip = queryLocalIp();
 			if (ip.size() != 0){
-				Json bridgeData("{\"internalipaddress\":\"" + ip + "\", \"username\":\"newdeveloper\"}");
+				Json bridgeData("{\"internalipaddress\":\"" + ip + "\", \"username\":\"domocracy64\"}");
 				Persistence::get()->saveData("hue", bridgeData);
 				sBridge = new Bridge(bridgeData);
 			}
@@ -50,15 +50,10 @@ namespace dmc { namespace hue {
 
 	//------------------------------------------------------------------------------------------------------------------
 	Json Bridge::getData	(const std::string& _url) {
-		// Try to query the Hub and update local info?
-		Json bridgeData("{}");
-		bridgeData["username"].setText(mUsername);
-		bridgeData["localIp"].setText(mLocalIp);
-		if(mState == State::disconnected)
-			bridgeData["state"].setText("disconnected");
-		else
-			bridgeData["state"].setText("connected");
-
+		http::Request req = http::Request(http::Request::Get, "/api/" + mUsername + "/" +_url, "");
+		mConn->connect(mLocalIp);
+		http::Response* result = mConn->makeRequest(req);
+		Json bridgeData(result->body());
 		return bridgeData;
 	}
 
@@ -86,7 +81,7 @@ namespace dmc { namespace hue {
 
 		mInitThread = std::thread([this,_info]() 
 		{
-			http::Request req = http::Request(http::Request::Get, "/api/dmc64/", "" );
+			http::Request req = http::Request(http::Request::Get, "/api/" + mUsername , "" );
 			req.headers()["Host"] = mLocalIp;
 			req.headers()["Content-Type"] = "text/plain;charset=UTF-8";
 			req.headers()["Content-Length"]="0";
@@ -98,12 +93,15 @@ namespace dmc { namespace hue {
 				return;
 			}
 			Json data(result->body());
-			if (data.isList() && data[0].contains("error")){	// Error, register new user
+			if (data.isList() && data[0].contains("error") && data[0]["error"]["type"].asInt() == 1){	// Error, register new user
 				std::cout << "User is not registered. Registering: " << mUsername << std::endl;
 				registerUser();
 			}
 
 			std::cout << "Connected to Hue bridge\n";
+
+			//Json devices = getData("");
+
 			mState = State::connected;
 		});
 	}
@@ -130,7 +128,7 @@ namespace dmc { namespace hue {
 	void Bridge::registerUser() {
 		http::Request req = http::Request(http::Request::Post,
 			"/api",
-			"{\"devicetype\":\"domocracy_hub\", \"username\":\"domocracy64\"}");
+			"{\"devicetype\":\"domocracy_hub\", \"username\":\""+ mUsername +"\"}");
 
 		for (unsigned tries = 0 ; tries < 5; tries ++){
 			mConn->connect(mLocalIp);
@@ -146,9 +144,6 @@ namespace dmc { namespace hue {
 			}
 			dmc::Time::get()->sleep(5);
 		}
-
-
-
 	}
 
 }}	// namespace dmc::hue
