@@ -32,6 +32,7 @@ namespace dmc { namespace hue {
 
 	private:
 		static std::string queryLocalIp();
+		bool updateCache();
 
 		Bridge(const Json&);
 

@@ -100,10 +100,18 @@ namespace dmc { namespace hue {
 
 			std::cout << "Connected to Hue bridge\n";
 
-			//Json devices = getData("");
+			updateCache();
 
 			mState = State::connected;
 		});
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	bool Bridge::updateCache(){
+		Json devices = getData("lights");
+
+
+		return false;	// No new devices.
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
