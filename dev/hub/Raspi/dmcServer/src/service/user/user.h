@@ -35,6 +35,7 @@ namespace dmc {
 		http::Response		reportUserData	() const;
 		http::Response		reportDeviceList() const;
 		Json				deviceListJson	() const;
+		void				updateDevices	();
 		void				loadDevices		(const Json& _deviceList);
 		static std::string	idAsString		(unsigned);
 

@@ -54,6 +54,7 @@ namespace dmc { namespace hue {
 		mConn->connect(mLocalIp);
 		http::Response* result = mConn->makeRequest(req);
 		Json bridgeData(result->body());
+
 		return bridgeData;
 	}
 
@@ -100,19 +101,10 @@ namespace dmc { namespace hue {
 
 			std::cout << "Connected to Hue bridge\n";
 
-			updateCache();
-
 			mState = State::connected;
 		});
 	}
 
-	//------------------------------------------------------------------------------------------------------------------
-	bool Bridge::updateCache(){
-		Json devices = getData("lights");
-
-
-		return false;	// No new devices.
-	}
 
 	//------------------------------------------------------------------------------------------------------------------
 	std::string Bridge::queryLocalIp(){

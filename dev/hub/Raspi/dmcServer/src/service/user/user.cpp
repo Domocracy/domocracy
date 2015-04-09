@@ -14,6 +14,8 @@
 #include <home/device/actuator.h>
 #include <sstream>
 
+#include "device/hue/hueBridge.h"
+
 using namespace std;
 
 namespace dmc {
@@ -83,6 +85,7 @@ namespace dmc {
 				return addDevice(Json(_request.body()));
 			}
 			else if (_cmd == cDeviceListLabel) {
+				updateDevices();
 				return reportDeviceList();
 			} else
 				return Response::response404(string("User unable to run command ") + _cmd);
@@ -170,6 +173,26 @@ namespace dmc {
 		// Remove prefix
 		assert((formatedUrl.size() >= mPrefix.size()) && (formatedUrl.substr(0, mPrefix.size()) == mPrefix));
 		return formatedUrl.substr(mPrefix.size());
+	}
+
+	//------------------------------------------------------------------------------------------------------------------
+	void User::updateDevices(){
+		hue::Bridge *hueBridge = hue::Bridge::get();
+		Json devices = hueBridge->getData("lights");
+		for (std::pair<std::string, Json*> device : devices.asDictionary()){
+			for (unsigned id : mDevices){
+				Device *dev = DeviceMgr::get()->device(id);
+				Json *devData = dev->serialize();
+				bool exist = false;
+				if (strcmp((*devData)["type"].asText().c_str(), "HueLight")){
+					if (strcmp(	(*devData)["data"]["data"]["id"].asText().c_str(),
+								device.first.c_str())){
+
+					}
+				}
+			}
+			
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
