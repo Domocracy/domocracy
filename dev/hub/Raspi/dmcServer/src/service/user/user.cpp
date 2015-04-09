@@ -15,6 +15,7 @@
 #include <sstream>
 
 #include "device/hue/hueBridge.h"
+#include "device/hue/hueLight.h"
 
 using namespace std;
 
@@ -79,7 +80,7 @@ namespace dmc {
 			if(_cmd == cDeviceLabel) {
 				return reportDeviceList();
 			}
-			else if(_cmd.substr(0,cDeviceLabel.size()) == cDeviceLabel) {
+			else if(_cmd == cDeviceLabel) {
 				return deviceCommand(_cmd.substr(cDeviceLabel.size()), _request);
 			} else if(_cmd == cAddDevLabel) {
 				return addDevice(Json(_request.body()));
@@ -96,6 +97,7 @@ namespace dmc {
 	Response User::addDevice(const Json& _deviceData) {
 		Device* newDev = DeviceMgr::get()->newDevice(_deviceData["type"], _deviceData);
 		if(newDev) {
+			mDevices.insert(newDev->id());
 			Json result (R"({"result":"ok"})");
 			result["id"].setInt((int)newDev->id());
 			return Response::jsonResponse(result);
@@ -178,18 +180,22 @@ namespace dmc {
 	//------------------------------------------------------------------------------------------------------------------
 	void User::updateDevices(){
 		hue::Bridge *hueBridge = hue::Bridge::get();
-		Json devices = hueBridge->getData("lights");
-		for (std::pair<std::string, Json*> device : devices.asDictionary()){
+		Json hueDevices = hueBridge->getData("lights");
+		for (std::pair<std::string, Json*> hueDevice : hueDevices.asDictionary()){
+			bool exist = false;
 			for (unsigned id : mDevices){
 				Device *dev = DeviceMgr::get()->device(id);
-				Json *devData = dev->serialize();
-				bool exist = false;
-				if (strcmp((*devData)["type"].asText().c_str(), "HueLight")){
-					if (strcmp(	(*devData)["data"]["data"]["id"].asText().c_str(),
-								device.first.c_str())){
-
+				if ((*dev->serialize())["type"].asText() == "HueLight"){
+					if ((*dev->serialize())["data"]["data"]["id"].asText() == hueDevice.first){
+						exist = true;
+						break;
 					}
 				}
+			}
+			if (!exist){
+				Json buildData("{\"type\":\"HueLight\", \"name\":\"New Hue\", \"data\":{\"id\":\"" + hueDevice.first + "\"}}");
+				addDevice(buildData);
+
 			}
 			
 		}

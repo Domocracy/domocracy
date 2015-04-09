@@ -30,6 +30,8 @@ namespace dmc { namespace hue {
 	Json * Light::serialize() const {
 		Json * base = Actuator::serialize();
 		(*base)["type"].setText("HueLight");
+		Json& data = (*base)["data"];
+		data = Json("{\"data\": { \"id\":\"" + mHueId + "\" } }");
 		return base;
 	}
 
