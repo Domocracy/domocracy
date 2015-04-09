@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -53,6 +55,15 @@ public class NewDevicePanelMenu {
             @Override
             public void run() {
                 JSONObject response = User.get().getCurrentHub().send("/deviceList", new JSONObject());
+                try {
+                    JSONArray devices = response.getJSONArray("devices");
+                    for(int i = 0; i< devices.length(); i++){
+                        // Register devices if not exist.
+                    }
+
+                }catch (JSONException _jsonException){
+                    _jsonException.printStackTrace();
+                }
             }
         };
         comThread.start();
