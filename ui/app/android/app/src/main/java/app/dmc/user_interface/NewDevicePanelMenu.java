@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,8 @@ public class NewDevicePanelMenu {
         mMenuBuilder = new AlertDialog.Builder(_context);
         mParentRoom = _room;
 
+        updateDevices();
+
         createDialog(_context);
     }
 
@@ -42,6 +46,17 @@ public class NewDevicePanelMenu {
 
         mDeviceDialog = mMenuBuilder.create();
         mDeviceDialog.show();
+    }
+
+    private void updateDevices(){
+        Thread comThread = new Thread(){
+            @Override
+            public void run() {
+                JSONObject response = User.get().getCurrentHub().send("/deviceList", new JSONObject());
+            }
+        };
+        comThread.start();
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
