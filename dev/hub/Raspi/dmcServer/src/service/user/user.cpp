@@ -158,9 +158,12 @@ namespace dmc {
 	Json User::deviceListJson() const {
 		Json devices("[]");
 		for(auto deviceId : mDevices) {
-			Json* devJson = new Json;
-			devJson->setInt((int)deviceId);
-				devices.asList().push_back(devJson);
+			Device *dev = DeviceMgr::get()->device(deviceId);
+			Json *devJson = new Json("{}");
+			(*devJson)["id"].setInt((int)deviceId);
+			(*devJson)["name"].setText(dev->name());
+			(*devJson)["type"].setText((*dev->serialize())["type"].asText());
+			devices.asList().push_back(devJson);
 		}
 		return devices;
 	}
