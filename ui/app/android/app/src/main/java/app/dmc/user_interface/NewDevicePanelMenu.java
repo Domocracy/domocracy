@@ -31,12 +31,12 @@ import app.dmc.devices.DevicePanel;
 
 public class NewDevicePanelMenu {
     public NewDevicePanelMenu(Context _context, Room _room){
-        mMenuBuilder = new AlertDialog.Builder(_context);
-        mParentRoom = _room;
+        mDevListLayout  = new LinearLayout(_context);
+        mMenuBuilder    = new AlertDialog.Builder(_context);
+        mParentRoom     = _room;
 
-        updateDevices();
-
-        createDialog(_context);
+        createDialog(_context);     // Create dialog with current devices
+        updateDevices(_context);            // Call update devices to add those ones that were not synch.
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -50,15 +50,26 @@ public class NewDevicePanelMenu {
         mDeviceDialog.show();
     }
 
-    private void updateDevices(){
+    private void updateDevices(final Context _context){
         Thread comThread = new Thread(){
             @Override
             public void run() {
                 JSONObject response = User.get().getCurrentHub().send("/deviceList", new JSONObject());
                 try {
                     JSONArray devices = response.getJSONArray("devices");
+                    List<String> existingDevices = User.get().getCurrentHub().deviceIds();
                     for(int i = 0; i< devices.length(); i++){
-                        // Register devices if not exist.
+                        final JSONObject devData = devices.getJSONObject(i);
+                        if(!existingDevices.contains(devData.getInt("id"))){
+                            User.get().getCurrentHub().registerDevice(devData);    // Register device
+                            final String devId = devData.getString("id");
+                            mDevListLayout.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mDevListLayout.addView(createListItem(_context, devId));
+                                }
+                            });
+                        }
                     }
 
                 }catch (JSONException _jsonException){
@@ -72,29 +83,32 @@ public class NewDevicePanelMenu {
 
     //-----------------------------------------------------------------------------------------------------------------
     private void setContentView(final Context _context){
-        LinearLayout layout = new LinearLayout(_context);
-        layout.setOrientation(LinearLayout.VERTICAL);
+        mDevListLayout.setOrientation(LinearLayout.VERTICAL);
         List<String> devices = User.get().getCurrentHub().deviceIds();
         for(final String id :devices){
-            TextView tv = new TextView(_context);
-            tv.setText(User.get().getCurrentHub().device(id).name());
-            tv.setTextSize(30);
-            tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Device dev = User.get().getCurrentHub().device(id);
-                    List<Pair<String, Boolean>> types = dev.panelTypes();
-                    if(types.size() == 1){
-                        mParentRoom.addPanel(dev.newPanel(types.get(0).first, _context));
-                        mDeviceDialog.dismiss();
-                    }else{
-                        PanelListMenu menu = new PanelListMenu(_context, mParentRoom, dev);
-                    }
-                }
-            });
-            layout.addView(tv);
+            mDevListLayout.addView(createListItem(_context, id));
         }
-        mMenuBuilder.setView(layout);
+        mMenuBuilder.setView(mDevListLayout);
+    }
+
+    private View createListItem(final Context _context, final String _id){
+        TextView tv = new TextView(_context);
+        tv.setText(User.get().getCurrentHub().device(_id).name());
+        tv.setTextSize(30);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Device dev = User.get().getCurrentHub().device(_id);
+                List<Pair<String, Boolean>> types = dev.panelTypes();
+                if(types.size() == 1){  // If a device has only one type of panel, add it directly
+                    mParentRoom.addPanel(dev.newPanel(types.get(0).first, _context));
+                    mDeviceDialog.dismiss();
+                }else{                  // Else, open a new menu with panels type.
+                    PanelsListMenu menu = new PanelsListMenu(_context, mParentRoom, dev);
+                }
+            }
+        });
+        return tv;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -102,12 +116,12 @@ public class NewDevicePanelMenu {
     private AlertDialog.Builder mMenuBuilder;
     private Room                mParentRoom;
     private AlertDialog         mDeviceDialog;
-
+    private LinearLayout         mDevListLayout;
 
     //-----------------------------------------------------------------------------------------------------------------
     // Inner classes
-    class PanelListMenu{
-        public PanelListMenu(Context _context, Room _room, Device _device){
+    class PanelsListMenu{
+        public PanelsListMenu(Context _context, Room _room, Device _device){
             mMenuBuilder = new AlertDialog.Builder(_context);
             mParentRoom = _room;
             mDevice = _device;
