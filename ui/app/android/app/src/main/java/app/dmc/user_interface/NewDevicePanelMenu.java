@@ -71,9 +71,10 @@ public class NewDevicePanelMenu {
                             });
                         }
                     }
-
                 }catch (JSONException _jsonException){
                     _jsonException.printStackTrace();
+                } catch (NullPointerException _nullPtrException){
+                    _nullPtrException.printStackTrace(); // No devices in response
                 }
             }
         };
