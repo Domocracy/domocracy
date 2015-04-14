@@ -74,13 +74,11 @@ public class HueController {
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
 		public void onAccessPointsFound(List<PHAccessPoint> _accessPoints) {
-			System.out.println("Found " + _accessPoints.size() + "access points. Trying connections");
 			mLastAccessPoints = _accessPoints;
 			
 			for(int i = 0; i < mLastAccessPoints.size(); i++){
 				PHAccessPoint accessPoint = mLastAccessPoints.get(i);
 				accessPoint.setUsername("Bardo91");
-				mHueSdkInstance.connect(accessPoint);
 			}
 		}
 		
@@ -88,7 +86,6 @@ public class HueController {
 		@Override
 		public void onAuthenticationRequired(PHAccessPoint _accessPoint) {
 			mHueSdkInstance.startPushlinkAuthentication(_accessPoint);
-			System.out.println("Autentication required");
 		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
@@ -98,39 +95,33 @@ public class HueController {
 			
 			mHueSdkInstance.setSelectedBridge(_bridge);
 			mHueSdkInstance.enableHeartbeat(_bridge, PHHueSDK.HB_INTERVAL);
-			System.out.println("Connected to bridge");
 		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
 		public void onCacheUpdated(List<Integer> _cache, PHBridge _bridge) {
 			if (_cache.contains(PHMessageType.LIGHTS_CACHE_UPDATED)) {
-               System.out.println("Lights Cache Updated ");
             }
 		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
 		public void onConnectionLost(PHAccessPoint _accessPoint) {
-			System.out.println("Connection lost");
 		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
 		public void onConnectionResumed(PHBridge _bridge) {
-			System.out.println("Connection Resumed");
 		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
 		public void onError(int _code, String _message) {
-			System.out.println("Error!");
 		}
 		
 		//---------------------------------------------------------------------------------------------------------------------
 		@Override
 		public void onParsingErrors(List<PHHueParsingError> _errorList) {
-			System.out.println("Parsing errors");
 		}
 		
 	}
