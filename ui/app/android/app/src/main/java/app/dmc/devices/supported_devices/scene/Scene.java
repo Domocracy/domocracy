@@ -83,7 +83,7 @@ public class Scene extends Device {
 
 	//-----------------------------------------------------------------------------------------------------------------
 	private void save() {
-		Persistence.get().putJSON(id(), serialize());
+		Persistence.get().putJSON(Integer.toString(id()), serialize());
 	}
 
     //-----------------------------------------------------------------------------------------------------------------

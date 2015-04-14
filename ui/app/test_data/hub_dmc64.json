@@ -3,18 +3,18 @@
     "devices": [
         {
             "type": "HueLight",
-            "id": "2a",
+            "id": 42,
             "hub": "dmc64",
             "name": "light #1"
         },
         {
             "type": "HueLight",
-            "id": "2b",
+            "id": 43,
             "hub": "dmc64",
             "name": "light #2"
         },
         {
-            "id": "4a",
+            "id": 74,
             "hub": "dmc64",
             "type": "Kodi",
             "media": {
@@ -38,7 +38,7 @@
             "name": "Media"
         },
         {
-            "id": "3a",
+            "id": 58,
             "children": [
                 {},
                 {}
@@ -64,15 +64,15 @@
         {
             "panels": [
                 {
-                    "devId": "2a",
+                    "devId": 42,
                     "type": "HueLight"
                 },
                 {
-                    "devId": "3a",
+                    "devId": 58,
                     "type": "Scene"
                 },
                 {
-                    "devId": "4a",
+                    "devId": 74,
                     "type": "LastShow"
                 }
             ],
@@ -82,15 +82,15 @@
         {
             "panels": [
                 {
-                    "devId": "2a",
+                    "devId": 42,
                     "type": "HueLight"
                 },
                 {
-                    "devId": "4a",
+                    "devId": 74,
                     "type": "LastShow"
                 },
 				{
-					"devId": "4a",
+					"devId": 74,
                     "type": "Basics"
                 
 				}
@@ -101,11 +101,11 @@
         {
             "panels": [
                 {
-                    "devId": "2a",
+                    "devId": 42,
                     "type": "HueLight"
                 },
                 {
-                    "devId": "3a",
+                    "devId": 58,
                     "type": "Scene"
                 }
             ],

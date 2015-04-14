@@ -29,7 +29,7 @@ public abstract class Device {
         mRegisteredPanels = new HashSet<>();
 
         try{
-            mId     = _devData.getString("id");
+            mId     = _devData.getInt("id");
             mName   = _devData.getString("name");
             mHubId  = _devData.getString("hub");
 
@@ -39,7 +39,7 @@ public abstract class Device {
     }
 
     public String name(){ return mName; };
-    public String id()  { return mId; };
+    public int id()     { return mId; };
     public String hub() {return mHubId;};
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ public abstract class Device {
 
     //-----------------------------------------------------------------------------------------------------------------
     private String mName;
-    private String mId;
+    private int     mId;
     private String mHubId;
 
     private Set<DevicePanel> mRegisteredPanels;

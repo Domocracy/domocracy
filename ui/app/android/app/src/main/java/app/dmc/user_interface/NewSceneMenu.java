@@ -73,7 +73,7 @@ public class NewSceneMenu{
         mEditableName.setText("New Scene");
         layout.addView(mEditableName);
 
-        List<String> deviceIds = User.get().getCurrentHub().deviceIds();
+        List<Integer> deviceIds = User.get().getCurrentHub().deviceIds();
         mCheckList = new DevicesCheckList(_context, deviceIds);
         layout.addView(mCheckList);
 
@@ -82,7 +82,7 @@ public class NewSceneMenu{
 
     //-----------------------------------------------------------------------------------------------------------------
     private JSONObject gatherSceneInfo(){
-        List<Pair<String, List<String>>>  devList = mCheckList.panelsChecked();
+        List<Pair<Integer, List<String>>>  devList = mCheckList.panelsChecked();
         if(devList.size() == 0)
             return null;
 
@@ -93,7 +93,7 @@ public class NewSceneMenu{
             sceneJSON.put("hub", User.get().getCurrentHub().name());
 
             JSONArray panels = new JSONArray();
-            for(Pair<String, List<String>> dev: devList){
+            for(Pair<Integer, List<String>> dev: devList){
                 for(String panel: dev.second){
                     JSONObject panelJSON = new JSONObject();
                     panelJSON.put("devId", dev.first);
@@ -162,7 +162,7 @@ public class NewSceneMenu{
     //-----------------------------------------------------------------------------------------------------------------
     class PanelsCheckList extends  LinearLayout{
         //-------------------------------------------------------------------------------------------------------------
-        public PanelsCheckList(Context _context, String _id){
+        public PanelsCheckList(Context _context, int _id){
             super(_context);
             setOrientation(VERTICAL);
 
@@ -180,7 +180,7 @@ public class NewSceneMenu{
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public Pair<String, List<String>> panelsChecked(){
+        public Pair<Integer, List<String>> panelsChecked(){
             List<String> panels = new ArrayList<>();
             for(int i = 0 ; i < mCheckBoxList.size(); i++){
                 if(mCheckBoxList.get(i).isChecked()){
@@ -190,7 +190,7 @@ public class NewSceneMenu{
             if(panels.size() == 0)
                 return null;
 
-            Pair<String, List<String>> info = new Pair<>(mDevId, panels);
+            Pair<Integer, List<String>> info = new Pair<>(mDevId, panels);
             return info;
         }
 
@@ -211,7 +211,7 @@ public class NewSceneMenu{
 
         //-------------------------------------------------------------------------------------------------------------
         // Private Members
-        String          mDevId;
+        int             mDevId;
         List<String> 	mPanelTypes;
         List<CheckBox>  mCheckBoxList;
     }
@@ -219,7 +219,7 @@ public class NewSceneMenu{
     //-----------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------
     class DevicesCheckList extends ScrollView{
-        DevicesCheckList(Context _context, List<String> _deviceIds){
+        DevicesCheckList(Context _context, List<Integer> _deviceIds){
             super(_context);
             mDevicePanelsList   = new ArrayList<>();
             mDeviceIds          = _deviceIds;
@@ -240,10 +240,10 @@ public class NewSceneMenu{
         }
 
         //-----------------------------------------------------------------------------------------------------------------
-        public List<Pair<String, List<String>>> panelsChecked(){
-            List<Pair<String, List<String>>> listData = new ArrayList<>();
+        public List<Pair<Integer, List<String>>> panelsChecked(){
+            List<Pair<Integer, List<String>>> listData = new ArrayList<>();
             for(PanelsCheckList panelsChecked: mDevicePanelsList){
-                Pair<String, List<String>> data = panelsChecked.panelsChecked();
+                Pair<Integer, List<String>> data = panelsChecked.panelsChecked();
                 if(data != null)
                     listData.add(data);
             }
@@ -253,7 +253,7 @@ public class NewSceneMenu{
 
         //-----------------------------------------------------------------------------------------------------------------
         // Private members
-        private List<String>                    mDeviceIds;
+        private List<Integer>                    mDeviceIds;
         private List<PanelsCheckList>           mDevicePanelsList;
     }
 }

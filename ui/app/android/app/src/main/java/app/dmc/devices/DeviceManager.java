@@ -21,7 +21,7 @@ import java.util.Map;
 public class DeviceManager {
     //-----------------------------------------------------------------------------------------------------------------
     //  Public Interface
-    public Device device(String _id) {
+    public Device device(int _id) {
         //  Check if device exist.
         if (mRegisteredDevices.containsKey(_id)) {
             return mRegisteredDevices.get(_id);
@@ -35,7 +35,7 @@ public class DeviceManager {
 	public JSONArray serializeDevices() {
 		JSONArray deviceList = new JSONArray();
 		try {
-			for( Map.Entry<String,Device> dev : mRegisteredDevices.entrySet()) {
+			for( Map.Entry<Integer,Device> dev : mRegisteredDevices.entrySet()) {
 				JSONObject serializedDev = dev.getValue().serialize();
 				deviceList.put(serializedDev);
 			}
@@ -65,8 +65,8 @@ public class DeviceManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    public List<String> deviceIds(){
-        List<String> ids = new ArrayList<>();
+    public List<Integer> deviceIds(){
+        List<Integer> ids = new ArrayList<>();
         for(Device dev: mRegisteredDevices.values()){
             ids.add(dev.id());
         }
@@ -96,5 +96,5 @@ public class DeviceManager {
 
     }
 
-    private Map<String, Device> mRegisteredDevices = new HashMap<>();
+    private Map<Integer, Device> mRegisteredDevices = new HashMap<>();
 }

@@ -57,12 +57,12 @@ public class NewDevicePanelMenu {
                 JSONObject response = User.get().getCurrentHub().send("/deviceList", new JSONObject());
                 try {
                     JSONArray devices = response.getJSONArray("devices");
-                    List<String> existingDevices = User.get().getCurrentHub().deviceIds();
+                    List<Integer> existingDevices = User.get().getCurrentHub().deviceIds();
                     for(int i = 0; i< devices.length(); i++){
                         final JSONObject devData = devices.getJSONObject(i);
                         if(!existingDevices.contains(devData.getInt("id"))){
                             User.get().getCurrentHub().registerDevice(devData);    // Register device
-                            final String devId = devData.getString("id");
+                            final int devId = devData.getInt("id");
                             mDevListLayout.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -84,14 +84,14 @@ public class NewDevicePanelMenu {
     //-----------------------------------------------------------------------------------------------------------------
     private void setContentView(final Context _context){
         mDevListLayout.setOrientation(LinearLayout.VERTICAL);
-        List<String> devices = User.get().getCurrentHub().deviceIds();
-        for(final String id :devices){
+        List<Integer> devices = User.get().getCurrentHub().deviceIds();
+        for(final int id :devices){
             mDevListLayout.addView(createListItem(_context, id));
         }
         mMenuBuilder.setView(mDevListLayout);
     }
 
-    private View createListItem(final Context _context, final String _id){
+    private View createListItem(final Context _context, final int _id){
         TextView tv = new TextView(_context);
         tv.setText(User.get().getCurrentHub().device(_id).name());
         tv.setTextSize(30);

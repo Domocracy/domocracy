@@ -6,13 +6,13 @@
 	"devices": [
 		{
 			"type":"HueLight",
-			"id": "2a",
+			"id": 42,
 			"name": "light",
 			"hub": "dmcKike"
 		},
 		{
 			"type":"Kodi",
-			"id": "4a",
+			"id": 74,
 			"name": "Media",
 			"hub": "dmcKike",
 			"media": {
@@ -42,11 +42,11 @@
 			"panels": [
 				{
 					"type": "HueLight",
-					"devId":"2a"
+					"devId":42
 				},
 				{
 					"type": "LastShow",
-					"devId":"4a"
+					"devId":74
 				}
 			]
 		}
