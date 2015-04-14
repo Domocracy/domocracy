@@ -37,7 +37,7 @@ namespace dmc { namespace hue {
 		else{
 			std::string ip = queryLocalIp();
 			if (ip.size() != 0){
-				Json bridgeData("{\"internalipaddress\":\"" + ip + "\", \"username\":\"domocracy64\"}");
+				Json bridgeData("[{\"internalipaddress\":\"" + ip + "\", \"username\":\"domocracy64\"}]");
 				Persistence::get()->saveData("hue", bridgeData);
 				sBridge = new Bridge(bridgeData);
 			}
