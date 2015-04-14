@@ -32,12 +32,14 @@ public class RoomSelector {
         mRooms = _rooms;
         mSelector = new CustomViewFlipper(_activity);
 
-        View roomView = mRooms.get(mCurrentRoom).view();
+        if(mRooms.size() != 0) {
+            View roomView = mRooms.get(mCurrentRoom).view();
 
-        if(roomView.getParent() != null)
-            ((ViewGroup) roomView.getParent()).removeAllViews();
+            if (roomView.getParent() != null)
+                ((ViewGroup) roomView.getParent()).removeAllViews();
 
-        mSelector.addView(roomView);
+            mSelector.addView(roomView);
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------

@@ -61,6 +61,7 @@ public class NewDevicePanelMenu {
                     for(int i = 0; i< devices.length(); i++){
                         final JSONObject devData = devices.getJSONObject(i);
                         if(!existingDevices.contains(devData.getInt("id"))){
+                            devData.put("hub", User.get().getCurrentHub().id());
                             User.get().getCurrentHub().registerDevice(devData);    // Register device
                             final int devId = devData.getInt("id");
                             mDevListLayout.post(new Runnable() {

@@ -45,7 +45,9 @@ public class MainScreen {
                 return false;
             }
         });
-        mCurrentRoom = mCurrentHub.room(mCurrentHub.rooms().get(0).id());
+        if(mCurrentHub.rooms().size() != 0)
+            mCurrentRoom = mCurrentHub.room(mCurrentHub.rooms().get(0).id());
+
         if(mCurrentRoom != null)
             setRoomTitle();
     }

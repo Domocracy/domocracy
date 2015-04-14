@@ -1,116 +1,17 @@
 {
     "hubId": "dmc64",
     "devices": [
-        {
-            "type": "HueLight",
-            "id": 42,
-            "hub": "dmc64",
-            "name": "light #1"
-        },
-        {
-            "type": "HueLight",
-            "id": 43,
-            "hub": "dmc64",
-            "name": "light #2"
-        },
-        {
-            "id": 74,
-            "hub": "dmc64",
-            "type": "Kodi",
-            "media": {
-                "tvshows": [
-                    {
-                        "tvshowid": "1",
-                        "label": "Dead Set"
-                    },
-                    {
-                        "tvshowid": "2",
-                        "label": "New Girl"
-                    }
-                ],
-                "movies": [
-                    {
-                        "label": "Matrix",
-                        "movieid": "1"
-                    }
-                ]
-            },
-            "name": "Media"
-        },
-        {
-            "id": 58,
-            "children": [
-                {},
-                {}
-            ],
-            "hub": "dmc64",
-            "type": "Scene",
-            "panels": [
-                {
-                    "devId": "2a",
-                    "type": "HueLight"
-                },
-                {
-                    "devId": "4a",
-                    "type": "LastShow"
-                }
-            ],
-            "name": "Scene"
-        }
+        
     ],
-    "ip": "10.200.14.61",
+    "ip": "10.100.8.93",
 	"lastRoom" : "room001",
     "rooms": [
         {
             "panels": [
-                {
-                    "devId": 42,
-                    "type": "HueLight"
-                },
-                {
-                    "devId": 58,
-                    "type": "Scene"
-                },
-                {
-                    "devId": 74,
-                    "type": "LastShow"
-                }
+
             ],
             "roomId" : "room001",
-            "name": "Charmilion's room"
-        },
-        {
-            "panels": [
-                {
-                    "devId": 42,
-                    "type": "HueLight"
-                },
-                {
-                    "devId": 74,
-                    "type": "LastShow"
-                },
-				{
-					"devId": 74,
-                    "type": "Basics"
-                
-				}
-            ],
-            "roomId" : "baadfeed1",
-            "name": "Pablo's room"
-        },
-        {
-            "panels": [
-                {
-                    "devId": 42,
-                    "type": "HueLight"
-                },
-                {
-                    "devId": 58,
-                    "type": "Scene"
-                }
-            ],
-            "roomId": "baadfeed2",
-            "name": "Kike's room"
+            "name": "Cuarto"
         }
     ],
     "name": "dmc64"
