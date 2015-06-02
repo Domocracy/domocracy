@@ -90,6 +90,7 @@
     <ClCompile Include="src\core\comm\http\httpResponse.cpp" />
     <ClCompile Include="src\core\comm\http\httpServer.cpp" />
     <ClCompile Include="src\core\comm\json\json.cpp" />
+    <ClCompile Include="src\core\comm\json\JsonServer.cpp" />
     <ClCompile Include="src\core\comm\json\rpc\jsonRpc.cpp" />
     <ClCompile Include="src\core\comm\socket\socket.cpp" />
     <ClCompile Include="src\core\comm\socket\socketServer.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="src\core\comm\http\httpResponse.h" />
     <ClInclude Include="src\core\comm\http\httpServer.h" />
     <ClInclude Include="src\core\comm\json\json.h" />
+    <ClInclude Include="src\core\comm\json\JsonServer.h" />
     <ClInclude Include="src\core\comm\json\rpc\jsonRpc.h" />
     <ClInclude Include="src\core\comm\socket\socket.h" />
     <ClInclude Include="src\core\comm\socket\socketLinux.h" />

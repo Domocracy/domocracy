@@ -99,6 +99,9 @@
     <ClCompile Include="src\core\comm\upnp\upnp.cpp">
       <Filter>Source Files\core\comm\upnp</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\comm\json\JsonServer.cpp">
+      <Filter>Source Files\core\comm\json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\time\time.h">
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="src\core\comm\upnp\upnp.h">
       <Filter>Source Files\core\comm\upnp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\comm\json\JsonServer.h">
+      <Filter>Source Files\core\comm\json</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
