@@ -27,7 +27,6 @@ namespace dmc_tools{
 	}
 	//---------------------------------------------------------------------------------------------------------------------
 	JsonClient::~JsonClient(){
-		// Close connection and stop listen thread.
 		close();
 	}
 	
@@ -38,6 +37,7 @@ namespace dmc_tools{
 		}
 		else{
 			std::cout << "[ERROR] - Connection is closed" << std::endl;
+			return -1;
 		}
 	}
 	
@@ -53,7 +53,10 @@ namespace dmc_tools{
 
 		while (mIsListening){
 			int len = mSocket.read(buffer, cMaxLen);
-			std::cout << "[RECEIVED]: " << buffer << std::endl;
+			if (len != -1)
+				std::cout << "[RECEIVED]: " << buffer << std::endl;
+			else
+				close();
 		}
 
 		std::cout << "[LOG]: Stopped listening" << std::endl;
@@ -63,8 +66,5 @@ namespace dmc_tools{
 	void JsonClient::close(){
 		mIsListening = false;
 		mSocket.close();
-
-		if (mListenThread->joinable())
-			mListenThread->join();
 	}
 }
