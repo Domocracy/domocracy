@@ -12,6 +12,7 @@
 #define DOMOCRACY_TOOLS_JSON_CLIENT_H_
 
 #include <string>
+#include <core/comm/json/json.h>
 #include <core/comm/socket/socket.h>
 
 namespace dmc_tools{
@@ -19,11 +20,19 @@ namespace dmc_tools{
 	class JsonClient{
 	public:		// Public interface
 		JsonClient(std::string _host, unsigned _port);
-		
+		~JsonClient();
+
+		int send(dmc::Json);
+
+		bool isConnected();
 	private:	// Private methods
 		void listenCallback();
 
+		void close();
 	private:	//	Members
+		std::thread *mListenThread;
+		bool mIsListening;
+
 		dmc::Socket mSocket;
 
 	};	//	class JsonClient
