@@ -22,6 +22,9 @@ namespace dmc{
 			std::cout << "Json Server is listening on port: " << _port << std::endl;
 		}
 
+		mSocket->setConnectionHandler([this](Socket* _connection) {
+			onNewConnection(_connection);
+		});
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------
@@ -31,7 +34,9 @@ namespace dmc{
 
 	//--------------------------------------------------------------------------------------------------------------------
 	void JsonServer::onNewConnection(dmc::Socket* _socket){
-
+		_socket;
+		std::cout << "Received new connection on socket: " << _socket << std::endl;
+		// Not implemented yet.
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------
