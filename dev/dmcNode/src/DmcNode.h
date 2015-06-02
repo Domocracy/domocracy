@@ -17,12 +17,12 @@ namespace dmc{
 
 	class DmcNode{
 	public:		// Interface
-		DmcNode();
-		~DmcNode();
+		DmcNode			();
+		~DmcNode		();
 
 	private:	// Private methods
-		void scan();	// Scan network using upnp protocol
-
+		void scan		();		// Scan network using upnp protocol
+		void broadcast	();		// Broadcast state of old devices in upnp layer and it's own information.
 	private:	// Members
 		JsonServer *mSocket;
 
