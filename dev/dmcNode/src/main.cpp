@@ -2,14 +2,24 @@
 //
 //	Domocracy - dmcNode
 //		Author:	Pablo R.S.
-//		Date:	2015-JUN-0
+//		Date:	2015-JUN-02
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+
+#include "DmcNode.h"
+
+#include <time.h>
 
 //----------------------------------------------------------------------------------------------------------------------
-int main(int _argc, const char** _argv)
-{
-	
+int main(int _argc, const char** _argv) {
+	_argc; _argv;
+
+	dmc::DmcNode node;
+
+	for(;;){
+		Sleep(1);
+	}
 
 	return 0;
 }
