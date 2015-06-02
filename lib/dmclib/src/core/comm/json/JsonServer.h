@@ -12,6 +12,7 @@
 #define _DMCLIB_CORE_COMM_JSON_JSON_SERVER_H_
 
 #include "../socket/socketServer.h"
+#include "json.h"
 
 #include <unordered_map>
 
@@ -23,12 +24,10 @@ namespace dmc{
 
 	private:	//	 Private methods
 		void onNewConnection(Socket* _socket);
-		bool dispatch();
+		bool dispatchJson(const Json &_json);
 
 	private:	//	Members
 		SocketServer*	mSocket;
-
-		std::unordered_map<unsigned, Socket*>		mConnections;
 	};
 
 }	//	namespace dmc

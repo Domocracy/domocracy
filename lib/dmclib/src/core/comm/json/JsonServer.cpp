@@ -33,14 +33,27 @@ namespace dmc{
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------
-	void JsonServer::onNewConnection(dmc::Socket* _socket){
-		_socket;
-		std::cout << "Received new connection on socket: " << _socket << std::endl;
-		// Not implemented yet.
+	void JsonServer::onNewConnection(dmc::Socket* _connection){	// 1 read connection.
+		// Read message.
+		const unsigned buffLen = 4096;
+		char buffer[buffLen];
+
+		unsigned len = _connection->read(buffer, buffLen);
+		if (len > 0) {
+			// Store message and dispatch it as Json.
+			std::string message(buffer, len);
+			
+			dispatchJson(Json(message));			
+		}
+
+		// Close connection.
+		_connection->close();
+		delete _connection;
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------
-	bool JsonServer::dispatch(){
+	bool JsonServer::dispatchJson(const Json &_json){
+		_json;
 		return false;	// Not implemented yet.
 	}
 
