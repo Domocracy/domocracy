@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dmcNode", "dmcNode.vcxproj", "{9FE0D648-E719-4998-A8CC-5A88475E9564}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7967693A-7E11-4AA2-A7AB-63DC9D87576E} = {7967693A-7E11-4AA2-A7AB-63DC9D87576E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dmclib", "..\..\lib\dmclib\dmclib.vcxproj", "{7967693A-7E11-4AA2-A7AB-63DC9D87576E}"
 EndProject

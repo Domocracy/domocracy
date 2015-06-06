@@ -43,7 +43,7 @@ namespace dmc{
 			// Store message and dispatch it as Json.
 			std::string message(buffer, len);
 			
-			dispatchJson(Json(message));			
+			dispatchJson(cjson::Json(message));
 		}
 
 		// Close connection.
@@ -52,8 +52,8 @@ namespace dmc{
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------
-	bool JsonServer::dispatchJson(const Json &_json){
-		_json;
+	bool JsonServer::dispatchJson(const cjson::Json &_json){
+		std::cout << "Received Json: \n" << _json.serialize() << std::endl;
 		return false;	// Not implemented yet.
 	}
 
