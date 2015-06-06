@@ -37,7 +37,7 @@ int main(int _argc, char ** _argv){
 	std::string stream;
 	do{
 		std::cin >> stream;
-		client.send(dmc::Json(stream));
+		client.send(cjson::Json(stream));
 	} while (strcmp(stream.c_str(), "EXIT") != 0 && client.isConnected());
 
 

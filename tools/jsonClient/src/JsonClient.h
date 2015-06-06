@@ -12,7 +12,7 @@
 #define DOMOCRACY_TOOLS_JSON_CLIENT_H_
 
 #include <string>
-#include <core/comm/json/json.h>
+#include <cjson/json.h>
 #include <core/comm/socket/socket.h>
 
 namespace dmc_tools{
@@ -22,7 +22,7 @@ namespace dmc_tools{
 		JsonClient(std::string _host, unsigned _port);
 		~JsonClient();
 
-		int send(dmc::Json);
+		int send(cjson::Json);
 
 		bool isConnected();
 	private:	// Private methods

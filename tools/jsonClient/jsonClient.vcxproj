@@ -39,11 +39,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\programming\domocracy\lib\dmclib\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)../../lib/cjson/src;C:\programming\domocracy\lib\dmclib\src;$(IncludePath)</IncludePath>
     <LibraryPath>C:\programming\domocracy\tools\jsonClient\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\programming\domocracy\lib\dmclib\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)../../lib/cjson/src;C:\programming\domocracy\lib\dmclib\src;$(IncludePath)</IncludePath>
     <LibraryPath>C:\programming\domocracy\tools\jsonClient\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

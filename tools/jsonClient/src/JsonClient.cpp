@@ -31,7 +31,7 @@ namespace dmc_tools{
 	}
 	
 	//---------------------------------------------------------------------------------------------------------------------
-	int JsonClient::send(dmc::Json _json){
+	int JsonClient::send(cjson::Json _json){
 		if (mSocket.isOpen()){
 			return mSocket.write(_json.serialize());
 		}
