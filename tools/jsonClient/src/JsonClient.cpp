@@ -53,10 +53,12 @@ namespace dmc_tools{
 
 		while (mIsListening){
 			int len = mSocket.read(buffer, cMaxLen);
-			if (len != -1)
-				std::cout << "[RECEIVED]: " << buffer << std::endl;
-			else
+			if (len > 0)
+				std::cout << "[RECEIVED]: " << std::string(buffer, len) << std::endl;
+			else if(len == -1){
 				close();
+				std::cout << "[LOG]: Connection closed" << std::endl;
+			}
 		}
 
 		std::cout << "[LOG]: Stopped listening" << std::endl;
