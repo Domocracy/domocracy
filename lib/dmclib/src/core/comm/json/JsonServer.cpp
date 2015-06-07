@@ -42,8 +42,13 @@ namespace dmc{
 		if (len > 0) {
 			// Store message and dispatch it as Json.
 			std::string message(buffer, len);
-			
-			dispatchJson(cjson::Json(message));
+
+			if (dispatchJson(cjson::Json(message))){
+				_connection->write("{\"result\":\"ok\"}");
+			}
+			else{
+				_connection->write("{\"result\":\"Fail\"}");
+			}
 		}
 
 		// Close connection.
